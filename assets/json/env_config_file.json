@@ -1,0 +1,24 @@
+{
+  "Flavor.DEV": {
+    "appVersion": "1.0.0",
+    "baseUrl": "http://192.168.43.158:8081",
+    "appName": "SuperSport Dev",
+    "databaseName": "boot_database.db",
+    "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
+    "googleAuthUrl": "https://www.googleapis.com/auth/contacts.readonly",
+    "appKey": "5qeb2e41e66fe5d0f909cc811",
+    "connectTimeOut": 10000,
+    "receiveTimeout": 10000
+  },
+  "Flavor.DEV": {
+    "appVersion": "1.0.0",
+    "baseUrl": "http://192.168.43.158:8081",
+    "appName": "SuperSport Dev",
+    "appKey": "5eb2e41e66fe5d0f909cc811",
+    "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
+    "googleAuthUrl": "https://www.googleapis.com/auth/contacts.readonly",
+    "databaseName": "boot_database.db",
+    "connectTimeOut": 10000,
+    "receiveTimeout": 10000
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Checkout</title>
+</head>
+<body>
+<div id="dropin-container"></div>
+<button id="submit-button">Purchase</button>
+
+<script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+
+<script>
+    var paymentMethod= "";
+     function onPaymentMethodReceived() {
+         return paymentMethod;
+     }
+     var submitButton = document.querySelector('#submit-button');
+     braintree.dropin.create({
+       authorization: 'token_authorization',
+       selector: '#dropin-container'
+     }, function (err, dropinInstance) {
+       if (err) {
+         Print.postMessage("failed");
+         return;
+       }
+       submitButton.addEventListener('click', function () {
+         dropinInstance.requestPaymentMethod(function (err, payload) {
+           if (err) {
+             // Handle errors in requesting payment method
+               Print.postMessage("failed");
+           }
+           paymentMethod = payload;
+           Print.postMessage("success");
+         });
+       });
+     });
+</script>
+</body>
+</html>

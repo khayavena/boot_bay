@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" group="android" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="android/app" />
+      <module fileurl="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_braintree-0.6.0/android/flutter_braintree.iml" filepath="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_braintree-0.6.0/android/flutter_braintree.iml" group="android/flutter_braintree" />
+      <module fileurl="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.9/android/path_provider.iml" filepath="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.9/android/path_provider.iml" group="android/path_provider" />
+      <module fileurl="file://$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+3/android/path_provider_macos.iml" filepath="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+3/android/path_provider_macos.iml" group="android/path_provider_macos" />
+    </modules>
+  </component>
+</project>
