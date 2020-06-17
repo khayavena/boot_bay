@@ -1,6 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/ProductQuery.dart';
 import 'package:bootbay/src/model/category.dart';
+import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
@@ -22,7 +23,8 @@ class LandingPage extends StatefulWidget {
   _LandingPageState createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> implements ClickCategory {
+class _LandingPageState extends State<LandingPage>
+    implements ClickCategory, ProductItemListener {
   ProductViewModel _productViewModel;
   CategoryViewModel categoryViewModel;
 
@@ -111,7 +113,7 @@ class _LandingPageState extends State<LandingPage> implements ClickCategory {
       categoryViewModel =
           Provider.of<CategoryViewModel>(context, listen: false);
       _productViewModel = Provider.of<ProductViewModel>(context, listen: false);
-      refreshCategory("5eb2e41e66fe5d0f909cc811");
+      refreshCategory("5ee3bfbea1fbe46a462d6c4a");
     });
     super.initState();
   }
@@ -177,7 +179,7 @@ class _LandingPageState extends State<LandingPage> implements ClickCategory {
               scrollDirection: Axis.vertical,
               children: productViewModel.getProducts
                   .map((product) => ProductCard(
-                        product: product,
+                        product: product,productItemListener: this,
                       ))
                   .toList()),
         );
@@ -202,5 +204,15 @@ class _LandingPageState extends State<LandingPage> implements ClickCategory {
   void onClick(final Category category) {
     refreshProduct(category.id, category.merchantId);
     categoryViewModel.saveCategory(category);
+  }
+
+  @override
+  void onAdd(Product product) {
+    _productViewModel.saveProduct(product);
+  }
+
+  @override
+  void onRemove(Product product) {
+    _productViewModel.deleteProduct(product);
   }
 }

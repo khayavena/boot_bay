@@ -1,0 +1,96 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+..idea/
+.DS_Store
+/android/**/GeneratedPluginRegistrant.java
+# Visual Studio Code related
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+lib/generated/
+
+# Android related
+# **/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+# **/android/gradlew
+# **/android/gradlew.bat
+**/android/local.properties
+android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+android/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+
+# iOS/XCode related
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/profile
+**/ios/**/xcuserdata
+**/ios/.generated/
+#**/ios/Podfile
+**/ios/Podfile.lock
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# Exceptions to above rules.
+!**/ios/**/default.mode1v3
+!**/ios/**/default.mode2v3
+!**/ios/**/default.pbxuser
+!**/ios/**/default.perspectivev3
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+.atom/
+.idea
+.packages
+.pub/
+/ios/Podfile
+ios/.generated/
+packages
+pubspec.lock
+flutter-plugins
+android/app/.settings/org.eclipse.jdt.core.prefs
+.DS_Store
+.DS_Store
+assets/json/app_config.json
+/macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+/macos/Flutter/ephemeral/flutter_export_environment.sh
+/macos/Flutter/GeneratedPluginRegistrant.swift
+/android/settings_aar.gradle

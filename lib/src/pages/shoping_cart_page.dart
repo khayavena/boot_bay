@@ -5,6 +5,7 @@ import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/viewmodel/ProductViewModel.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class ShoppingCartPage extends StatefulWidget {
@@ -19,6 +20,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   @override
   void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductViewModel>(context, listen: false).getCatItems();
+    });
     super.initState();
   }
 
@@ -27,7 +31,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         TitleText(
-          text: '${productViewModel.getProducts.length} Items',
+          text: '${productViewModel.cartItems.length} Items',
           color: LightColor.grey,
           fontSize: 14,
           fontWeight: FontWeight.w500,
@@ -51,7 +55,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 finalAmount: productViewModel.finalAmount(),
                 itemIds: productViewModel.itemIds(),
                 currency: productViewModel.currency(),
-                merchantId: '5eb2e41e66fe5d0f909cc811',
+                merchantId: '5ee3bfbea1fbe46a462d6c4a',
               ),
               // Pass the arguments as part of the RouteSettings. The
               // DetailScreen reads the arguments from these settings.
@@ -59,7 +63,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           );
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        color: LightColor.orange,
+        color: LightColor.skyBlue,
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 12),
@@ -83,7 +87,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             padding: EdgeInsets.only(bottom: 30),
             child: Column(
               children: <Widget>[
-                CartListView(cartItems: productViewModel.getProducts),
+                CartListView(cartItems: productViewModel.cartItems),
                 Divider(
                   thickness: 1,
                   height: 70,

@@ -74,16 +74,16 @@
       "languageVersion": "2.2"
     },
     {
-      "name": "flutter_emoji",
-      "rootUri": "file:///Users/khayavena/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_emoji-2.2.1+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.1"
-    },
-    {
       "name": "flutter_test",
       "rootUri": "file:///Users/khayavena/development/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "2.2"
+    },
+    {
+      "name": "get_it",
+      "rootUri": "file:///Users/khayavena/development/flutter/.pub-cache/hosted/pub.dartlang.org/get_it-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "google_fonts",
@@ -266,7 +266,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-06-09T11:52:27.346304Z",
+  "generated": "2020-06-13T12:04:54.340480Z",
   "generator": "pub",
   "generatorVersion": "2.8.1"
 }

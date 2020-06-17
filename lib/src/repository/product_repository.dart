@@ -18,4 +18,5 @@ abstract class ProductRepository {
   Future<bool> saveAllProducts(List<Product> products);
 
   Future<bool> updateAllProducts(List<Product> products);
+  Future<void> delete(Product product);
 }

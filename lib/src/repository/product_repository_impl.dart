@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/local/product/product_dao.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
-import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/ProductQuery.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/repository/product_repository.dart';
+import 'package:flutter/material.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   RemoteProductService _remoteProductService;
@@ -22,10 +21,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<List<Product>> getAllSelectedProducts() async {
-    if (await _networkHelper.isNotConnected()) {
-      return _remoteProductService.getAllProducts();
-    }
-    throw NetworkException();
+    return _localProductService.findAllProducts();
   }
 
   @override
@@ -66,5 +62,11 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<List<Product>> getDefaultProducts(ProductQuery query) {
     return _remoteProductService.getDefaultProducts(query);
+  }
+
+  @override
+  // ignore: missing_return
+  Future<void> delete(Product product) {
+    _localProductService.delete(product);
   }
 }

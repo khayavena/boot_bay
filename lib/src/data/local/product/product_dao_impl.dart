@@ -32,18 +32,28 @@ class ProductDaoImpl implements ProductDao {
   @override
   Future<void> insertAll(List<Product> products) async {
     await _productStore.delete(_database);
-    await _productStore.addAll(_database, products.map((e) => e.toJson()).toList());
+    await _productStore.addAll(
+        _database, products.map((e) => e.toJson()).toList());
   }
 
   @override
   Future<void> insertProduct(Product product) async {
     int b = await _productStore.add(_database, product.toJson());
-    print('Product status $b' );
+    print('Product status $b');
   }
 
   @override
   Future<void> updateAll(List<Product> products) async {
-    await _productStore.addAll(_database, products.map((e) => e.toJson()).toList());
+    await _productStore.addAll(
+        _database, products.map((e) => e.toJson()).toList());
     return null;
+  }
+
+  @override
+  // ignore: missing_return
+  Future<void> delete(Product product) async {
+    var b = await _productStore.delete(
+        _database, finder: Finder(filter: Filter.byKey(product.id)));
+     print('Delete status $b');
   }
 }

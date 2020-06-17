@@ -1,4 +1,3 @@
-
 import 'package:bootbay/src/model/product.dart';
 
 abstract class ProductDao {
@@ -11,4 +10,6 @@ abstract class ProductDao {
   Future<void> insertAll(List<Product> beers);
 
   Future<void> updateAll(List<Product> beers);
+
+  Future<void> delete(Product product);
 }

@@ -11,6 +11,7 @@ class ProductViewModel extends ViewModel {
   ProductRepository _productRepository;
   Loader _loader;
   List<Product> _products = [];
+  List<Product> cartItems = [];
   Product _product = Product();
   String dataErrorMessage;
 
@@ -18,8 +19,12 @@ class ProductViewModel extends ViewModel {
     @required ProductRepository productRepository,
   }) : _productRepository = productRepository;
 
-  Future<void> saveProduct(Product product) {
-    return _productRepository.saveProduct(product);
+  void saveProduct(Product product) {
+    _productRepository.saveProduct(product);
+  }
+
+  void deleteProduct(Product product) {
+    _productRepository.delete(product);
   }
 
   Future<List<Product>> getMerchantProductsByCategory(
@@ -68,10 +73,34 @@ class ProductViewModel extends ViewModel {
     return _products;
   }
 
+
+  Future<List<Product>> getCatItems() async {
+    _loader = Loader.busy;
+    notifyListeners();
+    try {
+      cartItems = await _productRepository.getAllSelectedProducts();
+      _loader = Loader.complete;
+      notifyListeners();
+      return cartItems;
+    } on NetworkException catch (error) {
+      dataErrorMessage = error.message;
+      _loader = Loader.error;
+      notifyListeners();
+    } on DioError catch (error) {
+      _loader = Loader.error;
+      handleDioError(error);
+    } catch (error) {
+      _loader = Loader.error;
+      notifyListeners();
+    }
+    return cartItems;
+  }
+
+
   double finalAmount() {
     double price = 0;
     int count = 0;
-    getProducts.forEach((x) {
+    cartItems.forEach((x) {
       count++;
       price += x.price * count;
     });
@@ -79,7 +108,7 @@ class ProductViewModel extends ViewModel {
   }
 
   String currency() {
-    return 'USD';
+    return 'ZAR';
   }
 
   String itemIds() {

@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
+  final ProductItemListener productItemListener;
 
-  ProductCard({Key key, this.product}) : super(key: key);
+  ProductCard({Key key, this.product, this.productItemListener})
+      : super(key: key);
 
   @override
   _ProductCardState createState() => _ProductCardState();
@@ -15,10 +17,12 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   Product product;
+  bool toggle;
 
   @override
   void initState() {
     product = widget.product;
+    toggle = false;
     super.initState();
   }
 
@@ -73,11 +77,24 @@ class _ProductCardState extends State<ProductCard> {
                   height: 5,
                 ),
                 FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      toggle = !toggle;
+                    });
+                    if (widget.productItemListener != null) {
+                      if (toggle) {
+                        widget.productItemListener.onAdd(product);
+                      } else {
+                        widget.productItemListener.onRemove(product);
+                      }
+                    }
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(2),
-                      side: BorderSide(color: Colors.orange)),
+                      side: BorderSide(
+                          color: !toggle ? Colors.orange : LightColor.grey)),
                   child: Text('add to cat'),
-                  color: LightColor.orange,
+                  color: Colors.white12,
                 )
               ],
             ),
@@ -101,4 +118,10 @@ class _ProductCardState extends State<ProductCard> {
       ),
     );
   }
+}
+
+abstract class ProductItemListener {
+  void onAdd(Product product);
+
+  void onRemove(Product product);
 }

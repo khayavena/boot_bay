@@ -42,7 +42,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
         listen: false,
       );
       _paymentViewModel.getToken(
-          TokenRequest(merchantId: widget.merchantId, customerId: '170963056'));
+          TokenRequest(merchantId: widget.merchantId, customerId: '614999179'));
     });
     super.initState();
   }
@@ -58,11 +58,11 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
           case Loader.complete:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
-              // loadPaymentMethod(paymentViewModel.getTokenResponse);
-              return WebCheckoutPage(
-                onWebPaymentNonceListener: this,
-                authToken: paymentViewModel.getTokenResponse.token,
-              );
+              loadPaymentMethod(paymentViewModel.getTokenResponse);
+//              return WebCheckoutPage(
+//                onWebPaymentNonceListener: this,
+//                authToken: paymentViewModel.getTokenResponse.token,
+//              );
             } else {
               bool value = paymentViewModel.getPaymentResponse.status;
               return Column(
@@ -72,7 +72,8 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
                       child: paymentStatus(
                           paymentViewModel.getPaymentResponse.message,
                           isSuccess: value)),
-                  Image.asset(Res.success),
+                  Container(
+                      width: 100, height: 100, child: Image.asset(Res.success)),
                   SizedBox(
                     height: 50,
                   ),
@@ -127,6 +128,8 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
         Center(
           child: TitleText(
             text: status,
+            fontSize: 22,
+            color: Colors.grey,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -139,18 +142,18 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
   }
 
   void loadPaymentMethod(TokenResponse tokenResponse) async {
-//    final request = buildRequest(tokenResponse.token);
-//    BraintreeDropInResult result = await BraintreeDropIn.start(request);
-//    if (result != null) {
-//      initiatePayment(
-//          tokenResponse.orderId,
-//          result.paymentMethodNonce.nonce,
-//          widget.finalAmount,
-//          tokenResponse.startTime,
-//          widget.merchantId,
-//          widget.itemIds,
-//          result.deviceData);
-//    }
+    final request = buildRequest(tokenResponse.token);
+    BraintreeDropInResult result = await BraintreeDropIn.start(request);
+    if (result != null) {
+      initiatePayment(
+          tokenResponse.orderId,
+          result.paymentMethodNonce.nonce,
+          widget.finalAmount,
+          tokenResponse.startTime,
+          widget.merchantId,
+          widget.itemIds,
+          result.deviceData);
+    }
   }
 
   void initiatePayment(String orderId, String paymentNonce, double amount,

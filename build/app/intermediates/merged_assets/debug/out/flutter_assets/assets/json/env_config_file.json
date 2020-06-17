@@ -1,7 +1,7 @@
 {
   "Flavor.DEV": {
     "appVersion": "1.0.0",
-    "baseUrl": "http://192.168.43.158:8081",
+    "baseUrl": "https://pay-afro.herokuapp.com",
     "appName": "SuperSport Dev",
     "databaseName": "boot_database.db",
     "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
@@ -12,9 +12,9 @@
   },
   "Flavor.DEV": {
     "appVersion": "1.0.0",
-    "baseUrl": "http://192.168.43.158:8081",
+    "baseUrl": "https://pay-afro.herokuapp.com",
     "appName": "SuperSport Dev",
-    "appKey": "5eb2e41e66fe5d0f909cc811",
+    "appKey": "5ee3bfbea1fbe46a462d6c4a",
     "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
     "googleAuthUrl": "https://www.googleapis.com/auth/contacts.readonly",
     "databaseName": "boot_database.db",
