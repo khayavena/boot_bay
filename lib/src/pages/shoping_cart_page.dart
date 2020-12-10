@@ -1,3 +1,6 @@
+import 'package:bootbay/res.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/pages/cart_list_view.dart';
 import 'package:bootbay/src/pages/checkout_page.dart';
 import 'package:bootbay/src/themes/light_color.dart';
@@ -16,7 +19,6 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-  
   double price;
 
   @override
@@ -45,8 +47,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 
-  Widget _submitButton(
-      BuildContext context, ProductViewModel productViewModel) {
+  Widget _submitButton(BuildContext context, ProductViewModel productViewModel) {
     return FlatButton(
         onPressed: () async {
           Navigator.push(
@@ -63,44 +64,78 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             ),
           );
         },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-        color: LightColor.skyBlue,
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 12),
           width: AppTheme.fullWidth(context) * .8,
-          child: TitleText(
-            text: 'PAY NOW',
-            color: LightColor.background,
-            fontWeight: FontWeight.w500,
+          height: 50,
+          decoration: buttonDecorator,
+          child: Text(
+            'PAY ZAR ${productViewModel.finalAmount()}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: AppTheme.padding,
-      child: Consumer<ProductViewModel>(
-        builder: (BuildContext context, ProductViewModel productViewModel,
-            Widget child) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 30),
-            child: Column(
-              children: <Widget>[
-                CartListView(cartItems: productViewModel.cartItems),
-                Divider(
-                  thickness: 1,
-                  height: 70,
-                ),
-                _price(productViewModel),
-                SizedBox(height: 30),
-                _submitButton(context, productViewModel),
-              ],
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: primaryWhite,
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          title: Text(
+            "CART",
+            style: TextStyle(
+              color: Color(0xff333333),
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
             ),
-          );
-        },
-      ),
-    );
+          ),
+          actions: <Widget>[
+            Center(
+                child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(
+                'EDIT',
+                style: TextStyle(
+                  color: Color(0xff333333),
+                  fontSize: 12,
+                  fontFamily: 'SFProText',
+                ),
+              ),
+            )),
+          ],
+          leading:
+              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+          centerTitle: true,
+        ),
+        body: Container(
+          child: Consumer<ProductViewModel>(
+            builder: (BuildContext context, ProductViewModel productViewModel, Widget child) {
+              return SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 30),
+                child: Column(
+                  children: <Widget>[
+                    CartListView(cartItems: productViewModel.getProducts),
+                    Divider(
+                      thickness: 1,
+                      height: 70,
+                    ),
+                    _price(productViewModel),
+                    SizedBox(height: 30),
+                    _submitButton(context, productViewModel),
+                  ],
+                ),
+              );
+            },
+          ),
+        ));
   }
 }

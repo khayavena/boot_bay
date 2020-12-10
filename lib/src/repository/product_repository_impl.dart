@@ -21,11 +21,12 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<List<Product>> getAllSelectedProducts() async {
+    _localProductService.findAllProducts();
     return _localProductService.findAllProducts();
   }
 
   @override
-  Future<Product> getProductById(int id) {
+  Future<Product> getProductById(String id) {
     return _localProductService.findProductById(id);
   }
 

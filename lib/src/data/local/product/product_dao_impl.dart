@@ -23,7 +23,7 @@ class ProductDaoImpl implements ProductDao {
   }
 
   @override
-  Future<Product> findProductById(int id) async {
+  Future<Product> findProductById(String id) async {
     final recordSnapshot = await _productStore.findFirst(_database,
         finder: Finder(filter: Filter.byKey(id)));
     return Product.fromJson(recordSnapshot.value);

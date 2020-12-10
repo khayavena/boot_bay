@@ -4,6 +4,7 @@ import 'package:bootbay/src/config/route.dart';
 import 'package:bootbay/src/data/local/database/database.dart';
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
 import 'package:bootbay/src/data/local/payment/payment_dao_Impl.dart';
+import 'package:bootbay/src/data/local/product/cart_dao_impl.dart';
 import 'package:bootbay/src/data/local/product/product_dao.dart';
 import 'package:bootbay/src/data/local/product/product_dao_impl.dart';
 import 'package:bootbay/src/data/local/user/user_dao.dart';
@@ -16,8 +17,8 @@ import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dar
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/helpers/network_helper_impl.dart';
-import 'package:bootbay/src/pages/auth_page.dart';
-import 'package:bootbay/src/pages/product_detail.dart';
+import 'package:bootbay/src/repository/cart_repository.dart';
+import 'package:bootbay/src/repository/cart_repository_impl.dart';
 import 'package:bootbay/src/repository/category_repository.dart';
 import 'package:bootbay/src/repository/category_repository_impl.dart';
 import 'package:bootbay/src/repository/payment_repository.dart';
@@ -26,25 +27,21 @@ import 'package:bootbay/src/repository/product_repository.dart';
 import 'package:bootbay/src/repository/product_repository_impl.dart';
 import 'package:bootbay/src/repository/user_repository.dart';
 import 'package:bootbay/src/repository/user_repository_impl.dart';
+import 'package:bootbay/src/viewmodel/CartViewModel.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
 import 'package:bootbay/src/viewmodel/ProductViewModel.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
-import 'package:bootbay/src/wigets/custom_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
-
-import 'src/themes/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final EnvConfig devConfig =
-      await EnvConfigServiceImpl(Flavor.DEV).getEnvConfig();
+  final EnvConfig devConfig = await EnvConfigServiceImpl(Flavor.DEV).getEnvConfig();
 
   final Dio dio = DioClient.getClient(
     devConfig.baseUrl,
@@ -65,11 +62,12 @@ void main() async {
   );
 
   final UserDao userDao = UserDaoImpl(database: appDb);
-  final UserRepository userRepository = UserRepositoryImpl(
-      userService: userService, networkHelper: networkHelper, userDao: userDao);
+  final UserRepository userRepository =
+      UserRepositoryImpl(userService: userService, networkHelper: networkHelper, userDao: userDao);
 
   final ProductDao productDao = ProductDaoImpl(database: appDb);
-
+  final CartRepository cartRepository =
+      CartRepositoryImpl(cartDao: CartDaoImpl(database: appDb), networkHelper: networkHelper);
   final ProductRepository productRepository = ProductRepositoryImpl(
     remoteProductService: RemoteProductServiceImpl(
       dio: dio,
@@ -89,53 +87,30 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
+        ChangeNotifierProvider(create: (context) => ProductViewModel(productRepository: productRepository)),
+        ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: cartRepository)),
+        ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: userRepository)),
         ChangeNotifierProvider(
             create: (context) =>
-                ProductViewModel(productRepository: productRepository)),
-        ChangeNotifierProvider(
-            create: (context) => UserViewModel(userRepository: userRepository)),
-        ChangeNotifierProvider(
-            create: (context) => PaymentViewModel(
-                userRepository: userRepository,
-                paymentRepository: paymentRepository)),
-        ChangeNotifierProvider(
-            create: (context) =>
-                CategoryViewModel(categoryRepository: categoryRepository)),
+                PaymentViewModel(userRepository: userRepository, paymentRepository: paymentRepository)),
+        ChangeNotifierProvider(create: (context) => CategoryViewModel(categoryRepository: categoryRepository)),
         Provider<Database>(create: (context) => appDb),
         Provider<ProductRepository>(create: (context) => productRepository),
         Provider<CategoryRepository>(create: (context) => categoryRepository),
         Provider<UserRepository>(create: (context) => userRepository),
         Provider<NetworkHelper>(create: (context) => networkHelper),
       ],
-      child: MyApp(),
+      child: App(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'E-Commerce ',
-      theme: AppTheme.lightTheme.copyWith(
-        textTheme: GoogleFonts.muliTextTheme(
-          Theme.of(context).textTheme,
-        ),
-      ),
       debugShowCheckedModeBanner: false,
-      routes: Routes.getRoute(),
-      // ignore: missing_return
-      onGenerateRoute: (RouteSettings settings) {
-        final List<String> pathElements = settings.name.split('/');
-        if (pathElements[1].contains('detail')) {
-          return AnimatedRoute<bool>(
-              builder: (BuildContext context) => ProductDetailPage());
-        }
-        if (pathElements[1].contains('login')) {
-          return AnimatedRoute<bool>(
-              builder: (BuildContext context) => AuthPage());
-        }
-      },
+      routes: CustomRoutes.getRoute(),
     );
   }
 }

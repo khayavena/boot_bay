@@ -1,5 +1,5 @@
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/wigets/shared/CartItem.dart';
+import 'package:bootbay/src/wigets/cart/cart_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class CartListView extends StatelessWidget {
@@ -13,9 +13,12 @@ class CartListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: cartItems
-            .map((model) => CartItem(
-                  model: model,
-                ))
+            .map((model) => Padding(
+              padding: const EdgeInsets.only(top:16.0),
+              child: CartItemWidget(
+                    model: model,
+                  ),
+            ))
             .toList());
   }
 }

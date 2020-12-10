@@ -11,12 +11,13 @@ abstract class ProductRepository {
 
   Future<List<Product>> getProductsByCategory(String categoryId);
 
-  Future<Product> getProductById(int id);
+  Future<Product> getProductById(String id);
 
   Future<bool> saveProduct(Product product);
 
   Future<bool> saveAllProducts(List<Product> products);
 
   Future<bool> updateAllProducts(List<Product> products);
+
   Future<void> delete(Product product);
 }
