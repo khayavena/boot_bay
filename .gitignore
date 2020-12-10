@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 build/
+platform-tools/
 lib/generated/
 
 # Android related
@@ -94,3 +95,6 @@ assets/json/app_config.json
 /macos/Flutter/ephemeral/flutter_export_environment.sh
 /macos/Flutter/GeneratedPluginRegistrant.swift
 /android/settings_aar.gradle
+ios/Flutter/.last_build_id
+.vscode/launch.json.bak
+.favorites.json
