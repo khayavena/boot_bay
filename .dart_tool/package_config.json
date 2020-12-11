@@ -182,6 +182,12 @@
       "languageVersion": "1.11"
     },
     {
+      "name": "smooth_star_rating",
+      "rootUri": "file:///Users/khayavena/development/flutter/.pub-cache/hosted/pub.dartlang.org/smooth_star_rating-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///Users/khayavena/development/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0-nullsafety.2",
       "packageUri": "lib/",
@@ -248,7 +254,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-12-10T15:20:23.344214Z",
+  "generated": "2020-12-10T20:33:57.109682Z",
   "generator": "pub",
   "generatorVersion": "2.10.2"
 }

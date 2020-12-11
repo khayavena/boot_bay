@@ -1,9 +1,14 @@
+import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
+import 'package:bootbay/src/wigets/cart/cart_quantity_button_widget.dart';
+import 'package:bootbay/src/wigets/shared/color_selector_widget.dart';
+import 'package:bootbay/src/wigets/shared/size_selector_widget.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ProductDetailPage extends StatefulWidget {
   ProductDetailPage({Key key}) : super(key: key);
@@ -12,8 +17,7 @@ class ProductDetailPage extends StatefulWidget {
   _ProductDetailPageState createState() => _ProductDetailPageState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage>
-    with TickerProviderStateMixin {
+class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
   Product _product;
@@ -22,10 +26,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    animation = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: controller, curve: Curves.easeInToLinear));
+    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    animation =
+        Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: controller, curve: Curves.easeInToLinear));
     controller.forward();
   }
 
@@ -45,7 +48,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           decoration: BoxDecoration(
               gradient: LinearGradient(
             colors: [
-              Color(0xfffbfbfb),
+              primaryWhite,
               Color(0xfff7f7f7),
             ],
             begin: Alignment.topCenter,
@@ -55,7 +58,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  _appBar(),
                   _productImage(),
                 ],
               ),
@@ -64,65 +66,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           ),
         ),
       ),
-    );
-  }
-
-  Widget _appBar() {
-    return Container(
-      padding: AppTheme.padding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: _icon(Icons.arrow_back_ios,
-                color: Colors.black54, size: 15, padding: 12, isOutLine: true),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isLiked = !isLiked;
-              });
-            },
-            child: _icon(isLiked ? Icons.favorite : Icons.favorite_border,
-                color: isLiked ? LightColor.red : LightColor.lightGrey,
-                size: 15,
-                padding: 12,
-                isOutLine: false),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _icon(IconData icon,
-      {Color color = LightColor.iconColor,
-      double size = 20,
-      double padding = 10,
-      bool isOutLine = false}) {
-    return Container(
-      height: 40,
-      width: 40,
-      padding: EdgeInsets.all(padding),
-      // margin: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: LightColor.iconColor,
-            style: isOutLine ? BorderStyle.solid : BorderStyle.none),
-        borderRadius: BorderRadius.all(Radius.circular(13)),
-        color:
-            isOutLine ? Colors.transparent : Theme.of(context).backgroundColor,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Color(0xfff8f8f8),
-              blurRadius: 5,
-              spreadRadius: 10,
-              offset: Offset(5, 5)),
-        ],
-      ),
-      child: Icon(icon, color: color, size: size),
     );
   }
 
@@ -148,7 +91,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               : Container(
                   child: Center(
                   child: AspectRatio(
-                      aspectRatio: 2 / 2,
+                      aspectRatio: 1 / 2,
                       child: Image(
                         width: double.maxFinite,
                         fit: BoxFit.cover,
@@ -158,55 +101,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         ],
       ),
     );
-  }
-
-  Widget _categoryWidget() {
-    List<String> thumps = [
-      _product.image,
-      _product.image,
-      _product.image,
-      _product.image,
-      _product.image,
-      _product.image
-    ];
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      width: AppTheme.fullWidth(context),
-      height: 80,
-      child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: thumps.map((x) => _thumbnail(x)).toList()),
-    );
-  }
-
-  Widget _thumbnail(String image) {
-    return AnimatedBuilder(
-        animation: animation,
-        //  builder: null,
-        builder: (context, child) => AnimatedOpacity(
-              opacity: animation.value,
-              duration: Duration(milliseconds: 500),
-              child: child,
-            ),
-        child: Container(
-          height: 40,
-          width: 50,
-          margin: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: LightColor.grey,
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(13),
-            ),
-            // color: Theme.of(context).backgroundColor,
-          ),
-          child: Center(
-              child: Image.network(
-            image,
-            fit: BoxFit.contain,
-          )),
-        ));
   }
 
   Widget _detailWidget() {
@@ -219,8 +113,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           padding: AppTheme.padding.copyWith(bottom: 0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
+                topLeft: Radius.circular(1),
+                topRight: Radius.circular(1),
               ),
               color: Colors.white),
           child: SingleChildScrollView(
@@ -235,52 +129,65 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   child: Container(
                     width: 50,
                     height: 5,
-                    decoration: BoxDecoration(
-                        color: LightColor.iconColor,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration:
+                        BoxDecoration(color: LightColor.iconColor, borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                 ),
                 SizedBox(height: 10),
                 Container(
-                  child: Row(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      TitleText(text: _product.name, fontSize: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          PriceView(currency: "ZAR", amount: _product.price),
-                          Row(
-                            children: <Widget>[
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star,
-                                  color: LightColor.yellowColor, size: 17),
-                              Icon(Icons.star_border, size: 17),
-                            ],
-                          ),
-                        ],
+                      Text(
+                        _product.name,
+                        style: TextStyle(
+                          color: Color(0xff999999),
+                          fontSize: 15,
+                          fontFamily: 'SFProText',
+                        ),
                       ),
+                      PriceView(currency: "ZAR", amount: _product.price),
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star_border, size: 17),
+                        ],
+                      )
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 12,
                 ),
                 _availableSize(),
                 SizedBox(
-                  height: 20,
+                  height: 12,
                 ),
                 _availableColor(),
                 SizedBox(
-                  height: 20,
+                  height: 12,
                 ),
                 _description(),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  'Select Quantity',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily: 'SFProText',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                CartQuantityButtonWidget(product: _product)
               ],
             ),
           ),
@@ -293,41 +200,31 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TitleText(
-          text: "Available Size",
-          fontSize: 14,
+        Container(
+          margin: EdgeInsets.only(left: 4),
+          child: Text(
+            'Select Size',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 8),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _sizeWidget("US 6"),
-            _sizeWidget("US 7", isSelected: true),
-            _sizeWidget("US 8"),
-            _sizeWidget("US 9"),
+            SizeSelectorWidget(size: "US 6"),
+            SizeSelectorWidget(
+              size: "US 7",
+            ),
+            SizeSelectorWidget(size: "US 8"),
+            SizeSelectorWidget(size: "US 9"),
           ],
         )
       ],
-    );
-  }
-
-  Widget _sizeWidget(String text,
-      {Color color = LightColor.iconColor, bool isSelected = false}) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: LightColor.iconColor,
-            style: !isSelected ? BorderStyle.solid : BorderStyle.none),
-        borderRadius: BorderRadius.all(Radius.circular(2)),
-        color:
-            isSelected ? LightColor.orange : Theme.of(context).backgroundColor,
-      ),
-      child: TitleText(
-        text: text,
-        fontSize: 16,
-        color: isSelected ? LightColor.background : LightColor.titleTextColor,
-      ),
     );
   }
 
@@ -335,71 +232,90 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TitleText(
-          text: "Available Size",
-          fontSize: 14,
+        Container(
+          margin: EdgeInsets.only(left: 4),
+          child: Text(
+            'Select Colour',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _colorWidget(LightColor.yellowColor, isSelected: true),
-            SizedBox(
-              width: 30,
-            ),
-            _colorWidget(LightColor.lightBlue),
-            SizedBox(
-              width: 30,
-            ),
-            _colorWidget(LightColor.black),
-            SizedBox(
-              width: 30,
-            ),
-            _colorWidget(LightColor.red),
-            SizedBox(
-              width: 30,
-            ),
-            _colorWidget(LightColor.skyBlue),
-          ],
+        SizedBox(height: 8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ColorSelectorWidget(color: LightColor.yellowColor),
+              ColorSelectorWidget(color: LightColor.lightBlue),
+              ColorSelectorWidget(color: LightColor.black),
+              ColorSelectorWidget(color: LightColor.skyBlue),
+            ],
+          ),
         )
       ],
     );
   }
 
-  Widget _colorWidget(Color color, {bool isSelected = false}) {
-    return CircleAvatar(
-      radius: 12,
-      backgroundColor: color.withAlpha(150),
-      child: isSelected
-          ? Icon(
-              Icons.check_circle,
-              color: color,
-              size: 18,
-            )
-          : CircleAvatar(radius: 7, backgroundColor: color),
-    );
-  }
-
   Widget _description() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TitleText(
-          text: "Supplied by PeshClothing aproved By Boot Pay",
-          fontSize: 14,
-        ),
-        SizedBox(height: 20),
-        Text(_product.description),
-      ],
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: _product.name,
+            style: TextStyle(
+              color: Color(0xff333333),
+              fontSize: 12,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          TextSpan(
+            text: '\n${_product.description}',
+            style: TextStyle(
+              color: Color(0xff999999),
+              fontSize: 12,
+              fontFamily: 'SFProText',
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  FloatingActionButton _flotingButton() {
-    return FloatingActionButton(
-      onPressed: () {},
-      backgroundColor: LightColor.orange,
-      child: Icon(Icons.shopping_basket,
-          color: Theme.of(context).floatingActionButtonTheme.backgroundColor),
+  Widget _flotingButton() {
+    return Container(
+      padding: EdgeInsets.only(left: 30, right: 0),
+      child: Container(
+        height: 50,
+        child: Center(
+          child: Text(
+            'ADD TO CART',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: Color(0xff999999),
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x7fa0a0a0),
+              offset: Offset(2, 2),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

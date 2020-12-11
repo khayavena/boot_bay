@@ -13,6 +13,7 @@ class Product {
   bool isWeighed;
   bool isLiked;
   bool isSelected;
+  int orderQuantity;
 
   Product(
       {this.categoryId,
@@ -27,7 +28,8 @@ class Product {
       this.scoring,
       this.isWeighed,
       this.isLiked,
-      this.isSelected});
+      this.isSelected,
+      this.orderQuantity});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -43,13 +45,14 @@ class Product {
         scoring: json['scoring'],
         isWeighed: json['wieghed'],
         isLiked: json["isLiked"] ?? false,
-        isSelected: json["isLiked"] ?? false);
+        isSelected: json["isLiked"] ?? false,
+        orderQuantity: json["orderQuantity"] ?? 1);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['categoryId'] = this.categoryId;
-    data['category'] =  'Powered by VDI';
+    data['category'] = 'Powered by VDI';
     data['creation'] = this.creation;
     data['description'] = this.description;
     data['id'] = this.id;
@@ -62,6 +65,7 @@ class Product {
     data['wieghed'] = this.isWeighed;
     data['isliked'] = isLiked;
     data['isSelected'] = isSelected;
+    data['orderQuantity'] = orderQuantity;
 
     return data;
   }

@@ -1,5 +1,3 @@
-import 'package:bootbay/src/themes/light_color.dart';
-import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 
 class PriceView extends StatelessWidget {
@@ -8,20 +6,13 @@ class PriceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        TitleText(
-          text: currency + " - ",
-          fontSize: 12,
-          color: LightColor.red,
-        ),
-        TitleText(
-          text: amount.toString(),
-          fontSize: 12,
-        ),
-      ],
+    return Text(
+      '$currency -$amount',
+      style: TextStyle(
+        color: Color(0xff333333),
+        fontSize: 20,
+        fontFamily: 'SFProText',
+      ),
     );
   }
 

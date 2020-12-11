@@ -17,3 +17,5 @@ Color get primaryWhite => Color(0xffffffff);
 Color get secondaryGreenDark => Color(0x7f103747);
 
 Color get secondaryRedColor => Color(0x7f4d100b);
+
+Color get selectorBackgroundColor => Color(0xffdfdfdf);
