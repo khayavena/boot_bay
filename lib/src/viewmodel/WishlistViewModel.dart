@@ -10,7 +10,7 @@ class WishListViewModel extends ViewModel {
   WishListRepository _cartRepository;
   Loader _loader;
   bool _isItemExist = false;
-  List<Product> _cartItems = [];
+  List<Product> _wishItems = [];
   String dataErrorMessage;
 
   String currentId = "";
@@ -18,6 +18,8 @@ class WishListViewModel extends ViewModel {
   WishListViewModel({
     @required WishListRepository wishListRepository,
   }) : _cartRepository = wishListRepository;
+
+  get wishItems => _wishItems;
 
   Future<void> saveProduct(Product product) async {
     await _cartRepository.insert(product);
@@ -44,10 +46,10 @@ class WishListViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _cartItems = await _cartRepository.findItems();
+      _wishItems = await _cartRepository.findItems();
       _loader = Loader.complete;
       notifyListeners();
-      return _cartItems;
+      return _wishItems;
     } on NetworkException catch (error) {
       dataErrorMessage = error.message;
       _loader = Loader.error;
@@ -59,13 +61,13 @@ class WishListViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
-    return _cartItems;
+    return _wishItems;
   }
 
   double finalAmount() {
     double price = 0;
     int count = 0;
-    _cartItems.forEach((x) {
+    _wishItems.forEach((x) {
       count++;
       price += x.price * count;
     });
@@ -78,7 +80,7 @@ class WishListViewModel extends ViewModel {
 
   String itemIds() {
     String items = '';
-    _cartItems.forEach((x) {
+    _wishItems.forEach((x) {
       items += x.id;
     });
     return items;

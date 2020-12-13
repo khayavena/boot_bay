@@ -19,6 +19,8 @@ class CartViewModel extends ViewModel {
     @required CartRepository cartRepository,
   }) : _cartRepository = cartRepository;
 
+  get cartItems => _cartItems;
+
   Future<void> saveProduct(Product product) async {
     await _cartRepository.insertProduct(product);
     checkExist(product);
@@ -97,6 +99,4 @@ class CartViewModel extends ViewModel {
     }
     notifyListeners();
   }
-
-
 }

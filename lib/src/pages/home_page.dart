@@ -11,7 +11,7 @@
 
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/pages/shoping_cart_page.dart';
+import 'package:bootbay/src/pages/shoping_wishlist_page.dart';
 import 'package:flutter/material.dart';
 
 import 'generic_shopping_page.dart';
@@ -27,7 +27,7 @@ class _HomeState extends State<HomeWidget> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     GenericShoppingPage(),
-    ShoppingCartPage(),
+    ShoppingWishListPage(),
     Container(
       color: Colors.green,
     )

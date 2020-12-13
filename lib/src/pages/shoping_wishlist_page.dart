@@ -5,44 +5,44 @@ import 'package:bootbay/src/pages/cart_list_view.dart';
 import 'package:bootbay/src/pages/checkout_page.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
-import 'package:bootbay/src/viewmodel/CartViewModel.dart';
+import 'package:bootbay/src/viewmodel/WishlistViewModel.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class ShoppingCartPage extends StatefulWidget {
-  ShoppingCartPage({Key key}) : super(key: key);
+class ShoppingWishListPage extends StatefulWidget {
+  ShoppingWishListPage({Key key}) : super(key: key);
 
   @override
-  _ShoppingCartPageState createState() => _ShoppingCartPageState();
+  _ShoppingWishListPageState createState() => _ShoppingWishListPageState();
 }
 
-class _ShoppingCartPageState extends State<ShoppingCartPage> {
+class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
   double price;
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<CartViewModel>(context, listen: false).getCatItems();
+      Provider.of<WishListViewModel>(context, listen: false).getItems();
     });
     super.initState();
   }
 
-  Widget _price(CartViewModel productViewModel) {
+  Widget _price(WishListViewModel wishListViewModel) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           TitleText(
-            text: '${productViewModel.cartItems.length} Items',
+            text: '${wishListViewModel.wishItems.length} Items',
             color: LightColor.grey,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
           TitleText(
-            text: 'ZAR - ${productViewModel.finalAmount()}',
+            text: 'ZAR - ${wishListViewModel.finalAmount()}',
             fontSize: 18,
           ),
         ],
@@ -50,16 +50,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 
-  Widget _submitButton(BuildContext context, CartViewModel productViewModel) {
+  Widget _submitButton(BuildContext context, WishListViewModel wishListViewViewModel) {
     return FlatButton(
         onPressed: () async {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => CheckoutCartPage(
-                finalAmount: productViewModel.finalAmount(),
-                itemIds: productViewModel.itemIds(),
-                currency: productViewModel.currency(),
+                finalAmount: wishListViewViewModel.finalAmount(),
+                itemIds: wishListViewViewModel.itemIds(),
+                currency: wishListViewViewModel.currency(),
                 merchantId: '5ee3bfbea1fbe46a462d6c4a',
               ),
               // Pass the arguments as part of the RouteSettings. The
@@ -74,7 +74,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           height: 50,
           decoration: buttonDecorator,
           child: Text(
-            'PAY ZAR ${productViewModel.finalAmount()}',
+            'PAY ZAR ${wishListViewViewModel.finalAmount()}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,
@@ -93,7 +93,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           bottomOpacity: 0.0,
           elevation: 0.0,
           title: Text(
-            "CART",
+            "WISH LIST",
             style: TextStyle(
               color: Color(0xff333333),
               fontSize: 15,
@@ -120,13 +120,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           centerTitle: true,
         ),
         body: Container(
-          child: Consumer<CartViewModel>(
-            builder: (BuildContext context, CartViewModel productViewModel, Widget child) {
+          child: Consumer<WishListViewModel>(
+            builder: (BuildContext context, WishListViewModel productViewModel, Widget child) {
               return SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(
                   children: <Widget>[
-                    CartListView(cartItems: productViewModel.cartItems),
+                    CartListView(cartItems: productViewModel.wishItems),
                     Divider(
                       thickness: 1,
                       height: 70,
