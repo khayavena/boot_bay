@@ -3,6 +3,7 @@ import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
+import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/cart_quantity_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:bootbay/src/wigets/shared/color_selector_widget.dart';
@@ -204,7 +205,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 SizedBox(
                   height: 5,
                 ),
-                CartQuantityButtonWidget(product: _product)
+                CartQuantityButtonWidget(product: _product),
+                SizedBox(
+                  height: 20,
+                ),
+                CartButtonWidget(
+                  product: _product,
+                  isDetail: true,
+                )
               ],
             ),
           ),

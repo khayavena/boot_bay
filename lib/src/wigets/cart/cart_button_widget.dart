@@ -9,10 +9,11 @@ import 'package:provider/provider.dart';
 
 class CartButtonWidget extends StatefulWidget {
   final Product product;
+  final bool isDetail;
   static String _addToCart = 'Add to cart';
   static String _removeItem = 'Remove Item';
 
-  CartButtonWidget({Key key, @required this.product}) : super(key: key);
+  CartButtonWidget({Key key, @required this.product, this.isDetail = false}) : super(key: key);
 
   @override
   _CartButtonWidgetState createState() => _CartButtonWidgetState();
@@ -37,39 +38,56 @@ class _CartButtonWidgetState extends State<CartButtonWidget> {
   }
 
   Widget _buildCartWidget() {
-    return Align(
-        alignment: Alignment.bottomRight,
-        child: Consumer<CartViewModel>(
-            key: Key(widget.product.id),
-            builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
-              if (widget.product.id == cartViewModel.currentId) {
-                if (cartViewModel.isItemExist) {
-                  label = CartButtonWidget._addToCart;
-                } else {
-                  label = CartButtonWidget._removeItem;
-                }
-              }
+    return Consumer<CartViewModel>(
+        key: Key(widget.product.id),
+        builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
+          if (widget.product.id == cartViewModel.currentId) {
+            if (cartViewModel.isItemExist) {
+              label = CartButtonWidget._addToCart;
+            } else {
+              label = CartButtonWidget._removeItem;
+            }
+          }
 
-              return GestureDetector(
-                onTap: () {
-                  cartViewModel.cartAction(widget.product);
-                },
-                child: Container(
-                  child: Center(
-                    child: Text(
-                      label,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: smallFontSize,
-                        fontWeight: smallFont,
+          return GestureDetector(
+            onTap: () {
+              cartViewModel.cartAction(widget.product);
+            },
+            child: widget.isDetail
+                ? bigButton()
+                : Container(
+                    child: Center(
+                      child: Text(
+                        label,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: smallFontSize,
+                          fontWeight: smallFont,
+                        ),
                       ),
                     ),
+                    width: 60,
+                    height: 28,
+                    decoration: smallButtonDecorator,
                   ),
-                  width: 60,
-                  height: 28,
-                  decoration: smallButtonDecorator,
-                ),
-              );
-            }));
+          );
+        });
+  }
+
+  Widget bigButton() {
+    return Container(
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: largeFontSize,
+            fontWeight: largeFont,
+          ),
+        ),
+      ),
+      height: 50,
+      decoration: buttonDecorator,
+    );
   }
 }

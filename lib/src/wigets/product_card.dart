@@ -39,7 +39,7 @@ class _ProductCardState extends State<ProductCard> {
           children: <Widget>[
             _buildColumn(),
             _buildSaleWidget(),
-            CartButtonWidget(key: Key(product.id), product: product),
+            Align(alignment: Alignment.bottomRight, child: CartButtonWidget(key: Key(product.id), product: product)),
             Align(
               alignment: Alignment.topRight,
               child: WishButtonWidget(
