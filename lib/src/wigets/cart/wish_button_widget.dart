@@ -37,9 +37,9 @@ class _WishButtonWidgetState extends State<WishButtonWidget> {
         builder: (BuildContext context, WishListViewModel wishViewModel, Widget child) {
           if (widget.product.id == wishViewModel.currentId) {
             if (wishViewModel.isItemExist) {
-              icon = Res.wish_inactive_ic;
-            } else {
               icon = Res.wish_active_ic;
+            } else {
+              icon = Res.wish_inactive_ic;
             }
           }
 
