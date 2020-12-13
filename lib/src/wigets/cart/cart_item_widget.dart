@@ -1,5 +1,7 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -21,17 +23,15 @@ class CartItemWidget extends StatelessWidget {
         Flexible(
             flex: 1,
             child: Container(
-                margin: EdgeInsets.only(left: 8,right: 4),
+                margin: EdgeInsets.only(left: 8, right: 4),
                 height: 204,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(model.image),
+                    image: CachedNetworkImageProvider(model.image),
                   ),
                 ))),
-        Flexible(flex: 1, child: Container(
-            margin: EdgeInsets.only(left: 4, right: 8),
-            child: _leftColumn()))
+        Flexible(flex: 1, child: Container(margin: EdgeInsets.only(left: 4, right: 8), child: _leftColumn()))
       ],
     );
   }
@@ -58,8 +58,10 @@ class CartItemWidget extends StatelessWidget {
         SizedBox(
           height: 3,
         ),
-        _categoriesTypes("Quantity:", "1"),
-        SizedBox(height: 20,),
+        _categoriesTypes("Quantity:", model.orderQuantity.toString()),
+        SizedBox(
+          height: 20,
+        ),
         Text(
           'ZAR - ${model.price}',
           style: TextStyle(
@@ -67,7 +69,9 @@ class CartItemWidget extends StatelessWidget {
             fontSize: 15,
             fontWeight: FontWeight.w700,
           ),
-        )
+        ),SizedBox(
+          height: 20,
+        ),CartButtonWidget(product: model)
       ],
     );
   }
