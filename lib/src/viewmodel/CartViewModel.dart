@@ -98,5 +98,6 @@ class CartViewModel extends ViewModel {
       saveProduct(product);
     }
     notifyListeners();
+    await getCatItems();
   }
 }
