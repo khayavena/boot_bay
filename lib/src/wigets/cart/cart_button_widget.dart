@@ -43,9 +43,9 @@ class _CartButtonWidgetState extends State<CartButtonWidget> {
         builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
           if (widget.product.id == cartViewModel.currentId) {
             if (cartViewModel.isItemExist) {
-              label = CartButtonWidget._addToCart;
-            } else {
               label = CartButtonWidget._removeItem;
+            } else {
+              label = CartButtonWidget._addToCart;
             }
           }
 

@@ -93,10 +93,11 @@ class WishListViewModel extends ViewModel {
   void wishListAction(Product product) async {
     await checkExist(product);
     if (_isItemExist) {
-      deleteProduct(product);
+      await deleteProduct(product);
     } else {
-      saveProduct(product);
+      await saveProduct(product);
     }
     notifyListeners();
+    await getItems();
   }
 }
