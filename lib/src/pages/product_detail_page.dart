@@ -4,9 +4,11 @@ import 'package:bootbay/src/pages/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/wigets/cart/cart_quantity_button_widget.dart';
+import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:bootbay/src/wigets/shared/color_selector_widget.dart';
 import 'package:bootbay/src/wigets/shared/size_selector_widget.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -42,7 +44,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   Widget build(BuildContext context) {
     _product = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      floatingActionButton: _flotingButton(),
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -95,7 +96,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       child: Image(
                         width: double.maxFinite,
                         fit: BoxFit.cover,
-                        image: NetworkImage(_product.image),
+                        image: CachedNetworkImageProvider(_product.image),
                       )),
                 ))
         ],
@@ -139,12 +140,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        _product.name,
-                        style: TextStyle(
-                          color: Color(0xff999999),
-                          fontSize: 15,
-                          fontFamily: 'SFProText',
+                      Container(
+                        height: 30,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                _product.name,
+                                style: TextStyle(
+                                  color: Color(0xff999999),
+                                  fontSize: 15,
+                                  fontFamily: 'SFProText',
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: WishButtonWidget(
+                                product: _product,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       PriceView(currency: "ZAR", amount: _product.price),
@@ -283,38 +300,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _flotingButton() {
-    return Container(
-      padding: EdgeInsets.only(left: 30, right: 0),
-      child: Container(
-        height: 50,
-        child: Center(
-          child: Text(
-            'ADD TO CART',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontFamily: 'SFProText',
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: Color(0xff999999),
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x7fa0a0a0),
-              offset: Offset(2, 2),
-              blurRadius: 8,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
       ),
     );
   }

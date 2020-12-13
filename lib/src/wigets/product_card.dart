@@ -4,6 +4,8 @@ import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
+import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
@@ -37,7 +39,13 @@ class _ProductCardState extends State<ProductCard> {
           children: <Widget>[
             _buildColumn(),
             _buildSaleWidget(),
-            CartButtonWidget(key: Key(product.id), product: product)
+            CartButtonWidget(key: Key(product.id), product: product),
+            Align(
+              alignment: Alignment.topRight,
+              child: WishButtonWidget(
+                product: product,
+              ),
+            )
           ],
         ),
       ),
@@ -54,7 +62,7 @@ class _ProductCardState extends State<ProductCard> {
           width: 166,
           height: 204,
           fit: BoxFit.cover,
-          image: NetworkImage(product.image),
+          image: CachedNetworkImageProvider(product.image),
         ),
         SizedBox(
           height: 8,

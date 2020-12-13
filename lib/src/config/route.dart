@@ -1,5 +1,5 @@
 import 'package:bootbay/src/pages/home_page.dart';
-import 'package:bootbay/src/pages/product_detail.dart';
+import 'package:bootbay/src/pages/product_detail_page.dart';
 import 'package:bootbay/src/pages/shoping_cart_page.dart';
 import 'package:flutter/material.dart';
 

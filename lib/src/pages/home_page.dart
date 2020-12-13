@@ -56,19 +56,19 @@ class _HomeState extends State<HomeWidget> {
             icon: ImageIcon(
               AssetImage(Res.shop_ic),
             ),
-            title: Text(''),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage(Res.wish_inactive_ic),
             ),
-            title: Text(''),
+            label: '',
           ),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage(Res.account_ic),
               ),
-              title: Text(''))
+              label: '')
         ],
       ),
     );
