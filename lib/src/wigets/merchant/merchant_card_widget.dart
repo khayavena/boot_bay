@@ -1,4 +1,6 @@
 import 'package:bootbay/src/config/app_routing.dart';
+import 'package:bootbay/src/helpers/ResFont.dart';
+import 'package:bootbay/src/helpers/ResSize.dart';
 import 'package:bootbay/src/model/merchant.dart';
 import 'package:flutter/material.dart';
 
@@ -23,12 +25,28 @@ class _MerchantCardWidgetState extends State<MerchantCardWidget> {
         onTap: () {
           Navigator.of(context).pushNamed(AppRouting.merchantLanding, arguments: widget.merchant);
         },
-        child: Container(
-          width: 300,
-          height: 100,
-          child: Center(child: Text(widget.merchant.name)),
-        ),
+        child: _buildWidget(),
       ),
     );
+  }
+
+  Widget _buildWidget() {
+    return Container(
+        child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              widget.merchant.name,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: largeFontSize,
+                fontWeight: largeFont,
+              ),
+            )),
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage(widget.merchant.logoUrl),
+          fit: BoxFit.cover,
+        )));
   }
 }

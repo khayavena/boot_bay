@@ -1,3 +1,4 @@
+import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/merchant.dart';
@@ -44,6 +45,12 @@ class MerchantViewModel extends ViewModel {
     _merchants.add(_merchants[0]);
     _merchants.add(_merchants[0]);
     _merchants.add(_merchants[0]);
+    _merchants[0].logoUrl =   Res.women_landing_ic;
+    _merchants[1].logoUrl =   Res.women_landing_ic;
+    _merchants[2].logoUrl =   Res.women_landing_ic;
+    _merchants[3].logoUrl =   Res.women_landing_ic;
+    _merchants[4].logoUrl =   Res.women_landing_ic;
+    _merchants[5].logoUrl =   Res.women_landing_ic;
     return _merchants;
   }
 

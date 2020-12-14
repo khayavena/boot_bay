@@ -5,6 +5,11 @@ class Merchant {
   String _location;
   double _rating;
   String _logoUrl;
+
+  set logoUrl(String value) {
+    _logoUrl = value;
+  }
+
   DateTime _createDate;
   DateTime _lastUpdate;
   String _email;
@@ -23,6 +28,8 @@ class Merchant {
   double get rating => _rating;
 
   String get logoUrl => _logoUrl;
+
+
 
   DateTime get createDate => _createDate;
 
