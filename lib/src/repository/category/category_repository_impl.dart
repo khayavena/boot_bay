@@ -3,7 +3,7 @@ import 'package:bootbay/src/data/remote/product/remote_category_service.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/repository/category_repository.dart';
+import 'package:bootbay/src/repository/category/category_repository.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
   RemoteCategoryService _remoteCategoryService;

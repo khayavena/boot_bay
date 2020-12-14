@@ -1,4 +1,4 @@
-import 'package:bootbay/src/config/route.dart';
+import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
@@ -32,7 +32,7 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(CustomRoutes.product_detail, arguments: product);
+        Navigator.of(context).pushNamed(AppRouting.productDetail, arguments: product);
       },
       child: Container(
         child: Stack(

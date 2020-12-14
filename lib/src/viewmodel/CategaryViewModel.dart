@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/repository/category_repository.dart';
+import 'package:bootbay/src/repository/category/category_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 
 class CategoryViewModel extends ViewModel {

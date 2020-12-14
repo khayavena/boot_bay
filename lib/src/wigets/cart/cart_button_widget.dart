@@ -10,10 +10,11 @@ import 'package:provider/provider.dart';
 class CartButtonWidget extends StatefulWidget {
   final Product product;
   final bool isDetail;
+  final bool isCartList;
   static String _addToCart = 'Add to cart';
   static String _removeItem = 'Remove Item';
 
-  CartButtonWidget({Key key, @required this.product, this.isDetail = false}) : super(key: key);
+  CartButtonWidget({Key key, @required this.product, this.isDetail = false, this.isCartList = false}) : super(key: key);
 
   @override
   _CartButtonWidgetState createState() => _CartButtonWidgetState();
@@ -41,14 +42,17 @@ class _CartButtonWidgetState extends State<CartButtonWidget> {
     return Consumer<CartViewModel>(
         key: Key(widget.product.id),
         builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
-          if (widget.product.id == cartViewModel.currentId) {
-            if (cartViewModel.isItemExist) {
-              label = CartButtonWidget._removeItem;
-            } else {
-              label = CartButtonWidget._addToCart;
+          if (widget.isCartList) {
+            label = CartButtonWidget._removeItem;
+          } else {
+            if (widget.product.id == cartViewModel.currentId) {
+              if (cartViewModel.isItemExist) {
+                label = CartButtonWidget._removeItem;
+              } else {
+                label = CartButtonWidget._addToCart;
+              }
             }
           }
-
           return GestureDetector(
             onTap: () {
               cartViewModel.cartAction(widget.product);

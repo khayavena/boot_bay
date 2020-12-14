@@ -1,12 +1,12 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/pages/cart_list_view.dart';
 import 'package:bootbay/src/pages/checkout_page.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/viewmodel/WishlistViewModel.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
+import 'package:bootbay/src/wigets/wish/cart_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -126,7 +126,7 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(
                   children: <Widget>[
-                    CartListView(cartItems: productViewModel.wishItems),
+                    WishListView(wishItems: productViewModel.wishItems),
                     Divider(
                       thickness: 1,
                       height: 70,

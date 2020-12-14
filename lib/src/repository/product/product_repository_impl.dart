@@ -3,7 +3,7 @@ import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/ProductQuery.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/repository/product_repository.dart';
+import 'package:bootbay/src/repository/product/product_repository.dart';
 import 'package:flutter/material.dart';
 
 class ProductRepositoryImpl implements ProductRepository {

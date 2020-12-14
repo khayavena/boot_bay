@@ -14,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  ProductDetailPage({Key key}) : super(key: key);
+  final Product product;
+
+  ProductDetailPage({Key key, this.product}) : super(key: key);
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -23,7 +25,6 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
-  Product _product;
   bool isLiked = true;
 
   @override
@@ -43,7 +44,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    _product = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -84,7 +84,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          _product.image == null
+          widget.product.image == null
               ? TitleText(
                   text: "AIP",
                   fontSize: 160,
@@ -97,7 +97,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       child: Image(
                         width: double.maxFinite,
                         fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(_product.image),
+                        image: CachedNetworkImageProvider(widget.product.image),
                       )),
                 ))
         ],
@@ -148,7 +148,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                _product.name,
+                                widget.product.name,
                                 style: TextStyle(
                                   color: Color(0xff999999),
                                   fontSize: 15,
@@ -159,13 +159,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                             Align(
                               alignment: Alignment.centerRight,
                               child: WishButtonWidget(
-                                product: _product,
+                                product: widget.product,
                               ),
                             )
                           ],
                         ),
                       ),
-                      PriceView(currency: "ZAR", amount: _product.price),
+                      PriceView(currency: "ZAR", amount: widget.product.price),
                       Row(
                         children: <Widget>[
                           Icon(Icons.star, color: LightColor.yellowColor, size: 17),
@@ -205,12 +205,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 SizedBox(
                   height: 5,
                 ),
-                CartQuantityButtonWidget(product: _product),
+                CartQuantityButtonWidget(product: widget.product),
                 SizedBox(
                   height: 20,
                 ),
                 CartButtonWidget(
-                  product: _product,
+                  product: widget.product,
                   isDetail: true,
                 )
               ],
@@ -291,7 +291,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
       text: TextSpan(
         children: [
           TextSpan(
-            text: _product.name,
+            text: widget.product.name,
             style: TextStyle(
               color: Color(0xff333333),
               fontSize: 12,
@@ -300,7 +300,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             ),
           ),
           TextSpan(
-            text: '\n${_product.description}',
+            text: '\n${widget.product.description}',
             style: TextStyle(
               color: Color(0xff999999),
               fontSize: 12,

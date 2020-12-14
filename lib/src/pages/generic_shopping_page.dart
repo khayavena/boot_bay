@@ -1,6 +1,6 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
-import 'package:bootbay/src/pages/landing_page.dart';
+import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/wigets/cart/cart_action_widget.dart';
 import 'package:bootbay/src/wigets/shared/search_action.dart';
 import 'package:flutter/material.dart';
@@ -81,13 +81,13 @@ class _ShoppingState extends State<GenericShoppingPage> {
   Widget _buildViewAction() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          _buildContext,
-          MaterialPageRoute(
-              builder: (context) => LandingPage(
-                    title: isMan ? "Men" : "Women",
-                  )),
-        );
+        // Navigator.push(
+        //   _buildContext,
+        //   MaterialPageRoute(
+        //       builder: (context) => LandingPage(
+        //             title: isMan ? "Men" : "Women",
+        //           )),
+        // );
       },
       child: Container(
         margin: EdgeInsets.only(top: 25, bottom: 25),

@@ -25,7 +25,7 @@ class ViewModel extends ChangeNotifier {
             dataErrorMessage = 'Results Not Found';
             break;
           case 401:
-            dataErrorMessage = 'Unauthorised  to access';
+            dataErrorMessage = 'Unauthorised to access';
             break;
         }
         break;

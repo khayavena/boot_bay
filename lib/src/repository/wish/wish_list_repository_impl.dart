@@ -1,7 +1,7 @@
 import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/repository/wish_list_repository.dart';
+import 'package:bootbay/src/repository/wish/wish_list_repository.dart';
 import 'package:flutter/foundation.dart';
 
 class WishListRepositoryImpl implements WishListRepository {

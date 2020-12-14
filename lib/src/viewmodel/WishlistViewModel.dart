@@ -1,7 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/repository/wish_list_repository.dart';
+import 'package:bootbay/src/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +62,10 @@ class WishListViewModel extends ViewModel {
       notifyListeners();
     }
     return _wishItems;
+  }
+
+  void updateItems() async {
+    getItems();
   }
 
   double finalAmount() {

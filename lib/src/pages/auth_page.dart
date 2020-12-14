@@ -2,7 +2,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/User.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
-import 'package:bootbay/src/wigets/shared/color_loader_5.dart';
+import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +49,7 @@ class _State extends State<AuthPage> {
                             padding: EdgeInsets.all(10),
                             child: Text(
                               'Boot Login',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 30),
+                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 30),
                             )),
                         Container(
                             alignment: Alignment.center,
@@ -131,7 +128,7 @@ class _State extends State<AuthPage> {
                       ],
                     ));
               case Loader.error:
-                return Center(child: Text(value?.dataErrorMessage??'Somthing is wrong'));
+                return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
                 break;
               case Loader.busy:
                 return Center(child: ColorLoader5());
@@ -146,19 +143,18 @@ class _State extends State<AuthPage> {
         ));
   }
 
-  void loginNow() {
+  Future<void> loginNow() async {
     User user = User(
         firstName: emailController.text,
         dateOfBirth: DateTime.now().toString(),
         lastName: emailController.text,
         contactNo: phoneController.text,
         password: passwordController.text);
-    _userViewModel.signUp(user);
+    await _userViewModel.signUp(user);
   }
 
   void signNow() async {
-    AuthRequest user = AuthRequest(
-        emailAdress: emailController.text, password: passwordController.text);
-    _userViewModel.signIn(user);
+    AuthRequest user = AuthRequest(emailAddress: emailController.text, password: passwordController.text);
+    await _userViewModel.signIn(user);
   }
 }

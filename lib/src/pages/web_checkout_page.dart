@@ -6,15 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-// ignore: must_be_immutable
-class WebCheckoutPage extends StatelessWidget {
+class WebCheckoutPage extends StatefulWidget {
   static const String TOKEN_AUTHORIZATION = "token_authorization";
   final String authToken;
   final OnWebPaymentNonceListener onWebPaymentNonceListener;
 
-  WebViewController _controller;
-
   WebCheckoutPage({@required this.onWebPaymentNonceListener, this.authToken});
+
+  @override
+  _WebCheckoutPageState createState() => _WebCheckoutPageState();
+}
+
+class _WebCheckoutPageState extends State<WebCheckoutPage> {
+  WebViewController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +40,16 @@ class WebCheckoutPage extends StatelessWidget {
             onMessageReceived: (JavascriptMessage result) async {
               switch (result.message) {
                 case 'success':
-                  var nonce = await _controller
-                      .evaluateJavascript('onPaymentMethodReceived()');
+                  var nonce = await _controller.evaluateJavascript('onPaymentMethodReceived()');
                   Map json = jsonDecode(nonce);
                   PaymentNonce paymentNonce = PaymentNonce.fromJson(json);
-                  onWebPaymentNonceListener.onWebPaymentNonce(
-                      paymentNonce: paymentNonce.nonce, deviceData: '');
+                  widget.onWebPaymentNonceListener.onWebPaymentNonce(paymentNonce: paymentNonce.nonce, deviceData: '');
                   break;
                 case 'failed':
-                  onWebPaymentNonceListener.onWebNonceState(NonceState.failed);
+                  widget.onWebPaymentNonceListener.onWebNonceState(NonceState.failed);
                   break;
                 case 'canceled':
-                  onWebPaymentNonceListener
-                      .onWebNonceState(NonceState.canceled);
+                  widget.onWebPaymentNonceListener.onWebNonceState(NonceState.canceled);
                   break;
               }
             }),
@@ -63,9 +64,8 @@ class WebCheckoutPage extends StatelessWidget {
 
   Future<String> _loadDropInHtmlFromAssets() async {
     String dropInHtml = await rootBundle.loadString(Res.brainTreeDropIn);
-    dropInHtml = dropInHtml.replaceAll(TOKEN_AUTHORIZATION, authToken);
-    final String contentBase64 =
-        base64Encode(const Utf8Encoder().convert(dropInHtml));
+    dropInHtml = dropInHtml.replaceAll(WebCheckoutPage.TOKEN_AUTHORIZATION, widget.authToken);
+    final String contentBase64 = base64Encode(const Utf8Encoder().convert(dropInHtml));
     return contentBase64;
   }
 }

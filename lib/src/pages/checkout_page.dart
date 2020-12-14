@@ -5,7 +5,7 @@ import 'package:bootbay/src/model/TokenRequest.dart';
 import 'package:bootbay/src/model/TokenResponse.dart';
 import 'package:bootbay/src/pages/web_checkout_page.dart';
 import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
-import 'package:bootbay/src/wigets/shared/color_loader_4.dart';
+import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

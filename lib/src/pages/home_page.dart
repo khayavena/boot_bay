@@ -14,7 +14,7 @@ import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/pages/shoping_wishlist_page.dart';
 import 'package:flutter/material.dart';
 
-import 'generic_shopping_page.dart';
+import 'merchant/merchant_list_page.dart';
 
 class HomeWidget extends StatefulWidget {
   HomeWidget({Key key}) : super(key: key);
@@ -26,7 +26,7 @@ class HomeWidget extends StatefulWidget {
 class _HomeState extends State<HomeWidget> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    GenericShoppingPage(),
+    MerchantListPage(),
     ShoppingWishListPage(),
     Container(
       color: Colors.green,

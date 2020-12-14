@@ -5,7 +5,7 @@ import 'package:bootbay/src/model/PaymentRequest.dart';
 import 'package:bootbay/src/model/PaymentResponse.dart';
 import 'package:bootbay/src/model/TokenRequest.dart';
 import 'package:bootbay/src/model/TokenResponse.dart';
-import 'package:bootbay/src/repository/payment_repository.dart';
+import 'package:bootbay/src/repository/payment/payment_repository.dart';
 import 'package:flutter/material.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {

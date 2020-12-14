@@ -1,14 +1,15 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
+import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CartItemWidget extends StatelessWidget {
+class WishItemWidget extends StatelessWidget {
   final Product model;
 
-  const CartItemWidget({Key key, this.model}) : super(key: key);
+  const WishItemWidget({Key key, this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,7 @@ class CartItemWidget extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
+        WishButtonWidget(product: model),
         CartButtonWidget(
           product: model,
           isCartList: true,

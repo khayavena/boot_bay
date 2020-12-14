@@ -2,7 +2,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/User.dart';
-import 'package:bootbay/src/repository/user_repository.dart';
+import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,6 @@ class UserViewModel extends ViewModel {
       _user = await _userRepository.signIn(authRequest);
       _loader = Loader.complete;
       notifyListeners();
-      return _user;
     } on NetworkException catch (error) {
       _loader = Loader.error;
       dataErrorMessage = error.message;
@@ -86,6 +85,7 @@ class UserViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
+    return _user;
   }
 
   Loader get loader => _loader;

@@ -1,13 +1,13 @@
 class AuthRequest {
-  String emailAdress;
+  String emailAddress;
 
   String password;
 
-  AuthRequest({this.emailAdress, this.password});
+  AuthRequest({this.emailAddress, this.password});
 
   Map<String, dynamic> toJson() {
     return {
-      "emailAdress": this.emailAdress,
+      "emailAddress": this.emailAddress,
       "password": this.password,
     };
   }
