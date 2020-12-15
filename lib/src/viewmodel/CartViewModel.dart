@@ -72,6 +72,10 @@ class CartViewModel extends ViewModel {
     return price;
   }
 
+  String roundAmount() {
+    return finalAmount().toStringAsFixed(2);
+  }
+
   String currency() {
     return 'ZAR';
   }

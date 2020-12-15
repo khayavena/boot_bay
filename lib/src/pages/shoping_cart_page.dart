@@ -46,7 +46,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             fontWeight: FontWeight.w500,
           ),
           TitleText(
-            text: 'ZAR - ${productViewModel.finalAmount()}',
+            text: 'ZAR - ${productViewModel.roundAmount()}',
             fontSize: 18,
           ),
         ],
@@ -78,7 +78,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           height: 50,
           decoration: buttonDecorator,
           child: Text(
-            'PAY ZAR ${productViewModel.finalAmount()}',
+            'PAY ZAR ${productViewModel.roundAmount()}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,

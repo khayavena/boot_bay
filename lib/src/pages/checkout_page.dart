@@ -22,14 +22,10 @@ class CheckoutCartPage extends StatefulWidget {
   _CheckoutCartPageState createState() => _CheckoutCartPageState();
 
   CheckoutCartPage(
-      {@required this.finalAmount,
-      @required this.itemIds,
-      @required this.currency,
-      @required this.merchantId});
+      {@required this.finalAmount, @required this.itemIds, @required this.currency, @required this.merchantId});
 }
 
-class _CheckoutCartPageState extends State<CheckoutCartPage>
-    implements OnWebPaymentNonceListener {
+class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPaymentNonceListener {
   PaymentViewModel _paymentViewModel;
   TokenResponse _tokenResponse;
   NonceState nonceState;
@@ -41,8 +37,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
         context,
         listen: false,
       );
-      _paymentViewModel.getToken(
-          TokenRequest(merchantId: widget.merchantId, customerId: '614999179'));
+      _paymentViewModel.getToken(TokenRequest(merchantId: widget.merchantId, customerId: '614999179'));
     });
     super.initState();
   }
@@ -50,8 +45,8 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: Consumer<PaymentViewModel>(
-          builder: (BuildContext context, paymentViewModel, Widget child) {
+      body:
+          Container(child: Consumer<PaymentViewModel>(builder: (BuildContext context, paymentViewModel, Widget child) {
         switch (paymentViewModel.loader) {
           case Loader.busy:
             return ColorLoader4();
@@ -68,12 +63,8 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Center(
-                      child: paymentStatus(
-                          paymentViewModel.getPaymentResponse.message,
-                          isSuccess: value)),
-                  Container(
-                      width: 100, height: 100, child: Image.asset(Res.success)),
+                  Center(child: paymentStatus(paymentViewModel.getPaymentResponse.message, isSuccess: value)),
+                  Container(width: 100, height: 100, child: Image.asset(Res.success)),
                   SizedBox(
                     height: 50,
                   ),
@@ -81,9 +72,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
                     child: TitleText(
                       text: paymentViewModel.getPaymentResponse.currency +
                           "-" +
-                          paymentViewModel.getPaymentResponse.totalAmount
-                              .toStringAsFixed(2)
-                              .toString(),
+                          paymentViewModel.getPaymentResponse.totalAmount.toStringAsFixed(2).toString(),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -92,8 +81,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
                   ),
                   Center(
                       child: TitleText(
-                    text:
-                        "Payment Id: " + paymentViewModel.getPaymentResponse.id,
+                    text: "Payment Id: " + paymentViewModel.getPaymentResponse.id,
                     color: Colors.grey,
                     fontWeight: FontWeight.w600,
                   ))
@@ -145,19 +133,13 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
     final request = buildRequest(tokenResponse.token);
     BraintreeDropInResult result = await BraintreeDropIn.start(request);
     if (result != null) {
-      initiatePayment(
-          tokenResponse.orderId,
-          result.paymentMethodNonce.nonce,
-          widget.finalAmount,
-          tokenResponse.startTime,
-          widget.merchantId,
-          widget.itemIds,
-          result.deviceData);
+      initiatePayment(tokenResponse.orderId, result.paymentMethodNonce.nonce, widget.finalAmount,
+          tokenResponse.startTime, widget.merchantId, widget.itemIds, result.deviceData);
     }
   }
 
-  void initiatePayment(String orderId, String paymentNonce, double amount,
-      String startTime, String merchantId, String itemIds, String deviceData) {
+  void initiatePayment(String orderId, String paymentNonce, double amount, String startTime, String merchantId,
+      String itemIds, String deviceData) {
     PaymentRequest request = PaymentRequest(
         chargeAmount: amount,
         orderId: orderId,
@@ -174,7 +156,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
       clientToken: token,
       collectDeviceData: true,
       googlePaymentRequest: BraintreeGooglePaymentRequest(
-        totalPrice: widget.finalAmount.toString(),
+        totalPrice: widget.finalAmount.toStringAsFixed(2),
         currencyCode: widget.currency,
         billingAddressRequired: false,
       ),
@@ -187,14 +169,8 @@ class _CheckoutCartPageState extends State<CheckoutCartPage>
 
   @override
   void onWebPaymentNonce({String paymentNonce, String deviceData}) {
-    initiatePayment(
-        _tokenResponse.orderId,
-        paymentNonce,
-        widget.finalAmount,
-        _tokenResponse.startTime,
-        widget.merchantId,
-        widget.itemIds,
-        deviceData);
+    initiatePayment(_tokenResponse.orderId, paymentNonce, widget.finalAmount, _tokenResponse.startTime,
+        widget.merchantId, widget.itemIds, deviceData);
   }
 
   @override

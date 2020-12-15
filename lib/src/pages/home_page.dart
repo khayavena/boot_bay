@@ -44,11 +44,12 @@ class _HomeState extends State<HomeWidget> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
         onTap: onTabTapped,
         // new
-        selectedItemColor: primaryBlackColor,
+        selectedItemColor: secondaryBlack,
+        unselectedItemColor: primaryBlackColor,
         currentIndex: _currentIndex,
         // be set when a new tab is tapped
         items: [
