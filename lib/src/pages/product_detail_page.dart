@@ -60,7 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  _productImage(),
+                  Expanded(child: _productImage()),
                 ],
               ),
               _detailWidget()

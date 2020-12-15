@@ -40,7 +40,7 @@ import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
 import 'package:bootbay/src/viewmodel/ProductViewModel.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
-import 'package:bootbay/src/viewmodel/WishlistViewModel.dart';
+import 'package:bootbay/src/viewmodel/WishListViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

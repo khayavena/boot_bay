@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ViewModel extends ChangeNotifier {
-
   String dataErrorMessage;
 
   void handleDioError(DioError error) {
@@ -14,7 +13,7 @@ class ViewModel extends ChangeNotifier {
         dataErrorMessage = 'Could not send request';
         break;
       case DioErrorType.RECEIVE_TIMEOUT:
-        dataErrorMessage = 'Could not recieve data';
+        dataErrorMessage = 'Could not receive data';
         break;
       case DioErrorType.RESPONSE:
         switch (error.response.statusCode) {
@@ -33,7 +32,7 @@ class ViewModel extends ChangeNotifier {
         dataErrorMessage = 'Canceled Request';
         break;
       case DioErrorType.DEFAULT:
-        dataErrorMessage = 'Somethong went wrong';
+        dataErrorMessage = 'Something went wrong';
         break;
     }
     notifyListeners();

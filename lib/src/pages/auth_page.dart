@@ -34,7 +34,7 @@ class _State extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Onboarding'),
+          title: Text('OnBoarding'),
         ),
         body: Consumer<UserViewModel>(
           builder: (BuildContext context, UserViewModel value, Widget child) {
@@ -76,17 +76,6 @@ class _State extends State<AuthPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Password',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: TextField(
-                            obscureText: false,
-                            controller: phoneController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Phone No',
                             ),
                           ),
                         ),

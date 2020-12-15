@@ -11,7 +11,8 @@
 
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/pages/shoping_wishlist_page.dart';
+import 'package:bootbay/src/pages/auth_page.dart';
+import 'package:bootbay/src/pages/shoping_wish_list_page.dart';
 import 'package:flutter/material.dart';
 
 import 'merchant/merchant_list_page.dart';
@@ -25,13 +26,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeState extends State<HomeWidget> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    MerchantListPage(),
-    ShoppingWishListPage(),
-    Container(
-      color: Colors.green,
-    )
-  ];
+  final List<Widget> _children = [MerchantListPage(), ShoppingWishListPage(), AuthPage()];
 
   void onTabTapped(int index) {
     setState(() {

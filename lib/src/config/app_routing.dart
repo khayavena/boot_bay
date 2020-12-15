@@ -1,30 +1,21 @@
 import 'package:bootbay/src/model/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/pages/auth_page.dart';
 import 'package:bootbay/src/pages/home_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
 import 'package:bootbay/src/pages/product_detail_page.dart';
 import 'package:bootbay/src/pages/shoping_cart_page.dart';
-import 'package:bootbay/src/pages/shoping_wishlist_page.dart';
+import 'package:bootbay/src/pages/shoping_wish_list_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
+  static String authPage = '/autPage';
   static String productDetail = '/detail';
   static String cartList = '/cart';
   static String wishList = '/wish';
   static String merchants = '/merchantsList';
   static String merchantLanding = '/merchantsLanding';
-
-  static Map<String, WidgetBuilder> getRoute() {
-    return <String, WidgetBuilder>{
-      '/': (_) => HomeWidget(),
-      productDetail: (_) => ProductDetailPage(),
-      cartList: (_) => ShoppingCartPage(),
-      wishList: (_) => ShoppingWishListPage(),
-      merchants: (_) => MerchantListPage(),
-      merchantLanding: (_) => MerchantLandingPage()
-    };
-  }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -32,15 +23,18 @@ class AppRouting {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => HomeWidget());
+      case '/autPage':
+        return MaterialPageRoute(settings: RouteSettings(name: authPage), builder: (_) => AuthPage());
       case '/cart':
-        return MaterialPageRoute(builder: (_) => ShoppingCartPage());
+        return MaterialPageRoute(settings: RouteSettings(name: cartList), builder: (_) => ShoppingCartPage());
       case '/wish':
-        return MaterialPageRoute(builder: (_) => ShoppingWishListPage());
+        return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
       case '/merchantsList':
-        return MaterialPageRoute(builder: (_) => MerchantListPage());
+        return MaterialPageRoute(settings: RouteSettings(name: merchants), builder: (_) => MerchantListPage());
       case '/detail':
         if (args is Product) {
           return MaterialPageRoute(
+              settings: RouteSettings(name: productDetail),
               builder: (_) => ProductDetailPage(
                     product: args,
                   ));
@@ -50,6 +44,7 @@ class AppRouting {
         // Validation of correct data type
         if (args is Merchant) {
           return MaterialPageRoute(
+            settings: RouteSettings(name: merchantLanding),
             builder: (_) => MerchantLandingPage(
               merchant: args,
             ),
