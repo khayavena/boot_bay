@@ -18,4 +18,14 @@ class MerchantRepositoryImpl implements MerchantRepository {
   Future<Merchant> register(Merchant merchantRequest) {
     return _remoteMerchantDataSource.register(merchantRequest);
   }
+
+  @override
+  Future<Merchant> update(Merchant merchantRequest) {
+    return _remoteMerchantDataSource.update(merchantRequest);
+  }
+
+  @override
+  Future<List<Merchant>> getAllByUserId(String userId) {
+    return _remoteMerchantDataSource.getAllByUserId( userId);
+  }
 }

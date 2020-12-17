@@ -121,11 +121,11 @@ class _State extends State<AuthPage> {
         FlatButton(
           textColor: Colors.blue,
           child: Text(
-            'Shopping',
+            'Manage Merchants',
             style: TextStyle(fontSize: 20),
           ),
           onPressed: () {
-            //signup screen
+            Navigator.of(context).pushNamed(AppRouting.merchantsManagementList, arguments: value.getUser.id);
           },
         ),
         FlatButton(

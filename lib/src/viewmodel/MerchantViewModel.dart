@@ -38,6 +38,27 @@ class MerchantViewModel extends ViewModel {
     return _merchants;
   }
 
+  Future<List<Merchant>> getAllMerchantsByUserId(String userId) async {
+    _loader = Loader.busy;
+    notifyListeners();
+    try {
+      _merchants = await _merchantRepository.getAll();
+      _loader = Loader.complete;
+      notifyListeners();
+      return _merchants;
+    } on NetworkException catch (error) {
+      dataErrorMessage = error.message;
+      _loader = Loader.error;
+      notifyListeners();
+    } on DioError catch (error) {
+      _loader = Loader.error;
+      handleDioError(error);
+    } catch (error) {
+      _loader = Loader.error;
+      notifyListeners();
+    }
+    return _merchants;
+  }
   List<Merchant> get getMerchants {
     return _merchants;
   }

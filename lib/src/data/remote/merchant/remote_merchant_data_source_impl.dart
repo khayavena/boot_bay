@@ -11,7 +11,6 @@ class RemoteMerchantDataSourceImpl implements RemoteMerchantDataSource {
   @override
   Future<List<Merchant>> getAll() async {
     Response response = await _dioClient.get('/api/merchant/all');
-
     return List<Merchant>.from(response.data.map((json) => Merchant.fromJson(json)));
   }
 
@@ -19,5 +18,17 @@ class RemoteMerchantDataSourceImpl implements RemoteMerchantDataSource {
   Future<Merchant> register(Merchant merchantRequest) async {
     Response response = await _dioClient.post('/api/merchant/register', data: merchantRequest.toJson());
     return MerchantResponse.fromJson(response.data).merchant;
+  }
+
+  @override
+  Future<Merchant> update(Merchant merchantRequest) async {
+    Response response = await _dioClient.post('/api/merchant/update', data: merchantRequest.toJson());
+    return MerchantResponse.fromJson(response.data).merchant;
+  }
+
+  @override
+  Future<List<Merchant>> getAllByUserId(String userId) async {
+    Response response = await _dioClient.get('/api/merchant/all/$userId');
+    return List<Merchant>.from(response.data.map((json) => Merchant.fromJson(json)));
   }
 }

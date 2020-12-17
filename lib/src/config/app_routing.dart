@@ -5,6 +5,8 @@ import 'package:bootbay/src/pages/home_page.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
+import 'package:bootbay/src/pages/merchant/merchant_management_list_page.dart';
+import 'package:bootbay/src/pages/merchant/merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_registration_page.dart';
 import 'package:bootbay/src/pages/product_detail_page.dart';
 import 'package:bootbay/src/pages/shoping_cart_page.dart';
@@ -19,6 +21,8 @@ class AppRouting {
   static String merchants = '/merchantsList';
   static String merchantLanding = '/merchantsLanding';
   static String merchantsRegistration = '/merchantsRegistration';
+  static String merchantsManagement = '/merchantManagement';
+  static String merchantsManagementList = '/merchantManagementList';
   static String mediaContent = "/MediaContent";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -44,6 +48,12 @@ class AppRouting {
         return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
       case '/merchantsList':
         return MaterialPageRoute(settings: RouteSettings(name: merchants), builder: (_) => MerchantListPage());
+      case '/merchantManagementList':
+        return MaterialPageRoute(
+            settings: RouteSettings(name: merchantsManagementList),
+            builder: (_) => MerchantManagementListPage(
+                  userId: args,
+                ));
       case '/MediaContent':
         return MaterialPageRoute(
             settings: RouteSettings(name: mediaContent), builder: (_) => MediaContentWidget(id: args));
@@ -62,6 +72,19 @@ class AppRouting {
           return MaterialPageRoute(
             settings: RouteSettings(name: merchantLanding),
             builder: (_) => MerchantLandingPage(
+              merchant: args,
+            ),
+          );
+        }
+
+        return _errorRoute();
+
+      case '/merchantManagement':
+        // Validation of correct data type
+        if (args is Merchant) {
+          return MaterialPageRoute(
+            settings: RouteSettings(name: merchantsManagement),
+            builder: (_) => MerchantManagementPage(
               merchant: args,
             ),
           );
