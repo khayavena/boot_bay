@@ -1,9 +1,10 @@
-import 'package:bootbay/src/model/merchant.dart';
+import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/auth_page.dart';
 import 'package:bootbay/src/pages/home_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
+import 'package:bootbay/src/pages/merchant/merchant_registration_page.dart';
 import 'package:bootbay/src/pages/product_detail_page.dart';
 import 'package:bootbay/src/pages/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shoping_wish_list_page.dart';
@@ -16,6 +17,7 @@ class AppRouting {
   static String wishList = '/wish';
   static String merchants = '/merchantsList';
   static String merchantLanding = '/merchantsLanding';
+  static String merchantsRegistration = '/merchantsRegistration';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -25,6 +27,15 @@ class AppRouting {
         return MaterialPageRoute(builder: (_) => HomeWidget());
       case '/autPage':
         return MaterialPageRoute(settings: RouteSettings(name: authPage), builder: (_) => AuthPage());
+      case '/merchantsRegistration':
+        if (args is String) {
+          return MaterialPageRoute(
+              settings: RouteSettings(name: merchantsRegistration),
+              builder: (_) => MerchantRegistrationPage(
+                    userId: args,
+                  ));
+        }
+        return _errorRoute(error: 'Ensure user is logged to load MerchantRegistrationPage');
       case '/cart':
         return MaterialPageRoute(settings: RouteSettings(name: cartList), builder: (_) => ShoppingCartPage());
       case '/wish':

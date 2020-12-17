@@ -60,6 +60,7 @@ class UserViewModel extends ViewModel {
       notifyListeners();
     } on DioError catch (error) {
       _loader = Loader.error;
+      print(error);
       handleDioError(error);
     } catch (error) {
       _loader = Loader.error;
@@ -74,6 +75,7 @@ class UserViewModel extends ViewModel {
       _user = await _userRepository.signIn(authRequest);
       _loader = Loader.complete;
       notifyListeners();
+      return _user;
     } on NetworkException catch (error) {
       _loader = Loader.error;
       dataErrorMessage = error.message;

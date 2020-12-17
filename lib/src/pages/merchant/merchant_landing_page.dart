@@ -1,7 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/ProductQuery.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/model/merchant.dart';
+import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/viewmodel/ProductViewModel.dart';

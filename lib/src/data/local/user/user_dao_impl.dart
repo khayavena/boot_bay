@@ -23,20 +23,14 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<User> findById(String id) async {
-    final recordSnapshot = await _userStore.findFirst(_database,
-        finder: Finder(filter: Filter.byKey(id)));
+    final recordSnapshot = await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('id', id)));
     return User.fromJson(recordSnapshot.value);
   }
 
   @override
   Future<void> insert(User user) async {
-    var tempUser = findById(user.id);
-    if (tempUser != null) {
-      update(user);
-    } else {
-      int b = await _userStore.add(_database, user.toJson());
-      print('User status $b');
-    }
+    int b = await _userStore.add(_database, user.toJson());
+    print('User status $b');
   }
 
   @override

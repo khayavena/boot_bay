@@ -7,8 +7,8 @@ class AuthRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      "emailAddress": this.emailAddress,
-      "password": this.password,
+      "emailAdress": this.emailAddress.trim(),
+      "password": this.password.trim(),
     };
   }
 }

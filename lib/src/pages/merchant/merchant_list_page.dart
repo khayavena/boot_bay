@@ -39,6 +39,7 @@ class _MerchantListPageState extends State<MerchantListPage> {
   Widget _buildProducts(MerchantViewModel merchantViewModel) {
     switch (merchantViewModel.loader) {
       case Loader.complete:
+        merchantViewModel.resetLoader();
         return GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
@@ -50,11 +51,13 @@ class _MerchantListPageState extends State<MerchantListPage> {
                     ))
                 .toList());
       case Loader.busy:
+        merchantViewModel.resetLoader();
         return Container(
           height: 200,
           child: Center(child: ColorLoader5()),
         );
       case Loader.error:
+        merchantViewModel.resetLoader();
         return Center(
           child: Text("We currently experiencing problems, please try Again later"),
         );

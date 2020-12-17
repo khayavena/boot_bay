@@ -6,24 +6,34 @@ import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class MerchantViewModel extends ViewModel {
+class MerchantRegistrationViewModel extends ViewModel {
   MerchantRepository _merchantRepository;
   Loader _loader = Loader.idl;
-  List<Merchant> _merchants = [];
+  Merchant _merchant = Merchant();
   String dataErrorMessage;
 
-  MerchantViewModel({
+  MerchantRegistrationViewModel({
     @required MerchantRepository merchantRepository,
   }) : _merchantRepository = merchantRepository;
 
-  Future<List<Merchant>> getAllMerchants() async {
+  Merchant get getMerchant {
+    return _merchant;
+  }
+
+  Loader get loader => _loader;
+
+  void resetLoader() {
+    _loader = Loader.idl;
+  }
+
+  Future<Merchant> register(Merchant merchantRequest) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _merchants = await _merchantRepository.getAll();
+      _merchant = await _merchantRepository.register(merchantRequest);
       _loader = Loader.complete;
       notifyListeners();
-      return _merchants;
+      return _merchant;
     } on NetworkException catch (error) {
       dataErrorMessage = error.message;
       _loader = Loader.error;
@@ -35,18 +45,6 @@ class MerchantViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
-    return _merchants;
+    return _merchant;
   }
-
-  List<Merchant> get getMerchants {
-    return _merchants;
-  }
-
-  Loader get loader => _loader;
-
-  void resetLoader() {
-    _loader = Loader.idl;
-  }
-
-
 }

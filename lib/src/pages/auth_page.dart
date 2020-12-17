@@ -1,3 +1,4 @@
+import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/User.dart';
@@ -15,7 +16,6 @@ class AuthPage extends StatefulWidget {
 class _State extends State<AuthPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
 
   UserViewModel _userViewModel;
 
@@ -97,23 +97,6 @@ class _State extends State<AuthPage> {
                                 signNow();
                               },
                             )),
-                        Container(
-                            child: Row(
-                          children: <Widget>[
-                            Text('Does not have account?'),
-                            FlatButton(
-                              textColor: Colors.blue,
-                              child: Text(
-                                'Sign in',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () {
-                                //signup screen
-                              },
-                            )
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ))
                       ],
                     ));
               case Loader.error:
@@ -124,8 +107,7 @@ class _State extends State<AuthPage> {
                 break;
               case Loader.complete:
                 _userViewModel?.resetLoader();
-                Navigator.pop(context);
-                break;
+                return _buildOptions(value);
             }
             return Container();
           },
@@ -137,7 +119,6 @@ class _State extends State<AuthPage> {
         firstName: emailController.text,
         dateOfBirth: DateTime.now().toString(),
         lastName: emailController.text,
-        contactNo: phoneController.text,
         password: passwordController.text);
     await _userViewModel.signUp(user);
   }
@@ -145,5 +126,34 @@ class _State extends State<AuthPage> {
   void signNow() async {
     AuthRequest user = AuthRequest(emailAddress: emailController.text, password: passwordController.text);
     await _userViewModel.signIn(user);
+  }
+
+  Widget _buildOptions(UserViewModel value) {
+    return Container(
+        child: Row(
+      children: <Widget>[
+        FlatButton(
+          textColor: Colors.blue,
+          child: Text(
+            'Shopping',
+            style: TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            //signup screen
+          },
+        ),
+        FlatButton(
+          textColor: Colors.blue,
+          child: Text(
+            'Add Merchant',
+            style: TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+          },
+        )
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+    ));
   }
 }

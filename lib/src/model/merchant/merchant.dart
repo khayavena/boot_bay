@@ -10,8 +10,8 @@ class Merchant {
     _logoUrl = value;
   }
 
-  DateTime _createDate;
-  DateTime _lastUpdate;
+  String _createDate;
+  String _lastUpdate;
   String _email;
   String _phone;
   String _taxNo;
@@ -29,11 +29,9 @@ class Merchant {
 
   String get logoUrl => _logoUrl;
 
+  String get createDate => _createDate;
 
-
-  DateTime get createDate => _createDate;
-
-  DateTime get lastUpdate => _lastUpdate;
+  String get lastUpdate => _lastUpdate;
 
   String get email => _email;
 
@@ -50,8 +48,8 @@ class Merchant {
       String location,
       double rating,
       String logoUrl,
-      DateTime createDate,
-      DateTime lastUpdate,
+      String createDate,
+      String lastUpdate,
       String email,
       String phone,
       String taxNo,
@@ -93,8 +91,8 @@ class Merchant {
     map["location"] = _location;
     map["rating"] = _rating;
     map["logoUrl"] = _logoUrl;
-    map["createDate"] = _createDate;
-    map["lastUpdate"] = _lastUpdate;
+    // map["createDate"] = _createDate;
+    // map["lastUpdate"] = _lastUpdate;
     map["email"] = _email;
     map["phone"] = _phone;
     map["taxNo"] = _taxNo;

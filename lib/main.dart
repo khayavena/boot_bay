@@ -35,6 +35,7 @@ import 'package:bootbay/src/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/repository/wish/wish_list_repository_impl.dart';
 import 'package:bootbay/src/viewmodel/CartViewModel.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
+import 'package:bootbay/src/viewmodel/MerchantRegistrationViewModel.dart';
 import 'package:bootbay/src/viewmodel/MerchantViewModel.dart';
 import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
 import 'package:bootbay/src/viewmodel/ProductViewModel.dart';
@@ -107,6 +108,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: cartRepository)),
         ChangeNotifierProvider(create: (context) => WishListViewModel(wishListRepository: wishListRepository)),
         ChangeNotifierProvider(create: (context) => MerchantViewModel(merchantRepository: merchantRepository)),
+        ChangeNotifierProvider(
+            create: (context) => MerchantRegistrationViewModel(merchantRepository: merchantRepository)),
         ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: userRepository)),
         ChangeNotifierProvider(
             create: (context) =>
