@@ -27,7 +27,7 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppBar.build("Boot bay", context), body: Container(child: _productWidget()));
+    return Scaffold(appBar: CustomAppBar.build("Manage Merchants", context), body: Container(child: _productWidget()));
   }
 
   Widget _productWidget() {
@@ -44,7 +44,7 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
         merchantViewModel.resetLoader();
         return GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                crossAxisCount: 2, childAspectRatio: .9 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
             padding: EdgeInsets.only(left: 8, right: 8),
             scrollDirection: Axis.vertical,
             children: merchantViewModel.getMerchants
