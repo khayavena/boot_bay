@@ -2,6 +2,7 @@ import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/auth_page.dart';
 import 'package:bootbay/src/pages/home_page.dart';
+import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_registration_page.dart';
@@ -18,6 +19,7 @@ class AppRouting {
   static String merchants = '/merchantsList';
   static String merchantLanding = '/merchantsLanding';
   static String merchantsRegistration = '/merchantsRegistration';
+  static String mediaContent = "/MediaContent";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -28,7 +30,7 @@ class AppRouting {
       case '/autPage':
         return MaterialPageRoute(settings: RouteSettings(name: authPage), builder: (_) => AuthPage());
       case '/merchantsRegistration':
-        if (args is String) {
+        if (args != null) {
           return MaterialPageRoute(
               settings: RouteSettings(name: merchantsRegistration),
               builder: (_) => MerchantRegistrationPage(
@@ -42,6 +44,9 @@ class AppRouting {
         return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
       case '/merchantsList':
         return MaterialPageRoute(settings: RouteSettings(name: merchants), builder: (_) => MerchantListPage());
+      case '/MediaContent':
+        return MaterialPageRoute(
+            settings: RouteSettings(name: mediaContent), builder: (_) => MediaContentWidget(id: args));
       case '/detail':
         if (args is Product) {
           return MaterialPageRoute(
@@ -61,11 +66,9 @@ class AppRouting {
             ),
           );
         }
-        // If args is not of the correct type, return an error page.
-        // You can also throw an exception while in development.
+
         return _errorRoute();
       default:
-        // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
   }

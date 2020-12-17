@@ -1,3 +1,4 @@
+import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/MerchantRegistrationViewModel.dart';
@@ -77,7 +78,26 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                 break;
               case Loader.complete:
                 _merchantViewModel?.resetLoader();
-                return Center(child: Text("Registered"));
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AppRouting.mediaContent, arguments: value.getMerchant.id);
+                  },
+                  child: Container(
+                    height: 43,
+                    decoration: BoxDecoration(
+                      color: Color(0xff2783a9),
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x7f103747),
+                          offset: Offset(2, 2),
+                          blurRadius: 8,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
                 break;
             }
             return Container();

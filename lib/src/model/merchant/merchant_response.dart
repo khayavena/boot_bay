@@ -1,8 +1,5 @@
 import 'package:bootbay/src/model/merchant/merchant.dart';
 
-/// configId : null
-/// message : "Sucess"
-
 class MerchantResponse {
   Merchant _merchant;
   String _configId;
@@ -23,7 +20,7 @@ class MerchantResponse {
   MerchantResponse.fromJson(dynamic json) {
     _configId = json["configId"] ?? '';
     _message = json["message"];
-    _merchant = json["merchant"];
+    _merchant = Merchant.fromJson(json["merchant"]);
   }
 
   Map<String, dynamic> toJson() {
