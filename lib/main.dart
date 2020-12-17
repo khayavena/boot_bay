@@ -13,6 +13,7 @@ import 'package:bootbay/src/data/local/user/user_dao_impl.dart';
 import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
 import 'package:bootbay/src/data/remote/auth/remote_user_service_Impl.dart';
 import 'package:bootbay/src/data/remote/dio/dio_api_client.dart';
+import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource_impl.dart';
 import 'package:bootbay/src/data/remote/merchant/remote_merchant_data_source_impl.dart';
 import 'package:bootbay/src/data/remote/payment/remote_payment_service_Impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dart';
@@ -23,6 +24,8 @@ import 'package:bootbay/src/repository/cart/cart_repository.dart';
 import 'package:bootbay/src/repository/cart/cart_repository_impl.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
 import 'package:bootbay/src/repository/category/category_repository_impl.dart';
+import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
+import 'package:bootbay/src/repository/mediacontent/media_content_repository_impl.dart';
 import 'package:bootbay/src/repository/merchant/merchant_repository.dart';
 import 'package:bootbay/src/repository/merchant/merchant_repository_impl.dart';
 import 'package:bootbay/src/repository/payment/payment_repository.dart';
@@ -35,6 +38,7 @@ import 'package:bootbay/src/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/repository/wish/wish_list_repository_impl.dart';
 import 'package:bootbay/src/viewmodel/CartViewModel.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
+import 'package:bootbay/src/viewmodel/MediaContentViewModel.dart';
 import 'package:bootbay/src/viewmodel/MerchantRegistrationViewModel.dart';
 import 'package:bootbay/src/viewmodel/MerchantViewModel.dart';
 import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
@@ -85,6 +89,10 @@ void main() async {
 
   final MerchantRepository merchantRepository =
       MerchantRepositoryImpl(remoteMerchantDataSource: RemoteMerchantDataSourceImpl(dioClient: dio));
+
+  final MediaContentRepository mediaContentRepository =
+      MediaContentRepositoryImpl(mediaContentDataSource: RemoteMediaContentDataSourceImpl(dio: dio));
+
   final ProductRepository productRepository = ProductRepositoryImpl(
     remoteProductService: RemoteProductServiceImpl(
       dio: dio,
@@ -109,6 +117,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => WishListViewModel(wishListRepository: wishListRepository)),
         ChangeNotifierProvider(create: (context) => MerchantViewModel(merchantRepository: merchantRepository)),
         ChangeNotifierProvider(
+            create: (context) => MediaContentViewModel(mediaContentRepository: mediaContentRepository)),
+        ChangeNotifierProvider(
             create: (context) => MerchantRegistrationViewModel(merchantRepository: merchantRepository)),
         ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: userRepository)),
         ChangeNotifierProvider(
@@ -122,6 +132,7 @@ void main() async {
         Provider<WishListRepository>(create: (context) => wishListRepository),
         Provider<CategoryRepository>(create: (context) => categoryRepository),
         Provider<UserRepository>(create: (context) => userRepository),
+        Provider<MediaContentRepository>(create: (context) => mediaContentRepository),
         Provider<NetworkHelper>(create: (context) => networkHelper),
       ],
       child: App(),

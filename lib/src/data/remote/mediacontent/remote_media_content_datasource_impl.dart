@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:bootbay/src/data/remote/mediacontent/media_content_datasource.dart';
+import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource.dart';
 import 'package:bootbay/src/model/mediacontent/media_content_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class MediaContentDataSourceImpl implements MediaContentDataSource {
+class RemoteMediaContentDataSourceImpl implements RemoteMediaContentDataSource {
   Dio _dio;
   static String _contentType = 'application/x-www-form-urlencoded';
 
-  MediaContentDataSourceImpl({@required Dio dio}) {
+  RemoteMediaContentDataSourceImpl({@required Dio dio}) {
     _dio = dio;
     _dio.options.headers.update(HttpHeaders.contentTypeHeader, (value) => _contentType);
   }
