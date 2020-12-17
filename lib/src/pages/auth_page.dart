@@ -1,5 +1,6 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/User.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
@@ -26,6 +27,7 @@ class _State extends State<AuthPage> {
         context,
         listen: false,
       );
+      _userViewModel.isLoggedIn();
     });
     super.initState();
   }
@@ -115,31 +117,43 @@ class _State extends State<AuthPage> {
   }
 
   Widget _buildOptions(UserViewModel value) {
+    return GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 1 / .6, mainAxisSpacing: 8, crossAxisSpacing: 8),
+        padding: EdgeInsets.only(left: 8, right: 8, top: 16),
+        scrollDirection: Axis.vertical,
+        children: [
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(AppRouting.merchantsManagementList, arguments: value.getUser.id);
+              },
+              child: getItem("Manage")),
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+              },
+              child: getItem("New Merchant")),
+          GestureDetector(
+              onTap: () {
+                // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+              },
+              child: getItem("Invest"))
+        ]);
+  }
+
+  Widget getItem(String s) {
     return Container(
-        child: Row(
-      children: <Widget>[
-        FlatButton(
-          textColor: Colors.blue,
-          child: Text(
-            'Manage Merchants',
-            style: TextStyle(fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.of(context).pushNamed(AppRouting.merchantsManagementList, arguments: value.getUser.id);
-          },
-        ),
-        FlatButton(
-          textColor: Colors.blue,
-          child: Text(
-            'Add Merchant',
-            style: TextStyle(fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
-          },
-        )
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,
-    ));
+      child: Center(
+        child: Text(s,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            )),
+      ),
+      height: 60,
+      decoration: smallButtonDecorator,
+    );
   }
 }

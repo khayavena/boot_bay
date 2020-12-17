@@ -10,10 +10,10 @@ class ViewModel extends ChangeNotifier {
         dataErrorMessage = 'Connection timeout try again';
         break;
       case DioErrorType.SEND_TIMEOUT:
-        dataErrorMessage = 'Could not send request';
+        dataErrorMessage = 'Timeout could not send request';
         break;
       case DioErrorType.RECEIVE_TIMEOUT:
-        dataErrorMessage = 'Could not receive data';
+        dataErrorMessage = 'Timeout could not receive data';
         break;
       case DioErrorType.RESPONSE:
         switch (error.response.statusCode) {

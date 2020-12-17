@@ -53,4 +53,9 @@ class UserDaoImpl implements UserDao {
     // TODO: implement updateAll
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> deleteAllUser(String id) async {
+    int delete = await _userStore.delete(_database, finder: Finder(filter: Filter.equals('id', id)));
+  }
 }

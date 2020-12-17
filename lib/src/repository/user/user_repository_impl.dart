@@ -12,9 +12,7 @@ class UserRepositoryImpl implements UserRepository {
   NetworkHelper _networkHelper;
 
   UserRepositoryImpl(
-      {@required RemoteUserService userService,
-      @required NetworkHelper networkHelper,
-      @required UserDao userDao})
+      {@required RemoteUserService userService, @required NetworkHelper networkHelper, @required UserDao userDao})
       : _authService = userService,
         _networkHelper = networkHelper,
         _userDao = userDao;
@@ -31,7 +29,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<List<User>> getAll() {
-    return _authService.getAll();
+    return _userDao.findAll();
   }
 
   @override
@@ -39,5 +37,20 @@ class UserRepositoryImpl implements UserRepository {
     var user = await _authService.signIn(authRequest);
     _userDao.insert(user);
     return user;
+  }
+
+  @override
+  Future<bool> isLoggedIn() async {
+    List<User> list = await _userDao.findAll();
+    if (list != null && list.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  Future<bool> logOut(String id) async {
+    _userDao.deleteAllUser(id);
+    return await isLoggedIn() == false;
   }
 }

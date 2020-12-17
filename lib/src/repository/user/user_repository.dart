@@ -9,4 +9,8 @@ abstract class UserRepository {
   Future<User> update(User user);
 
   Future<List<User>> getAll();
+
+  Future<bool> isLoggedIn();
+
+  Future<bool> logOut(String id);
 }

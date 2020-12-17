@@ -14,7 +14,7 @@ class UserViewModel extends ViewModel {
   User _user = User();
 
   String dataErrorMessage;
-
+  bool _loggedIn = false;
   Loader _loader = Loader.idl;
 
   UserViewModel({
@@ -99,4 +99,24 @@ class UserViewModel extends ViewModel {
   void resetLoader() {
     _loader = Loader.idl;
   }
+
+  Future<bool> isLoggedIn() async {
+    _loggedIn = await _userRepository.isLoggedIn();
+    if (_loggedIn) {
+      var list = await _userRepository.getAll();
+      _user = list[0];
+      _loader = Loader.complete;
+    }
+
+    notifyListeners();
+    return _loggedIn;
+  }
+
+  Future<bool> isLogOut(String id) async {
+    _loggedIn = await _userRepository.logOut(id);
+    notifyListeners();
+    return _loggedIn;
+  }
+
+  bool get isLogged => _loggedIn;
 }
