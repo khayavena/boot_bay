@@ -45,20 +45,6 @@ class _State extends State<AuthPage> {
                     child: ListView(
                       children: <Widget>[
                         Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Boot Login',
-                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 30),
-                            )),
-                        Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(fontSize: 20),
-                            )),
-                        Container(
                           padding: EdgeInsets.all(10),
                           child: TextField(
                             controller: emailController,
