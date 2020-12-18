@@ -1,16 +1,16 @@
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/auth_page.dart';
-import 'package:bootbay/src/pages/home_page.dart';
+import 'package:bootbay/src/pages/user/auth_page.dart';
+import 'package:bootbay/src/pages/shopping/home_page.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_management_list_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_registration_page.dart';
-import 'package:bootbay/src/pages/product_detail_page.dart';
-import 'package:bootbay/src/pages/shoping_cart_page.dart';
-import 'package:bootbay/src/pages/shoping_wish_list_page.dart';
+import 'package:bootbay/src/pages/shopping/product_detail_page.dart';
+import 'package:bootbay/src/pages/shopping/shoping_cart_page.dart';
+import 'package:bootbay/src/pages/shopping/shoping_wish_list_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {

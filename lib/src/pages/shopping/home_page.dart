@@ -11,11 +11,11 @@
 
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/pages/auth_page.dart';
-import 'package:bootbay/src/pages/shoping_wish_list_page.dart';
+import 'package:bootbay/src/pages/user/auth_page.dart';
+import 'package:bootbay/src/pages/shopping/shoping_wish_list_page.dart';
 import 'package:flutter/material.dart';
 
-import 'merchant/merchant_list_page.dart';
+import '../merchant/merchant_list_page.dart';
 
 class HomeWidget extends StatefulWidget {
   HomeWidget({Key key}) : super(key: key);

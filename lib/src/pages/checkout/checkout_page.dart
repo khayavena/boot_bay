@@ -3,7 +3,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/PaymentRequest.dart';
 import 'package:bootbay/src/model/TokenRequest.dart';
 import 'package:bootbay/src/model/TokenResponse.dart';
-import 'package:bootbay/src/pages/web_checkout_page.dart';
+import 'package:bootbay/src/pages/checkout/web_checkout_page.dart';
 import 'package:bootbay/src/viewmodel/PaymentViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
@@ -106,7 +106,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPay
     );
   }
 
-  paymentStatus(String status, {bool isSuccess}) {
+  Widget paymentStatus(String status, {bool isSuccess}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

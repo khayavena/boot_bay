@@ -1,11 +1,10 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
-import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/wigets/cart/cart_action_widget.dart';
 import 'package:bootbay/src/wigets/shared/search_action.dart';
 import 'package:flutter/material.dart';
 
-import '../../res.dart';
+import '../../../res.dart';
 
 class GenericShoppingPage extends StatefulWidget {
   @override
@@ -14,11 +13,9 @@ class GenericShoppingPage extends StatefulWidget {
 
 class _ShoppingState extends State<GenericShoppingPage> {
   bool isMan = true;
-  BuildContext _buildContext;
 
   @override
   Widget build(BuildContext context) {
-    _buildContext = context;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -26,13 +23,12 @@ class _ShoppingState extends State<GenericShoppingPage> {
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: AssetImage(
-                    isMan ? Res.men_landing_ic : Res.women_landing_ic),
+                image: AssetImage(isMan ? Res.men_landing_ic : Res.women_landing_ic),
                 fit: BoxFit.cover,
               ))),
           Align(
             alignment: Alignment.bottomCenter,
-            child: _buildColumn(),
+            child: _buildColumn(context),
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -47,12 +43,12 @@ class _ShoppingState extends State<GenericShoppingPage> {
     );
   }
 
-  Widget _buildColumn() {
+  Widget _buildColumn(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[optionsWidget(), _buildViewAction()],
+      children: <Widget>[optionsWidget(), _buildViewAction(context)],
     );
   }
 
@@ -78,11 +74,11 @@ class _ShoppingState extends State<GenericShoppingPage> {
     );
   }
 
-  Widget _buildViewAction() {
+  Widget _buildViewAction(BuildContext context) {
     return GestureDetector(
       onTap: () {
         // Navigator.push(
-        //   _buildContext,
+        //   context,
         //   MaterialPageRoute(
         //       builder: (context) => LandingPage(
         //             title: isMan ? "Men" : "Women",

@@ -1,6 +1,6 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/price_view.dart';
+import 'package:bootbay/src/pages/shopping/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
