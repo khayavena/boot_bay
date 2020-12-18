@@ -6,20 +6,14 @@ class Category {
   String image;
   List<Category> categories;
 
-  Category(
-      {this.id,
-      this.merchantId,
-      this.name,
-      this.categories,
-      this.isSelected = false});
+  bool get hasChildren => categories != null && categories.isNotEmpty;
+
+  Category({this.id, this.merchantId, this.name, this.categories, this.isSelected = false});
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      categories: json['categories'] != null
-          ? (json['categories'] as List)
-              .map((i) => Category.fromJson(i))
-              .toList()
-          : null,
+      categories:
+          json['categories'] != null ? (json['categories'] as List).map((i) => Category.fromJson(i)).toList() : null,
       id: json['id'],
       merchantId: json['merchantId'],
       name: json['name'],

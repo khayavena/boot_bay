@@ -115,10 +115,30 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
         children: value.getCategories
             .map((model) => Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: addCategory(
+                  child: EntryItem(
                     model,
                   ),
                 ))
             .toList());
+  }
+}
+
+class EntryItem extends StatelessWidget {
+  const EntryItem(this.entry);
+
+  final Category entry;
+
+  Widget _buildTiles(Category root) {
+    if (!root.hasChildren) return ListTile(title: Text(root.name));
+    return ExpansionTile(
+      key: PageStorageKey<Category>(root),
+      title: Text(root.name),
+      children: root.categories.map(_buildTiles).toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTiles(entry);
   }
 }
