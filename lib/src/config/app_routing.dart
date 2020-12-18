@@ -12,7 +12,7 @@ import 'package:bootbay/src/pages/shopping/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/shoping_wish_list_page.dart';
 import 'package:bootbay/src/pages/user/auth_page.dart';
-import 'package:bootbay/src/wigets/category/category_drop_down_widget.dart';
+import 'package:bootbay/src/wigets/category/category_list_view_widget.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
@@ -70,7 +70,7 @@ class AppRouting {
       case '/merchantItemCategoryList':
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantItemCategoryList),
-            builder: (_) => CategoryDropDownWidget(merchant: args as Merchant));
+            builder: (_) => CategoryListViewWidget(merchant: args as Merchant));
       case '/detail':
         if (args is Product) {
           return MaterialPageRoute(

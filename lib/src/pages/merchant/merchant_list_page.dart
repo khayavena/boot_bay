@@ -25,7 +25,7 @@ class _MerchantListPageState extends State<MerchantListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppBar.build("Boot bay", context), body: Container(child: _productWidget()));
+    return Scaffold(appBar: CustomAppBar.build("Digi Titan", context), body: Container(child: _productWidget()));
   }
 
   Widget _productWidget() {
