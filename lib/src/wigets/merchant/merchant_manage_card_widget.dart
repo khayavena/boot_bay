@@ -24,7 +24,7 @@ class _MerchantManagementCardWidgetState extends State<MerchantManagementCardWid
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          Navigator.of(context).pushNamed(AppRouting.merchantsManagement, arguments: widget.merchant);
+          Navigator.of(context).pushNamed(AppRouting.merchantManagementEditOptions, arguments: widget.merchant);
         },
         child: _buildWidget(),
       ),

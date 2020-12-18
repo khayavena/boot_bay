@@ -31,16 +31,18 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
   }
 
   Widget loadDropIn() {
+    var webViewMethod = "Print";
+    var onReceiveMethod = 'onPaymentMethodReceived()';
     return WebView(
       javascriptMode: JavascriptMode.unrestricted,
       onPageFinished: (string) {},
       javascriptChannels: Set.from([
         JavascriptChannel(
-            name: "Print",
+            name: webViewMethod,
             onMessageReceived: (JavascriptMessage result) async {
               switch (result.message) {
                 case 'success':
-                  var nonce = await _controller.evaluateJavascript('onPaymentMethodReceived()');
+                  var nonce = await _controller.evaluateJavascript(onReceiveMethod);
                   Map json = jsonDecode(nonce);
                   PaymentNonce paymentNonce = PaymentNonce.fromJson(json);
                   widget.onWebPaymentNonceListener.onWebPaymentNonce(paymentNonce: paymentNonce.nonce, deviceData: '');

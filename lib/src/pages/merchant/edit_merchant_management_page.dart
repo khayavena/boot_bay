@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class MerchantManagementPage extends StatefulWidget {
+class EditMerchantManagementPage extends StatefulWidget {
   final Merchant merchant;
 
-  MerchantManagementPage({@required this.merchant});
+  EditMerchantManagementPage({@required this.merchant});
 
   @override
-  _MerchantManagementPageState createState() => _MerchantManagementPageState();
+  _EditMerchantManagementPageState createState() => _EditMerchantManagementPageState();
 }
 
-class _MerchantManagementPageState extends State<MerchantManagementPage> {
+class _EditMerchantManagementPageState extends State<EditMerchantManagementPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController locationController = TextEditingController();

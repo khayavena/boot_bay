@@ -1,16 +1,18 @@
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/user/auth_page.dart';
-import 'package:bootbay/src/pages/shopping/home_page.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
+import 'package:bootbay/src/pages/merchant/edit_merchant_management_page.dart';
+import 'package:bootbay/src/pages/merchant/edit_merchant_options_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_landing_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_management_list_page.dart';
-import 'package:bootbay/src/pages/merchant/merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/merchant_registration_page.dart';
+import 'package:bootbay/src/pages/shopping/home_page.dart';
 import 'package:bootbay/src/pages/shopping/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/shoping_wish_list_page.dart';
+import 'package:bootbay/src/pages/user/auth_page.dart';
+import 'package:bootbay/src/wigets/category/category_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
@@ -21,8 +23,10 @@ class AppRouting {
   static String merchants = '/merchantsList';
   static String merchantLanding = '/merchantsLanding';
   static String merchantsRegistration = '/merchantsRegistration';
-  static String merchantsManagement = '/merchantManagement';
+  static String merchantsManagementEdit = '/editMerchantManagement';
   static String merchantsManagementList = '/merchantManagementList';
+  static String merchantItemCategoryList = '/merchantItemCategoryList';
+  static String merchantManagementEditOptions = '/merchantManagementEditOptions';
   static String mediaContent = "/MediaContent";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -48,6 +52,12 @@ class AppRouting {
         return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
       case '/merchantsList':
         return MaterialPageRoute(settings: RouteSettings(name: merchants), builder: (_) => MerchantListPage());
+      case '/merchantManagementEditOptions':
+        return MaterialPageRoute(
+            settings: RouteSettings(name: merchantManagementEditOptions),
+            builder: (_) => EditMerchantManagementOptionsWidget(
+                  merchant: args as Merchant,
+                ));
       case '/merchantManagementList':
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantsManagementList),
@@ -57,6 +67,10 @@ class AppRouting {
       case '/MediaContent':
         return MaterialPageRoute(
             settings: RouteSettings(name: mediaContent), builder: (_) => MediaContentWidget(id: args));
+      case '/merchantItemCategoryList':
+        return MaterialPageRoute(
+            settings: RouteSettings(name: merchantItemCategoryList),
+            builder: (_) => CategoryDropDownWidget(merchant: args as Merchant));
       case '/detail':
         if (args is Product) {
           return MaterialPageRoute(
@@ -79,12 +93,12 @@ class AppRouting {
 
         return _errorRoute();
 
-      case '/merchantManagement':
+      case '/editMerchantManagement':
         // Validation of correct data type
         if (args is Merchant) {
           return MaterialPageRoute(
-            settings: RouteSettings(name: merchantsManagement),
-            builder: (_) => MerchantManagementPage(
+            settings: RouteSettings(name: merchantsManagementEdit),
+            builder: (_) => EditMerchantManagementPage(
               merchant: args,
             ),
           );

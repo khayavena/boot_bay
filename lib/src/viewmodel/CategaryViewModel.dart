@@ -1,10 +1,10 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class CategoryViewModel extends ViewModel {
   CategoryRepository _categoryRepository;
@@ -25,6 +25,9 @@ class CategoryViewModel extends ViewModel {
     _loader = Loader.busy;
     try {
       _categories = await _categoryRepository.getCategories();
+      if (_categories != null && _categories.isNotEmpty) {
+        _category = _categories[0];
+      }
       _loader = Loader.complete;
       notifyListeners();
       return _categories;
@@ -50,6 +53,9 @@ class CategoryViewModel extends ViewModel {
     _loader = Loader.busy;
     try {
       _categories = await _categoryRepository.getAllCategories(merchantId);
+      if (_categories != null && _categories.isNotEmpty) {
+        _category = _categories[0];
+      }
       notifyListeners();
       _loader = Loader.complete;
       return _categories;
@@ -64,17 +70,20 @@ class CategoryViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
+    return _categories;
   }
 
   Loader get loader => _loader;
 
   Future<void> saveCategory(Category category) async {
-   await filter(category);
+    _category = category;
+    await filter(category);
   }
 
-
+  // ignore: missing_return
   Future<void> filter(Category category) {
     _selectedCategories.add(category);
+    notifyListeners();
   }
 
   List<Category> getSelectedCategories() {

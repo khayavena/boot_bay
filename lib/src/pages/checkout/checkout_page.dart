@@ -97,11 +97,11 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPay
                 );
               default:
                 return Container(
-                  child: Center(child: paymentStatus('Payement failed')),
+                  child: Center(child: paymentStatus('Payment failed')),
                 );
             }
         }
-        return paymentStatus('Boot bay,Style,Elegance');
+        return paymentStatus('Please wait, loading');
       })),
     );
   }
@@ -162,7 +162,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPay
       ),
       paypalRequest: BraintreePayPalRequest(
         amount: widget.finalAmount.toString(),
-        displayName: 'Boot Bay',
+        displayName: 'Digi Titan',
       ),
     );
   }
