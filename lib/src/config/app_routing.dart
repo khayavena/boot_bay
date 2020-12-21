@@ -16,18 +16,18 @@ import 'package:bootbay/src/wigets/category/category_list_view_widget.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
-  static String authPage = '/autPage';
-  static String productDetail = '/detail';
-  static String cartList = '/cart';
-  static String wishList = '/wish';
-  static String merchants = '/merchantsList';
-  static String merchantLanding = '/merchantsLanding';
-  static String merchantsRegistration = '/merchantsRegistration';
-  static String merchantsManagementEdit = '/editMerchantManagement';
-  static String merchantsManagementList = '/merchantManagementList';
-  static String merchantItemCategoryList = '/merchantItemCategoryList';
-  static String merchantManagementEditOptions = '/merchantManagementEditOptions';
-  static String mediaContent = "/MediaContent";
+  static const String authPage = '/autPage';
+  static const String productDetail = '/detail';
+  static const String cartList = '/cart';
+  static const String wishList = '/wish';
+  static const String merchantList = '/merchantsList';
+  static const String merchantLanding = '/merchantsLanding';
+  static const String merchantsRegistration = '/merchantsRegistration';
+  static const String merchantsManagementEdit = '/editMerchantManagement';
+  static const String merchantsManagementList = '/merchantManagementList';
+  static const String merchantItemCategoryList = '/merchantItemCategoryList';
+  static const String merchantManagementEditOptions = '/merchantManagementEditOptions';
+  static const String mediaContent = "/mediaContent";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -35,9 +35,9 @@ class AppRouting {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => HomeWidget());
-      case '/autPage':
+      case authPage:
         return MaterialPageRoute(settings: RouteSettings(name: authPage), builder: (_) => AuthPage());
-      case '/merchantsRegistration':
+      case merchantsRegistration:
         if (args != null) {
           return MaterialPageRoute(
               settings: RouteSettings(name: merchantsRegistration),
@@ -46,32 +46,32 @@ class AppRouting {
                   ));
         }
         return _errorRoute(error: 'Ensure user is logged to load MerchantRegistrationPage');
-      case '/cart':
+      case cartList:
         return MaterialPageRoute(settings: RouteSettings(name: cartList), builder: (_) => ShoppingCartPage());
-      case '/wish':
+      case wishList:
         return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
-      case '/merchantsList':
-        return MaterialPageRoute(settings: RouteSettings(name: merchants), builder: (_) => MerchantListPage());
-      case '/merchantManagementEditOptions':
+      case merchantList:
+        return MaterialPageRoute(settings: RouteSettings(name: merchantList), builder: (_) => MerchantListPage());
+      case merchantManagementEditOptions:
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantManagementEditOptions),
             builder: (_) => EditMerchantManagementOptionsWidget(
                   merchant: args as Merchant,
                 ));
-      case '/merchantManagementList':
+      case merchantsManagementList:
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantsManagementList),
             builder: (_) => MerchantManagementListPage(
                   userId: args,
                 ));
-      case '/MediaContent':
+      case mediaContent:
         return MaterialPageRoute(
             settings: RouteSettings(name: mediaContent), builder: (_) => MediaContentWidget(id: args));
-      case '/merchantItemCategoryList':
+      case merchantItemCategoryList:
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantItemCategoryList),
             builder: (_) => CategoryListViewWidget(merchant: args as Merchant));
-      case '/detail':
+      case productDetail:
         if (args is Product) {
           return MaterialPageRoute(
               settings: RouteSettings(name: productDetail),
@@ -80,7 +80,7 @@ class AppRouting {
                   ));
         }
         return _errorRoute(error: 'Failed to load product page');
-      case '/merchantsLanding':
+      case merchantLanding:
         // Validation of correct data type
         if (args is Merchant) {
           return MaterialPageRoute(
@@ -93,7 +93,7 @@ class AppRouting {
 
         return _errorRoute();
 
-      case '/editMerchantManagement':
+      case merchantsManagementEdit:
         // Validation of correct data type
         if (args is Merchant) {
           return MaterialPageRoute(
