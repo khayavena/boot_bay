@@ -1,4 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/theme.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
@@ -26,9 +27,11 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.merchant != null) {
-        Provider.of<CategoryViewModel>(context, listen: false).getCategoriesById(widget.merchant.id);
+        Provider.of<CategoryViewModel>(context, listen: false)
+            .getCategoriesById(widget.merchant.id);
       } else {
-        Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
+        Provider.of<CategoryViewModel>(context, listen: false)
+            .getAllCategories();
       }
     });
     super.initState();
@@ -37,6 +40,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomTheme().appBackground,
       appBar: CustomAppBar.build("Edit Categories", context),
       body: Container(
         child: Column(
@@ -48,7 +52,8 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
 
   Widget getDropdown() {
     return Container(
-      child: Consumer<CategoryViewModel>(builder: (BuildContext context, CategoryViewModel value, Widget child) {
+      child: Consumer<CategoryViewModel>(builder:
+          (BuildContext context, CategoryViewModel value, Widget child) {
         switch (value.loader) {
           case Loader.idl:
           case Loader.complete:
@@ -69,19 +74,6 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
     return Card(
       child: ListTile(
         title: buildEditText(),
-        trailing: GestureDetector(
-            onTap: () {
-              String category = categoryController.text;
-            },
-            child: Icon(Icons.save)),
-      ),
-    );
-  }
-
-  Widget addCategory(Category category) {
-    return Card(
-      child: ListTile(
-        title: buildEditText(value: category.name),
         trailing: GestureDetector(
             onTap: () {
               String category = categoryController.text;
@@ -114,7 +106,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
     return Column(
         children: value.getCategories
             .map((model) => Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.only(top: 1.0),
                   child: EntryItem(
                     model,
                   ),
@@ -124,12 +116,24 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
 }
 
 class EntryItem extends StatelessWidget {
-  const EntryItem(this.entry);
+  EntryItem(this.entry);
 
+  BuildContext _context;
   final Category entry;
 
   Widget _buildTiles(Category root) {
-    if (!root.hasChildren) return ListTile(title: Text(root.name));
+    if (!root.hasChildren)
+      return Container(
+        color: CustomTheme().pureWhite,
+        child: ListTile(
+          title: Text(root.name),
+          trailing: GestureDetector(
+              onTap: () {
+                _settingModalBottomSheet(_context, root);
+              },
+              child: Image.asset('assets/images/edit_action_ic.png')),
+        ),
+      );
     return ExpansionTile(
       key: PageStorageKey<Category>(root),
       title: Text(root.name),
@@ -139,6 +143,34 @@ class EntryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return _buildTiles(entry);
+  }
+
+  void _settingModalBottomSheet(context, Category root) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text(root.name),
+                    onTap: () => {}),
+                ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text(root.name),
+                  onTap: () => {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text("Add Items"),
+                  onTap: () => {},
+                )
+              ],
+            ),
+          );
+        });
   }
 }
