@@ -1,10 +1,12 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/theme.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/wigets/shared/custom_app_bar.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +59,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
         switch (value.loader) {
           case Loader.idl:
           case Loader.complete:
-            return dropWidget(value);
+            return _buildCategories(value);
           case Loader.busy:
             return ColorLoader4();
           case Loader.error:
@@ -102,7 +104,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
     );
   }
 
-  Widget dropWidget(CategoryViewModel value) {
+  Widget _buildCategories(CategoryViewModel value) {
     return Column(
         children: value.getCategories
             .map((model) => Padding(
@@ -126,6 +128,16 @@ class EntryItem extends StatelessWidget {
       return Container(
         color: CustomTheme().pureWhite,
         child: ListTile(
+          leading: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(
+                      baseUrl + '/media/content/${root.id}'),
+                ),
+              )),
           title: Text(root.name),
           trailing: GestureDetector(
               onTap: () {
