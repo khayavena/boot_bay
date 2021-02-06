@@ -31,7 +31,8 @@ class AppRouting {
   static const String merchantManagementEditOptions =
       '/merchantManagementEditOptions';
   static const String mediaContent = "/mediaContent";
-  static const String addEditCategory = "/addEditCategory";
+  static const String editCategory = "/editCategory";
+  static const String addCategory = "/addCategory";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -119,15 +120,24 @@ class AppRouting {
         }
 
         return _errorRoute();
-      case addEditCategory:
+      case editCategory:
         if (args != null && args is Category) {
           return createRoute(
-              addEditCategory,
+              editCategory,
               EditCategoryPage(
                 category: args,
               ));
         }
-        return createRoute(addEditCategory, EditCategoryPage());
+        return _errorRoute();
+      case addCategory:
+        if (args != null && args is Merchant) {
+          return createRoute(
+              addCategory,
+              EditCategoryPage(
+                merchant: args,
+              ));
+        }
+        return _errorRoute();
       default:
         return _errorRoute();
     }

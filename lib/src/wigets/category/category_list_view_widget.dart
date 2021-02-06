@@ -78,19 +78,18 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
         children: value.getCategories
             .map((model) => Padding(
                   padding: const EdgeInsets.only(top: 1.0),
-                  child: EntryItem(
-                    model,
-                  ),
+                  child: EntryItem(model, widget.merchant),
                 ))
             .toList());
   }
 }
 
 class EntryItem extends StatelessWidget {
-  EntryItem(this.entry);
+  EntryItem(this.entry, this.merchant);
 
   BuildContext _context;
   final Category entry;
+  final Merchant merchant;
 
   Widget _buildTiles(Category root) {
     if (!root.hasChildren)
@@ -110,7 +109,7 @@ class EntryItem extends StatelessWidget {
           title: Text(root.name),
           trailing: GestureDetector(
               onTap: () {
-                _settingModalBottomSheet(_context, root);
+                _settingModalBottomSheet(_context, root, merchant);
               },
               child: Image.asset('assets/images/edit_action_ic.png')),
         ),
@@ -128,7 +127,7 @@ class EntryItem extends StatelessWidget {
     return _buildTiles(entry);
   }
 
-  void _settingModalBottomSheet(context, Category root) {
+  void _settingModalBottomSheet(context, Category root, Merchant merchant) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -139,20 +138,21 @@ class EntryItem extends StatelessWidget {
                     leading: Icon(Icons.delete),
                     title: Text(root.name),
                     onTap: () => Navigator.pushNamed(
-                        bc, AppRouting.addEditCategory,
+                        bc, AppRouting.editCategory,
                         arguments: root)),
                 ListTile(
                   leading: Icon(Icons.edit),
                   title: Text(root.name),
                   onTap: () => {
-                    Navigator.pushNamed(bc, AppRouting.addEditCategory,
+                    Navigator.pushNamed(bc, AppRouting.editCategory,
                         arguments: root)
                   },
                 ),
                 ListTile(
                   leading: Icon(Icons.add),
-                  title: Text("Add Items"),
-                  onTap: () => {},
+                  title: Text("Add New"),
+                  onTap: () => Navigator.pushNamed(bc, AppRouting.addCategory,
+                      arguments: merchant),
                 )
               ],
             ),

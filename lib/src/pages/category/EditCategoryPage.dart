@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bootbay/src/helpers/theme.dart';
 import 'package:bootbay/src/model/category.dart';
+import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/viewmodel/MediaContentViewModel.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,9 @@ import 'package:provider/provider.dart';
 
 class EditCategoryPage extends StatefulWidget {
   final Category category;
+  final Merchant merchant;
 
-  EditCategoryPage({this.category});
+  EditCategoryPage({this.category, this.merchant});
 
   @override
   _EditCategoryPageState createState() => _EditCategoryPageState();
