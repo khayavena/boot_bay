@@ -1,3 +1,4 @@
+import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/theme.dart';
@@ -46,7 +47,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
       appBar: CustomAppBar.build("Edit Categories", context),
       body: Container(
         child: Column(
-          children: [addCategoryEditCard(), getDropdown()],
+          children: [getDropdown()],
         ),
       ),
     );
@@ -69,38 +70,6 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
         }
         return SizedBox();
       }),
-    );
-  }
-
-  Widget addCategoryEditCard() {
-    return Card(
-      child: ListTile(
-        title: buildEditText(),
-        trailing: GestureDetector(
-            onTap: () {
-              String category = categoryController.text;
-            },
-            child: Icon(Icons.save)),
-      ),
-    );
-  }
-
-  Widget buildEditText({String value = ''}) {
-    categoryController = TextEditingController();
-
-    final email = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      controller: categoryController,
-      decoration: InputDecoration(
-        hintText: 'Add Category',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-    categoryController.text = value;
-    return Container(
-      child: email,
     );
   }
 
@@ -169,11 +138,16 @@ class EntryItem extends StatelessWidget {
                 ListTile(
                     leading: Icon(Icons.delete),
                     title: Text(root.name),
-                    onTap: () => {}),
+                    onTap: () => Navigator.pushNamed(
+                        bc, AppRouting.addEditCategory,
+                        arguments: root)),
                 ListTile(
                   leading: Icon(Icons.edit),
                   title: Text(root.name),
-                  onTap: () => {},
+                  onTap: () => {
+                    Navigator.pushNamed(bc, AppRouting.addEditCategory,
+                        arguments: root)
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.add),

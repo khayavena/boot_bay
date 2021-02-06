@@ -15,7 +15,8 @@ class MediaContentViewModel extends ViewModel {
 
   MediaContentResponse mediaResponse;
 
-  MediaContentViewModel({@required MediaContentRepository mediaContentRepository})
+  MediaContentViewModel(
+      {@required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
   Future<MediaContentResponse> saveFile(String path, String id) async {
@@ -23,7 +24,31 @@ class MediaContentViewModel extends ViewModel {
 
     notifyListeners();
     try {
-      mediaResponse = await _mediaContentRepository.uploadMerchantLogo(path, id);
+      mediaResponse =
+          await _mediaContentRepository.uploadMerchantLogo(path, id);
+      _loader = Loader.complete;
+      notifyListeners();
+      return mediaResponse;
+    } on NetworkException catch (error) {
+      dataErrorMessage = error.message;
+      _loader = Loader.error;
+      notifyListeners();
+    } on DioError catch (error) {
+      _loader = Loader.error;
+      handleDioError(error);
+    } catch (error) {
+      _loader = Loader.error;
+      notifyListeners();
+    }
+    return mediaResponse;
+  }
+
+  Future<MediaContentResponse> saveCategoryFile(String path, String id) async {
+    _loader = Loader.busy;
+
+    notifyListeners();
+    try {
+      mediaResponse = await _mediaContentRepository.uploadCategory(path, id);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;

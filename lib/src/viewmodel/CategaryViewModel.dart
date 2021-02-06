@@ -75,9 +75,11 @@ class CategoryViewModel extends ViewModel {
 
   Loader get loader => _loader;
 
-  Future<void> saveCategory(Category category) async {
+  Future<Category> saveCategory(Category category) async {
     _category = category;
-    await filter(category);
+    var response = await _categoryRepository.addCategory(category);
+    _category = response;
+    return _category;
   }
 
   // ignore: missing_return

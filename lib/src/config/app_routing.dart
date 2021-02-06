@@ -1,5 +1,7 @@
+import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/pages/category/EditCategoryPage.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/edit_merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/edit_merchant_options_page.dart';
@@ -26,8 +28,10 @@ class AppRouting {
   static const String merchantsManagementEdit = '/editMerchantManagement';
   static const String merchantsManagementList = '/merchantManagementList';
   static const String merchantItemCategoryList = '/merchantItemCategoryList';
-  static const String merchantManagementEditOptions = '/merchantManagementEditOptions';
+  static const String merchantManagementEditOptions =
+      '/merchantManagementEditOptions';
   static const String mediaContent = "/mediaContent";
+  static const String addEditCategory = "/addEditCategory";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -36,7 +40,9 @@ class AppRouting {
       case '/':
         return MaterialPageRoute(builder: (_) => HomeWidget());
       case authPage:
-        return MaterialPageRoute(settings: RouteSettings(name: authPage), builder: (_) => AuthPage());
+        return MaterialPageRoute(
+            settings: RouteSettings(name: authPage),
+            builder: (_) => AuthPage());
       case merchantsRegistration:
         if (args != null) {
           return MaterialPageRoute(
@@ -45,13 +51,20 @@ class AppRouting {
                     userId: args,
                   ));
         }
-        return _errorRoute(error: 'Ensure user is logged to load MerchantRegistrationPage');
+        return _errorRoute(
+            error: 'Ensure user is logged to load MerchantRegistrationPage');
       case cartList:
-        return MaterialPageRoute(settings: RouteSettings(name: cartList), builder: (_) => ShoppingCartPage());
+        return MaterialPageRoute(
+            settings: RouteSettings(name: cartList),
+            builder: (_) => ShoppingCartPage());
       case wishList:
-        return MaterialPageRoute(settings: RouteSettings(name: wishList), builder: (_) => ShoppingWishListPage());
+        return MaterialPageRoute(
+            settings: RouteSettings(name: wishList),
+            builder: (_) => ShoppingWishListPage());
       case merchantList:
-        return MaterialPageRoute(settings: RouteSettings(name: merchantList), builder: (_) => MerchantListPage());
+        return MaterialPageRoute(
+            settings: RouteSettings(name: merchantList),
+            builder: (_) => MerchantListPage());
       case merchantManagementEditOptions:
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantManagementEditOptions),
@@ -66,7 +79,8 @@ class AppRouting {
                 ));
       case mediaContent:
         return MaterialPageRoute(
-            settings: RouteSettings(name: mediaContent), builder: (_) => MediaContentWidget(id: args));
+            settings: RouteSettings(name: mediaContent),
+            builder: (_) => MediaContentWidget(id: args));
       case merchantItemCategoryList:
         return MaterialPageRoute(
             settings: RouteSettings(name: merchantItemCategoryList),
@@ -105,6 +119,15 @@ class AppRouting {
         }
 
         return _errorRoute();
+      case addEditCategory:
+        if (args != null && args is Category) {
+          return createRoute(
+              addEditCategory,
+              EditCategoryPage(
+                category: args,
+              ));
+        }
+        return createRoute(addEditCategory, EditCategoryPage());
       default:
         return _errorRoute();
     }
@@ -121,5 +144,12 @@ class AppRouting {
         ),
       );
     });
+  }
+
+  static Route createRoute(String routeName, Widget widget) {
+    return MaterialPageRoute(
+      settings: RouteSettings(name: routeName),
+      builder: (_) => widget,
+    );
   }
 }

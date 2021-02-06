@@ -8,17 +8,31 @@ import 'package:flutter/material.dart';
 class RemoteMediaContentDataSourceImpl implements RemoteMediaContentDataSource {
   Dio _dio;
   static String _contentType = 'application/x-www-form-urlencoded';
+  static String baseEndPoint = '/media';
 
   RemoteMediaContentDataSourceImpl({@required Dio dio}) {
     _dio = dio;
-    _dio.options.headers.update(HttpHeaders.contentTypeHeader, (value) => _contentType);
+    _dio.options.headers
+        .update(HttpHeaders.contentTypeHeader, (value) => _contentType);
   }
 
-  Future<MediaContentResponse> uploadMerchantLogo(String path, String merchantId) async {
+  Future<MediaContentResponse> uploadMerchantLogo(
+      String path, String merchantId) async {
     var formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(path),
     });
-    var response = await _dio.post('/media/merchant/$merchantId/logo', data: formData);
+    var response = await _dio.post('$baseEndPoint/merchant/$merchantId/logo',
+        data: formData);
+    return MediaContentResponse.fromJson(response.data);
+  }
+
+  Future<MediaContentResponse> uploadCategory(
+      String path, String merchantId) async {
+    var formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(path),
+    });
+    var response =
+        await _dio.post('$baseEndPoint/category/$path/icon', data: formData);
     return MediaContentResponse.fromJson(response.data);
   }
 }
