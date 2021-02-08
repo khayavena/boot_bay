@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/config/EnvConfig.dart';
+import 'package:bootbay/src/config/env_config_service.dart';
+import 'package:flutter/services.dart';
 
 class EnvConfigServiceImpl implements EnvConfigService {
   static final errorMessage = 'Error loading config.';
@@ -26,10 +27,4 @@ class EnvConfigServiceImpl implements EnvConfigService {
   }
 
   bool isProd() => this.flavor == Flavor.PROD;
-}
-
-abstract class EnvConfigService {
-  Future<EnvConfig> getEnvConfig();
-
-  bool isProd();
 }
