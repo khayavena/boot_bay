@@ -77,7 +77,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
     return Column(
         children: value.getCategories
             .map((model) => Padding(
-                  padding: const EdgeInsets.only(top: 1.0),
+                  padding: EdgeInsets.only(top: 1.0),
                   child: EntryItem(model, widget.merchant),
                 ))
             .toList());
