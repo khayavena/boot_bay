@@ -1,9 +1,9 @@
 import 'package:bootbay/src/model/category.dart';
 
 abstract class CategoryRepository {
-  Future<List<Category>> getAllCategories(String merchantId);
+  Future<List<Category>> getAllByMerchant(String merchantId);
 
-  Future<List<Category>> getCategories();
+  Future<List<Category>> getAll();
 
-  Future<Category> addCategory(Category category);
+  Future<Category> add(Category category);
 }

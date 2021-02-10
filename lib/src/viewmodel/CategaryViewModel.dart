@@ -24,7 +24,7 @@ class CategoryViewModel extends ViewModel {
   Future<List<Category>> getAllCategories() async {
     _loader = Loader.busy;
     try {
-      _categories = await _categoryRepository.getCategories();
+      _categories = await _categoryRepository.getAll();
       if (_categories != null && _categories.isNotEmpty) {
         _category = _categories[0];
       }
@@ -52,7 +52,7 @@ class CategoryViewModel extends ViewModel {
   Future<List<Category>> getCategoriesById(String merchantId) async {
     _loader = Loader.busy;
     try {
-      _categories = await _categoryRepository.getAllCategories(merchantId);
+      _categories = await _categoryRepository.getAllByMerchant(merchantId);
       if (_categories != null && _categories.isNotEmpty) {
         _category = _categories[0];
       }
@@ -77,7 +77,7 @@ class CategoryViewModel extends ViewModel {
 
   Future<Category> saveCategory(Category category) async {
     _category = category;
-    var response = await _categoryRepository.addCategory(category);
+    var response = await _categoryRepository.add(category);
     _category = response;
     return _category;
   }

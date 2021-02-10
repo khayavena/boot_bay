@@ -81,7 +81,7 @@ void _setUpRemoteServices(dio) async {
   moduleLocator.registerLazySingleton<RemoteMediaContentDataSource>(
       () => RemoteMediaContentDataSourceImpl(dio: dio));
 
-  moduleLocator.registerLazySingleton<RemoteCategoryService>(
+  moduleLocator.registerLazySingleton<RemoteCategoryDataSource>(
       () => RemoteCategoryServiceImpl(dio: dio));
 
   moduleLocator.registerLazySingleton<RemotePaymentService>(
@@ -149,7 +149,7 @@ void _setRepositories(dio) {
 
   moduleLocator.registerLazySingleton<CategoryRepository>(() =>
       CategoryRepositoryImpl(
-          remoteProductService: moduleLocator<RemoteCategoryService>(),
+          remoteProductService: moduleLocator<RemoteCategoryDataSource>(),
           networkHelper: moduleLocator<NetworkHelper>()));
 
   moduleLocator.registerLazySingleton<PaymentRepository>(() =>

@@ -6,36 +6,36 @@ import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
-  RemoteCategoryService _remoteCategoryService;
+  RemoteCategoryDataSource _remoteCategoryService;
   NetworkHelper _networkHelper;
 
   CategoryRepositoryImpl({
-    @required RemoteCategoryService remoteProductService,
+    @required RemoteCategoryDataSource remoteProductService,
     @required NetworkHelper networkHelper,
   })  : _remoteCategoryService = remoteProductService,
         _networkHelper = networkHelper;
 
   @override
-  Future<Category> addCategory(Category category) async {
+  Future<Category> add(Category category) async {
     if (await _networkHelper.isNotConnected()) {
       throw NetworkException();
     }
-    return _remoteCategoryService.addCategory(category);
+    return _remoteCategoryService.add(category);
   }
 
   @override
-  Future<List<Category>> getAllCategories(String merchantId) async {
+  Future<List<Category>> getAllByMerchant(String merchantId) async {
     if (await _networkHelper.isNotConnected()) {
       throw NetworkException();
     }
-    return _remoteCategoryService.getAllCategories(merchantId);
+    return _remoteCategoryService.getAllByMerchant(merchantId);
   }
 
   @override
-  Future<List<Category>> getCategories() async {
+  Future<List<Category>> getAll() async {
     if (await _networkHelper.isNotConnected()) {
       throw NetworkException();
     }
-    return _remoteCategoryService.getCategories();
+    return _remoteCategoryService.getAll();
   }
 }
