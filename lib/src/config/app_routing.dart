@@ -28,8 +28,7 @@ class AppRouting {
   static const String merchantsManagementEdit = '/editMerchantManagement';
   static const String merchantsManagementList = '/merchantManagementList';
   static const String merchantItemCategoryList = '/merchantItemCategoryList';
-  static const String merchantManagementEditOptions =
-      '/merchantManagementEditOptions';
+  static const String merchantManagementEditOptions = '/merchantManagementEditOptions';
   static const String mediaContent = "/mediaContent";
   static const String editCategory = "/editCategory";
   static const String addCategory = "/addCategory";
@@ -39,84 +38,68 @@ class AppRouting {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => HomeWidget());
+        return createRoute('/', HomeWidget());
       case authPage:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: authPage),
-            builder: (_) => AuthPage());
+        return createRoute(authPage, AuthPage());
       case merchantsRegistration:
         if (args != null) {
-          return MaterialPageRoute(
-              settings: RouteSettings(name: merchantsRegistration),
-              builder: (_) => MerchantRegistrationPage(
-                    userId: args,
-                  ));
+          return createRoute(
+              merchantsRegistration,
+              MerchantRegistrationPage(
+                userId: args,
+              ));
         }
-        return _errorRoute(
-            error: 'Ensure user is logged to load MerchantRegistrationPage');
+        return _errorRoute(error: 'Ensure user is logged to load $merchantsRegistration');
       case cartList:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: cartList),
-            builder: (_) => ShoppingCartPage());
+        return createRoute(cartList, ShoppingCartPage());
       case wishList:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: wishList),
-            builder: (_) => ShoppingWishListPage());
+        return createRoute(wishList, ShoppingWishListPage());
       case merchantList:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: merchantList),
-            builder: (_) => MerchantListPage());
+        return createRoute(merchantList, MerchantListPage());
       case merchantManagementEditOptions:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: merchantManagementEditOptions),
-            builder: (_) => EditMerchantManagementOptionsWidget(
-                  merchant: args as Merchant,
-                ));
+        return createRoute(
+            merchantManagementEditOptions,
+            EditMerchantManagementOptionsWidget(
+              merchant: args as Merchant,
+            ));
       case merchantsManagementList:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: merchantsManagementList),
-            builder: (_) => MerchantManagementListPage(
-                  userId: args,
-                ));
+        return createRoute(
+            merchantsManagementList,
+            MerchantManagementListPage(
+              userId: args,
+            ));
       case mediaContent:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: mediaContent),
-            builder: (_) => MediaContentWidget(id: args));
+        return createRoute(mediaContent, MediaContentWidget(id: args));
       case merchantItemCategoryList:
-        return MaterialPageRoute(
-            settings: RouteSettings(name: merchantItemCategoryList),
-            builder: (_) => CategoryListViewWidget(merchant: args as Merchant));
+        return createRoute(merchantItemCategoryList, CategoryListViewWidget(merchant: args as Merchant));
       case productDetail:
         if (args is Product) {
-          return MaterialPageRoute(
-              settings: RouteSettings(name: productDetail),
-              builder: (_) => ProductDetailPage(
-                    product: args,
-                  ));
+          return createRoute(
+              productDetail,
+              ProductDetailPage(
+                product: args,
+              ));
         }
         return _errorRoute(error: 'Failed to load product page');
       case merchantLanding:
         // Validation of correct data type
         if (args is Merchant) {
-          return MaterialPageRoute(
-            settings: RouteSettings(name: merchantLanding),
-            builder: (_) => MerchantLandingPage(
-              merchant: args,
-            ),
-          );
+          return createRoute(
+              merchantLanding,
+              MerchantLandingPage(
+                merchant: args,
+              ));
         }
 
         return _errorRoute();
 
       case merchantsManagementEdit:
-        // Validation of correct data type
         if (args is Merchant) {
-          return MaterialPageRoute(
-            settings: RouteSettings(name: merchantsManagementEdit),
-            builder: (_) => EditMerchantManagementPage(
-              merchant: args,
-            ),
-          );
+          return createRoute(
+              merchantsManagementEdit,
+              EditMerchantManagementPage(
+                merchant: args,
+              ));
         }
 
         return _errorRoute();

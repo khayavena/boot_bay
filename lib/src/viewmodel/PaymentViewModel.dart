@@ -24,13 +24,11 @@ class PaymentViewModel extends ViewModel {
   PaymentStatus paymentStatus;
   TokenResponse _tokenResponse;
 
-  PaymentViewModel(
-      {@required UserRepository userRepository,
-      @required PaymentRepository paymentRepository})
+  PaymentViewModel({@required UserRepository userRepository, @required PaymentRepository paymentRepository})
       : _userRepository = userRepository,
         _paymentRepository = paymentRepository;
 
-  Future<List<PaymentResponse>> getAllCategories() async {
+  Future<List<PaymentResponse>> getAllPayments() async {
     _loader = Loader.busy;
     try {
       _payments = await _paymentRepository.getAll();
@@ -65,7 +63,6 @@ class PaymentViewModel extends ViewModel {
       _paymentResponse = await _paymentRepository.pay(paymentRequest);
       _loader = Loader.complete;
       notifyListeners();
-      return _paymentResponse;
     } on NetworkException catch (error) {
       _loader = Loader.error;
       dataErrorMessage = error.message;
@@ -77,6 +74,7 @@ class PaymentViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
+    return _paymentResponse;
   }
 
   Future<TokenResponse> getToken(TokenRequest tokenRequest) async {

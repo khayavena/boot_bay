@@ -33,50 +33,34 @@ Future<void> provideMainApp(Flavor flavor) async {
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
         ChangeNotifierProvider(
-            create: (context) => ProductViewModel(
-                productRepository: moduleLocator<ProductRepository>())),
+            create: (context) => ProductViewModel(productRepository: moduleLocator<ProductRepository>())),
+        ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: moduleLocator<CartRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => WishListViewModel(wishListRepository: moduleLocator<WishListRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => MerchantViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
         ChangeNotifierProvider(
             create: (context) =>
-                CartViewModel(cartRepository: moduleLocator<CartRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => WishListViewModel(
-                wishListRepository: moduleLocator<WishListRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => MerchantViewModel(
-                merchantRepository: moduleLocator<MerchantRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => MediaContentViewModel(
-                mediaContentRepository: moduleLocator<MediaContentRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => MerchantRegistrationViewModel(
-                merchantRepository: moduleLocator<MerchantRepository>())),
+                MediaContentViewModel(mediaContentRepository: moduleLocator<MediaContentRepository>())),
         ChangeNotifierProvider(
             create: (context) =>
-                UserViewModel(userRepository: moduleLocator<UserRepository>())),
+                MerchantRegistrationViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
+        ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: moduleLocator<UserRepository>())),
         ChangeNotifierProvider(
             create: (context) => PaymentViewModel(
                 userRepository: moduleLocator<UserRepository>(),
                 paymentRepository: moduleLocator<PaymentRepository>())),
         ChangeNotifierProvider(
-            create: (context) => CategoryViewModel(
-                categoryRepository: moduleLocator<CategoryRepository>())),
+            create: (context) => CategoryViewModel(categoryRepository: moduleLocator<CategoryRepository>())),
         Provider<Database>(create: (context) => moduleLocator<Database>()),
-        Provider<ProductRepository>(
-            create: (context) => moduleLocator<ProductRepository>()),
-        Provider<MerchantRepository>(
-            create: (context) => moduleLocator<MerchantRepository>()),
-        Provider<CartRepository>(
-            create: (context) => moduleLocator<CartRepository>()),
-        Provider<WishListRepository>(
-            create: (context) => moduleLocator<WishListRepository>()),
-        Provider<CategoryRepository>(
-            create: (context) => moduleLocator<CategoryRepository>()),
-        Provider<UserRepository>(
-            create: (context) => moduleLocator<UserRepository>()),
-        Provider<MediaContentRepository>(
-            create: (context) => moduleLocator<MediaContentRepository>()),
-        Provider<MediaContentRepository>(
-            create: (context) => moduleLocator<MediaContentRepository>()),
+        Provider<ProductRepository>(create: (context) => moduleLocator<ProductRepository>()),
+        Provider<MerchantRepository>(create: (context) => moduleLocator<MerchantRepository>()),
+        Provider<CartRepository>(create: (context) => moduleLocator<CartRepository>()),
+        Provider<WishListRepository>(create: (context) => moduleLocator<WishListRepository>()),
+        Provider<CategoryRepository>(create: (context) => moduleLocator<CategoryRepository>()),
+        Provider<UserRepository>(create: (context) => moduleLocator<UserRepository>()),
+        Provider<MediaContentRepository>(create: (context) => moduleLocator<MediaContentRepository>()),
+        Provider<MediaContentRepository>(create: (context) => moduleLocator<MediaContentRepository>()),
         Provider<NetworkHelper>(create: (context) => moduleLocator<NetworkHelper>()),
       ],
       child: App(),
