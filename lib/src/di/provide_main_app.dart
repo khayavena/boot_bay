@@ -1,6 +1,5 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module.dart';
-import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/repository/cart/cart_repository.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
@@ -21,11 +20,11 @@ import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:bootbay/src/viewmodel/WishListViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sembast/sembast.dart';
 
 import '../../main.dart';
 
 Future<void> provideMainApp(Flavor flavor) async {
+  WidgetsFlutterBinding.ensureInitialized();
   await setupLocator(flavor);
 
   runApp(
@@ -52,16 +51,6 @@ Future<void> provideMainApp(Flavor flavor) async {
                 paymentRepository: moduleLocator<PaymentRepository>())),
         ChangeNotifierProvider(
             create: (context) => CategoryViewModel(categoryRepository: moduleLocator<CategoryRepository>())),
-        Provider<Database>(create: (context) => moduleLocator<Database>()),
-        Provider<ProductRepository>(create: (context) => moduleLocator<ProductRepository>()),
-        Provider<MerchantRepository>(create: (context) => moduleLocator<MerchantRepository>()),
-        Provider<CartRepository>(create: (context) => moduleLocator<CartRepository>()),
-        Provider<WishListRepository>(create: (context) => moduleLocator<WishListRepository>()),
-        Provider<CategoryRepository>(create: (context) => moduleLocator<CategoryRepository>()),
-        Provider<UserRepository>(create: (context) => moduleLocator<UserRepository>()),
-        Provider<MediaContentRepository>(create: (context) => moduleLocator<MediaContentRepository>()),
-        Provider<MediaContentRepository>(create: (context) => moduleLocator<MediaContentRepository>()),
-        Provider<NetworkHelper>(create: (context) => moduleLocator<NetworkHelper>()),
       ],
       child: App(),
     ),

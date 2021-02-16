@@ -1,16 +1,18 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
-import 'package:bootbay/src/helpers/theme.dart';
-import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
-import 'package:bootbay/src/wigets/shared/custom_app_bar.dart';
+import 'package:bootbay/src/wigets/category/category_entry_item_widget.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+
+import '../../../res.dart';
 
 class CategoryListViewWidget extends StatefulWidget {
   final Merchant merchant;
@@ -30,11 +32,9 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.merchant != null) {
-        Provider.of<CategoryViewModel>(context, listen: false)
-            .getCategoriesById(widget.merchant.id);
+        Provider.of<CategoryViewModel>(context, listen: false).getCategoriesById(widget.merchant.id);
       } else {
-        Provider.of<CategoryViewModel>(context, listen: false)
-            .getAllCategories();
+        Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
       }
     });
     super.initState();
@@ -43,20 +43,37 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomTheme().appBackground,
-      appBar: CustomAppBar.build("Edit Categories", context),
-      body: Container(
-        child: Column(
-          children: [getDropdown()],
-        ),
-      ),
+      backgroundColor: CustomColor().appBackground,
+      body: buildCollapsingWidget(
+          bodyWidget: Container(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: _buildBody(),
+                )
+              ],
+            ),
+          ),
+          actions: [
+            IconButton(icon: ImageIcon(AssetImage(Res.search_ic)), color: primaryBlackColor, onPressed: () {}),
+            IconButton(
+                icon: ImageIcon(AssetImage(Res.cart_ic)),
+                color: primaryBlackColor,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AppRouting.cartList);
+                })
+          ],
+          title: widget.merchant.name,
+          headerIcon: baseUrl + '/media/content/${widget.merchant.id}',
+          backButton:
+              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );
   }
 
-  Widget getDropdown() {
+  Widget _buildBody() {
     return Container(
-      child: Consumer<CategoryViewModel>(builder:
-          (BuildContext context, CategoryViewModel value, Widget child) {
+      child: Consumer<CategoryViewModel>(builder: (BuildContext context, CategoryViewModel value, Widget child) {
         switch (value.loader) {
           case Loader.idl:
           case Loader.complete:
@@ -65,7 +82,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
             return ColorLoader4();
           case Loader.error:
             Center(
-              child: Text("Add your own cat"),
+              child: Text("Something went wrong"),
             );
         }
         return SizedBox();
@@ -74,89 +91,12 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   }
 
   Widget _buildCategories(CategoryViewModel value) {
-    return Column(
-        children: value.getCategories
-            .map((model) => Padding(
-                  padding: EdgeInsets.only(top: 1.0),
-                  child: EntryItem(model, widget.merchant),
-                ))
-            .toList());
-  }
-}
-
-class EntryItem extends StatelessWidget {
-  EntryItem(this.entry, this.merchant);
-
-  BuildContext _context;
-  final Category entry;
-  final Merchant merchant;
-
-  Widget _buildTiles(Category root) {
-    if (!root.hasChildren)
-      return Container(
-        color: CustomTheme().pureWhite,
-        child: ListTile(
-          leading: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(
-                      baseUrl + '/media/content/${root.id}'),
-                ),
-              )),
-          title: Text(root.name),
-          trailing: GestureDetector(
-              onTap: () {
-                _settingModalBottomSheet(_context, root, merchant);
-              },
-              child: Image.asset('assets/images/edit_action_ic.png')),
-        ),
-      );
-    return ExpansionTile(
-      key: PageStorageKey<Category>(root),
-      title: Text(root.name),
-      children: root.categories.map(_buildTiles).toList(),
+    return ListView.separated(
+      padding: EdgeInsets.all(0),
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => getAppDivider(),
+      itemCount: value.getCategories.length,
+      itemBuilder: (context, index) => CategoryEntryItemWidget(value.getCategories[index], widget.merchant),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _context = context;
-    return _buildTiles(entry);
-  }
-
-  void _settingModalBottomSheet(context, Category root, Merchant merchant) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(Icons.delete),
-                    title: Text(root.name),
-                    onTap: () => Navigator.pushNamed(
-                        bc, AppRouting.editCategory,
-                        arguments: root)),
-                ListTile(
-                  leading: Icon(Icons.edit),
-                  title: Text(root.name),
-                  onTap: () => {
-                    Navigator.pushNamed(bc, AppRouting.editCategory,
-                        arguments: root)
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text("Add New"),
-                  onTap: () => Navigator.pushNamed(bc, AppRouting.addCategory,
-                      arguments: merchant),
-                )
-              ],
-            ),
-          );
-        });
   }
 }

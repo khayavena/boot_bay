@@ -49,15 +49,17 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<Product>> getMerchantProductsByCategory(
-      String categoryId, String merchantId) {
-    return _remoteProductService.getMerchantProductsByCategory(
-        categoryId, merchantId);
+  Future<List<Product>> getMerchantProductsByCategory(String categoryId, String merchantId) {
+    return _remoteProductService.getMerchantProductsByCategory(categoryId, merchantId);
   }
 
   @override
-  Future<List<Product>> getProductsByCategory(String categoryId) {
-    return _remoteProductService.getProductsByCategory(categoryId);
+  Future<List<Product>> getProductsByCategory(String categoryId) async {
+    var products = await _remoteProductService.getProductsByCategory(categoryId);
+    if(products.isNotEmpty){
+      _localProductService.insertAll(products);
+    }
+    return _localProductService.findAllProducts();
   }
 
   @override

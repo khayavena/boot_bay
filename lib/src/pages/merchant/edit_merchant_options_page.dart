@@ -1,5 +1,6 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
+import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/wigets/shared/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -27,48 +28,61 @@ class _EditMerchantManagementOptionsWidgetState extends State<EditMerchantManage
               onTap: () {
                 Navigator.of(context).pushNamed(AppRouting.merchantsManagementEdit, arguments: widget.merchant);
               },
-              child: getItem("Edit Merchant")),
+              child: getItem("Edit Merchant", Icons.add_business_outlined)),
           GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(AppRouting.merchantItemCategoryList, arguments: widget.merchant);
               },
-              child: getItem("Categories")),
+              child: getItem("Categories", Icons.category_outlined)),
           GestureDetector(
               onTap: () {
                 // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
               },
-              child: getItem("Revenue")),
+              child: getItem("Revenue", Icons.money)),
           GestureDetector(
               onTap: () {
                 // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
               },
-              child: getItem("Add Staff")),
+              child: getItem("Add Staff", Icons.wc_outlined)),
           GestureDetector(
               onTap: () {
                 // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
               },
-              child: getItem("Orders"))
+              child: getItem("Orders", Icons.delivery_dining))
         ]);
   }
 
-  Widget getItem(String s) {
+  Widget getItem(String s, IconData iconData) {
     return Container(
-      child: Center(
-        child: Text(s,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontFamily: 'SFProText',
-              fontWeight: FontWeight.w700,
-            )),
+      child: Align(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(iconData),
+            SizedBox(
+              height: 8,
+            ),
+            Text(s,
+                style: TextStyle(
+                  color: CustomColor().originalBlack,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                )),
+          ],
+        ),
       ),
       height: 60,
-      decoration: smallButtonDecoratorGrey,
+      decoration: tileDecorator,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppBar.build("Merchant Edit Options", context), body: _buildOptions());
+    return Scaffold(
+        backgroundColor: CustomColor().appBackground,
+        appBar: CustomAppBar.build("Merchant Edit Options", context),
+        body: _buildOptions());
   }
 }

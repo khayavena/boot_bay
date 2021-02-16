@@ -1,14 +1,7 @@
 import 'dart:ui';
-//TODO: this class should be static
-/// Custom class to group all colours together, and make it reusable across the app.
-///
-/// Usage:
-/// ```dart
-/// // returns Color.fromRGBO(7, 90, 180, 1);
-/// CustomTheme().primary
-/// ```
-class CustomTheme {
-  CustomTheme({bool dark = false});
+
+class CustomColor {
+  CustomColor({bool dark = false});
 
   static const cta_blue = Color(0xff075ab4);
 
@@ -112,7 +105,7 @@ class CustomTheme {
     return _black;
   }
 
-  Color get pureBlack {
+  Color get originalBlack {
     return _pureBlack;
   }
 

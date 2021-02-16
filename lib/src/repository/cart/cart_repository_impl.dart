@@ -15,7 +15,7 @@ class CartRepositoryImpl implements CartRepository {
         _networkHelper = networkHelper;
 
   @override
-  // ignore: missing_return
+  // ignore: missing_setUpModulesreturn
   Future<void> delete(Product product) async {
     await _cartDao.delete(product);
   }

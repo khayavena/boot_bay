@@ -1,14 +1,20 @@
 import 'dart:io';
 
-import 'package:bootbay/src/helpers/theme.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/viewmodel/MediaContentViewModel.dart';
+import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+import '../../../res.dart';
 
 class EditCategoryPage extends StatefulWidget {
   final Category category;
@@ -45,42 +51,28 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category.name),
-        backgroundColor: CustomTheme().appBackground,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: RaisedButton(
-                child: Icon(Icons.upload_file),
-                onPressed: () async {
-                  await _categoryViewModel
-                      .saveCategory(widget.category)
-                      .then((value) {
-                    _mediaContentViewModel.saveFile(_image.path, value.id);
-                  });
-                }),
-          )
-        ],
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            buildEditText(value: widget.category?.name ?? ''),
-            Container(
-              height: 100,
-              child: _image == null
-                  ? Text('No Image Showing')
-                  : Image.file(File(_image.path)),
-            ),
+      backgroundColor: CustomColor().appBackground,
+      body: buildCollapsingWidget(
+          bodyWidget: _buildBody(),
+          actions: [
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: GestureDetector(
+                  child: Icon(
+                    Icons.upload_file,
+                    color: CustomColor().originalBlack,
+                  ),
+                  onTap: () async {
+                    await _categoryViewModel.saveCategory(widget.category).then((value) {
+                      _mediaContentViewModel.saveFile(_image.path, value.id);
+                    });
+                  }),
+            )
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        child: Icon(Icons.add_a_photo),
-        onPressed: _openImage,
-      ),
+          title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
+          headerIcon: baseUrl + '/media/content/${widget.category?.id ?? widget.merchant.id}',
+          backButton:
+              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );
   }
 
@@ -90,6 +82,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       autofocus: false,
       controller: categoryController,
       decoration: InputDecoration(
+        helperMaxLines: 1,
         hintText: 'Add Category',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0)),
@@ -102,11 +95,55 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   }
 
   void _openImage() async {
-    PickedFile pickedImage =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    PickedFile pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       _image = pickedImage;
       setState(() {});
     }
+  }
+
+  Widget _buildAttach() {
+    return GestureDetector(
+      child: Container(
+          margin: EdgeInsets.only(top: 16),
+          width: 100,
+          height: 100,
+          child: Icon(
+            Icons.add_a_photo,
+            color: CustomColor().darkBlue,
+          ),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(color: const Color(0x7b999999), offset: Offset(1, 2), blurRadius: 4, spreadRadius: 0)
+              ],
+              color: Colors.white)),
+      onTap: () {
+        _openImage();
+      },
+    );
+  }
+
+  Widget _buildBody() {
+    return Center(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16, top: 24),
+            child: buildEditText(value: widget.category?.name ?? ''),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 16, left: 16, top: 24),
+            width: double.maxFinite,
+            color: CustomColor().appBackground,
+            height: 300,
+            child: _image == null
+                ? Padding(padding: EdgeInsets.all(100), child: _buildAttach())
+                : Image.file(File(_image.path)),
+          ),
+          _image != null ? _buildAttach() : SizedBox()
+        ],
+      ),
+    );
   }
 }

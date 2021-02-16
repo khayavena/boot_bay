@@ -32,8 +32,11 @@ class ProductViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
+
       _products = await _productRepository.getMerchantProductsByCategory(
           categoryId, merchantId);
+
+
       _loader = Loader.complete;
       notifyListeners();
       return _products;
@@ -79,6 +82,7 @@ class ProductViewModel extends ViewModel {
     notifyListeners();
     try {
       cartItems = await _productRepository.getAllSelectedProducts();
+
       _loader = Loader.complete;
       notifyListeners();
       return cartItems;
