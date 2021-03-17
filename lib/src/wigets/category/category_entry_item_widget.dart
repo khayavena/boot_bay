@@ -18,8 +18,8 @@ class CategoryEntryItemWidget extends StatelessWidget {
         color: CustomColor().pureWhite,
         child: ListTile(
           leading: Container(
-              width: 32,
-              height: 32,
+              width: 56,
+              height: 56,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -34,29 +34,13 @@ class CategoryEntryItemWidget extends StatelessWidget {
                 fontStyle: FontStyle.normal,
                 fontSize: 15.0),
           ),
-          trailing: Container(
-            width: 40,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      _settingModalBottomSheet(context, root, merchant);
-                    },
-                    child: Image.asset(
-                      'assets/images/more_icon.png',
-                      width: 14,
-                      height: 14,
-                    )),
-                Image.asset(
-                  'assets/images/action_icon.png',
-                  width: 16,
-                  height: 16,
-                )
-              ],
-            ),
-          ),
+          trailing: GestureDetector(
+              onTap: () {
+                _settingModalBottomSheet(context, root, merchant);
+              },
+              child: Image.asset(
+                'assets/images/more_icon.png',
+              )),
         ),
       );
     return ExpansionTile(
@@ -77,6 +61,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
+    Map<String, dynamic> map = {'category': root, 'merchant': merchant};
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -86,11 +71,13 @@ class CategoryEntryItemWidget extends StatelessWidget {
                 ListTile(
                     leading: Icon(Icons.delete),
                     title: Text(root.name),
-                    onTap: () => Navigator.pushNamed(bc, AppRouting.editCategory, arguments: root)),
+                    onTap: () {
+                      Navigator.pushNamed(bc, AppRouting.editCategory, arguments: map);
+                    }),
                 ListTile(
                   leading: Icon(Icons.edit),
                   title: Text(root.name),
-                  onTap: () => {Navigator.pushNamed(bc, AppRouting.editCategory, arguments: root)},
+                  onTap: () => {Navigator.pushNamed(bc, AppRouting.editCategory, arguments: map)},
                 ),
                 ListTile(
                   leading: Icon(Icons.add),

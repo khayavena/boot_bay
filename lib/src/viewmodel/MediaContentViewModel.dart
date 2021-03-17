@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class MediaContentViewModel extends ViewModel {
   MediaContentRepository _mediaContentRepository;
   Loader _loader;
-  bool _isItemExist = false;
 
   String dataErrorMessage;
 
@@ -21,7 +20,6 @@ class MediaContentViewModel extends ViewModel {
 
   Future<MediaContentResponse> saveFile(String path, String id) async {
     _loader = Loader.busy;
-
     notifyListeners();
     try {
       mediaResponse =
@@ -45,7 +43,6 @@ class MediaContentViewModel extends ViewModel {
 
   Future<MediaContentResponse> saveCategoryFile(String path, String id) async {
     _loader = Loader.busy;
-
     notifyListeners();
     try {
       mediaResponse = await _mediaContentRepository.uploadCategory(path, id);

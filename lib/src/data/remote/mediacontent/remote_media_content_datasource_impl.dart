@@ -27,12 +27,12 @@ class RemoteMediaContentDataSourceImpl implements RemoteMediaContentDataSource {
   }
 
   Future<MediaContentResponse> uploadCategory(
-      String path, String merchantId) async {
+      String path, String categoryId) async {
     var formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(path),
     });
     var response =
-        await _dio.post('$baseEndPoint/category/$path/icon', data: formData);
+        await _dio.post('$baseEndPoint/category/$categoryId/icon', data: formData);
     return MediaContentResponse.fromJson(response.data);
   }
 }

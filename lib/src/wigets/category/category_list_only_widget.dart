@@ -1,8 +1,5 @@
-import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/wigets/category/category_entry_item_widget.dart';
@@ -12,20 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res.dart';
-
-class CategoryListViewWidget extends StatefulWidget {
+class CategoryListOnlyWidget extends StatefulWidget {
   final Merchant merchant;
 
-  CategoryListViewWidget({@required this.merchant});
+  CategoryListOnlyWidget({@required this.merchant});
 
   @override
-  _CategoryListViewWidgetState createState() {
-    return _CategoryListViewWidgetState();
+  _CategoryListOnlyWidgetState createState() {
+    return _CategoryListOnlyWidgetState();
   }
 }
 
-class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
+class _CategoryListOnlyWidgetState extends State<CategoryListOnlyWidget> {
   TextEditingController categoryController = TextEditingController();
 
   @override
@@ -44,30 +39,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor().appBackground,
-      body: buildCollapsingWidget(
-          bodyWidget: Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: _buildBody(),
-                )
-              ],
-            ),
-          ),
-          actions: [
-            IconButton(icon: ImageIcon(AssetImage(Res.search_ic)), color: primaryBlackColor, onPressed: () {}),
-            IconButton(
-                icon: ImageIcon(AssetImage(Res.cart_ic)),
-                color: primaryBlackColor,
-                onPressed: () {
-                  Navigator.of(context).pushNamed(AppRouting.cartList);
-                })
-          ],
-          title: widget.merchant?.name??'',
-          headerIcon: baseUrl + '/media/content/${widget.merchant.id}',
-          backButton:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
+      body: _buildBody(),
     );
   }
 

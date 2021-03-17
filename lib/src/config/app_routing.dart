@@ -1,6 +1,7 @@
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/pages/category/AddNewCategoryPage.dart';
 import 'package:bootbay/src/pages/category/EditCategoryPage.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/edit_merchant_management_page.dart';
@@ -104,19 +105,21 @@ class AppRouting {
 
         return _errorRoute();
       case editCategory:
-        if (args != null && args is Category) {
-          return createRoute(
-              editCategory,
-              EditCategoryPage(
-                category: args,
-              ));
-        }
-        return _errorRoute();
+        Map map = args ;
+        Category category = map['category'] ;
+        Merchant merchant = map['merchant'] ;
+        return createRoute(
+            editCategory,
+            EditCategoryPage(
+              category: category,
+              merchant: merchant,
+            ));
+
       case addCategory:
         if (args != null && args is Merchant) {
           return createRoute(
               addCategory,
-              EditCategoryPage(
+              AddNewCategoryPage(
                 merchant: args,
               ));
         }
