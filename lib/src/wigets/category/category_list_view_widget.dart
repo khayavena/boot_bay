@@ -48,9 +48,11 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
           bodyWidget: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: _buildBody(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: _buildBody(),
+                  ),
                 )
               ],
             ),
@@ -64,7 +66,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
                   Navigator.of(context).pushNamed(AppRouting.cartList);
                 })
           ],
-          title: widget.merchant?.name??'',
+          title: widget.merchant?.name ?? '',
           headerIcon: baseUrl + '/media/content/${widget.merchant.id}',
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),

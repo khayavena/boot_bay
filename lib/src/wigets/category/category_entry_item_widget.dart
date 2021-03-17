@@ -43,15 +43,27 @@ class CategoryEntryItemWidget extends StatelessWidget {
               )),
         ),
       );
-    return ExpansionTile(
-      key: PageStorageKey<Category>(root),
-      title: Text(root.name,
-          style: TextStyle(
-              color: CustomColor().originalBlack,
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.normal,
-              fontSize: 15.0)),
-      children: root.categories.map((item) => _buildTiles(item, context)).toList(),
+    return Container(
+      color: CustomColor().pureWhite,
+      child: ExpansionTile(
+        leading: Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(baseUrl + '/media/content/${root.id}'),
+              ),
+            )),
+        key: PageStorageKey<Category>(root),
+        title: Text(root.name,
+            style: TextStyle(
+                color: CustomColor().originalBlack,
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+                fontSize: 15.0)),
+        children: root.categories.map((item) => _buildTiles(item, context)).toList(),
+      ),
     );
   }
 
