@@ -86,7 +86,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     final inputField = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
-      decoration: InputDecoration(labelText: 'Update category name'),
       controller: categoryController,
     );
     categoryController.text = value;
@@ -99,7 +98,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     final inputField = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
-      decoration: InputDecoration(labelText: 'Enter sub category'),
       controller: subCategoryController,
     );
     subCategoryController.text = value;
@@ -140,70 +138,108 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     return Center(
       child: Column(
         children: [
-          Card(
-            margin: EdgeInsets.only(bottom: 8, top: 8),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-              child: ListTile(
-                leading: GestureDetector(
-                  onTap: () => _openImage(),
-                  child: _image == null
-                      ? _buildAttach()
-                      : Image.file(
-                          File(
-                            _image.path,
-                          ),
-                          width: 50,
-                          height: 56,
-                          fit: BoxFit.cover,
-                        ),
+          // Card(
+          //   margin: EdgeInsets.only(bottom: 8, top: 8),
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+          //     child: ListTile(
+          //       leading: GestureDetector(
+          //         onTap: () => _openImage(),
+          //         child: _image == null
+          //             ? _buildAttach()
+          //             : Image.file(
+          //                 File(
+          //                   _image.path,
+          //                 ),
+          //                 width: 50,
+          //                 height: 56,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //       ),
+          //       title: buildEditText(value: widget.category?.name ?? ''),
+          //     ),
+          //   ),
+          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  }),
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) return Colors.white;
+                    return null; // Defer to the widget's default.
+                  }),
                 ),
-                title: buildEditText(value: widget.category?.name ?? ''),
+                onPressed: () {
+                  _showAddDialog();
+                },
+                child: Text('Add sub item'),
               ),
-            ),
-          ),
-          Card(
-            margin: EdgeInsets.only(bottom: 8, top: 8),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-              child: ListTile(
-                leading: GestureDetector(
-                  onTap: () => _openImage2(),
-                  child: _image2 == null
-                      ? _buildAttach()
-                      : Image.file(
-                          File(
-                            _image2.path,
-                          ),
-                          width: 50,
-                          height: 56,
-                          fit: BoxFit.cover,
-                        ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  }),
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) return Colors.white;
+                    return null; // Defer to the widget's default.
+                  }),
                 ),
-                title: buildSubEditText(),
-                trailing: GestureDetector(
-                  onTap: () async {
-                    var subCat = Category(
-                        parentId: widget.category.id, name: subCategoryController.text, merchantId: widget.merchant.id);
-                    await _categoryViewModel.saveCategory(subCat).then((value) {
-                      if (_image2 != null && _image2.path.isNotEmpty) {
-                        _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
-                      }
-                    });
-                  },
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    color: CustomColor().green,
-                    child: Icon(
-                      Icons.done,
-                      color: CustomColor().pureWhite,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                onPressed: () {
+                  _showEditDialog();
+
+                },
+                child: Text('Edit item'),
+              )
+            ],
           ),
+          // Card(
+          //   margin: EdgeInsets.only(bottom: 8, top: 8),
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
+          //     child: ListTile(
+          //       leading: GestureDetector(
+          //         onTap: () => _openImage2(),
+          //         child: _image2 == null
+          //             ? _buildAttach()
+          //             : Image.file(
+          //                 File(
+          //                   _image2.path,
+          //                 ),
+          //                 width: 50,
+          //                 height: 56,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //       ),
+          //       title: buildSubEditText(),
+          //       trailing: GestureDetector(
+          //         onTap: () async {
+          //           var subCat = Category(
+          //               parentId: widget.category.id, name: subCategoryController.text, merchantId: widget.merchant.id);
+          //           await _categoryViewModel.saveCategory(subCat).then((value) {
+          //             if (_image2 != null && _image2.path.isNotEmpty) {
+          //               _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
+          //             }
+          //           });
+          //         },
+          //         child: Container(
+          //           width: 30,
+          //           height: 30,
+          //           color: CustomColor().green,
+          //           child: Icon(
+          //             Icons.done,
+          //             color: CustomColor().pureWhite,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: CategoryListOnlyWidget(
               merchant: widget.merchant,
@@ -211,6 +247,74 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showAddDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('This is a demo alert dialog.'),
+                buildSubEditText(),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showEditDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Category'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () => _openImage2(),
+                  child: _image2 == null
+                      ? _buildAttach()
+                      : Image.file(
+                    File(
+                      _image2.path,
+                    ),
+                    width: 50,
+                    height: 56,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                buildEditText(value: widget.category.name),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

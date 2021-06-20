@@ -98,3 +98,4 @@ assets/json/app_config.json
 ios/Flutter/.last_build_id
 .vscode/launch.json.bak
 .favorites.json
+/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist

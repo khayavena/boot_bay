@@ -38,8 +38,8 @@ class CategoryEntryItemWidget extends StatelessWidget {
               onTap: () {
                 _settingModalBottomSheet(context, root, merchant);
               },
-              child: Image.asset(
-                'assets/images/more_icon.png',
+              child: Icon(
+                Icons.keyboard_arrow_right,
               )),
         ),
       );
@@ -74,31 +74,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
     Map<String, dynamic> map = {'category': root, 'merchant': merchant};
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(Icons.delete),
-                    title: Text(root.name),
-                    onTap: () {
-                      Navigator.pushNamed(bc, AppRouting.editCategory, arguments: map);
-                    }),
-                ListTile(
-                  leading: Icon(Icons.edit),
-                  title: Text(root.name),
-                  onTap: () => {Navigator.pushNamed(bc, AppRouting.editCategory, arguments: map)},
-                ),
-                ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text("Add New"),
-                  onTap: () => Navigator.pushNamed(bc, AppRouting.addCategory, arguments: merchant),
-                )
-              ],
-            ),
-          );
-        });
+    Navigator.pushNamed(context, AppRouting.editCategory, arguments: map);
+    //Navigator.pushNamed(context, AppRouting.addCategory, arguments: merchant);
   }
 }

@@ -55,8 +55,7 @@ import 'package:sembast/sembast.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final EnvConfig devConfig =
-      await EnvConfigServiceImpl(Flavor.DEV).getEnvConfig();
+  final EnvConfig devConfig = await EnvConfigServiceImpl(Flavor.DEV).getEnvConfig();
   baseUrl = devConfig.baseUrl;
   final Dio dio = DioClient.getClient(
     devConfig.baseUrl,
@@ -78,24 +77,22 @@ void main() async {
   );
 
   final UserDao userDao = UserDaoImpl(database: appDb);
-  final UserRepository userRepository = UserRepositoryImpl(
-      userService: userService, networkHelper: networkHelper, userDao: userDao);
+  final UserRepository userRepository =
+      UserRepositoryImpl(userService: userService, networkHelper: networkHelper, userDao: userDao);
 
   final ProductDao productDao = ProductDaoImpl(database: appDb);
 
-  final CartRepository cartRepository = CartRepositoryImpl(
-      cartDao: CartDaoImpl(database: appDb), networkHelper: networkHelper);
+  final CartRepository cartRepository =
+      CartRepositoryImpl(cartDao: CartDaoImpl(database: appDb), networkHelper: networkHelper);
 
-  final WishListRepository wishListRepository = WishListRepositoryImpl(
-      wishListDao: WishListDaoImpl(database: appDb),
-      networkHelper: networkHelper);
+  final WishListRepository wishListRepository =
+      WishListRepositoryImpl(wishListDao: WishListDaoImpl(database: appDb), networkHelper: networkHelper);
 
-  final MerchantRepository merchantRepository = MerchantRepositoryImpl(
-      remoteMerchantDataSource: RemoteMerchantDataSourceImpl(dioClient: dio));
+  final MerchantRepository merchantRepository =
+      MerchantRepositoryImpl(remoteMerchantDataSource: RemoteMerchantDataSourceImpl(dioClient: dio));
 
   final MediaContentRepository mediaContentRepository =
-      MediaContentRepositoryImpl(
-          mediaContentDataSource: RemoteMediaContentDataSourceImpl(dio: dio));
+      MediaContentRepositoryImpl(mediaContentDataSource: RemoteMediaContentDataSourceImpl(dio: dio));
 
   final ProductRepository productRepository = ProductRepositoryImpl(
     remoteProductService: RemoteProductServiceImpl(
@@ -116,32 +113,19 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
+        ChangeNotifierProvider(create: (context) => ProductViewModel(productRepository: productRepository)),
+        ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: cartRepository)),
+        ChangeNotifierProvider(create: (context) => WishListViewModel(wishListRepository: wishListRepository)),
+        ChangeNotifierProvider(create: (context) => MerchantViewModel(merchantRepository: merchantRepository)),
+        ChangeNotifierProvider(
+            create: (context) => MediaContentViewModel(mediaContentRepository: mediaContentRepository)),
+        ChangeNotifierProvider(
+            create: (context) => MerchantRegistrationViewModel(merchantRepository: merchantRepository)),
+        ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: userRepository)),
         ChangeNotifierProvider(
             create: (context) =>
-                ProductViewModel(productRepository: productRepository)),
-        ChangeNotifierProvider(
-            create: (context) => CartViewModel(cartRepository: cartRepository)),
-        ChangeNotifierProvider(
-            create: (context) =>
-                WishListViewModel(wishListRepository: wishListRepository)),
-        ChangeNotifierProvider(
-            create: (context) =>
-                MerchantViewModel(merchantRepository: merchantRepository)),
-        ChangeNotifierProvider(
-            create: (context) => MediaContentViewModel(
-                mediaContentRepository: mediaContentRepository)),
-        ChangeNotifierProvider(
-            create: (context) => MerchantRegistrationViewModel(
-                merchantRepository: merchantRepository)),
-        ChangeNotifierProvider(
-            create: (context) => UserViewModel(userRepository: userRepository)),
-        ChangeNotifierProvider(
-            create: (context) => PaymentViewModel(
-                userRepository: userRepository,
-                paymentRepository: paymentRepository)),
-        ChangeNotifierProvider(
-            create: (context) =>
-                CategoryViewModel(categoryRepository: categoryRepository)),
+                PaymentViewModel(userRepository: userRepository, paymentRepository: paymentRepository)),
+        ChangeNotifierProvider(create: (context) => CategoryViewModel(categoryRepository: categoryRepository)),
         Provider<Database>(create: (context) => appDb),
         Provider<ProductRepository>(create: (context) => productRepository),
         Provider<MerchantRepository>(create: (context) => merchantRepository),
@@ -149,8 +133,7 @@ void main() async {
         Provider<WishListRepository>(create: (context) => wishListRepository),
         Provider<CategoryRepository>(create: (context) => categoryRepository),
         Provider<UserRepository>(create: (context) => userRepository),
-        Provider<MediaContentRepository>(
-            create: (context) => mediaContentRepository),
+        Provider<MediaContentRepository>(create: (context) => mediaContentRepository),
         Provider<NetworkHelper>(create: (context) => networkHelper),
       ],
       child: App(),
@@ -161,8 +144,6 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: AppRouting.generateRoute);
+    return MaterialApp(debugShowCheckedModeBanner: false, onGenerateRoute: AppRouting.generateRoute);
   }
 }
