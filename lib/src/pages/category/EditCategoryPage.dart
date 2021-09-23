@@ -138,28 +138,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     return Center(
       child: Column(
         children: [
-          // Card(
-          //   margin: EdgeInsets.only(bottom: 8, top: 8),
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-          //     child: ListTile(
-          //       leading: GestureDetector(
-          //         onTap: () => _openImage(),
-          //         child: _image == null
-          //             ? _buildAttach()
-          //             : Image.file(
-          //                 File(
-          //                   _image.path,
-          //                 ),
-          //                 width: 50,
-          //                 height: 56,
-          //                 fit: BoxFit.cover,
-          //               ),
-          //       ),
-          //       title: buildEditText(value: widget.category?.name ?? ''),
-          //     ),
-          //   ),
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -175,7 +153,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                   }),
                 ),
                 onPressed: () {
-                  _showAddDialog();
+                  _showEditDialog(widget.category.id, "Add Sub Item");
                 },
                 child: Text('Add sub item'),
               ),
@@ -191,55 +169,12 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                   }),
                 ),
                 onPressed: () {
-                  _showEditDialog();
-
+                  _showEditDialog(null, "Edit Item");
                 },
                 child: Text('Edit item'),
               )
             ],
           ),
-          // Card(
-          //   margin: EdgeInsets.only(bottom: 8, top: 8),
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(bottom: 8.0, top: 8),
-          //     child: ListTile(
-          //       leading: GestureDetector(
-          //         onTap: () => _openImage2(),
-          //         child: _image2 == null
-          //             ? _buildAttach()
-          //             : Image.file(
-          //                 File(
-          //                   _image2.path,
-          //                 ),
-          //                 width: 50,
-          //                 height: 56,
-          //                 fit: BoxFit.cover,
-          //               ),
-          //       ),
-          //       title: buildSubEditText(),
-          //       trailing: GestureDetector(
-          //         onTap: () async {
-          //           var subCat = Category(
-          //               parentId: widget.category.id, name: subCategoryController.text, merchantId: widget.merchant.id);
-          //           await _categoryViewModel.saveCategory(subCat).then((value) {
-          //             if (_image2 != null && _image2.path.isNotEmpty) {
-          //               _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
-          //             }
-          //           });
-          //         },
-          //         child: Container(
-          //           width: 30,
-          //           height: 30,
-          //           color: CustomColor().green,
-          //           child: Icon(
-          //             Icons.done,
-          //             color: CustomColor().pureWhite,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: CategoryListOnlyWidget(
               merchant: widget.merchant,
@@ -250,41 +185,13 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Future<void> _showAddDialog() async {
+  Future<void> _showEditDialog(String parentId, String title) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                buildSubEditText(),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _showEditDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Category'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -293,13 +200,13 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                   child: _image2 == null
                       ? _buildAttach()
                       : Image.file(
-                    File(
-                      _image2.path,
-                    ),
-                    width: 50,
-                    height: 56,
-                    fit: BoxFit.cover,
-                  ),
+                          File(
+                            _image2.path,
+                          ),
+                          width: 50,
+                          height: 56,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 buildEditText(value: widget.category.name),
               ],
@@ -308,7 +215,21 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           actions: <Widget>[
             TextButton(
               child: Text('Approve'),
-              onPressed: () {
+              onPressed: () async {
+                Category category;
+                if (parentId != null) {
+                  category =
+                      Category(parentId: parentId, name: subCategoryController.text, merchantId: widget.merchant.id);
+                } else {
+                  widget.category.name = subCategoryController.text.toString();
+                  category = widget.category;
+                }
+                await _categoryViewModel.saveCategory(category).then((value) {
+                  if (_image2 != null && _image2.path.isNotEmpty) {
+                    _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
+                  }
+                });
+
                 Navigator.of(context).pop();
               },
             ),

@@ -2,12 +2,14 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
+import 'package:bootbay/src/viewmodel/MediaContentViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class CategoryViewModel extends ViewModel {
-  CategoryRepository _categoryRepository;
+  final CategoryRepository _categoryRepository;
+  final MediaContentViewModel _contentViewModel;
 
   List<Category> _categories = [];
   Set<Category> _selectedCategories = Set();
@@ -17,9 +19,10 @@ class CategoryViewModel extends ViewModel {
 
   Loader _loader = Loader.idl;
 
-  CategoryViewModel({
-    @required CategoryRepository categoryRepository,
-  }) : _categoryRepository = categoryRepository;
+  CategoryViewModel(
+      {@required CategoryRepository categoryRepository, @required MediaContentViewModel mediaContentViewModel})
+      : _categoryRepository = categoryRepository,
+        _contentViewModel = mediaContentViewModel;
 
   Future<List<Category>> getAllCategories() async {
     _loader = Loader.busy;
@@ -73,8 +76,6 @@ class CategoryViewModel extends ViewModel {
     return _categories;
   }
 
-  Loader get loader => _loader;
-
   Future<Category> saveCategory(Category category) async {
     _category = category;
     var response = await _categoryRepository.add(category);
@@ -82,8 +83,7 @@ class CategoryViewModel extends ViewModel {
     return _category;
   }
 
-  // ignore: missing_return
-  Future<void> filter(Category category) {
+  Future<void> filter(Category category) async {
     _selectedCategories.add(category);
     notifyListeners();
   }
@@ -91,4 +91,6 @@ class CategoryViewModel extends ViewModel {
   List<Category> getSelectedCategories() {
     return _selectedCategories.toList();
   }
+
+  Loader get loader => _loader;
 }
