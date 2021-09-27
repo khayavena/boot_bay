@@ -30,7 +30,6 @@ class EditCategoryPage extends StatefulWidget {
 class _EditCategoryPageState extends State<EditCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  PickedFile _image;
   PickedFile _image2;
 
   TextEditingController categoryController = TextEditingController();
@@ -57,24 +56,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       backgroundColor: CustomColor().appBackground,
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
-          actions: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: GestureDetector(
-                  child: Icon(
-                    Icons.done,
-                    color: CustomColor().green,
-                  ),
-                  onTap: () async {
-                    widget.category.name = categoryController.text;
-                    await _categoryViewModel.saveCategory(widget.category).then((value) {
-                      if (_image != null && _image.path.isNotEmpty) {
-                        _mediaContentViewModel.saveFile(_image.path, value.id);
-                      }
-                    });
-                  }),
-            )
-          ],
           title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
           headerIcon: baseUrl + '/media/content/${widget.category?.id ?? widget.merchant.id}',
           backButton:
@@ -104,14 +85,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     return Container(
       child: inputField,
     );
-  }
-
-  void _openImage() async {
-    PickedFile pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      _image = pickedImage;
-      setState(() {});
-    }
   }
 
   void _openImage2() async {
