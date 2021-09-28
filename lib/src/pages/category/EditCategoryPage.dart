@@ -33,7 +33,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   PickedFile _image2;
 
   TextEditingController categoryController = TextEditingController();
-  TextEditingController subCategoryController = TextEditingController();
 
   @override
   void initState() {
@@ -57,7 +56,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
           title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
-          headerIcon: baseUrl + '/media/content/${widget.category?.id ?? widget.merchant.id}',
+          headerIcon: baseUrl + '/media/image/${widget.category?.id ?? widget.merchant.id}',
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );
@@ -70,18 +69,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       controller: categoryController,
     );
     categoryController.text = value;
-    return Container(
-      child: inputField,
-    );
-  }
-
-  Widget buildSubEditText({String value = ''}) {
-    final inputField = TextFormField(
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      controller: subCategoryController,
-    );
-    subCategoryController.text = value;
     return Container(
       child: inputField,
     );
@@ -159,6 +146,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   }
 
   Future<void> _showEditDialog(String parentId, String title) async {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -176,8 +165,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                           File(
                             _image2.path,
                           ),
-                          width: 50,
-                          height: 56,
+                          width: 200,
+                          height: 400,
                           fit: BoxFit.cover,
                         ),
                 ),
@@ -192,18 +181,16 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                 Category category;
                 if (parentId != null) {
                   category =
-                      Category(parentId: parentId, name: subCategoryController.text, merchantId: widget.merchant.id);
+                      Category(parentId: parentId, name: categoryController.text, merchantId: widget.merchant.id);
                 } else {
-                  widget.category.name = subCategoryController.text.toString();
                   category = widget.category;
+                  category.name = categoryController.text.toString();
                 }
-                await _categoryViewModel.saveCategory(category).then((value) {
+                await _categoryViewModel.saveCategory(category).then((value) async {
                   if (_image2 != null && _image2.path.isNotEmpty) {
-                    _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
+                    await _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
                   }
-                });
-
-                Navigator.of(context).pop();
+                }).whenComplete(() => Navigator.of(context).pop());
               },
             ),
           ],

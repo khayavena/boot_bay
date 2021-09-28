@@ -67,7 +67,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
                 })
           ],
           title: widget.merchant?.name ?? '',
-          headerIcon: baseUrl + '/media/content/${widget.merchant.id}',
+          headerIcon: baseUrl + '/media/image/${widget.merchant.id}',
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );

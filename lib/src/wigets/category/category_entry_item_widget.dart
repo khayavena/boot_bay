@@ -23,7 +23,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(baseUrl + '/media/content/${root.id}'),
+                  image: CachedNetworkImageProvider(baseUrl + '/media/image/${root.id}'),
                 ),
               )),
           title: Text(
@@ -52,7 +52,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(baseUrl + '/media/content/${root.id}'),
+                image: CachedNetworkImageProvider(baseUrl + '/media/image/${root.id}'),
               ),
             )),
         key: PageStorageKey<Category>(root),
