@@ -51,7 +51,7 @@ class _CategoryListOnlyWidgetState extends State<CategoryListOnlyWidget> {
           case Loader.complete:
             return _buildCategories(value);
           case Loader.busy:
-            return ColorLoader4();
+            return WidgetLoader();
           case Loader.error:
             Center(
               child: Text("Something went wrong"),

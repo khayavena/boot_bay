@@ -49,7 +49,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPay
           Container(child: Consumer<PaymentViewModel>(builder: (BuildContext context, paymentViewModel, Widget child) {
         switch (paymentViewModel.loader) {
           case Loader.busy:
-            return ColorLoader4();
+            return WidgetLoader();
           case Loader.complete:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
@@ -124,7 +124,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> implements OnWebPay
         SizedBox(
           height: 15,
         ),
-        isSuccess == null ? ColorLoader4() : SizedBox()
+        isSuccess == null ? WidgetLoader() : SizedBox()
       ],
     );
   }

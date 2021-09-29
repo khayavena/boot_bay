@@ -81,7 +81,7 @@ class _CategoryListViewWidgetState extends State<CategoryListViewWidget> {
           case Loader.complete:
             return _buildCategories(value);
           case Loader.busy:
-            return ColorLoader4();
+            return WidgetLoader();
           case Loader.error:
             Center(
               child: Text("Something went wrong"),

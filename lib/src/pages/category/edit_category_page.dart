@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
@@ -8,6 +9,7 @@ import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/viewmodel/CategaryViewModel.dart';
 import 'package:bootbay/src/viewmodel/MediaContentViewModel.dart';
 import 'package:bootbay/src/wigets/category/category_list_only_widget.dart';
+import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -142,8 +144,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   }
 
   Future<void> _showInputDialog(String parentId, String title) async {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -151,29 +151,13 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         return AlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () => _categoryMediaViewModel.openGalleryForImage(),
-                  child: Container(
-                    height: 300,
-                    color: Colors.black26,
-                    child: Consumer<CategoryMediaViewModel>(
-                        builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
-                      return value.fileInput == null
-                          ? _buildAttach()
-                          : Image.file(
-                              File(
-                                value.fileInput.path,
-                              ),
-                              fit: BoxFit.contain,
-                            );
-                    }),
-                  ),
-                ),
-                buildEditText(value: widget.category.name),
-              ],
-            ),
+            child: Consumer<MediaContentViewModel>(
+                builder: (BuildContext context, MediaContentViewModel value, Widget child) {
+              if (value.status == Loader.busy) {
+                return WidgetLoader();
+              }
+              return createAlrtBody(parentId, title);
+            }),
           ),
           actions: <Widget>[
             _buildApproveButton(parentId),
@@ -184,24 +168,52 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   }
 
   TextButton _buildApproveButton(String parentId) {
-    Category category;
-    if (parentId != null) {
-      category = Category(parentId: parentId, name: categoryController.text, merchantId: widget.merchant.id);
-    } else {
-      category = widget.category;
-      category.name = categoryController.text.toString();
-    }
     return TextButton(
       child: Text('Approve'),
       onPressed: () async {
+        Category category;
+        if (parentId != null) {
+          category =
+              Category(parentId: parentId, name: categoryController.text.toString(), merchantId: widget.merchant.id);
+        } else {
+          category = widget.category;
+          category.name = categoryController.text.toString();
+        }
         var categoryResponse = await _categoryViewModel.saveCategory(category);
         if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
           var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
               _categoryMediaViewModel.fileInput.path, categoryResponse.id);
         }
         _categoryMediaViewModel.clear();
+        _mediaContentViewModel.clear();
         Navigator.of(context).pop();
       },
+    );
+  }
+
+  Widget createAlrtBody(String parentId, String title) {
+    return ListBody(
+      children: <Widget>[
+        GestureDetector(
+          onTap: () => _categoryMediaViewModel.openGalleryForImage(),
+          child: Container(
+            height: 300,
+            color: Colors.black26,
+            child: Consumer<CategoryMediaViewModel>(
+                builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
+              return value.fileInput == null
+                  ? _buildAttach()
+                  : Image.file(
+                      File(
+                        value.fileInput.path,
+                      ),
+                      fit: BoxFit.contain,
+                    );
+            }),
+          ),
+        ),
+        buildEditText(value: widget.category.name),
+      ],
     );
   }
 }

@@ -77,9 +77,12 @@ class CategoryViewModel extends ViewModel {
   }
 
   Future<Category> saveCategory(Category category) async {
+  _loader = Loader.busy;
     _category = category;
     var response = await _categoryRepository.add(category);
     _category = response;
+     _loader = Loader.complete;
+    notifyListeners();
     return _category;
   }
 

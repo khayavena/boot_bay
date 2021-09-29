@@ -2,7 +2,7 @@ import 'package:bootbay/src/wigets/shared/loading/dot_type.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class ColorLoader4 extends StatefulWidget {
+class WidgetLoader extends StatefulWidget {
 
   final Color dotOneColor;
   final Color dotTwoColor;
@@ -11,7 +11,7 @@ class ColorLoader4 extends StatefulWidget {
   final DotType dotType;
   final Icon dotIcon;
 
-  ColorLoader4({
+  WidgetLoader({
     this.dotOneColor = Colors.redAccent,
     this.dotTwoColor = Colors.green,
     this.dotThreeColor = Colors.blueAccent,
@@ -21,10 +21,10 @@ class ColorLoader4 extends StatefulWidget {
   });
 
   @override
-  _ColorLoader4State createState() => _ColorLoader4State();
+  _WidgetLoaderState createState() => _WidgetLoaderState();
 }
 
-class _ColorLoader4State extends State<ColorLoader4>
+class _WidgetLoaderState extends State<WidgetLoader>
     with SingleTickerProviderStateMixin {
   Animation<double> animation_1;
   Animation<double> animation_2;

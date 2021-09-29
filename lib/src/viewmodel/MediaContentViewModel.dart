@@ -14,16 +14,14 @@ class MediaContentViewModel extends ViewModel {
 
   MediaContentResponse mediaResponse;
 
-  MediaContentViewModel(
-      {@required MediaContentRepository mediaContentRepository})
+  MediaContentViewModel({@required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
   Future<MediaContentResponse> saveFile(String path, String id) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      mediaResponse =
-          await _mediaContentRepository.uploadMerchantLogo(path, id);
+      mediaResponse = await _mediaContentRepository.uploadMerchantLogo(path, id);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;
@@ -61,6 +59,10 @@ class MediaContentViewModel extends ViewModel {
       notifyListeners();
     }
     return mediaResponse;
+  }
+
+  clear() {
+    _loader = Loader.idl;
   }
 
   Loader get status => _loader;
