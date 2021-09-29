@@ -1,8 +1,8 @@
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/category/AddNewCategoryPage.dart';
-import 'package:bootbay/src/pages/category/EditCategoryPage.dart';
+import 'package:bootbay/src/pages/category/add_new_category_page.dart';
+import 'package:bootbay/src/pages/category/edit_category_page.dart';
 import 'package:bootbay/src/pages/mediacontent/MediaContentPage.dart';
 import 'package:bootbay/src/pages/merchant/edit_merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/edit_merchant_options_page.dart';

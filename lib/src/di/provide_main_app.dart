@@ -1,5 +1,6 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module.dart';
+import 'package:bootbay/src/pages/category/category_media_view_model.dart';
 import 'package:bootbay/src/repository/cart/cart_repository.dart';
 import 'package:bootbay/src/repository/category/category_repository.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
@@ -31,6 +32,7 @@ Future<void> provideMainApp(Flavor flavor) async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
+        ChangeNotifierProvider(create: (context) => CategoryMediaViewModel()),
         ChangeNotifierProvider(
             create: (context) => ProductViewModel(productRepository: moduleLocator<ProductRepository>())),
         ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: moduleLocator<CartRepository>())),

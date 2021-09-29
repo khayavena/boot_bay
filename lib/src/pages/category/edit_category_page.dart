@@ -12,10 +12,10 @@ import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res.dart';
+import 'category_media_view_model.dart';
 
 class EditCategoryPage extends StatefulWidget {
   final Category category;
@@ -30,7 +30,7 @@ class EditCategoryPage extends StatefulWidget {
 class _EditCategoryPageState extends State<EditCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  PickedFile _image2;
+  CategoryMediaViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -42,6 +42,10 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         listen: false,
       );
       _categoryViewModel = Provider.of<CategoryViewModel>(
+        context,
+        listen: false,
+      );
+      _categoryMediaViewModel = Provider.of<CategoryMediaViewModel>(
         context,
         listen: false,
       );
@@ -72,14 +76,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     return Container(
       child: inputField,
     );
-  }
-
-  void _openImage2() async {
-    PickedFile pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      _image2 = pickedImage;
-      setState(() {});
-    }
   }
 
   Widget _buildAttach() {
@@ -113,7 +109,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                   }),
                 ),
                 onPressed: () {
-                  _showEditDialog(widget.category.id, "Add Sub Item");
+                  _showInputDialog(widget.category.id, "Add Sub Item");
                 },
                 child: Text('Add sub item'),
               ),
@@ -129,7 +125,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                   }),
                 ),
                 onPressed: () {
-                  _showEditDialog(null, "Edit Item");
+                  _showInputDialog(null, "Edit Item");
                 },
                 child: Text('Edit item'),
               )
@@ -145,7 +141,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Future<void> _showEditDialog(String parentId, String title) async {
+  Future<void> _showInputDialog(String parentId, String title) async {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return showDialog<void>(
@@ -158,43 +154,53 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
             child: ListBody(
               children: <Widget>[
                 GestureDetector(
-                  onTap: () => _openImage2(),
-                  child: _image2 == null
-                      ? _buildAttach()
-                      : Image.file(
-                          File(
-                            _image2.path,
-                          ),
-                          width: 200,
-                          height: 400,
-                          fit: BoxFit.cover,
-                        ),
+                  onTap: () => _categoryMediaViewModel.openGalleryForImage(),
+                  child: Container(
+                    height: 300,
+                    color: Colors.black26,
+                    child: Consumer<CategoryMediaViewModel>(
+                        builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
+                      return value.fileInput == null
+                          ? _buildAttach()
+                          : Image.file(
+                              File(
+                                value.fileInput.path,
+                              ),
+                              fit: BoxFit.contain,
+                            );
+                    }),
+                  ),
                 ),
                 buildEditText(value: widget.category.name),
               ],
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () async {
-                Category category;
-                if (parentId != null) {
-                  category =
-                      Category(parentId: parentId, name: categoryController.text, merchantId: widget.merchant.id);
-                } else {
-                  category = widget.category;
-                  category.name = categoryController.text.toString();
-                }
-                await _categoryViewModel.saveCategory(category).then((value) async {
-                  if (_image2 != null && _image2.path.isNotEmpty) {
-                    await _mediaContentViewModel.saveCategoryFile(_image2.path, value.id);
-                  }
-                }).whenComplete(() => Navigator.of(context).pop());
-              },
-            ),
+            _buildApproveButton(parentId),
           ],
         );
+      },
+    );
+  }
+
+  TextButton _buildApproveButton(String parentId) {
+    Category category;
+    if (parentId != null) {
+      category = Category(parentId: parentId, name: categoryController.text, merchantId: widget.merchant.id);
+    } else {
+      category = widget.category;
+      category.name = categoryController.text.toString();
+    }
+    return TextButton(
+      child: Text('Approve'),
+      onPressed: () async {
+        var categoryResponse = await _categoryViewModel.saveCategory(category);
+        if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
+          var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
+              _categoryMediaViewModel.fileInput.path, categoryResponse.id);
+        }
+        _categoryMediaViewModel.clear();
+        Navigator.of(context).pop();
       },
     );
   }
