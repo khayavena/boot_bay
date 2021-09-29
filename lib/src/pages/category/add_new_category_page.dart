@@ -71,7 +71,7 @@ class _AddNewCategoryPageState extends State<AddNewCategoryPage> {
             )
           ],
           title: widget.merchant.name,
-          headerIcon: baseUrl + '/media/image/${widget.merchant.id}',
+          headerIcon: getImageUri(widget.merchant.id),
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );

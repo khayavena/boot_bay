@@ -2,6 +2,7 @@ import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
@@ -62,7 +63,7 @@ class _ProductCardState extends State<ProductCard> {
           width: 166,
           height: 204,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(product.image),
+          image: CachedNetworkImageProvider(getImageUri(product.id)),
         ),
         SizedBox(
           height: 8,

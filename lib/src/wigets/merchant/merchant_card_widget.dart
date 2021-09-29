@@ -1,6 +1,7 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _MerchantCardWidgetState extends State<MerchantCardWidget> {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: CachedNetworkImageProvider(widget.merchant.logoUrl),
+          image: CachedNetworkImageProvider(getImageUri(widget.merchant.id)),
           fit: BoxFit.cover,
         )));
   }

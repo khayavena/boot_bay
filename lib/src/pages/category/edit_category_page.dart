@@ -60,7 +60,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
           title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
-          headerIcon: baseUrl + '/media/image/${widget.category?.id ?? widget.merchant.id}',
+          headerIcon: getImageUri(widget.category?.id ?? widget.merchant.id),
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );

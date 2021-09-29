@@ -1,4 +1,5 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
@@ -29,7 +30,7 @@ class WishItemWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(model.image),
+                    image: CachedNetworkImageProvider(getImageUri(model.id)),
                   ),
                 ))),
         Flexible(flex: 1, child: Container(margin: EdgeInsets.only(left: 4, right: 8), child: _leftColumn()))
