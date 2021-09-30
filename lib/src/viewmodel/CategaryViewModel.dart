@@ -28,9 +28,6 @@ class CategoryViewModel extends ViewModel {
     _loader = Loader.busy;
     try {
       _categories = await _categoryRepository.getAll();
-      if (_categories != null && _categories.isNotEmpty) {
-        _category = _categories[0];
-      }
       _loader = Loader.complete;
       notifyListeners();
       return _categories;
@@ -56,9 +53,7 @@ class CategoryViewModel extends ViewModel {
     _loader = Loader.busy;
     try {
       _categories = await _categoryRepository.getAllByMerchant(merchantId);
-      if (_categories != null && _categories.isNotEmpty) {
-        _category = _categories[0];
-      }
+
       notifyListeners();
       _loader = Loader.complete;
       return _categories;
@@ -77,13 +72,12 @@ class CategoryViewModel extends ViewModel {
   }
 
   Future<Category> saveCategory(Category category) async {
-  _loader = Loader.busy;
-    _category = category;
+    _loader = Loader.busy;
     var response = await _categoryRepository.add(category);
     _category = response;
-     _loader = Loader.complete;
+    _loader = Loader.complete;
     notifyListeners();
-    return _category;
+    return response;
   }
 
   Future<void> filter(Category category) async {
