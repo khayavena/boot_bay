@@ -99,3 +99,4 @@ ios/Flutter/.last_build_id
 .vscode/launch.json.bak
 .favorites.json
 /ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/lib/generated_plugin_registrant.dart

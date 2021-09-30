@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/category.dart';
@@ -100,32 +101,14 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) return Colors.blue;
-                    return null; // Defer to the widget's default.
-                  }),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) return Colors.white;
-                    return null; // Defer to the widget's default.
-                  }),
-                ),
+                style: blueButtonStyle,
                 onPressed: () {
                   _showInputDialog(widget.category.id, "Add Sub Item");
                 },
-                child: Text('Add sub item'),
+                child: Text('Add Item'),
               ),
               ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) return Colors.blue;
-                    return null; // Defer to the widget's default.
-                  }),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) return Colors.white;
-                    return null; // Defer to the widget's default.
-                  }),
-                ),
+                style: blueButtonStyle,
                 onPressed: () {
                   _showInputDialog(null, "Edit Item");
                 },
@@ -156,7 +139,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               if (value.status == Loader.busy) {
                 return WidgetLoader();
               }
-              return createAlrtBody(parentId, title);
+              return createAlertBody(parentId, title);
             }),
           ),
           actions: <Widget>[
@@ -191,7 +174,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Widget createAlrtBody(String parentId, String title) {
+  Widget createAlertBody(String parentId, String title) {
     return ListBody(
       children: <Widget>[
         GestureDetector(
@@ -201,19 +184,21 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
             color: Colors.black26,
             child: Consumer<CategoryMediaViewModel>(
                 builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
-              return value.fileInput == null
-                  ? _buildAttach()
-                  : Image.file(
-                      File(
-                        value.fileInput.path,
-                      ),
-                      fit: BoxFit.contain,
-                    );
+              return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
         ),
         buildEditText(value: widget.category.name),
       ],
+    );
+  }
+
+  Widget _buildFileImage(CategoryMediaViewModel value) {
+    return Image.file(
+      File(
+        value.fileInput.path,
+      ),
+      fit: BoxFit.contain,
     );
   }
 }
