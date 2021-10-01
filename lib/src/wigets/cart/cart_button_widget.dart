@@ -2,7 +2,7 @@ import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/viewmodel/CartViewModel.dart';
+import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';

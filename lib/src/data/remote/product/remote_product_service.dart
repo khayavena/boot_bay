@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/ProductQuery.dart';
+import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product.dart';
 
 abstract class RemoteProductService {

@@ -2,7 +2,7 @@ import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
-import 'package:bootbay/src/model/User.dart';
+import 'package:bootbay/src/model/user.dart';
 
 class RemoteUserServiceImpl<T> implements RemoteUserService {
   Dio _dio;

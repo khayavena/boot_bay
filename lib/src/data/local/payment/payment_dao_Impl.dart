@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
-import 'package:bootbay/src/model/PaymentResponse.dart';
+import 'package:bootbay/src/model/payment_response.dart';
 import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 

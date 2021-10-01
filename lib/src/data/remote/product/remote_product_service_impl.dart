@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
-import 'package:bootbay/src/model/ProductQuery.dart';
+import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product.dart';
 
 class RemoteProductServiceImpl implements RemoteProductService {

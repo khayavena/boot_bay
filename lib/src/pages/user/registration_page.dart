@@ -1,5 +1,5 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/model/User.dart';
+import 'package:bootbay/src/model/user.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';

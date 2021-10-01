@@ -1,7 +1,7 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/viewmodel/WishListViewModel.dart';
+import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';

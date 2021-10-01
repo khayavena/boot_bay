@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
-import 'package:bootbay/src/model/User.dart';
+import 'package:bootbay/src/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 

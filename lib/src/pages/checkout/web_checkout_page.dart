@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bootbay/res.dart';
-import 'package:bootbay/src/model/PaymentNonce.dart';
+import 'package:bootbay/src/model/payment_nonce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';

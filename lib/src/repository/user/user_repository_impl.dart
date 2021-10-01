@@ -2,7 +2,7 @@ import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/User.dart';
+import 'package:bootbay/src/model/user.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:flutter/material.dart';
 

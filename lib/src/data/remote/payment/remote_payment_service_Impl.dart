@@ -1,8 +1,8 @@
 import 'package:bootbay/src/data/remote/payment/remote_payment_service.dart';
-import 'package:bootbay/src/model/PaymentRequest.dart';
-import 'package:bootbay/src/model/PaymentResponse.dart';
-import 'package:bootbay/src/model/TokenRequest.dart';
-import 'package:bootbay/src/model/TokenResponse.dart';
+import 'package:bootbay/src/model/payment_request.dart';
+import 'package:bootbay/src/model/payment_response.dart';
+import 'package:bootbay/src/model/token_request.dart';
+import 'package:bootbay/src/model/token_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

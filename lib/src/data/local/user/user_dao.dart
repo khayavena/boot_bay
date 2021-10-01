@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/User.dart';
+import 'package:bootbay/src/model/user.dart';
 
 abstract class UserDao {
   Future<List<User>> findAll();
