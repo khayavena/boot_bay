@@ -31,7 +31,7 @@ class _EditMerchantManagementOptionsWidgetState extends State<EditMerchantManage
               child: getItem("Edit Merchant", Icons.add_business_outlined)),
           GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantItemCategoryList, arguments: widget.merchant);
+                Navigator.of(context).pushNamed(AppRouting.merchantCategoryList, arguments: widget.merchant);
               },
               child: getItem("Categories", Icons.category_outlined)),
           GestureDetector(

@@ -1,6 +1,6 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module.dart';
-import 'package:bootbay/src/pages/category/category_media_view_model.dart';
+import 'package:bootbay/src/pages/category/viewmodel/category_media_view_model.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';

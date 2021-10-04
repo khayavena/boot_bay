@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/button_styles.dart';
@@ -21,17 +20,16 @@ import 'package:provider/provider.dart';
 import '../../../res.dart';
 import 'viewmodel/category_media_view_model.dart';
 
-class EditCategoryPage extends StatefulWidget {
-  final Category category;
+class AddCategoryPage extends StatefulWidget {
   final Merchant merchant;
 
-  EditCategoryPage({this.category, this.merchant});
+  AddCategoryPage({this.merchant});
 
   @override
-  _EditCategoryPageState createState() => _EditCategoryPageState();
+  _AddCategoryPageState createState() => _AddCategoryPageState();
 }
 
-class _EditCategoryPageState extends State<EditCategoryPage> {
+class _AddCategoryPageState extends State<AddCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
   CategoryMediaViewModel _categoryMediaViewModel;
@@ -53,6 +51,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         context,
         listen: false,
       );
+      _showInputDialog("Add Category");
     });
     super.initState();
   }
@@ -63,8 +62,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       backgroundColor: CustomColor().appBackground,
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
-          title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
-          headerIcon: getImageUri(widget.category?.id ?? widget.merchant.id),
+          title: widget.merchant.name,
+          headerIcon: getImageUri(widget.merchant.id),
           backButton:
               IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
     );
@@ -104,24 +103,10 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               ElevatedButton(
                 style: blueButtonStyle,
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
-                },
-                child: Text('Add New Item'),
-              ),
-              ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  _showInputDialog(widget.category.id, "Add Sub Item");
+                  _showInputDialog("Add Category");
                 },
                 child: Text('Add Item'),
               ),
-              ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  _showInputDialog(null, "Edit Item");
-                },
-                child: Text('Edit item'),
-              )
             ],
           ),
           Expanded(
@@ -134,7 +119,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Future<void> _showInputDialog(String parentId, String title) async {
+  Future<void> _showInputDialog(String title) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -147,29 +132,22 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               if (value.status == Loader.busy) {
                 return WidgetLoader();
               }
-              return createAlertBody(parentId, title);
+              return createAlertBody(title);
             }),
           ),
           actions: <Widget>[
-            _buildApproveButton(parentId),
+            _buildApproveButton(),
           ],
         );
       },
     );
   }
 
-  TextButton _buildApproveButton(String parentId) {
+  TextButton _buildApproveButton() {
     return TextButton(
       child: Text('Approve'),
       onPressed: () async {
-        Category category;
-        if (parentId != null) {
-          category =
-              Category(parentId: parentId, name: categoryController.text.toString(), merchantId: widget.merchant.id);
-        } else {
-          category = widget.category;
-          category.name = categoryController.text.toString();
-        }
+        var category = Category(name: categoryController.text.toString(), merchantId: widget.merchant.id);
         var categoryResponse = await _categoryViewModel.saveCategory(category);
         if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
           var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
@@ -182,7 +160,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Widget createAlertBody(String parentId, String title) {
+  Widget createAlertBody(String title) {
     return ListBody(
       children: <Widget>[
         GestureDetector(
@@ -196,7 +174,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
             }),
           ),
         ),
-        buildEditText(value: widget.category.name),
+        buildEditText(value: ''),
       ],
     );
   }

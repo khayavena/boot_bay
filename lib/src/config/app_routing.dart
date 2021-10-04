@@ -1,15 +1,16 @@
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/pages/category/add_category_page.dart';
 import 'package:bootbay/src/pages/category/edit_category_page.dart';
-import 'package:bootbay/src/pages/category/widget/category_list_view_widget.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_page.dart';
 import 'package:bootbay/src/pages/merchant/page/edit_merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/page/edit_merchant_options_page.dart';
-import 'package:bootbay/src/pages/product/page/merchant_product_page.dart';
+import 'package:bootbay/src/pages/merchant/page/merchant_category_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_management_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_registration_page.dart';
+import 'package:bootbay/src/pages/product/page/merchant_product_page.dart';
 import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/page/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
@@ -27,7 +28,7 @@ class AppRouting {
   static const String merchantsRegistration = '/merchantsRegistration';
   static const String merchantsManagementEdit = '/editMerchantManagement';
   static const String merchantsManagementList = '/merchantManagementList';
-  static const String merchantItemCategoryList = '/merchantItemCategoryList';
+  static const String merchantCategoryList = '/merchantItemCategoryList';
   static const String merchantManagementEditOptions = '/merchantManagementEditOptions';
   static const String mediaContent = "/mediaContent";
   static const String editCategory = "/editCategory";
@@ -70,8 +71,8 @@ class AppRouting {
             ));
       case mediaContent:
         return createRoute(mediaContent, MediaContentWidget(id: args));
-      case merchantItemCategoryList:
-        return createRoute(merchantItemCategoryList, CategoryListViewWidget(merchant: args as Merchant));
+      case merchantCategoryList:
+        return createRoute(merchantCategoryList, MerchantCategoryListPage(merchant: args as Merchant));
       case productDetail:
         if (args is Product) {
           return createRoute(
@@ -112,6 +113,12 @@ class AppRouting {
             EditCategoryPage(
               category: category,
               merchant: merchant,
+            ));
+      case addCategory:
+        return createRoute(
+            addCategory,
+            AddCategoryPage(
+              merchant: args as Merchant,
             ));
 
       default:
