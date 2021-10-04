@@ -18,7 +18,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res.dart';
-import 'viewmodel/category_media_view_model.dart';
+import '../mediacontent/media_view_model.dart';
 
 class AddCategoryPage extends StatefulWidget {
   final Merchant merchant;
@@ -32,7 +32,7 @@ class AddCategoryPage extends StatefulWidget {
 class _AddCategoryPageState extends State<AddCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  CategoryMediaViewModel _categoryMediaViewModel;
+  MediaViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -47,7 +47,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         context,
         listen: false,
       );
-      _categoryMediaViewModel = Provider.of<CategoryMediaViewModel>(
+
+      _categoryMediaViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -168,8 +169,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<CategoryMediaViewModel>(
-                builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(
+                builder: (BuildContext context, MediaViewModel value, Widget child) {
               return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
@@ -179,7 +180,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     );
   }
 
-  Widget _buildFileImage(CategoryMediaViewModel value) {
+  Widget _buildFileImage(MediaViewModel value) {
     return Image.file(
       File(
         value.fileInput.path,

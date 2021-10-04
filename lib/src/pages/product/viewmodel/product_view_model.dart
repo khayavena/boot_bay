@@ -1,7 +1,8 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
-import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/product_query.dart';
+import 'package:bootbay/src/model/product_response.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
@@ -13,6 +14,7 @@ class ProductViewModel extends ViewModel {
   List<Product> _products = [];
   List<Product> cartItems = [];
   Product _product = Product();
+  ProductResponse _productResponse;
   String dataErrorMessage;
 
   ProductViewModel({
@@ -21,6 +23,10 @@ class ProductViewModel extends ViewModel {
 
   void saveProduct(Product product) {
     _productRepository.saveProduct(product);
+  }
+
+  void saveRemoteProduct(Product product) {
+    _productRepository.saveRemoteProduct(product);
   }
 
   void deleteProduct(Product product) {
@@ -119,6 +125,8 @@ class ProductViewModel extends ViewModel {
   }
 
   List<Product> get getProducts => _products;
+
+  ProductResponse get productResponse => _productResponse;
 
   Product get getProduct => _product;
 

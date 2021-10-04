@@ -1,8 +1,9 @@
+import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
+import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/product_query.dart';
+import 'package:bootbay/src/model/product_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
-import 'package:bootbay/src/model/product_query.dart';
-import 'package:bootbay/src/model/product.dart';
 
 class RemoteProductServiceImpl implements RemoteProductService {
   Dio _dio;
@@ -14,8 +15,7 @@ class RemoteProductServiceImpl implements RemoteProductService {
   @override
   Future<List<Product>> getAllProducts() async {
     Response response = await _dio.get('/api/product/all');
-    return List<Product>.from(
-        response.data.map((json) => Product.fromJson(json)));
+    return List<Product>.from(response.data.map((json) => Product.fromJson(json)));
   }
 
   @override
@@ -25,31 +25,26 @@ class RemoteProductServiceImpl implements RemoteProductService {
   }
 
   @override
-  Future<void> saveProduct(Product beer) async {
-    // Response response = await _dio.post('uri');
+  Future<ProductResponse> saveRemoteProduct(Product product) async {
+    Response response = await _dio.post('/api/product/add', data: product.toJson());
+    return ProductResponse.fromJson(response.data);
   }
 
   @override
-  Future<List<Product>> getMerchantProductsByCategory(
-      String categoryId, String merchantId) async {
-    Response response = await _dio
-        .get('/api/product/all/category/$categoryId/mechacnt/$merchantId');
-    return List<Product>.from(
-        response.data.map((json) => Product.fromJson(json)));
+  Future<List<Product>> getMerchantProductsByCategory(String categoryId, String merchantId) async {
+    Response response = await _dio.get('/api/product/all/category/$categoryId/mechacnt/$merchantId');
+    return List<Product>.from(response.data.map((json) => Product.fromJson(json)));
   }
 
   @override
   Future<List<Product>> getProductsByCategory(String categoryId) async {
     Response response = await _dio.get('/api/product/all/category/$categoryId');
-    return List<Product>.from(
-        response.data.map((json) => Product.fromJson(json)));
+    return List<Product>.from(response.data.map((json) => Product.fromJson(json)));
   }
 
   @override
   Future<List<Product>> getDefaultProducts(ProductQuery query) async {
-    Response response =
-        await _dio.post('/api/product/feed', data: query.toJson());
-    return List<Product>.from(
-        response.data.map((json) => Product.fromJson(json)));
+    Response response = await _dio.post('/api/product/feed', data: query.toJson());
+    return List<Product>.from(response.data.map((json) => Product.fromJson(json)));
   }
 }

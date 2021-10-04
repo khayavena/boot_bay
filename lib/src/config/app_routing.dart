@@ -10,6 +10,7 @@ import 'package:bootbay/src/pages/merchant/page/merchant_category_list_page.dart
 import 'package:bootbay/src/pages/merchant/page/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_management_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_registration_page.dart';
+import 'package:bootbay/src/pages/product/page/add_product_page.dart';
 import 'package:bootbay/src/pages/product/page/merchant_product_page.dart';
 import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/page/product_detail_page.dart';
@@ -33,6 +34,7 @@ class AppRouting {
   static const String mediaContent = "/mediaContent";
   static const String editCategory = "/editCategory";
   static const String addCategory = "/addCategory";
+  static const String addProduct = "/addProduct";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -111,6 +113,16 @@ class AppRouting {
         return createRoute(
             editCategory,
             EditCategoryPage(
+              category: category,
+              merchant: merchant,
+            ));
+      case addProduct:
+        Map map = args;
+        Category category = map['category'] ?? null;
+        Merchant merchant = map['merchant'];
+        return createRoute(
+            editCategory,
+            AddProductPage(
               category: category,
               merchant: merchant,
             ));

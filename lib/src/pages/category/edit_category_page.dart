@@ -19,7 +19,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res.dart';
-import 'viewmodel/category_media_view_model.dart';
+import '../mediacontent/media_view_model.dart';
 
 class EditCategoryPage extends StatefulWidget {
   final Category category;
@@ -34,7 +34,7 @@ class EditCategoryPage extends StatefulWidget {
 class _EditCategoryPageState extends State<EditCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  CategoryMediaViewModel _categoryMediaViewModel;
+  MediaViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -49,7 +49,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         context,
         listen: false,
       );
-      _categoryMediaViewModel = Provider.of<CategoryMediaViewModel>(
+      _categoryMediaViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -101,6 +101,14 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+             widget.category.hasChildren? SizedBox() :ElevatedButton(
+                style: blueButtonStyle,
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRouting.addProduct,
+                      arguments: {"category": widget.category, "merchant": widget.merchant});
+                },
+                child: Text('Add Product'),
+              ),
               ElevatedButton(
                 style: blueButtonStyle,
                 onPressed: () {
@@ -190,8 +198,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<CategoryMediaViewModel>(
-                builder: (BuildContext context, CategoryMediaViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
               return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
@@ -201,7 +208,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Widget _buildFileImage(CategoryMediaViewModel value) {
+  Widget _buildFileImage(MediaViewModel value) {
     return Image.file(
       File(
         value.fileInput.path,

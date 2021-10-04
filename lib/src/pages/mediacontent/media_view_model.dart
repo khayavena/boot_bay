@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CategoryMediaViewModel extends ChangeNotifier {
+class MediaViewModel extends ChangeNotifier {
   PickedFile _fileInput;
 
   PickedFile get fileInput => _fileInput;

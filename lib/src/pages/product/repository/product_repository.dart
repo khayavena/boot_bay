@@ -1,5 +1,6 @@
 import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/product_response.dart';
 
 abstract class ProductRepository {
   Future<List<Product>> getAllSelectedProducts();
@@ -14,6 +15,8 @@ abstract class ProductRepository {
   Future<Product> getProductById(String id);
 
   Future<bool> saveProduct(Product product);
+
+  Future<ProductResponse> saveRemoteProduct(Product product);
 
   Future<bool> saveAllProducts(List<Product> products);
 

@@ -1,5 +1,6 @@
 import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/product_response.dart';
 
 abstract class RemoteProductService {
   Future<List<Product>> getAllProducts();
@@ -11,7 +12,7 @@ abstract class RemoteProductService {
 
   Future<List<Product>> getProductsByCategory(String categoryId);
 
-  Future<void> saveProduct(Product product);
+  Future<ProductResponse> saveRemoteProduct(Product product);
 
   Future<List<Product>> getDefaultProducts(ProductQuery query);
 }
