@@ -18,6 +18,7 @@ import 'package:bootbay/src/data/remote/merchant/remote_merchant_data_source_imp
 import 'package:bootbay/src/data/remote/payment/remote_payment_service_Impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
+import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/helpers/network_helper_impl.dart';
@@ -144,6 +145,10 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, onGenerateRoute: AppRouting.generateRoute);
+    return MaterialApp(
+        theme: ThemeData(
+            elevatedButtonTheme: blueButtonStyle),
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: AppRouting.generateRoute);
   }
 }

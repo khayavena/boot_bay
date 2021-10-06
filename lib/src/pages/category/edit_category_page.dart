@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/category.dart';
@@ -98,39 +97,9 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     return Center(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-             widget.category.hasChildren? SizedBox() :ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRouting.addProduct,
-                      arguments: {"category": widget.category, "merchant": widget.merchant});
-                },
-                child: Text('Add Product'),
-              ),
-              ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
-                },
-                child: Text('Add New Item'),
-              ),
-              ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  _showInputDialog(widget.category.id, "Add Sub Item");
-                },
-                child: Text('Add Item'),
-              ),
-              ElevatedButton(
-                style: blueButtonStyle,
-                onPressed: () {
-                  _showInputDialog(null, "Edit Item");
-                },
-                child: Text('Edit item'),
-              )
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: _buildActions(),
           ),
           Expanded(
             child: CategoryListWidget(
@@ -215,5 +184,50 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       ),
       fit: BoxFit.contain,
     );
+  }
+
+  Widget _buildActions() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          widget.category.hasChildren
+              ? SizedBox()
+              : ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRouting.addProduct,
+                        arguments: {"category": widget.category, "merchant": widget.merchant});
+                  },
+                  child: Text('Add Item'),
+                ),
+          _padHorizontal(),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
+            },
+            child: Text('New Class'),
+          ),
+          _padHorizontal(),
+          ElevatedButton(
+            onPressed: () {
+              _showInputDialog(widget.category.id, "Add Sub Class");
+            },
+            child: Text('Sub Class'),
+          ),
+          _padHorizontal(),
+          ElevatedButton(
+            onPressed: () {
+              _showInputDialog(null, "Edit Class");
+            },
+            child: Text("Edit Class"),
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding _padHorizontal() {
+    return Padding(padding: EdgeInsets.only(right: 8));
   }
 }

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/category.dart';
@@ -102,11 +101,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                style: blueButtonStyle,
                 onPressed: () {
                   _showInputDialog("Add Category");
                 },
-                child: Text('Add Item'),
+                child: Text('Add Category'),
               ),
             ],
           ),
@@ -169,8 +167,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<MediaViewModel>(
-                builder: (BuildContext context, MediaViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
               return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
