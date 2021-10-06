@@ -30,7 +30,7 @@ class _AddProductPageState extends State<AddProductPage> {
   String _imageUrl;
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  MediaViewModel _categoryMediaViewModel;
+  MediaViewModel _mediaViewModel;
   ProductViewModel _productViewModel;
 
   @override
@@ -44,7 +44,7 @@ class _AddProductPageState extends State<AddProductPage> {
         context,
         listen: false,
       );
-      _categoryMediaViewModel = Provider.of<MediaViewModel>(
+      _mediaViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -57,7 +57,9 @@ class _AddProductPageState extends State<AddProductPage> {
     super.initState();
   }
 
-  uploadImage() async {}
+  uploadImage() async {
+    _mediaViewModel.openGalleryForImage();
+  }
 
   @override
   Widget build(BuildContext context) {

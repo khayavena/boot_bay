@@ -1,6 +1,7 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -48,6 +49,39 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
           bodyWidget: Container(
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: blueButtonStyle,
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRouting.addProduct, arguments: {"merchant": widget.merchant});
+                      },
+                      child: Text('Add Product'),
+                    ),
+                    ElevatedButton(
+                      style: blueButtonStyle,
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
+                      },
+                      child: Text('Add New Item'),
+                    ),
+                    ElevatedButton(
+                      style: blueButtonStyle,
+                      onPressed: () {
+                        // _showInputDialog(widget.category.id, "Add Sub Item");
+                      },
+                      child: Text('Add Item'),
+                    ),
+                    ElevatedButton(
+                      style: blueButtonStyle,
+                      onPressed: () {
+                        // _showInputDialog(null, "Edit Item");
+                      },
+                      child: Text('Edit item'),
+                    )
+                  ],
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
