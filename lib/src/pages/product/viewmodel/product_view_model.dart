@@ -1,5 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
+import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product_response.dart';
@@ -14,6 +15,7 @@ class ProductViewModel extends ViewModel {
   List<Product> _products = [];
   List<Product> cartItems = [];
   Product _product = Product();
+  Category _category;
   ProductResponse _productResponse;
   String dataErrorMessage;
 
@@ -26,7 +28,10 @@ class ProductViewModel extends ViewModel {
   }
 
   void saveRemoteProduct(Product product) {
-    _productRepository.saveRemoteProduct(product);
+    if (_category != null) {
+      _product.categoryId = _category.id;
+      _productRepository.saveRemoteProduct(product);
+    }
   }
 
   void deleteProduct(Product product) {
@@ -125,6 +130,13 @@ class ProductViewModel extends ViewModel {
   }
 
   List<Product> get getProducts => _products;
+
+  void setSelectedCategory(Category category) {
+    this._category = category;
+    print('Category set =${getSelectedCategory.name}');
+  }
+
+  Category get getSelectedCategory => _category;
 
   ProductResponse get productResponse => _productResponse;
 

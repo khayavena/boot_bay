@@ -1,3 +1,4 @@
+import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -5,6 +6,7 @@ import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/product/viewmodel/product_view_model.dart';
+import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -86,6 +88,7 @@ class _AddProductPageState extends State<AddProductPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _buildDropDown(),
           Container(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
@@ -220,6 +223,51 @@ class _AddProductPageState extends State<AddProductPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildDropDown() {
+    return Consumer<CategoryViewModel>(
+      builder: (BuildContext context, CategoryViewModel categoryViewModel, Widget child) {
+        switch (categoryViewModel.loader) {
+          case Loader.error:
+          case Loader.busy:
+          case Loader.idl:
+            return SizedBox();
+          case Loader.complete:
+            if (_categoryViewModel != null &&
+                _categoryViewModel.getCategories != null &&
+                _categoryViewModel.getCategories.isNotEmpty) {
+              return CustomDropdown(
+                dropdownMenuItemList: _buildCategoryDropDownItems(categoryViewModel.getCategories),
+                onChanged: onSelectedCategory,
+                value: categoryViewModel.getCategories[0],
+                hint: 'Select Classification',
+              );
+            } else {
+              return SizedBox();
+            }
+            break;
+        }
+        return SizedBox();
+      },
+    );
+  }
+
+  List<DropdownMenuItem<Category>> _buildCategoryDropDownItems(List<Category> categories) {
+    List<DropdownMenuItem<Category>> items = [];
+    for (Category favouriteFoodModel in categories) {
+      items.add(DropdownMenuItem(
+        value: favouriteFoodModel,
+        child: Text(favouriteFoodModel.name),
+      ));
+    }
+    return items;
+  }
+
+  void onSelectedCategory(final Category category) {
+    if(_productViewModel != null){
+      _productViewModel.setSelectedCategory(category);
+    }
   }
 }
 
