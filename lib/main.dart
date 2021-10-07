@@ -146,8 +146,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-            elevatedButtonTheme: blueButtonStyle),
+        theme: ThemeData(elevatedButtonTheme: blueButtonStyle),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: AppRouting.generateRoute);
   }

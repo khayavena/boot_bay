@@ -6,6 +6,7 @@ import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/product/viewmodel/product_view_model.dart';
+import 'package:bootbay/src/wigets/currency_input_field.dart';
 import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -34,6 +35,7 @@ class _AddProductPageState extends State<AddProductPage> {
   CategoryViewModel _categoryViewModel;
   MediaViewModel _mediaViewModel;
   ProductViewModel _productViewModel;
+  double finalAmount;
 
   @override
   void initState() {
@@ -85,13 +87,9 @@ class _AddProductPageState extends State<AddProductPage> {
               }),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
           _buildDropDown(),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextFormField(
@@ -106,25 +104,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   fontStyle: FontStyle.italic,
                 ),
                 labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
-                hintText: 'Pickup where?',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: TextFormField(
-              controller: item,
-              style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
-              decoration: new InputDecoration(
-                enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
-                hintStyle: TextStyle(
-                  fontFamily: 'Gotham',
-                  color: Colors.black54,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic,
-                ),
-                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
-                hintText: 'Item(s)',
+                hintText: 'Item Name',
               ),
             ),
           ),
@@ -148,20 +128,9 @@ class _AddProductPageState extends State<AddProductPage> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: TextFormField(
-              controller: price,
-              style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
-              decoration: new InputDecoration(
-                enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
-                hintStyle: TextStyle(
-                  fontFamily: 'Gotham',
-                  color: Colors.black54,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic,
-                ),
-                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
-                hintText: 'Price(USD)',
-              ),
+            child: CurrencyInputField(
+              onChanged: _onAmountChange,
+              symbol: "ZAR-",
             ),
           ),
           Container(
@@ -181,7 +150,7 @@ class _AddProductPageState extends State<AddProductPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: RaisedButton(
+            child: ElevatedButton(
                 onPressed: () {
                   uploadImage();
                 },
@@ -265,9 +234,13 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   void onSelectedCategory(final Category category) {
-    if(_productViewModel != null){
+    if (_productViewModel != null) {
       _productViewModel.setSelectedCategory(category);
     }
+  }
+
+  void _onAmountChange(final double value) {
+    this.finalAmount = value;
   }
 }
 
