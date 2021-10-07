@@ -143,10 +143,12 @@ class _AddProductPageState extends State<AddProductPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              child: (_imageUrl != null) ? Image.network(_imageUrl) : Image.network('https://i.imgur.com/sUFH1Aq.png'),
-            ),
+            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.15,
+                child: value.proverFileImageView(),
+              );
+            }),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
