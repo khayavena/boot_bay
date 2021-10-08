@@ -19,6 +19,12 @@ class CurrencyInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(symbol: symbol, decimalDigits: 2);
     return TextFormField(
+      onChanged: (String value) {
+        if (value != null && value.contains('-')) {
+          var val = value.split('-')[1].replaceAll(',', '');
+          onChanged(double.parse(val));
+        }
+      },
       decoration: _buildDecorator(),
       inputFormatters: <TextInputFormatter>[_formatter],
       keyboardType: TextInputType.number,

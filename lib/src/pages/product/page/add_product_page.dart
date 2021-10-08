@@ -29,7 +29,7 @@ class AddProductPage extends StatefulWidget {
   _AddProductPageState createState() => _AddProductPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage>  {
+class _AddProductPageState extends State<AddProductPage> {
   String _imageUrl;
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
@@ -111,6 +111,7 @@ class _AddProductPageState extends State<AddProductPage>  {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextFormField(
+              maxLines: 100 ~/ 15,
               controller: description,
               style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
               decoration: new InputDecoration(
@@ -244,6 +245,7 @@ class _AddProductPageState extends State<AddProductPage>  {
   void _onAmountChange(final double value) {
     this.finalAmount = value;
   }
+
   @override
   void dispose() {
     _mediaViewModel.clear();
