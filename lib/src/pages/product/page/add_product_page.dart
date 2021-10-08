@@ -167,6 +167,13 @@ class _AddProductPageState extends State<AddProductPage> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
+              onPressed: () async {
+                var response = await _productViewModel.saveRemoteProduct(
+                    widget.merchant.id, name.text.toString(), description.text.toString(), finalAmount);
+                if (_mediaViewModel.isValidImage && response != null) {
+                  _mediaContentViewModel.saveCategoryFile(_mediaViewModel.path, response.id);
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -235,6 +242,7 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   void dispose() {
     _mediaViewModel.clear();
+    clear();
     super.dispose();
   }
 }

@@ -4,7 +4,6 @@ class Product {
   String creation;
   String description;
   String id;
-  String image;
   String lastUpdate;
   String merchantId;
   String name;
@@ -20,7 +19,6 @@ class Product {
       this.creation,
       this.description,
       this.id,
-      this.image,
       this.lastUpdate,
       this.merchantId,
       this.name,
@@ -37,7 +35,6 @@ class Product {
         creation: json['creation'],
         description: json['description'],
         id: json['id'],
-        image: json['imageUrl'],
         lastUpdate: json['lastUpdate'],
         merchantId: json['merchantId'],
         name: json['name'],
@@ -56,7 +53,6 @@ class Product {
     data['creation'] = this.creation;
     data['description'] = this.description;
     data['id'] = this.id;
-    data['imageUrl'] = this.image;
     data['lastUpdate'] = this.lastUpdate;
     data['merchantId'] = this.merchantId;
     data['name'] = this.name;

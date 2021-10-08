@@ -61,6 +61,28 @@ class MediaContentViewModel extends ViewModel {
     return mediaResponse;
   }
 
+  Future<MediaContentResponse> saveProductFile(String path, String id) async {
+    _loader = Loader.busy;
+    notifyListeners();
+    try {
+      mediaResponse = await _mediaContentRepository.uploadProduct(path, id);
+      _loader = Loader.complete;
+      notifyListeners();
+      return mediaResponse;
+    } on NetworkException catch (error) {
+      dataErrorMessage = error.message;
+      _loader = Loader.error;
+      notifyListeners();
+    } on DioError catch (error) {
+      _loader = Loader.error;
+      handleDioError(error);
+    } catch (error) {
+      _loader = Loader.error;
+      notifyListeners();
+    }
+    return mediaResponse;
+  }
+
   clear() {
     _loader = Loader.idl;
   }

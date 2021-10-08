@@ -149,7 +149,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         var category = Category(name: categoryController.text.toString(), merchantId: widget.merchant.id);
         var categoryResponse = await _categoryViewModel.saveCategory(category);
         if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
-          var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
+          var catImageResponse = await _mediaContentViewModel.saveProductFile(
               _categoryMediaViewModel.fileInput.path, categoryResponse.id);
         }
         _categoryMediaViewModel.clear();

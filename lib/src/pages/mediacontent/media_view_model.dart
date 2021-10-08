@@ -33,4 +33,8 @@ class MediaViewModel extends ChangeNotifier {
       fit: BoxFit.contain,
     );
   }
+
+  String get path => _fileInput?.path ?? '';
+
+  bool get isValidImage => fileInput != null;
 }

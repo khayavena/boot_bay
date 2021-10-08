@@ -1,4 +1,5 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/shopping/page/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';
@@ -8,7 +9,6 @@ import 'package:bootbay/src/wigets/cart/cart_quantity_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:bootbay/src/wigets/shared/color_selector_widget.dart';
 import 'package:bootbay/src/wigets/shared/size_selector_widget.dart';
-import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -84,22 +84,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          widget.product.image == null
-              ? TitleText(
-                  text: "AIP",
-                  fontSize: 160,
-                  color: LightColor.lightGrey,
-                )
-              : Container(
-                  child: Center(
-                  child: AspectRatio(
-                      aspectRatio: 1 / 2,
-                      child: Image(
-                        width: double.maxFinite,
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(widget.product.image),
-                      )),
-                ))
+          Container(
+              child: Center(
+            child: AspectRatio(
+                aspectRatio: 1 / 2,
+                child: Image(
+                  width: double.maxFinite,
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(getImageUri(widget.product.id)),
+                )),
+          ))
         ],
       ),
     );
