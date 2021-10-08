@@ -29,7 +29,7 @@ class AddProductPage extends StatefulWidget {
   _AddProductPageState createState() => _AddProductPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _AddProductPageState extends State<AddProductPage>  {
   String _imageUrl;
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
@@ -243,6 +243,11 @@ class _AddProductPageState extends State<AddProductPage> {
 
   void _onAmountChange(final double value) {
     this.finalAmount = value;
+  }
+  @override
+  void dispose() {
+    _mediaViewModel.clear();
+    super.dispose();
   }
 }
 
