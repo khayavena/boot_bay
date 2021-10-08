@@ -27,11 +27,15 @@ class ProductViewModel extends ViewModel {
     _productRepository.saveProduct(product);
   }
 
-  void saveRemoteProduct(Product product) {
+  Future<Product> saveRemoteProduct(String merchantId, String name, description, double price) async {
     if (_category != null) {
       _product.categoryId = _category.id;
-      _productRepository.saveRemoteProduct(product);
+      var productResponse = await _productRepository.saveRemoteProduct(Product(
+          categoryId: _category.id, merchantId: merchantId, name: name, description: description, price: price));
+      _product = productResponse.item;
+      notifyListeners();
     }
+    return _product;
   }
 
   void deleteProduct(Product product) {

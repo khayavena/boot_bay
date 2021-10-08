@@ -12,8 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-final place = TextEditingController();
-final item = TextEditingController();
+final name = TextEditingController();
 final description = TextEditingController();
 final price = TextEditingController();
 
@@ -71,9 +70,9 @@ class _AddProductPageState extends State<AddProductPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: CustomColor().appBackground,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        iconTheme: IconThemeData(color: CustomColor.cta_blue),
-        backgroundColor: CustomColor().appBackground,
+        automaticallyImplyLeading: true,
+        iconTheme: IconThemeData(color: CustomColor().black),
+        backgroundColor: CustomColor().pureWhite,
         elevation: 0,
         title: Text(
           widget.merchant.name.toUpperCase(),
@@ -93,7 +92,7 @@ class _AddProductPageState extends State<AddProductPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: TextFormField(
-              controller: place,
+              controller: name,
               style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
               decoration: new InputDecoration(
                 enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
@@ -131,7 +130,7 @@ class _AddProductPageState extends State<AddProductPage> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: CurrencyInputField(
               onChanged: _onAmountChange,
-              symbol: "ZAR-",
+              symbol: "R-",
             ),
           ),
           Container(
@@ -140,7 +139,7 @@ class _AddProductPageState extends State<AddProductPage> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text("Add an image".toUpperCase(),
-                style: TextStyle(fontFamily: 'Gotham', color: Colors.pink, fontSize: 20)),
+                style: TextStyle(fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -152,7 +151,7 @@ class _AddProductPageState extends State<AddProductPage> {
             }),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: ElevatedButton(
                 onPressed: () {
                   uploadImage();
@@ -167,28 +166,15 @@ class _AddProductPageState extends State<AddProductPage> {
           Spacer(),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ButtonTheme(
-                height: 50,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: CustomColor().darkBlue)),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                  },
-                  color: CustomColor().pureWhite,
-                  textColor: CustomColor().black,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Text("Submit".toUpperCase(),
-                            style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
-                      ),
-                    ],
+            child: ElevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text("Submit".toUpperCase(),
+                        style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
                   ),
-                ),
+                ],
               ),
             ),
           ),
@@ -254,8 +240,7 @@ class _AddProductPageState extends State<AddProductPage> {
 }
 
 void clear() {
-  place.clear();
-  item.clear();
+  name.clear();
   description.clear();
   price.clear();
 }
