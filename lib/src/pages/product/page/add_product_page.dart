@@ -8,6 +8,7 @@ import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/product/viewmodel/product_view_model.dart';
 import 'package:bootbay/src/wigets/currency_input_field.dart';
 import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
+import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,6 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  String _imageUrl;
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
   MediaViewModel _mediaViewModel;
@@ -86,107 +86,13 @@ class _AddProductPageState extends State<AddProductPage> {
               }),
         ],
       ),
-      body: ListView(
-        children: [
-          _buildDropDown(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: TextFormField(
-              controller: name,
-              style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
-              decoration: new InputDecoration(
-                enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
-                hintStyle: TextStyle(
-                  fontFamily: 'Gotham',
-                  color: Colors.black54,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic,
-                ),
-                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
-                hintText: 'Item Name',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: TextFormField(
-              maxLines: 100 ~/ 15,
-              controller: description,
-              style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
-              decoration: new InputDecoration(
-                enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
-                hintStyle: TextStyle(
-                  fontFamily: 'Gotham',
-                  color: Colors.black54,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic,
-                ),
-                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
-                hintText: 'Description',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: CurrencyInputField(
-              onChanged: _onAmountChange,
-              symbol: "R-",
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text("Add an image".toUpperCase(),
-                style: TextStyle(fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.15,
-                child: value.proverFileImageView(),
-              );
-            }),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  uploadImage();
-                },
-                child: Text(
-                  "Upload".toUpperCase(),
-                  style: TextStyle(
-                    fontFamily: 'Gotham',
-                  ),
-                )),
-          ),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                var response = await _productViewModel.saveRemoteProduct(
-                    widget.merchant.id, name.text.toString(), description.text.toString(), finalAmount);
-                if (_mediaViewModel.isValidImage && response != null) {
-                  _mediaContentViewModel.saveCategoryFile(_mediaViewModel.path, response.id);
-                }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text("Submit".toUpperCase(),
-                        style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: Consumer2<MediaContentViewModel, ProductViewModel>(builder:
+          (BuildContext context, MediaContentViewModel value, ProductViewModel productViewModel, Widget child) {
+        if (value.status == Loader.busy || productViewModel.loader == Loader.busy) {
+          return WidgetLoader();
+        }
+        return _buildBody();
+      }),
     );
   }
 
@@ -244,6 +150,108 @@ class _AddProductPageState extends State<AddProductPage> {
     _mediaViewModel.clear();
     clear();
     super.dispose();
+  }
+
+  Widget _buildBody() {
+    return ListView(
+      children: [
+        _buildDropDown(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: TextFormField(
+            controller: name,
+            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            decoration: new InputDecoration(
+              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+              hintStyle: TextStyle(
+                fontFamily: 'Gotham',
+                color: Colors.black54,
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+              ),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              hintText: 'Item Name',
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: TextFormField(
+            maxLines: 100 ~/ 15,
+            controller: description,
+            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            decoration: new InputDecoration(
+              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+              hintStyle: TextStyle(
+                fontFamily: 'Gotham',
+                color: Colors.black54,
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+              ),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              hintText: 'Description',
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: CurrencyInputField(
+            onChanged: _onAmountChange,
+            symbol: "R-",
+          ),
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text("Add an image".toUpperCase(),
+              style: TextStyle(fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: value.proverFileImageView(),
+            );
+          }),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10.0),
+          child: ElevatedButton(
+              onPressed: () {
+                uploadImage();
+              },
+              child: Text(
+                "Upload".toUpperCase(),
+                style: TextStyle(
+                  fontFamily: 'Gotham',
+                ),
+              )),
+        ),
+        Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: ElevatedButton(
+            onPressed: () async {
+              await _productViewModel
+                  .saveRemoteProduct(widget.merchant.id, name.text.toString(), description.text.toString(), finalAmount)
+                  .then((value) => _mediaContentViewModel.saveProductFile(_mediaViewModel.path, value.id));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child:
+                      Text("Submit".toUpperCase(), style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

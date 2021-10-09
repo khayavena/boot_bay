@@ -62,10 +62,11 @@ class MediaContentViewModel extends ViewModel {
   }
 
   Future<MediaContentResponse> saveProductFile(String path, String id) async {
+    print('saving product file');
     _loader = Loader.busy;
     notifyListeners();
     try {
-      mediaResponse = await _mediaContentRepository.uploadProduct(path, id);
+      mediaResponse = await _mediaContentRepository.uploadProductImage(path, id);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;

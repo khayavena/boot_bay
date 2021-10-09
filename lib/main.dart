@@ -18,6 +18,7 @@ import 'package:bootbay/src/data/remote/merchant/remote_merchant_data_source_imp
 import 'package:bootbay/src/data/remote/payment/remote_payment_service_Impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
+import 'package:bootbay/src/di/provide_main_app.dart';
 import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
@@ -54,92 +55,7 @@ import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final EnvConfig devConfig = await EnvConfigServiceImpl(Flavor.DEV).getEnvConfig();
-  baseUrl = devConfig.baseUrl;
-  final Dio dio = DioClient.getClient(
-    devConfig.baseUrl,
-    devConfig.appKey,
-  );
-
-  final Database appDb = await AppDatabaseImpl.instance.database;
-
-  final NetworkHelper networkHelper = NetworkHelperImpl();
-
-  final RemoteUserService userService = RemoteUserServiceImpl(dio: dio);
-
-  final PaymentDao paymentDao = PaymentDaoImpl(database: appDb);
-
-  final PaymentRepository paymentRepository = PaymentRepositoryImpl(
-    paymentDao: paymentDao,
-    networkHelper: networkHelper,
-    paymentService: RemotePaymentServiceImpl(dio: dio),
-  );
-
-  final UserDao userDao = UserDaoImpl(database: appDb);
-  final UserRepository userRepository =
-      UserRepositoryImpl(userService: userService, networkHelper: networkHelper, userDao: userDao);
-
-  final ProductDao productDao = ProductDaoImpl(database: appDb);
-
-  final CartRepository cartRepository =
-      CartRepositoryImpl(cartDao: CartDaoImpl(database: appDb), networkHelper: networkHelper);
-
-  final WishListRepository wishListRepository =
-      WishListRepositoryImpl(wishListDao: WishListDaoImpl(database: appDb), networkHelper: networkHelper);
-
-  final MerchantRepository merchantRepository =
-      MerchantRepositoryImpl(remoteMerchantDataSource: RemoteMerchantDataSourceImpl(dioClient: dio));
-
-  final MediaContentRepository mediaContentRepository =
-      MediaContentRepositoryImpl(mediaContentDataSource: RemoteMediaContentDataSourceImpl(dio: dio));
-
-  final ProductRepository productRepository = ProductRepositoryImpl(
-    remoteProductService: RemoteProductServiceImpl(
-      dio: dio,
-    ),
-    localProductService: productDao,
-    networkHelper: networkHelper,
-  );
-
-  final CategoryRepository categoryRepository = CategoryRepositoryImpl(
-    remoteProductService: RemoteCategoryServiceImpl(
-      dio: dio,
-    ),
-    networkHelper: networkHelper,
-  );
-
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ViewModel()),
-        ChangeNotifierProvider(create: (context) => ProductViewModel(productRepository: productRepository)),
-        ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: cartRepository)),
-        ChangeNotifierProvider(create: (context) => WishListViewModel(wishListRepository: wishListRepository)),
-        ChangeNotifierProvider(create: (context) => MerchantViewModel(merchantRepository: merchantRepository)),
-        ChangeNotifierProvider(
-            create: (context) => MediaContentViewModel(mediaContentRepository: mediaContentRepository)),
-        ChangeNotifierProvider(
-            create: (context) => MerchantRegistrationViewModel(merchantRepository: merchantRepository)),
-        ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: userRepository)),
-        ChangeNotifierProvider(
-            create: (context) =>
-                PaymentViewModel(userRepository: userRepository, paymentRepository: paymentRepository)),
-        ChangeNotifierProvider(create: (context) => CategoryViewModel(categoryRepository: categoryRepository)),
-        Provider<Database>(create: (context) => appDb),
-        Provider<ProductRepository>(create: (context) => productRepository),
-        Provider<MerchantRepository>(create: (context) => merchantRepository),
-        Provider<CartRepository>(create: (context) => cartRepository),
-        Provider<WishListRepository>(create: (context) => wishListRepository),
-        Provider<CategoryRepository>(create: (context) => categoryRepository),
-        Provider<UserRepository>(create: (context) => userRepository),
-        Provider<MediaContentRepository>(create: (context) => mediaContentRepository),
-        Provider<NetworkHelper>(create: (context) => networkHelper),
-      ],
-      child: App(),
-    ),
-  );
+  provideMainApp(Flavor.DEV);
 }
 
 class App extends StatelessWidget {

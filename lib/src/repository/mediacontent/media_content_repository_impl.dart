@@ -19,7 +19,7 @@ class MediaContentRepositoryImpl implements MediaContentRepository {
   }
 
   @override
-  Future<MediaContentResponse> uploadProduct(String path, String id) {
-    return _mediaContentDataSource.uploadCategory(path, id);
+  Future<MediaContentResponse> uploadProductImage(String path, String id) {
+    return _mediaContentDataSource.uploadProductImage(path, id);
   }
 }

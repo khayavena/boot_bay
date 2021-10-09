@@ -5,5 +5,5 @@ abstract class MediaContentRepository {
 
   Future<MediaContentResponse> uploadCategory(String path, String merchantId);
 
-  Future<MediaContentResponse> uploadProduct(String path, String id);
+  Future<MediaContentResponse> uploadProductImage(String path, String id);
 }

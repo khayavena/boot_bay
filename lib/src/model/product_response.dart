@@ -5,6 +5,6 @@ class ProductResponse {
   final String message;
 
   ProductResponse.fromJson(json)
-      : item = Product.fromJson(json),
+      : item = Product.fromJson(json['item']),
         message = json['message'];
 }
