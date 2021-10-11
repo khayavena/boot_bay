@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
+  final bool isEdit;
 
-  ProductCard({Key key, this.product}) : super(key: key);
+  ProductCard({Key key, this.product, this.isEdit = false}) : super(key: key);
 
   @override
   _ProductCardState createState() => _ProductCardState();
@@ -46,7 +47,18 @@ class _ProductCardState extends State<ProductCard> {
               child: WishButtonWidget(
                 product: product,
               ),
-            )
+            ),
+            widget.isEdit
+                ? Align(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(AppRouting.editProductPage, arguments: product);
+                      },
+                      child: Text('Edit'),
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
       ),

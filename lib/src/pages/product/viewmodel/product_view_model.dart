@@ -38,6 +38,16 @@ class ProductViewModel extends ViewModel {
     return _product;
   }
 
+  Future<Product> editRemoteProduct(Product product) async {
+    if (_category != null) {
+      product.categoryId = _category.id;
+      var productResponse = await _productRepository.saveRemoteProduct(product);
+      _product = productResponse.item;
+      notifyListeners();
+    }
+    return _product;
+  }
+
   void deleteProduct(Product product) {
     _productRepository.delete(product);
   }

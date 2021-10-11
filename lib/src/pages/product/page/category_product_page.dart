@@ -1,7 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/model/merchant/merchant.dart';
-import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/category/widget/category_card.dart';
 import 'package:bootbay/src/pages/category/widget/category_card_loader.dart';
@@ -14,16 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class MerchantLandingPage extends StatefulWidget {
-  final Merchant merchant;
+class CategoryProductPage extends StatefulWidget {
+  final Category category;
 
-  MerchantLandingPage({Key key, this.merchant}) : super(key: key);
+  CategoryProductPage({Key key, this.category}) : super(key: key);
 
   @override
-  _MerchantLandingPageState createState() => _MerchantLandingPageState();
+  _CategoryProductPageState createState() => _CategoryProductPageState();
 }
 
-class _MerchantLandingPageState extends State<MerchantLandingPage> implements ClickCategory {
+class _CategoryProductPageState extends State<CategoryProductPage> implements ClickCategory {
   ProductViewModel _productViewModel;
   CategoryViewModel _categoryViewModel;
 
@@ -50,7 +48,7 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(widget.merchant.name, context),
+      appBar: CustomAppBar.build(widget.category.name, context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -106,7 +104,7 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
       _productViewModel = Provider.of<ProductViewModel>(context, listen: false);
-      refreshCategory(widget.merchant.id);
+      refreshCategory(widget.category.merchantId);
     });
     super.initState();
   }
@@ -123,8 +121,10 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
   Widget _buildCategories(CategoryViewModel categoryViewModel) {
     switch (categoryViewModel.loader) {
       case Loader.complete:
-        ProductQuery query = ProductQuery(categories: categoryViewModel.getCategories.map((e) => e.id).toList());
-        _productViewModel?.queryProducts(query);
+        // ProductQuery query = ProductQuery(categories: [widget.category.id]);
+        // if (_productViewModel != null) {
+        //   _productViewModel?.queryProducts(query);
+        // }
         return Container(
             child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -164,6 +164,7 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
               children: productViewModel.getProducts
                   .map((product) => ProductCard(
                         product: product,
+                        isEdit: true,
                       ))
                   .toList()),
         );

@@ -221,6 +221,13 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               _showInputDialog(null, "Edit Class");
             },
             child: Text("Edit Class"),
+          ),
+          _padHorizontal(),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRouting.editCategoryProductPage, arguments: widget.category);
+            },
+            child: Text("Manage Items"),
           )
         ],
       ),

@@ -21,10 +21,10 @@ class MediaViewModel extends ChangeNotifier {
     _fileInput = null;
   }
 
-  Widget proverFileImageView() {
+  Widget proverFileImageView({String imageUrl}) {
     if (fileInput == null)
       return Image(
-        image: CachedNetworkImageProvider('https://i.imgur.com/sUFH1Aq.png'),
+        image: CachedNetworkImageProvider(imageUrl ?? 'https://i.imgur.com/sUFH1Aq.png'),
       );
     return Image.file(
       File(

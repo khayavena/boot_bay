@@ -2,16 +2,15 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-final addAmountController = TextEditingController();
-
 class CurrencyInputField extends StatelessWidget {
   final String symbol;
-
+  final double initVue;
   final ValueChanged<double> onChanged;
 
   CurrencyInputField({
     Key key,
     @required this.onChanged,
+    this.initVue = 0,
     @required this.symbol,
   }) : super(key: key);
 
@@ -19,6 +18,7 @@ class CurrencyInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(symbol: symbol, decimalDigits: 2);
     return TextFormField(
+      initialValue: initVue.toString(),
       onChanged: (String value) {
         if (value != null && value.contains('-')) {
           var val = value.split('-')[1].replaceAll(',', '');
