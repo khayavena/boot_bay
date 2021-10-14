@@ -11,62 +11,99 @@
 
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/pages/user/auth_page.dart';
+import 'package:bootbay/src/pages/merchant/page/merchant_portal_page.dart';
+import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 
 import '../../merchant/page/merchant_list_page.dart';
 
-class HomeWidget extends StatefulWidget {
-  HomeWidget({Key key}) : super(key: key);
+class HomeBottomNavPage extends StatefulWidget {
+  HomeBottomNavPage({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeWidget> {
-  int _currentIndex = 0;
-  final List<Widget> _children = [MerchantListPage(), ShoppingWishListPage(), AuthPage()];
+class _HomeState extends State<HomeBottomNavPage> {
+  final List<Widget> _children = [MerchantListPage(), ShoppingCartPage(), ShoppingWishListPage(), PortalPage()];
+
+  @override
+  void initState() {
+    onTabTapped(0);
+    super.initState();
+  }
 
   void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BottomNavChangeNotifier>(
+        context,
+        listen: false,
+      ).onChanged(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        onTap: onTabTapped,
-        // new
-        selectedItemColor: secondaryBlack,
-        unselectedItemColor: primaryBlackColor,
-        currentIndex: _currentIndex,
-        // be set when a new tab is tapped
-        items: [
-          BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage(Res.shop_ic),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage(Res.wish_inactive_ic),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
+      body:
+          Consumer<BottomNavChangeNotifier>(builder: (BuildContext context, BottomNavChangeNotifier vm, Widget child) {
+        if (vm != null) {
+          return _children[vm.selectedIndex];
+        }
+        return _children[0];
+      }),
+      bottomNavigationBar:
+          Consumer<BottomNavChangeNotifier>(builder: (BuildContext context, BottomNavChangeNotifier vm, Widget child) {
+        return BottomNavigationBar(
+          landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          onTap: onTabTapped,
+          // new
+          selectedItemColor: secondaryBlack,
+          unselectedItemColor: primaryBlackColor,
+          currentIndex: vm.selectedIndex,
+          // be set when a new tab is tapped
+          items: [
+            BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage(Res.account_ic),
+                AssetImage(Res.shop_ic),
               ),
-              label: '')
-        ],
-      ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage(Res.cart_ic),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage(Res.wish_inactive_ic),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage(Res.account_ic),
+                ),
+                label: '')
+          ],
+        );
+      }),
     );
+  }
+}
+
+class BottomNavChangeNotifier extends ChangeNotifier {
+  int selectedIndex = 0;
+
+  onChanged(int index) {
+    selectedIndex = index;
+    notifyListeners();
   }
 }

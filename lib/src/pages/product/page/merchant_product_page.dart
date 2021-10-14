@@ -124,7 +124,6 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
     switch (categoryViewModel.loader) {
       case Loader.complete:
         ProductQuery query = ProductQuery(categories: categoryViewModel.getCategories.map((e) => e.id).toList());
-        _productViewModel?.queryProducts(query);
         return Container(
             child: ListView(
                 scrollDirection: Axis.horizontal,

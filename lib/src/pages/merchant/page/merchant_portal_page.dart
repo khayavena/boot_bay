@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res.dart';
+import '../../../../res.dart';
 
-class AuthPage extends StatefulWidget {
+class PortalPage extends StatefulWidget {
   @override
   _State createState() => _State();
 }
 
-class _State extends State<AuthPage> {
+class _State extends State<PortalPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -148,19 +148,16 @@ class _State extends State<AuthPage> {
                         ),
                       ),
                     ),
-                    FlatButton(
+                    ElevatedButton(
                       onPressed: () {
                         //forgot password screen
                       },
-                      textColor: Colors.blue,
                       child: Text('Forgot Password'),
                     ),
                     Container(
                         height: 50,
                         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: RaisedButton(
-                          textColor: Colors.white,
-                          color: Colors.blue,
+                        child: ElevatedButton(
                           child: Text('Login'),
                           onPressed: () {
                             signNow();

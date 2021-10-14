@@ -18,7 +18,7 @@ import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/page/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
-import 'package:bootbay/src/pages/user/auth_page.dart';
+import 'package:bootbay/src/pages/merchant/page/merchant_portal_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
@@ -45,9 +45,9 @@ class AppRouting {
 
     switch (settings.name) {
       case '/':
-        return createRoute('/', HomeWidget());
+        return createRoute('/', HomeBottomNavPage());
       case authPage:
-        return createRoute(authPage, AuthPage());
+        return createRoute(authPage, PortalPage());
       case merchantsRegistration:
         if (args != null) {
           return createRoute(

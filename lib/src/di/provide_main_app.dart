@@ -1,14 +1,15 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module.dart';
-import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
+import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_view_model.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
 import 'package:bootbay/src/pages/product/viewmodel/product_view_model.dart';
+import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/repository/cart/cart_repository.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
@@ -19,6 +20,7 @@ import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:bootbay/src/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +34,8 @@ Future<void> provideMainApp(Flavor flavor) async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
+        ChangeNotifierProvider(create: (context) => DropDownValueChangeNotifier()),
+        ChangeNotifierProvider(create: (context) => BottomNavChangeNotifier()),
         ChangeNotifierProvider(create: (context) => MediaViewModel()),
         ChangeNotifierProvider(
             create: (context) => ProductViewModel(productRepository: moduleLocator<ProductRepository>())),

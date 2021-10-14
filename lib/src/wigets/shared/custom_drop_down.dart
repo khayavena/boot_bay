@@ -1,4 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 
 class CustomDropdown<T> extends StatefulWidget {
   final List<DropdownMenuItem<T>> dropdownMenuItemList;
@@ -22,6 +26,17 @@ class CustomDropdown<T> extends StatefulWidget {
 
 class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
   @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DropDownValueChangeNotifier>(
+        context,
+        listen: false,
+      ).changed(widget.value);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -37,24 +52,33 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
               ),
               color: widget.isEnabled ? Colors.white : Colors.grey.withAlpha(100)),
           child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              hint: new Text(widget.hint),
-              isExpanded: true,
-              itemHeight: 50.0,
-              style: TextStyle(fontSize: 15.0, color: widget.isEnabled ? Colors.black : Colors.grey[700]),
-              items: widget.dropdownMenuItemList,
-              onChanged: (value) {
-
-                widget.onChanged(value);
-                setState(() {
-                  widget.value = value;
-                });
-              },
-              value: widget.value,
-            ),
+            child: Consumer<DropDownValueChangeNotifier>(
+                builder: (BuildContext context, DropDownValueChangeNotifier consumer, Widget child) {
+              return DropdownButton(
+                hint: new Text(widget.hint),
+                isExpanded: true,
+                itemHeight: 50.0,
+                style: TextStyle(fontSize: 15.0, color: widget.isEnabled ? Colors.black : Colors.grey[700]),
+                items: widget.dropdownMenuItemList,
+                onChanged: (value) {
+                  widget.onChanged(value);
+                  consumer.changed(value);
+                },
+                value: consumer.value,
+              );
+            }),
           ),
         ),
       ),
     );
+  }
+}
+
+class DropDownValueChangeNotifier<T> extends ChangeNotifier {
+  T value;
+
+  void changed(T t) {
+    value = t;
+    notifyListeners();
   }
 }
