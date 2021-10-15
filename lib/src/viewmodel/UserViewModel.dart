@@ -118,5 +118,5 @@ class UserViewModel extends ViewModel {
     return _loggedIn;
   }
 
-  bool get isLogged => _loggedIn;
+  bool get isLogged => _user != null;
 }

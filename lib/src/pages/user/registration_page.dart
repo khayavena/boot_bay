@@ -33,7 +33,7 @@ class _State extends State<RegistrationPage> {
     return Scaffold(
         body: buildDefaultCollapsingWidget(
             bodyWidget: _buildBody(),
-            title: 'Welcome to Digi-Titan',
+            title: 'Welcome to Digit-Titan',
             backButton:
                 IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})));
   }
@@ -119,19 +119,16 @@ class _State extends State<RegistrationPage> {
                 ),
               ),
             ),
-            FlatButton(
+            ElevatedButton(
               onPressed: () {
                 //forgot password screen
               },
-              textColor: Colors.blue,
               child: Text('Forgot Password'),
             ),
             Container(
                 height: 50,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.blue,
+                child: ElevatedButton(
                   child: Text('Sign Up'),
                   onPressed: () {
                     loginNow();
@@ -141,8 +138,7 @@ class _State extends State<RegistrationPage> {
                 child: Row(
               children: <Widget>[
                 Text('Does have account?'),
-                FlatButton(
-                  textColor: Colors.blue,
+                ElevatedButton(
                   child: Text(
                     'Sign In',
                     style: TextStyle(fontSize: 20),

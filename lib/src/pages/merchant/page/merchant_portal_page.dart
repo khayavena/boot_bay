@@ -1,12 +1,10 @@
 import 'package:bootbay/src/config/app_routing.dart';
-import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/user.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
-import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -42,7 +40,7 @@ class _State extends State<PortalPage> {
     return Scaffold(
         backgroundColor: CustomColor().appBackground,
         body: buildDefaultCollapsingWidget(
-            bodyWidget: _buildBody(),
+            bodyWidget: _buildOptions(),
             title: 'Welcome to Digi-Titan',
             backButton:
                 IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})));
@@ -62,7 +60,7 @@ class _State extends State<PortalPage> {
     await _userViewModel.signIn(user);
   }
 
-  Widget _buildOptions(UserViewModel value) {
+  Widget _buildOptions() {
     return GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 1 / .6, mainAxisSpacing: 8, crossAxisSpacing: 8),
@@ -70,13 +68,25 @@ class _State extends State<PortalPage> {
         scrollDirection: Axis.vertical,
         children: [
           GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantsManagementList, arguments: value.getUser.id);
+              onTap: () async {
+                await _userViewModel.isLoggedIn();
+                if (_userViewModel.isLogged) {
+                  Navigator.of(context)
+                      .pushNamed(AppRouting.merchantsManagementList, arguments: _userViewModel.getUser.id);
+                } else {
+                  //alert
+                }
               },
               child: getItem("Manage", Icons.business)),
           GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+              onTap: () async {
+                await _userViewModel.isLoggedIn();
+                if (_userViewModel.isLogged) {
+                  Navigator.of(context)
+                      .pushNamed(AppRouting.merchantsRegistration, arguments: _userViewModel.getUser.id);
+                } else {
+                  //alert
+                }
               },
               child: getItem("New Merchant", Icons.add_business)),
           GestureDetector(
@@ -118,65 +128,65 @@ class _State extends State<PortalPage> {
     );
   }
 
-  Widget _buildBody() {
-    return Consumer<UserViewModel>(
-      builder: (BuildContext context, UserViewModel value, Widget child) {
-        switch (value.loader) {
-          case Loader.idl:
-            return Padding(
-                padding: EdgeInsets.all(10),
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Email',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        //forgot password screen
-                      },
-                      child: Text('Forgot Password'),
-                    ),
-                    Container(
-                        height: 50,
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: ElevatedButton(
-                          child: Text('Login'),
-                          onPressed: () {
-                            signNow();
-                          },
-                        )),
-                  ],
-                ));
-          case Loader.error:
-            return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-            break;
-          case Loader.busy:
-            return Center(child: ColorLoader5());
-            break;
-          case Loader.complete:
-            _userViewModel?.resetLoader();
-            return _buildOptions(value);
-        }
-        return Container();
-      },
-    );
-  }
+// Widget _buildBody() {
+//   return Consumer<UserViewModel>(
+//     builder: (BuildContext context, UserViewModel value, Widget child) {
+//       switch (value.loader) {
+//         case Loader.idl:
+//           return Padding(
+//               padding: EdgeInsets.all(10),
+//               child: ListView(
+//                 children: <Widget>[
+//                   Container(
+//                     padding: EdgeInsets.all(10),
+//                     child: TextField(
+//                       controller: emailController,
+//                       decoration: InputDecoration(
+//                         border: OutlineInputBorder(),
+//                         labelText: 'Email',
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+//                     child: TextField(
+//                       obscureText: true,
+//                       controller: passwordController,
+//                       decoration: InputDecoration(
+//                         border: OutlineInputBorder(),
+//                         labelText: 'Password',
+//                       ),
+//                     ),
+//                   ),
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       //forgot password screen
+//                     },
+//                     child: Text('Forgot Password'),
+//                   ),
+//                   Container(
+//                       height: 50,
+//                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+//                       child: ElevatedButton(
+//                         child: Text('Login'),
+//                         onPressed: () {
+//                           signNow();
+//                         },
+//                       )),
+//                 ],
+//               ));
+//         case Loader.error:
+//           return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
+//           break;
+//         case Loader.busy:
+//           return Center(child: ColorLoader5());
+//           break;
+//         case Loader.complete:
+//           _userViewModel?.resetLoader();
+//           return _buildOptions();
+//       }
+//       return Container();
+//     },
+//   );
+// }
 }

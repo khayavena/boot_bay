@@ -10,15 +10,15 @@ class DioApiInterceptor extends Interceptor {
   DioApiInterceptor({String appKey}) : _appKey = appKey;
 
   @override
-  onRequest(RequestOptions options) {
+  onRequest(RequestOptions options, inte) {
     options.headers[_apiKey] = _appKey;
     options.headers[HttpHeaders.contentTypeHeader] = ContentType.json.value;
     options.responseType = ResponseType.json;
-    return super.onRequest(options);
+    return super.onRequest(options, inte);
   }
 
   @override
-  Future onResponse(Response response) {
-    return super.onResponse(response);
+  void onResponse(Response response, inte) {
+    super.onResponse(response, inte);
   }
 }

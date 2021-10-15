@@ -6,16 +6,16 @@ class ViewModel extends ChangeNotifier {
 
   void handleDioError(DioError error) {
     switch (error.type) {
-      case DioErrorType.CONNECT_TIMEOUT:
+      case DioErrorType.connectTimeout:
         dataErrorMessage = 'Connection timeout try again';
         break;
-      case DioErrorType.SEND_TIMEOUT:
+      case DioErrorType.sendTimeout:
         dataErrorMessage = 'Timeout could not send request';
         break;
-      case DioErrorType.RECEIVE_TIMEOUT:
+      case DioErrorType.receiveTimeout:
         dataErrorMessage = 'Timeout could not receive data';
         break;
-      case DioErrorType.RESPONSE:
+      case DioErrorType.response:
         switch (error.response.statusCode) {
           case 500:
             dataErrorMessage = 'Internal Server Error';
@@ -28,10 +28,10 @@ class ViewModel extends ChangeNotifier {
             break;
         }
         break;
-      case DioErrorType.CANCEL:
+      case DioErrorType.cancel:
         dataErrorMessage = 'Canceled Request';
         break;
-      case DioErrorType.DEFAULT:
+      case DioErrorType.other:
         dataErrorMessage = 'Something went wrong';
         break;
     }

@@ -68,7 +68,7 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColor().appBackground,
+      backgroundColor: CustomColor().pureWhite,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         iconTheme: IconThemeData(color: CustomColor().black),
@@ -160,7 +160,7 @@ class _AddProductPageState extends State<AddProductPage> {
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: TextFormField(
             controller: name,
-            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
@@ -169,7 +169,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
               hintText: 'Item Name',
             ),
           ),
@@ -179,16 +179,16 @@ class _AddProductPageState extends State<AddProductPage> {
           child: TextFormField(
             maxLines: 100 ~/ 15,
             controller: description,
-            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
                 fontFamily: 'Gotham',
-                color: Colors.black54,
+                color: Colors.white,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
               hintText: 'Description',
             ),
           ),
