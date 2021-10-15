@@ -1,4 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -180,17 +181,7 @@ class _AddProductPageState extends State<AddProductPage> {
             maxLines: 100 ~/ 15,
             controller: description,
             style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
-            decoration: new InputDecoration(
-              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
-              hintStyle: TextStyle(
-                fontFamily: 'Gotham',
-                color: Colors.white,
-                fontSize: 15,
-                fontStyle: FontStyle.italic,
-              ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
-              hintText: 'Description',
-            ),
+            decoration: inputDecorator(hint: 'Description'),
           ),
         ),
         Padding(

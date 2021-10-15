@@ -1,4 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/button_styles.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,30 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
 
   @override
   Widget build(BuildContext context) {
+    return _buildBody();
+  }
+
+  Widget _buildBody() {
+    return Container(
+      child: Consumer<UserViewModel>(
+        builder: (BuildContext context, UserViewModel value, Widget child) {
+          switch (value.loader) {
+            case Loader.error:
+              return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
+              break;
+            case Loader.busy:
+              return Center(child: ColorLoader5());
+              break;
+            case Loader.complete:
+              value?.resetLoader();
+          }
+          return _buildInputView();
+        },
+      ),
+    );
+  }
+
+  Widget _buildInputView() {
     return Padding(
         padding: EdgeInsets.all(10),
         child: ListView(
@@ -27,10 +52,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               padding: EdgeInsets.all(10),
               child: TextField(
                 onChanged: (value) {},
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                ),
+                decoration: inputDecorator(hint: 'Email address'),
               ),
             ),
             Container(
@@ -38,10 +60,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               child: TextField(
                 onChanged: (value) {},
                 obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
+                decoration: inputDecorator(hint: 'Password'),
               ),
             ),
             ElevatedButton(
@@ -59,23 +78,5 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
                 )),
           ],
         ));
-  }
-
-  Widget _buildBody() {
-    return Consumer<UserViewModel>(
-      builder: (BuildContext context, UserViewModel value, Widget child) {
-        switch (value.loader) {
-          case Loader.error:
-            return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-            break;
-          case Loader.busy:
-            return Center(child: ColorLoader5());
-            break;
-          case Loader.complete:
-            value?.resetLoader();
-        }
-        return Container();
-      },
-    );
   }
 }
