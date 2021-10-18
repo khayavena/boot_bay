@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "446686780416",
+    "firebase_url": "https://bootpay-73418.firebaseio.com",
+    "project_id": "bootpay-73418",
+    "storage_bucket": "bootpay-73418.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
+        "android_client_info": {
+          "package_name": "com.bootpay.phone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446686780416-u15eoeibdcoc9va21s95a2dbv5f680jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsmo5RD_49zaamm-jOG58VlqrvW29NSxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446686780416-u15eoeibdcoc9va21s95a2dbv5f680jm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446686780416:android:e424c8d3607356468a0ce5",
+        "android_client_info": {
+          "package_name": "com.vdi.bootbay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446686780416-u15eoeibdcoc9va21s95a2dbv5f680jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsmo5RD_49zaamm-jOG58VlqrvW29NSxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446686780416-u15eoeibdcoc9va21s95a2dbv5f680jm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
