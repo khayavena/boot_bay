@@ -97,6 +97,7 @@ class PaymentViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
+    return _tokenResponse;
   }
 
   Loader get loader => _loader;

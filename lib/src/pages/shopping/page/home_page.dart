@@ -28,7 +28,7 @@ class HomeBottomNavPage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeBottomNavPage> {
-  final List<Widget> _children = [MerchantListPage(), ShoppingCartPage(), ShoppingWishListPage(), PortalPage()];
+  final List<Widget> _children = [MerchantListPage(), ShoppingCartPage(), ShoppingWishListPage(), MerchantPortalPage()];
 
   @override
   void initState() {

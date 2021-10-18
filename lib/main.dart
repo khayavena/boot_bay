@@ -19,7 +19,7 @@ import 'package:bootbay/src/data/remote/payment/remote_payment_service_Impl.dart
 import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
 import 'package:bootbay/src/di/provide_main_app.dart';
-import 'package:bootbay/src/helpers/button_styles.dart';
+import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/helpers/network_helper_impl.dart';

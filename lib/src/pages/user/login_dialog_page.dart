@@ -1,8 +1,11 @@
+import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/button_styles.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class LoginDialogPage extends StatefulWidget {
@@ -15,12 +18,23 @@ class LoginDialogPage extends StatefulWidget {
 class _LoginDialogPageState extends State<LoginDialogPage> {
   @override
   void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserViewModel>(
+        context,
+        listen: false,
+      ).isLoggedIn();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildBody();
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: primaryWhite,
+          title: Text('Login page'),
+        ),
+        body: _buildBody());
   }
 
   Widget _buildBody() {
@@ -37,7 +51,20 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
             case Loader.complete:
               value?.resetLoader();
           }
-          return _buildInputView();
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildLoginAction(Res.google_ic),
+                  _buildLoginAction(Res.facebook_ic),
+                  _buildLoginAction(Res.twitter_ic),
+                ],
+              ),
+              Expanded(child: _buildInputView()),
+            ],
+          );
         },
       ),
     );
@@ -63,12 +90,18 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
                 decoration: inputDecorator(hint: 'Password'),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                //forgot password screen
-              },
-              child: Text('Forgot Password'),
+            Padding(padding: EdgeInsets.all(10)),
+            Container(
+              height: 50,
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: ElevatedButton(
+                onPressed: () {
+                  //forgot password screen
+                },
+                child: Text('Sign Up'),
+              ),
             ),
+            Padding(padding: EdgeInsets.all(10)),
             Container(
                 height: 50,
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -78,5 +111,14 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
                 )),
           ],
         ));
+  }
+
+  Widget _buildLoginAction(String icon) {
+    return Container(
+      width: 80,
+      height: 80,
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(icon), fit: BoxFit.cover)),
+      padding: EdgeInsets.only(top: 50.0),
+    );
   }
 }

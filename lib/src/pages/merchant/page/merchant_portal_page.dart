@@ -12,12 +12,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../res.dart';
 
-class PortalPage extends StatefulWidget {
+class MerchantPortalPage extends StatefulWidget {
   @override
   _State createState() => _State();
 }
 
-class _State extends State<PortalPage> {
+class _State extends State<MerchantPortalPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -41,7 +41,7 @@ class _State extends State<PortalPage> {
         backgroundColor: CustomColor().appBackground,
         body: buildDefaultCollapsingWidget(
             bodyWidget: _buildOptions(),
-            title: 'Welcome to Digi-Titan',
+            title: 'Boot-bay Portal',
             backButton:
                 IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})));
   }
@@ -69,7 +69,7 @@ class _State extends State<PortalPage> {
         children: [
           GestureDetector(
               onTap: () async {
-                await _userViewModel.isLoggedIn();
+                await _userViewModel?.isLoggedIn();
                 if (_userViewModel.isLogged) {
                   Navigator.of(context)
                       .pushNamed(AppRouting.merchantsManagementList, arguments: _userViewModel.getUser.id);
@@ -90,13 +90,13 @@ class _State extends State<PortalPage> {
               },
               child: getItem("New Merchant", Icons.add_business)),
           GestureDetector(
-              onTap: () {
-                // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+              onTap: () async {
+                Navigator.of(context).pushNamed(AppRouting.loginPage);
               },
               child: getItem("Invest", Icons.business_center)),
           GestureDetector(
               onTap: () {
-                // Navigator.of(context).pushNamed(AppRouting.merchantsRegistration, arguments: value.getUser.id);
+                Navigator.of(context).pushNamed(AppRouting.loginPage);
               },
               child: getItem("Shopping", Icons.shopping_basket))
         ]);
@@ -127,66 +127,4 @@ class _State extends State<PortalPage> {
       decoration: tileDecorator,
     );
   }
-
-// Widget _buildBody() {
-//   return Consumer<UserViewModel>(
-//     builder: (BuildContext context, UserViewModel value, Widget child) {
-//       switch (value.loader) {
-//         case Loader.idl:
-//           return Padding(
-//               padding: EdgeInsets.all(10),
-//               child: ListView(
-//                 children: <Widget>[
-//                   Container(
-//                     padding: EdgeInsets.all(10),
-//                     child: TextField(
-//                       controller: emailController,
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(),
-//                         labelText: 'Email',
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-//                     child: TextField(
-//                       obscureText: true,
-//                       controller: passwordController,
-//                       decoration: InputDecoration(
-//                         border: OutlineInputBorder(),
-//                         labelText: 'Password',
-//                       ),
-//                     ),
-//                   ),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       //forgot password screen
-//                     },
-//                     child: Text('Forgot Password'),
-//                   ),
-//                   Container(
-//                       height: 50,
-//                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-//                       child: ElevatedButton(
-//                         child: Text('Login'),
-//                         onPressed: () {
-//                           signNow();
-//                         },
-//                       )),
-//                 ],
-//               ));
-//         case Loader.error:
-//           return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-//           break;
-//         case Loader.busy:
-//           return Center(child: ColorLoader5());
-//           break;
-//         case Loader.complete:
-//           _userViewModel?.resetLoader();
-//           return _buildOptions();
-//       }
-//       return Container();
-//     },
-//   );
-// }
 }

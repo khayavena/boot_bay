@@ -1,5 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/button_styles.dart';
+import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';

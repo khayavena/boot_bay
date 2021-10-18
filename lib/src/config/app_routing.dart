@@ -9,6 +9,7 @@ import 'package:bootbay/src/pages/merchant/page/edit_merchant_options_page.dart'
 import 'package:bootbay/src/pages/merchant/page/merchant_category_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_list_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_management_list_page.dart';
+import 'package:bootbay/src/pages/merchant/page/merchant_portal_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_registration_page.dart';
 import 'package:bootbay/src/pages/product/page/add_product_page.dart';
 import 'package:bootbay/src/pages/product/page/category_product_page.dart';
@@ -18,27 +19,28 @@ import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/page/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
-import 'package:bootbay/src/pages/merchant/page/merchant_portal_page.dart';
+import 'package:bootbay/src/pages/user/login_dialog_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {
-  static const String authPage = '/autPage';
-  static const String productDetail = '/detail';
-  static const String cartList = '/cart';
-  static const String wishList = '/wish';
-  static const String merchantList = '/merchantsList';
-  static const String merchantLanding = '/merchantsLanding';
-  static const String merchantsRegistration = '/merchantsRegistration';
-  static const String merchantsManagementEdit = '/editMerchantManagement';
-  static const String merchantsManagementList = '/merchantManagementList';
-  static const String merchantCategoryList = '/merchantItemCategoryList';
-  static const String merchantManagementEditOptions = '/merchantManagementEditOptions';
-  static const String mediaContent = "/mediaContent";
-  static const String editCategory = "/editCategory";
-  static const String addCategory = "/addCategory";
-  static const String addProduct = "/addProduct";
+  static const String merchant_portal_page = '/MerchantPortalPage';
+  static const String productDetail = '/productDetailPage';
+  static const String cartList = '/cartPage';
+  static const String wishList = '/wishPage';
+  static const String merchantList = '/merchantsListPage';
+  static const String merchantLanding = '/merchantsLandingPage';
+  static const String merchantsRegistration = '/merchantsRegistrationPagee';
+  static const String merchantsManagementEdit = '/editMerchantManagementPage';
+  static const String merchantsManagementList = '/merchantManagementListPage';
+  static const String merchantCategoryList = '/merchantItemCategoryListPage';
+  static const String merchantManagementEditOptions = '/merchantManagementEditOptionsPage';
+  static const String mediaContent = "/mediaContentPage";
+  static const String editCategory = "/editCategoryPage";
+  static const String addCategory = "/addCategoryPage";
+  static const String addProduct = "/addProductPage";
   static const String editProductPage = '/editProductPage';
   static const String editCategoryProductPage = '/editCategoryProductPage';
+  static const String loginPage = '/loginPage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -46,8 +48,10 @@ class AppRouting {
     switch (settings.name) {
       case '/':
         return createRoute('/', HomeBottomNavPage());
-      case authPage:
-        return createRoute(authPage, PortalPage());
+      case loginPage:
+        return createRoute(loginPage, LoginDialogPage());
+      case merchant_portal_page:
+        return createRoute(merchant_portal_page, MerchantPortalPage());
       case merchantsRegistration:
         if (args != null) {
           return createRoute(

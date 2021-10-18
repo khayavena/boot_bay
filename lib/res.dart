@@ -19,4 +19,7 @@ class Res {
   static const String env_config_file = "assets/json/env_config_file.json";
   static const String json_file = "assets/json/json_file.json";
   static const String user = "assets/user.png";
+  static const String google_ic = "assets/images/google.png";
+  static const String facebook_ic = "assets/images/facebook.png";
+  static const String twitter_ic = 'assets/images/twitter.png';
 }
