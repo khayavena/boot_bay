@@ -44,7 +44,7 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
         merchantViewModel.resetLoader();
         return GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: .9 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
             padding: EdgeInsets.only(left: 8, right: 8),
             scrollDirection: Axis.vertical,
             children: merchantViewModel.getMerchants

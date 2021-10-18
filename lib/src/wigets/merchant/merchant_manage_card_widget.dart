@@ -1,6 +1,7 @@
 import 'package:bootbay/src/config/app_routing.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
-import 'package:bootbay/src/helpers/ResSize.dart';
+import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -26,28 +27,46 @@ class _MerchantManagementCardWidgetState extends State<MerchantManagementCardWid
         onTap: () {
           Navigator.of(context).pushNamed(AppRouting.merchantManagementEditOptions, arguments: widget.merchant);
         },
-        child: _buildWidget(),
+        child: _buildColumn(),
       ),
     );
   }
 
-  Widget _buildWidget() {
-    return Container(
-        child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              widget.merchant.name,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: largeFontSize,
-                fontWeight: largeFont,
-              ),
-            )),
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: CachedNetworkImageProvider(widget.merchant.logoUrl),
+  Widget _buildColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image(
+          width: 166,
+          height: 204,
           fit: BoxFit.cover,
-        )));
+          image: CachedNetworkImageProvider(getImageUri(widget.merchant.id)),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text('${widget.merchant.name.toUpperCase()}',
+            style: TextStyle(
+              color: primaryBlackColor,
+              fontSize: 12,
+              fontWeight: largeFont,
+              fontStyle: FontStyle.normal,
+              letterSpacing: -0.6400000000000001,
+            )),
+        SizedBox(
+          height: 8,
+        ),
+        Text("${widget.merchant.location}",
+            style: TextStyle(
+              color: Color(0xff333333),
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              letterSpacing: -0.8000000000000003,
+            ))
+      ],
+    );
   }
 }
