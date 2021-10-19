@@ -16,13 +16,15 @@ class LoginDialogPage extends StatefulWidget {
 }
 
 class _LoginDialogPageState extends State<LoginDialogPage> {
+  UserViewModel vm;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<UserViewModel>(
+      vm = Provider.of<UserViewModel>(
         context,
         listen: false,
-      ).isLoggedIn();
+      );
     });
     super.initState();
   }
@@ -57,7 +59,10 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildLoginAction(Res.google_ic),
+                  GestureDetector(onTap: (){
+                    vm.googleSignIn();
+                  },
+                      child: _buildLoginAction(Res.google_ic)),
                   _buildLoginAction(Res.facebook_ic),
                   _buildLoginAction(Res.twitter_ic),
                 ],

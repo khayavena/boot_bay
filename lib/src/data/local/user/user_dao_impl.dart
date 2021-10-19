@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
 import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
@@ -13,34 +13,34 @@ class UserDaoImpl implements UserDao {
   }) : _database = database;
 
   @override
-  Future<List<User>> findAll() async {
+  Future<List<SysUser>> findAll() async {
     final recordSnapshot = await _userStore.find(_database);
     return recordSnapshot.map((snapshot) {
-      final student = User.fromJson(snapshot.value);
+      final student = SysUser.fromJson(snapshot.value);
       return student;
     }).toList();
   }
 
   @override
-  Future<User> findById(String id) async {
+  Future<SysUser> findById(String id) async {
     final recordSnapshot = await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('id', id)));
-    return User.fromJson(recordSnapshot.value);
+    return SysUser.fromJson(recordSnapshot.value);
   }
 
   @override
-  Future<void> insert(User user) async {
+  Future<void> insert(SysUser user) async {
     int b = await _userStore.add(_database, user.toJson());
     print('User status $b');
   }
 
   @override
-  Future<void> insertAll(List<User> users) {
+  Future<void> insertAll(List<SysUser> users) {
     // TODO: implement insertAll
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(User user) async {
+  Future<void> update(SysUser user) async {
     var finder = Finder(
       filter: Filter.equals('id', user.id),
     );
@@ -49,7 +49,7 @@ class UserDaoImpl implements UserDao {
   }
 
   @override
-  Future<void> updateAll(List<User> users) {
+  Future<void> updateAll(List<SysUser> users) {
     // TODO: implement updateAll
     throw UnimplementedError();
   }

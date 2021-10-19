@@ -1,17 +1,19 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/repository/user/firebase_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class UserViewModel extends ViewModel {
-  UserRepository _userRepository;
+  final UserRepository _userRepository;
+  final ThirdPartyAuthRepository _thirdPartyAuthRepository;
 
-  List<User> _users = [];
-  User _user = User();
+  List<SysUser> _users = [];
+  SysUser _user = SysUser();
 
   String dataErrorMessage;
   bool _loggedIn = false;
@@ -19,9 +21,11 @@ class UserViewModel extends ViewModel {
 
   UserViewModel({
     @required UserRepository userRepository,
-  }) : _userRepository = userRepository;
+    @required ThirdPartyAuthRepository thirdPartyAuthRepository,
+  })  : _userRepository = userRepository,
+        _thirdPartyAuthRepository = thirdPartyAuthRepository;
 
-  Future<List<User>> getAllCategories() async {
+  Future<List<SysUser>> getAllCategories() async {
     _loader = Loader.busy;
     try {
       _users = await _userRepository.getAll();
@@ -42,11 +46,11 @@ class UserViewModel extends ViewModel {
     return _users;
   }
 
-  List<User> get getUsers => _users;
+  List<SysUser> get getUsers => _users;
 
-  User get getUser => _user;
+  SysUser get getUser => _user;
 
-  Future<User> signUp(User user) async {
+  Future<SysUser> signUp(SysUser user) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
@@ -68,7 +72,12 @@ class UserViewModel extends ViewModel {
     }
   }
 
-  Future<User> signIn(AuthRequest authRequest) async {
+  Future<void> googleSignIn() async {
+    await _thirdPartyAuthRepository.signInWithGoogle();
+    // _user = await _userRepository.signUp(user);
+  }
+
+  Future<SysUser> signIn(AuthRequest authRequest) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
@@ -92,7 +101,7 @@ class UserViewModel extends ViewModel {
 
   Loader get loader => _loader;
 
-  Future<User> saveCategory(User category) {
+  Future<SysUser> saveCategory(SysUser category) {
     return _userRepository.update(category);
   }
 

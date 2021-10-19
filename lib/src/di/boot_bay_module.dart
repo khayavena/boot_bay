@@ -42,10 +42,14 @@ import 'package:bootbay/src/repository/mediacontent/media_content_repository.dar
 import 'package:bootbay/src/repository/mediacontent/media_content_repository_impl.dart';
 import 'package:bootbay/src/repository/payment/payment_repository.dart';
 import 'package:bootbay/src/repository/payment/payment_repository_impl.dart';
+import 'package:bootbay/src/repository/user/firebase_auth_repository.dart';
+import 'package:bootbay/src/repository/user/firebase_auth_repository_impl.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository_impl.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sembast/sembast.dart';
 
 GetIt _locator = GetIt.instance;
@@ -64,6 +68,14 @@ Future<void> setupLocator(Flavor flavor) async {
   _setUpDatabase(database);
   _setUpRemoteServices(dio);
   _setRepositories(dio);
+  _setUpAuthentication();
+}
+
+void _setUpAuthentication() {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  moduleLocator.registerLazySingleton<ThirdPartyAuthRepository>(() => ThirdPartyAuthRepositoryImpl(
+      repository: moduleLocator<UserRepository>(), firebaseAuth: auth, googleSignIn: _googleSignIn));
 }
 
 void _setUpRemoteServices(dio) async {

@@ -16,11 +16,13 @@ import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/repository/payment/payment_repository.dart';
+import 'package:bootbay/src/repository/user/firebase_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:bootbay/src/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +30,7 @@ import '../../main.dart';
 
 Future<void> provideMainApp(Flavor flavor) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await setupLocator(flavor);
 
   runApp(
@@ -50,7 +53,10 @@ Future<void> provideMainApp(Flavor flavor) async {
         ChangeNotifierProvider(
             create: (context) =>
                 MerchantRegistrationViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
-        ChangeNotifierProvider(create: (context) => UserViewModel(userRepository: moduleLocator<UserRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => UserViewModel(
+                userRepository: moduleLocator<UserRepository>(),
+                thirdPartyAuthRepository: moduleLocator<ThirdPartyAuthRepository>())),
         ChangeNotifierProvider(
             create: (context) => PaymentViewModel(
                 userRepository: moduleLocator<UserRepository>(),

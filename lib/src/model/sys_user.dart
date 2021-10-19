@@ -1,4 +1,4 @@
-class User {
+class SysUser {
   bool active;
   String contactNo;
   String customerId;
@@ -12,8 +12,9 @@ class User {
   int parentId;
   String password;
   String role;
+  String thirdPartyId;
 
-  User(
+  SysUser(
       {this.active,
       this.contactNo,
       this.customerId,
@@ -28,8 +29,8 @@ class User {
       this.password,
       this.role});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory SysUser.fromJson(Map<String, dynamic> json) {
+    return SysUser(
       active: json['active'],
       contactNo: json['contactNo'] ?? '',
       customerId: json['customerId'],

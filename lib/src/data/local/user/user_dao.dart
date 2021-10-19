@@ -1,17 +1,17 @@
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
 
 abstract class UserDao {
-  Future<List<User>> findAll();
+  Future<List<SysUser>> findAll();
 
-  Future<User> findById(String id);
+  Future<SysUser> findById(String id);
 
-  Future<void> insert(User user);
+  Future<void> insert(SysUser user);
 
-  Future<void> insertAll(List<User> users);
+  Future<void> insertAll(List<SysUser> users);
 
-  Future<void> updateAll(List<User> users);
+  Future<void> updateAll(List<SysUser> users);
 
-  Future<void> update(User user);
+  Future<void> update(SysUser user);
 
   Future<void> deleteAllUser(String id);
 }

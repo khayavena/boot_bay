@@ -1,16 +1,18 @@
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
 
 abstract class UserRepository {
-  Future<User> signUp(User user);
+  Future<SysUser> signUp(SysUser user);
 
-  Future<User> signIn(AuthRequest authRequest);
+  Future<SysUser> signIn(AuthRequest authRequest);
 
-  Future<User> update(User user);
+  Future<SysUser> update(SysUser user);
 
-  Future<List<User>> getAll();
+  Future<List<SysUser>> getAll();
 
   Future<bool> isLoggedIn();
 
   Future<bool> logOut(String id);
+
+  Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken);
 }

@@ -3,7 +3,7 @@ import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,7 @@ class _State extends State<MerchantPortalPage> {
   }
 
   Future<void> loginNow() async {
-    User user = User(
+    SysUser user = SysUser(
         firstName: emailController.text,
         dateOfBirth: DateTime.now().toString(),
         lastName: emailController.text,

@@ -2,7 +2,7 @@ import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user.dart';
+import 'package:bootbay/src/model/sys_user.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -18,22 +18,22 @@ class UserRepositoryImpl implements UserRepository {
         _userDao = userDao;
 
   @override
-  Future<User> signUp(User user) {
+  Future<SysUser> signUp(SysUser user) {
     return _authService.signUp(user);
   }
 
   @override
-  Future<User> update(User user) {
+  Future<SysUser> update(SysUser user) {
     return _authService.update(user);
   }
 
   @override
-  Future<List<User>> getAll() {
+  Future<List<SysUser>> getAll() {
     return _userDao.findAll();
   }
 
   @override
-  Future<User> signIn(AuthRequest authRequest) async {
+  Future<SysUser> signIn(AuthRequest authRequest) async {
     var user = await _authService.signIn(authRequest);
     _userDao.insert(user);
     return user;
@@ -41,7 +41,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    List<User> list = await _userDao.findAll();
+    List<SysUser> list = await _userDao.findAll();
     if (list != null && list.isNotEmpty) {
       return true;
     }
@@ -52,5 +52,10 @@ class UserRepositoryImpl implements UserRepository {
   Future<bool> logOut(String id) async {
     _userDao.deleteAllUser(id);
     return await isLoggedIn() == false;
+  }
+
+  @override
+  Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken) {
+
   }
 }
