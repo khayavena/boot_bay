@@ -48,34 +48,34 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
           bodyWidget: Container(
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(width: 150, height: 30),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRouting.addProduct, arguments: {"merchant": widget.merchant});
-                        },
-                        child: Text('Add Item'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(width: 150, height: 30),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRouting.addProduct, arguments: {"merchant": widget.merchant});
+                          },
+                          child: Text('Add Item'),
+                        ),
                       ),
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(width: 150, height: 30),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
-                        },
-                        child: Text('Add Classification'),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(width: 150, height: 30),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
+                          },
+                          child: Text('Add Classification'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: _buildBody(),
-                  ),
+                  child: _buildBody(),
                 )
               ],
             ),

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 final blueButtonStyle = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-        primary: Colors.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius:  BorderRadius.circular(0),
+      ),
+        primary: Color(0xff2783a9),
         textStyle: TextStyle(
+
           fontStyle: FontStyle.normal,
           fontSize: 12,
         )));
