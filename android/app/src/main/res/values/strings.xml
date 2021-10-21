@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">bootbay</string>
+    <string name="facebook_app_id">310664760452731</string>
+    <string name="fb_login_protocol_scheme">fb310664760452731</string>
+</resources>

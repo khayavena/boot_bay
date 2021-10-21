@@ -2,7 +2,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
-import 'package:bootbay/src/repository/user/firebase_auth_repository.dart';
+import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
@@ -72,9 +72,18 @@ class UserViewModel extends ViewModel {
     }
   }
 
-  Future<void> googleSignIn() async {
-    await _thirdPartyAuthRepository.signInWithGoogle();
-    // _user = await _userRepository.signUp(user);
+  Future<void> logIn(final LoginOption loginOption) async {
+    switch (loginOption) {
+      case LoginOption.fb:
+        await _thirdPartyAuthRepository.signInWithFacebook();
+        break;
+      case LoginOption.google:
+        await _thirdPartyAuthRepository.signInWithGoogle();
+        break;
+      case LoginOption.twitter:
+        // TODO: Handle this case.
+        break;
+    }
   }
 
   Future<SysUser> signIn(AuthRequest authRequest) async {
@@ -129,3 +138,5 @@ class UserViewModel extends ViewModel {
 
   bool get isLogged => _user != null;
 }
+
+enum LoginOption { fb, google, twitter }

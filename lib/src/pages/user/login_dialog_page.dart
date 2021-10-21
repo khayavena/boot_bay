@@ -59,12 +59,9 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GestureDetector(onTap: (){
-                    vm.googleSignIn();
-                  },
-                      child: _buildLoginAction(Res.google_ic)),
-                  _buildLoginAction(Res.facebook_ic),
-                  _buildLoginAction(Res.twitter_ic),
+                  _buildLoginAction(Res.google_ic, LoginOption.google),
+                  _buildLoginAction(Res.facebook_ic, LoginOption.fb),
+                  _buildLoginAction(Res.twitter_ic, LoginOption.twitter),
                 ],
               ),
               Expanded(child: _buildInputView()),
@@ -118,12 +115,17 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
         ));
   }
 
-  Widget _buildLoginAction(String icon) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(icon), fit: BoxFit.cover)),
-      padding: EdgeInsets.only(top: 50.0),
+  Widget _buildLoginAction(String icon, final LoginOption loginOption) {
+    return GestureDetector(
+      onTap: () {
+        vm.logIn(loginOption);
+      },
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(icon), fit: BoxFit.cover)),
+        padding: EdgeInsets.only(top: 50.0),
+      ),
     );
   }
 }

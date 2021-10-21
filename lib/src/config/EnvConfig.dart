@@ -8,6 +8,9 @@ class EnvConfig {
   String baseUrl;
   String googleAuthUrl;
   String firebaseAuthId;
+  String tweetApiKey;
+  String tweetApiKeySecret;
+  String tweetBearerToken;
   int connectTimeOut;
   int receiveTimeout;
 
@@ -19,8 +22,11 @@ class EnvConfig {
       this.connectTimeOut,
       this.receiveTimeout,
       this.databaseName,
-      googleAuthUrl,
-      firebaseAuthId});
+      this.googleAuthUrl,
+      this.firebaseAuthId,
+      this.tweetApiKey,
+      this.tweetApiKeySecret,
+      this.tweetBearerToken});
 
   factory EnvConfig.fromJson(Map<String, dynamic> json) => EnvConfig(
       appKey: json['appKey'] as String,
@@ -31,7 +37,10 @@ class EnvConfig {
       receiveTimeout: json['receiveTimeout'] as int,
       googleAuthUrl: json['googleAuthUrl'],
       firebaseAuthId: json['firebaseId'],
-      databaseName: json['databaseName']);
+      databaseName: json['databaseName'],
+      tweetApiKey: json['tweetKey'],
+      tweetApiKeySecret: json['tweetKeySecret'],
+      tweetBearerToken: json['tweetBearerToken']);
 
   Map<String, dynamic> toJson() {
     return {

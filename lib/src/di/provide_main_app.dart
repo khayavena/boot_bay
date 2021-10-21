@@ -1,5 +1,5 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
-import 'package:bootbay/src/di/boot_bay_module.dart';
+import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
@@ -16,7 +16,7 @@ import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/repository/payment/payment_repository.dart';
-import 'package:bootbay/src/repository/user/firebase_auth_repository.dart';
+import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
