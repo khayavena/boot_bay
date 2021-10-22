@@ -13,6 +13,6 @@ abstract class UserRepository {
   Future<bool> isLoggedIn();
 
   Future<bool> logOut(String id);
-
+  SysUser thirdPartySignIn1(String displayName, String email, String idToken);
   Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken);
 }

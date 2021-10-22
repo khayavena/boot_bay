@@ -27,7 +27,8 @@ class SysUser {
       this.marchant,
       this.parentId,
       this.password,
-      this.role});
+      this.role,
+      this.thirdPartyId});
 
   factory SysUser.fromJson(Map<String, dynamic> json) {
     return SysUser(

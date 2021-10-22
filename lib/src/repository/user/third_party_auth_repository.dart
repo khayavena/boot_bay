@@ -3,7 +3,6 @@ import 'package:bootbay/src/model/sys_user.dart';
 abstract class ThirdPartyAuthRepository {
   Future<void> signInWithGoogle();
 
-  Future<void> signInWithTwitter();
 
   Future<void> signOut();
 

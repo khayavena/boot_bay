@@ -115,6 +115,8 @@ void _setUpDatabase(database) async {
 void _setEnvAndUtils(Flavor flavor) async {
   moduleLocator.registerLazySingleton<EnvConfigService>(() => EnvConfigServiceImpl(flavor));
   moduleLocator.registerLazySingleton<NetworkHelper>(() => NetworkHelperImpl());
+  final config = await moduleLocator<EnvConfigService>().getEnvConfig();
+  moduleLocator.registerLazySingleton<EnvConfig>(() => config);
 }
 
 void _setRepositories(dio) {

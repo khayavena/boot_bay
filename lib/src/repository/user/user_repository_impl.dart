@@ -55,7 +55,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken) {
+  SysUser thirdPartySignIn1(String displayName, String email, String idToken) {
+    var provide = displayName;
+    return SysUser(fullName: displayName,email: email,thirdPartyId: idToken);
+  }
 
+  @override
+  Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken) {
+    // TODO: implement thirdPartySignIn
+    throw UnimplementedError();
   }
 }
