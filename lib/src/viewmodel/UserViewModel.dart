@@ -4,7 +4,7 @@ import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
 import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
-import 'package:bootbay/src/viewmodel/ViewModel.dart';
+import 'ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -86,11 +86,12 @@ class UserViewModel extends ViewModel {
     }
   }
 
-  Future<SysUser> signIn(AuthRequest authRequest) async {
+  Future<SysUser> signIn() async {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _user = await _userRepository.signIn(authRequest);
+      var currentUser = _thirdPartyAuthRepository.sysUser();
+      _user = await _userRepository.signIn(AuthRequest());
       _loader = Loader.complete;
       notifyListeners();
       return _user;

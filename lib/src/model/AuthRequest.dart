@@ -1,14 +1,11 @@
 class AuthRequest {
-  String emailAddress;
+  String thirdPartyId;
 
-  String password;
-
-  AuthRequest({this.emailAddress, this.password});
+  AuthRequest({this.thirdPartyId});
 
   Map<String, dynamic> toJson() {
     return {
-      "emailAdress": this.emailAddress.trim(),
-      "password": this.password.trim(),
+      "thirdPartyId": this.thirdPartyId.trim(),
     };
   }
 }

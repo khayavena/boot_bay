@@ -2,7 +2,6 @@ import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
@@ -21,7 +20,7 @@ class _State extends State<MerchantPortalPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  UserViewModel _userViewModel;
+    UserViewModel _userViewModel;
 
   @override
   void initState() {
@@ -56,8 +55,7 @@ class _State extends State<MerchantPortalPage> {
   }
 
   void signNow() async {
-    AuthRequest user = AuthRequest(emailAddress: emailController.text, password: passwordController.text);
-    await _userViewModel.signIn(user);
+    await _userViewModel.signIn();
   }
 
   Widget _buildOptions() {

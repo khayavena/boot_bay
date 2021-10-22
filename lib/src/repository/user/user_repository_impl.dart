@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
-import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
+import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
@@ -7,24 +7,26 @@ import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  RemoteUserService _authService;
+  RemoteUserDataSource _remoteUserDataSource;
   UserDao _userDao;
   NetworkHelper _networkHelper;
 
   UserRepositoryImpl(
-      {@required RemoteUserService userService, @required NetworkHelper networkHelper, @required UserDao userDao})
-      : _authService = userService,
+      {@required RemoteUserDataSource remoteUserDataSource,
+      @required NetworkHelper networkHelper,
+      @required UserDao userDao})
+      : _remoteUserDataSource = remoteUserDataSource,
         _networkHelper = networkHelper,
         _userDao = userDao;
 
   @override
   Future<SysUser> signUp(SysUser user) {
-    return _authService.signUp(user);
+    return _remoteUserDataSource.signUp(user);
   }
 
   @override
   Future<SysUser> update(SysUser user) {
-    return _authService.update(user);
+    return _remoteUserDataSource.update(user);
   }
 
   @override
@@ -34,7 +36,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<SysUser> signIn(AuthRequest authRequest) async {
-    var user = await _authService.signIn(authRequest);
+    var user = await _remoteUserDataSource.signIn(authRequest);
     _userDao.insert(user);
     return user;
   }
@@ -55,14 +57,15 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  SysUser thirdPartySignIn1(String displayName, String email, String idToken) {
-    var provide = displayName;
-    return SysUser(fullName: displayName,email: email,thirdPartyId: idToken);
-  }
-
-  @override
   Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken) {
-    // TODO: implement thirdPartySignIn
-    throw UnimplementedError();
+    var names = displayName.split(' ');
+
+    var user = SysUser(
+        firstName: names != null && names.isNotEmpty ? names[0] : '',
+        dateOfBirth: DateTime.now().toString(),
+        lastName: names != null && names.isNotEmpty ? names[1] : '',
+        password: 'password',
+        thirdPartyId: idToken);
+    return _remoteUserDataSource.signUp(user);
   }
 }

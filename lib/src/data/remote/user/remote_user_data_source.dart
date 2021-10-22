@@ -1,7 +1,7 @@
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
 
-abstract class RemoteUserService {
+abstract class RemoteUserDataSource {
   Future<SysUser> signUp(SysUser user);
 
   Future<SysUser> update(SysUser user);

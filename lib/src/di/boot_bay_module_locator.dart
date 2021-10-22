@@ -12,8 +12,8 @@ import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/data/local/product/wish_list_dao_impl.dart';
 import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/local/user/user_dao_impl.dart';
-import 'package:bootbay/src/data/remote/auth/remote_user_service.dart';
-import 'package:bootbay/src/data/remote/auth/remote_user_service_Impl.dart';
+import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
+import 'package:bootbay/src/data/remote/user/remote_user_data_source_Impl.dart';
 import 'package:bootbay/src/data/remote/dio/dio_api_client.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource_impl.dart';
@@ -25,6 +25,7 @@ import 'package:bootbay/src/data/remote/product/remote_category_service.dart';
 import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
+import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
 import 'package:bootbay/src/helpers/globals.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/helpers/network_helper_impl.dart';
@@ -85,7 +86,7 @@ void _setUpAuthentication() {
 void _setUpRemoteServices(dio) async {
   moduleLocator.registerLazySingleton<Dio>(() => dio);
 
-  moduleLocator.registerLazySingleton<RemoteUserService>(() => RemoteUserServiceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemoteUserDataSource>(() => RemoteUserDataSourceImpl(dio: dio));
 
   moduleLocator.registerLazySingleton<RemoteMerchantDataSource>(() => RemoteMerchantDataSourceImpl(dioClient: dio));
 
@@ -122,7 +123,7 @@ void _setEnvAndUtils(Flavor flavor) async {
 void _setRepositories(dio) {
   moduleLocator.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
-      userService: moduleLocator<RemoteUserService>(),
+      remoteUserDataSource: moduleLocator<RemoteUserDataSource>(),
       userDao: moduleLocator<UserDao>(),
       networkHelper: moduleLocator<NetworkHelper>(),
     ),

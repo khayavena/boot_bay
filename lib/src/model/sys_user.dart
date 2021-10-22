@@ -60,6 +60,7 @@ class SysUser {
     data['marchant'] = this.marchant;
     data['parentId'] = this.parentId;
     data['role'] = this.role;
+    data['thirdPartyId'] = this.thirdPartyId;
     if (this.contactNo != null) {
       data['contactNo'] = this.contactNo;
     }
