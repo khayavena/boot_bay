@@ -5,6 +5,8 @@ abstract class UserDao {
 
   Future<SysUser> findById(String id);
 
+  Future<SysUser> findByThirdPartyId(String id);
+
   Future<void> insert(SysUser user);
 
   Future<void> insertAll(List<SysUser> users);
@@ -14,4 +16,6 @@ abstract class UserDao {
   Future<void> update(SysUser user);
 
   Future<void> deleteAllUser(String id);
+
+  Future<void> clear();
 }

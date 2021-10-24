@@ -4,9 +4,10 @@ import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/sys_user.dart';
 import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
-import 'ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import 'ViewModel.dart';
 
 class UserViewModel extends ViewModel {
   final UserRepository _userRepository;
@@ -120,13 +121,13 @@ class UserViewModel extends ViewModel {
   }
 
   Future<bool> isLoggedIn() async {
-    _loggedIn = await _userRepository.isLoggedIn();
-    if (_loggedIn) {
-      var list = await _userRepository.getAll();
-      _user = list[0];
-      _loader = Loader.complete;
-    }
-
+    _loggedIn =  _thirdPartyAuthRepository.isLogIn;
+    // if (_loggedIn) {
+    //   var list = await _userRepository.getAll();
+    //   _user = list[0];
+    //   _loader = Loader.complete;
+    // }
+    _loader = Loader.complete;
     notifyListeners();
     return _loggedIn;
   }

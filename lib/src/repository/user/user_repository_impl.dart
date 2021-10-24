@@ -37,7 +37,8 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<SysUser> signIn(AuthRequest authRequest) async {
     var user = await _remoteUserDataSource.signIn(authRequest);
-    _userDao.insert(user);
+    await _userDao.clear();
+    await _userDao.insert(user);
     return user;
   }
 
@@ -57,15 +58,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<SysUser> thirdPartySignIn(String displayName, String email, String idToken) {
-    var names = displayName.split(' ');
-
+  Future<SysUser> thirdPartySignIn(String firstName, String lastName, String email, String idToken) async {
     var user = SysUser(
-        firstName: names != null && names.isNotEmpty ? names[0] : '',
+        firstName: firstName,
         dateOfBirth: DateTime.now().toString(),
-        lastName: names != null && names.isNotEmpty ? names[1] : '',
+        lastName: lastName,
         password: 'password',
+        email: email,
         thirdPartyId: idToken);
-    return _remoteUserDataSource.signUp(user);
+    user = await _remoteUserDataSource.signUp(user);
+    await _userDao.insert(user);
+    return user;
+  }
+
+  @override
+  Future<SysUser> getCurrentUser(String id) async {
+    return await _userDao.findByThirdPartyId(id);
   }
 }

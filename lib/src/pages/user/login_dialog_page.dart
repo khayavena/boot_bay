@@ -1,6 +1,5 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
@@ -16,12 +15,12 @@ class LoginDialogPage extends StatefulWidget {
 }
 
 class _LoginDialogPageState extends State<LoginDialogPage> {
-  UserViewModel vm;
+  UserViewModel _vm;
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      vm = Provider.of<UserViewModel>(
+      _vm = Provider.of<UserViewModel>(
         context,
         listen: false,
       );
@@ -32,15 +31,16 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryWhite,
-          title: Text('Login page'),
-        ),
-        body: _buildBody());
+        body: Stack(
+      children: [
+        Align(alignment: Alignment.center, child: _buildBody()),
+      ],
+    ));
   }
 
   Widget _buildBody() {
     return Container(
+      height: 450,
       child: Consumer<UserViewModel>(
         builder: (BuildContext context, UserViewModel value, Widget child) {
           switch (value.loader) {
@@ -118,7 +118,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
   Widget _buildLoginAction(String icon, final LoginOption loginOption) {
     return GestureDetector(
       onTap: () {
-        vm.logIn(loginOption);
+        _vm.logIn(loginOption);
       },
       child: Container(
         width: 80,

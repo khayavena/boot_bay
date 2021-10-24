@@ -28,6 +28,16 @@ class UserDaoImpl implements UserDao {
   }
 
   @override
+  Future<SysUser> findByThirdPartyId(String id) async {
+    final recordSnapshot = await findAll();
+    for (var user in recordSnapshot) {
+      if (user.thirdPartyId == id) ;
+      return user;
+    }
+    return null;
+  }
+
+  @override
   Future<void> insert(SysUser user) async {
     int b = await _userStore.add(_database, user.toJson());
     print('User status $b');
@@ -57,5 +67,11 @@ class UserDaoImpl implements UserDao {
   @override
   Future<void> deleteAllUser(String id) async {
     int delete = await _userStore.delete(_database, finder: Finder(filter: Filter.equals('id', id)));
+  }
+
+  @override
+  Future<void> clear() {
+    // TODO: implement clear
+    throw UnimplementedError();
   }
 }
