@@ -42,6 +42,7 @@ class SysUser {
       id: json['id'],
       lastName: json['lastName'],
       marchant: json['marchant'],
+      thirdPartyId: json['thirdPartyId'],
       parentId: json['parentId'],
       password: json['password'] ?? '',
       role: json['role'],

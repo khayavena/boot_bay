@@ -36,8 +36,8 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
       var user = await _firebaseAuth.signInWithCredential(credential);
       var additionalInfo = user.additionalUserInfo.profile;
       var data = GoogleAdditionalInfo.fromJson(additionalInfo);
-      _user = await _repository.thirdPartySignIn(
-          data.givenName, data.familyName, googleSignInAccount.email, googleSignInAuthentication.idToken);
+      _user =
+          await _repository.thirdPartySignIn(data.givenName, data.familyName, googleSignInAccount.email, user.user.uid);
     } on FirebaseAuthException catch (e) {
       throw e;
     }

@@ -29,12 +29,10 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<SysUser> findByThirdPartyId(String id) async {
-    final recordSnapshot = await findAll();
-    for (var user in recordSnapshot) {
-      if (user.thirdPartyId == id) ;
-      return user;
-    }
-    return null;
+    final recordSnapshot =
+        await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('thirdPartyId', id)));
+    return SysUser.fromJson(recordSnapshot.value);
+    ;
   }
 
   @override

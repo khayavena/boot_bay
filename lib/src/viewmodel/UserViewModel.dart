@@ -26,7 +26,7 @@ class UserViewModel extends ViewModel {
   })  : _userRepository = userRepository,
         _thirdPartyAuthRepository = thirdPartyAuthRepository;
 
-  Future<List<SysUser>> getAllCategories() async {
+  Future<List<SysUser>> getAllUsers() async {
     _loader = Loader.busy;
     try {
       _users = await _userRepository.getAll();
@@ -121,12 +121,8 @@ class UserViewModel extends ViewModel {
   }
 
   Future<bool> isLoggedIn() async {
-    _loggedIn =  _thirdPartyAuthRepository.isLogIn;
-    // if (_loggedIn) {
-    //   var list = await _userRepository.getAll();
-    //   _user = list[0];
-    //   _loader = Loader.complete;
-    // }
+    _loggedIn = _thirdPartyAuthRepository.isLogIn;
+
     _loader = Loader.complete;
     notifyListeners();
     return _loggedIn;
