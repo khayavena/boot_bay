@@ -10,17 +10,7 @@
     "tweetKey": "nODSqTOqOqfJPFWB8FZFvYLZ2",
     "tweetKeySecret": "21i8jVumXgQzrbJGsuIm4vs7D0C1qCHFlJxluDEi165FPT4nFw",
     "tweetBearerToken": "AAAAAAAAAAAAAAAAAAAAAAH2UwEAAAAAuQDbl0R1rdKfkntYGy8dSTEbJ7Y%3Dq5xwZsd3YmhsWq9T3M5k4bzrLqvsZnUn6RYtXSdZVkSxmz8GaO",
-    "connectTimeOut": 10000,
-    "receiveTimeout": 10000
-  },
-  "Flavor.DEV": {
-    "appVersion": "1.0.0",
-    "baseUrl": "https://boot-bay.herokuapp.com",
-    "appName": "SuperSport Dev",
-    "appKey": "5ee3bfbea1fbe46a462d6c4a",
-    "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
-    "googleAuthUrl": "https://www.googleapis.com/auth/contacts.readonly",
-    "databaseName": "boot_database.db",
+    "mapBoxKey": "pk.eyJ1IjoidmVuYWtoYXlhIiwiYSI6ImNrdjc1NGZrbDJiNmUyb2xwcHo5cTJpb2IifQ.HlIjUHh7ATCCgGVuMaTJsw",
     "connectTimeOut": 10000,
     "receiveTimeout": 10000
   }

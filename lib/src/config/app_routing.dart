@@ -145,12 +145,6 @@ class AppRouting {
             AddCategoryPage(
               merchant: args as Merchant,
             ));
-      case addCategory:
-        return createRoute(
-            addCategory,
-            AddCategoryPage(
-              merchant: args as Merchant,
-            ));
 
       default:
         return _errorRoute();

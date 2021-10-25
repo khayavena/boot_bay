@@ -14,6 +14,7 @@ import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_portal_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
+import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,7 @@ class _HomeState extends State<HomeBottomNavPage> {
         context,
         listen: false,
       ).onChanged(index);
+      Provider.of<CartViewModel>(context, listen: false).getCatItems();
     });
   }
 

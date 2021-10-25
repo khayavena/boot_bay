@@ -5,10 +5,10 @@ import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MerchantRegistrationPage extends StatefulWidget {
-
   MerchantRegistrationPage();
 
   @override
@@ -56,23 +56,39 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                     padding: EdgeInsets.all(10),
                     child: ListView(
                       children: <Widget>[
+                        ElevatedButton(
+                            onPressed: () {
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("title"),
+                                    content: MapBoxPlaceSearchWidget(
+                                      popOnSelect: true,
+                                      apiKey:
+                                          "pk.eyJ1IjoidmVuYWtoYXlhIiwiYSI6ImNrdjc1NGZrbDJiNmUyb2xwcHo5cTJpb2IifQ.HlIjUHh7ATCCgGVuMaTJsw",
+                                      searchHint: 'Your Hint here',
+                                      onSelected: (place) {},
+                                      context: context,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Text("Address")),
                         buildEditText(emailController, "Email'"),
                         buildEditText(nameController, "Name'"),
                         buildEditText(locationController, "Location Name'"),
                         buildEditText(phoneController, "Phone No"),
                         buildEditText(taxNoController, "Tax No"),
                         buildEditText(regNoController, 'Registration No'),
-                        Container(
-                            height: 50,
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Colors.blue,
-                              child: Text('Add Merchant'),
-                              onPressed: () {
-                                registerNow();
-                              },
-                            )),
+                        ElevatedButton(
+                          child: Text('Add Merchant'),
+                          onPressed: () {
+                            registerNow();
+                          },
+                        ),
                       ],
                     ));
               case Loader.error:
@@ -109,7 +125,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   }
 
   void registerNow() async {
-    var userId  = userViewModel.getUser.id;
+    var userId = userViewModel.getUser.id;
     var merchantRequest = Merchant(
         userId: userId,
         name: nameController.text,
