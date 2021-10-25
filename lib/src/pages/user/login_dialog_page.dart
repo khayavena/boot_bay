@@ -1,5 +1,7 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
@@ -33,6 +35,19 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
     return Scaffold(
         body: Stack(
       children: [
+        Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('Welcome to BOOT PAY',
+                  style: TextStyle(
+                    color: primaryBlackColor,
+                    fontSize: 12,
+                    fontWeight: largeFont,
+                    fontStyle: FontStyle.normal,
+                    letterSpacing: -0.6400000000000001,
+                  )),
+            )),
         Align(alignment: Alignment.center, child: _buildBody()),
       ],
     ));
@@ -52,6 +67,10 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               break;
             case Loader.complete:
               value?.resetLoader();
+              break;
+            case Loader.idl:
+              // TODO: Handle this case.
+              break;
           }
           return Column(
             mainAxisSize: MainAxisSize.min,
