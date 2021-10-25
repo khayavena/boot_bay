@@ -1,12 +1,14 @@
 import 'package:bootbay/res.dart';
+import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/pages/shopping/page/cart_list_view.dart';
 import 'package:bootbay/src/pages/checkout/checkout_page.dart';
+import 'package:bootbay/src/pages/shopping/page/cart_list_view.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
+import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
-import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
+import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -23,12 +25,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   double price;
 
   WishListViewModel wishListViewModel;
+  UserViewModel _userViewModel;
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<CartViewModel>(context, listen: false).getCatItems();
       wishListViewModel = Provider.of<WishListViewModel>(context, listen: false);
+      _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();
   }
@@ -55,21 +59,25 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Widget _submitButton(BuildContext context, CartViewModel productViewModel) {
-    return FlatButton(
+    return ElevatedButton(
         onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CheckoutCartPage(
-                finalAmount: productViewModel.finalAmount(),
-                itemIds: productViewModel.itemIds(),
-                currency: productViewModel.currency(),
-                merchantId: '5ee3bfbea1fbe46a462d6c4a',
+          if (_userViewModel.isLoggedIn()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CheckoutCartPage(
+                  finalAmount: productViewModel.finalAmount(),
+                  itemIds: productViewModel.itemIds(),
+                  currency: productViewModel.currency(),
+                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                ),
+                // Pass the arguments as part of the RouteSettings. The
+                // DetailScreen reads the arguments from these settings.
               ),
-              // Pass the arguments as part of the RouteSettings. The
-              // DetailScreen reads the arguments from these settings.
-            ),
-          );
+            );
+          } else {
+            Navigator.pushNamed(context, AppRouting.loginPage);
+          }
         },
         child: Container(
           alignment: Alignment.center,

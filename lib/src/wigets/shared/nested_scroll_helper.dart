@@ -49,6 +49,7 @@ Widget buildDefaultCollapsingWidget(
           expandedHeight: 150.0,
           floating: false,
           pinned: true,
+          title:Text( title),
           actions: actions == null ? [] : actions,
           flexibleSpace: FlexibleSpaceBar(centerTitle: true, background: getDefaultBackground(title)),
         ),

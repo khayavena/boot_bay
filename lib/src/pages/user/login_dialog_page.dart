@@ -54,6 +54,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
               break;
             case Loader.complete:
               value?.resetLoader();
+              Navigator.pop(context);
               break;
             case Loader.idl:
               // TODO: Handle this case.

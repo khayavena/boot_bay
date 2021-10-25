@@ -3,7 +3,6 @@ import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
-import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -36,12 +35,24 @@ class _State extends State<MerchantPortalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: CustomColor().appBackground,
-        body: buildDefaultCollapsingWidget(
-            bodyWidget: _buildOptions(),
-            title: 'Boot-bay Portal',
-            backButton:
-                IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})));
+        appBar: AppBar(
+          backgroundColor: primaryWhite,
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          title: Text(
+            "BOOT-BAY PORTAL",
+            style: TextStyle(
+              color: Color(0xff333333),
+              fontSize: 15,
+              fontFamily: 'SFProText',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          leading:
+              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+          centerTitle: true,
+        ),
+        body: _buildOptions());
   }
 
   Widget _buildOptions() {
@@ -53,40 +64,40 @@ class _State extends State<MerchantPortalPage> {
         children: [
           GestureDetector(
               onTap: () async {
-                await _userViewModel?.isLoggedIn();
-                if (_userViewModel.isLogged) {
+                if (_userViewModel.isLoggedIn()) {
                   Navigator.of(context)
                       .pushNamed(AppRouting.merchantsManagementList, arguments: _userViewModel.getUser.id);
                 } else {
                   //alert
                 }
               },
-              child: getItem("Manage", Icons.business)),
+              child: buildActionItem("Manage", Icons.business)),
           GestureDetector(
               onTap: () async {
-                await _userViewModel.isLoggedIn();
-                if (_userViewModel.isLogged) {
+                if (_userViewModel.isLoggedIn()) {
                   Navigator.of(context)
                       .pushNamed(AppRouting.merchantsRegistration, arguments: _userViewModel.getUser.id);
                 } else {
                   //alert
                 }
               },
-              child: getItem("New Merchant", Icons.add_business)),
+              child: buildActionItem("New Merchant", Icons.add_business)),
           GestureDetector(
               onTap: () async {
-                Navigator.of(context).pushNamed(AppRouting.loginPage);
+                if (!_userViewModel.isLoggedIn()) {
+                  Navigator.of(context).pushNamed(AppRouting.loginPage);
+                }
               },
-              child: getItem("Invest", Icons.business_center)),
+              child: buildActionItem("Invest", Icons.business_center)),
           GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(AppRouting.loginPage);
               },
-              child: getItem("Shopping", Icons.shopping_basket))
+              child: buildActionItem("Shopping", Icons.shopping_basket))
         ]);
   }
 
-  Widget getItem(String s, IconData iconData) {
+  Widget buildActionItem(String label, IconData iconData) {
     return Container(
       child: Align(
         alignment: Alignment.center,
@@ -98,7 +109,7 @@ class _State extends State<MerchantPortalPage> {
             SizedBox(
               height: 8,
             ),
-            Text(s,
+            Text(label,
                 style: TextStyle(
                   color: CustomColor().originalBlack,
                   fontSize: 15,

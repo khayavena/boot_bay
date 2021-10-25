@@ -124,11 +124,8 @@ class UserViewModel extends ViewModel {
     _loader = Loader.idl;
   }
 
-  Future<bool> isLoggedIn() async {
+  bool isLoggedIn() {
     _loggedIn = _thirdPartyAuthRepository.isLogIn;
-
-    _loader = Loader.complete;
-    notifyListeners();
     return _loggedIn;
   }
 
@@ -137,8 +134,6 @@ class UserViewModel extends ViewModel {
     notifyListeners();
     return _loggedIn;
   }
-
-  bool get isLogged => _user != null;
 }
 
 enum LoginOption { fb, google, twitter }
