@@ -71,25 +71,25 @@ class _HomeState extends State<HomeBottomNavPage> {
           items: [
             BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage(Res.shop_ic),
+                AssetImage(Res.shop_ic),color: Color(0xff2783a9)
               ),
               label: 'Buy',
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage(Res.cart_ic),
+                AssetImage(Res.cart_ic),color: Color(0xff2783a9),
               ),
               label: 'Cart',
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage(Res.wish_inactive_ic),
+                AssetImage(Res.wish_inactive_ic),color: Color(0xff2783a9)
               ),
               label: 'Wish',
             ),
             BottomNavigationBarItem(
                 icon: ImageIcon(
-                  AssetImage(Res.account_ic),
+                  AssetImage(Res.account_ic),color: Color(0xff2783a9)
                 ),
                 label: 'Profile')
           ],

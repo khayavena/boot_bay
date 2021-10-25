@@ -106,16 +106,16 @@ class _State extends State<MerchantPortalPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(iconData),
+            Icon(iconData,color: Color(0xff2783a9),),
             SizedBox(
               height: 8,
             ),
             Text(label,
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Color(0xff2783a9),
                   fontSize: 15,
                   fontFamily: 'SFProText',
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w400,
                 )),
           ],
         ),
