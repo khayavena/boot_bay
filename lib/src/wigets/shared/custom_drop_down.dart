@@ -45,7 +45,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
         child: Container(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(0.0)),
               border: Border.all(
                 color: Colors.black,
                 width: 1,
@@ -55,7 +55,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
             child: Consumer<DropDownValueChangeNotifier>(
                 builder: (BuildContext context, DropDownValueChangeNotifier consumer, Widget child) {
               return DropdownButton(
-                hint: new Text(widget.hint),
+                hint: Text(widget.hint),
                 isExpanded: true,
                 itemHeight: 50.0,
                 style: TextStyle(fontSize: 15.0, color: widget.isEnabled ? Colors.black : Colors.grey[700]),

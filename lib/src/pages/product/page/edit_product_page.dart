@@ -68,7 +68,7 @@ class _EditProductPageState extends State<EditProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: CustomColor().appBackground,
+      backgroundColor: CustomColor().pureWhite,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         iconTheme: IconThemeData(color: CustomColor().black),
@@ -160,7 +160,7 @@ class _EditProductPageState extends State<EditProductPage> {
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: TextFormField(
             controller: name,
-            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
@@ -169,7 +169,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black87),
               hintText: 'Item Name',
             ),
           ),
@@ -179,7 +179,7 @@ class _EditProductPageState extends State<EditProductPage> {
           child: TextFormField(
             maxLines: 100 ~/ 15,
             controller: description,
-            style: TextStyle(color: Colors.pink, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
@@ -188,7 +188,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black87),
               hintText: 'Description',
             ),
           ),
@@ -207,7 +207,7 @@ class _EditProductPageState extends State<EditProductPage> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text("Add an image".toUpperCase(),
-              style: TextStyle(fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
+              style: TextStyle(fontFamily: 'Gotham', color: Color(0xff2783a9), fontSize: 20)),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
