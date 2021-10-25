@@ -35,6 +35,7 @@ class _State extends State<MerchantPortalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColor().appBackground,
         appBar: AppBar(
           backgroundColor: primaryWhite,
           bottomOpacity: 0.0,
