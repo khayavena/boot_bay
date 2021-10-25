@@ -17,7 +17,7 @@ class CartViewModel extends ViewModel {
 
   CartViewModel({@required CartRepository cartRepository}) : _cartRepository = cartRepository;
 
-  get cartItems => _cartItems;
+  List<Product> get cartItems => _cartItems;
 
   Future<void> saveProduct(Product product) async {
     await _cartRepository.insertProduct(product);
