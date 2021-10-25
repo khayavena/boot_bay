@@ -1,3 +1,5 @@
+import 'package:bootbay/src/config/EnvConfig.dart';
+import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
@@ -63,13 +65,16 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                                 barrierDismissible: false, // user must tap button!
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text("title"),
+                                    title: Text("Search your address"),
                                     content: MapBoxPlaceSearchWidget(
                                       popOnSelect: true,
-                                      apiKey:
-                                          "pk.eyJ1IjoidmVuYWtoYXlhIiwiYSI6ImNrdjc1NGZrbDJiNmUyb2xwcHo5cTJpb2IifQ.HlIjUHh7ATCCgGVuMaTJsw",
+                                      apiKey: moduleLocator<EnvConfig>().mapBoxKey,
                                       searchHint: 'Your Hint here',
-                                      onSelected: (place) {},
+                                      onSelected: (place) {
+                                        if (place != null) {
+                                          var p = place;
+                                        }
+                                      },
                                       context: context,
                                     ),
                                   );
