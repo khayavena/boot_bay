@@ -35,18 +35,16 @@ class _State extends State<MerchantPortalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor().appBackground,
         appBar: AppBar(
-          backgroundColor: primaryWhite,
+          backgroundColor: CustomColor().pureWhite,
           bottomOpacity: 0.0,
           elevation: 0.0,
           title: Text(
             "BOOT-BAY PORTAL",
             style: TextStyle(
               color: Color(0xff333333),
-              fontSize: 15,
+              fontSize: 12,
               fontFamily: 'SFProText',
-              fontWeight: FontWeight.w700,
             ),
           ),
           leading:
