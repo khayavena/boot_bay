@@ -114,6 +114,10 @@ class UserViewModel extends ViewModel {
     return _user;
   }
 
+  Future<UserProfile> getCurrentUser() {
+    _thirdPartyAuthRepository.sysUser();
+  }
+
   Loader get loader => _loader;
 
   Future<UserProfile> saveCategory(UserProfile category) {

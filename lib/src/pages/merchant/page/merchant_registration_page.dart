@@ -1,16 +1,15 @@
-import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
+import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class MerchantRegistrationPage extends StatefulWidget {
-  final String userId;
 
-  MerchantRegistrationPage({@required this.userId});
+  MerchantRegistrationPage();
 
   @override
   _MerchantRegistrationPageState createState() => _MerchantRegistrationPageState();
@@ -26,10 +25,16 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
 
   MerchantRegistrationViewModel _merchantViewModel;
 
+  UserViewModel userViewModel;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _merchantViewModel = Provider.of<MerchantRegistrationViewModel>(
+        context,
+        listen: false,
+      );
+      userViewModel = Provider.of<UserViewModel>(
         context,
         listen: false,
       );
@@ -79,8 +84,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
               case Loader.complete:
                 _merchantViewModel?.resetLoader();
                 return GestureDetector(
-                  onTap: () {
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 43,
                     decoration: BoxDecoration(
@@ -105,8 +109,9 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   }
 
   void registerNow() async {
+    var userId  = userViewModel.getUser.id;
     var merchantRequest = Merchant(
-        userId: widget.userId,
+        userId: userId,
         name: nameController.text,
         location: locationController.text,
         rating: 0,

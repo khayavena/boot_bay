@@ -74,8 +74,7 @@ class _State extends State<MerchantPortalPage> {
           GestureDetector(
               onTap: () async {
                 if (_userViewModel.isLoggedIn()) {
-                  Navigator.of(context)
-                      .pushNamed(AppRouting.merchantsRegistration, arguments: _userViewModel.getUser.id);
+                  Navigator.of(context).pushNamed(AppRouting.merchantsRegistration);
                 } else {
                   //alert
                 }
@@ -104,7 +103,10 @@ class _State extends State<MerchantPortalPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(iconData,color: Color(0xff2783a9),),
+            Icon(
+              iconData,
+              color: Color(0xff2783a9),
+            ),
             SizedBox(
               height: 8,
             ),

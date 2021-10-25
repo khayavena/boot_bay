@@ -14,4 +14,6 @@ abstract class ThirdPartyAuthRepository {
   bool get isLogIn;
 
   UserProfile sysUser();
+
+  Future<UserProfile> sysUserProfile();
 }

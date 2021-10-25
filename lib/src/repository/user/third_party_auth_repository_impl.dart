@@ -92,6 +92,10 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
 
   UserProfile sysUser() => _user;
 
+  Future<UserProfile> sysUserProfile() async {
+    return await _repository.getCurrentUser(thirdPartyId);
+  }
+
   bool get isLogIn {
     return _firebaseAuth.currentUser != null;
   }

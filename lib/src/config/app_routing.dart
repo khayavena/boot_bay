@@ -28,7 +28,7 @@ class AppRouting {
   static const String wishList = '/wishPage';
   static const String merchantList = '/merchantsListPage';
   static const String merchantLanding = '/merchantsLandingPage';
-  static const String merchantsRegistration = '/merchantsRegistrationPagee';
+  static const String merchantsRegistration = '/merchantsRegistrationPage';
   static const String merchantsManagementEdit = '/editMerchantManagementPage';
   static const String merchantsManagementList = '/merchantManagementListPage';
   static const String merchantCategoryList = '/merchantItemCategoryListPage';
@@ -51,14 +51,8 @@ class AppRouting {
       case merchant_portal_page:
         return createRoute(merchant_portal_page, MerchantPortalPage());
       case merchantsRegistration:
-        if (args != null) {
-          return createRoute(
-              merchantsRegistration,
-              MerchantRegistrationPage(
-                userId: args,
-              ));
-        }
-        return _errorRoute(error: 'Ensure user is logged to load $merchantsRegistration');
+        return createRoute(merchantsRegistration, MerchantRegistrationPage());
+
       case cartList:
         return createRoute(cartList, ShoppingCartPage());
       case wishList:
