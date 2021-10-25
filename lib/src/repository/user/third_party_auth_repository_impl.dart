@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/repository/user/user_additional_info.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +13,7 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
   final GoogleSignIn _googleSignIn;
   final FacebookAuth _facebookAuth;
   final UserRepository _repository;
-  SysUser _user;
+  UserProfile _user;
 
   ThirdPartyAuthRepositoryImpl(
       {@required UserRepository repository,
@@ -90,7 +90,7 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
     await _firebaseAuth?.signOut();
   }
 
-  SysUser sysUser() => _user;
+  UserProfile sysUser() => _user;
 
   bool get isLogIn {
     return _firebaseAuth.currentUser != null;

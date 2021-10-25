@@ -134,7 +134,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
         ));
   }
 
-  Widget _buildLoginAction(String icon, final LoginOption loginOption) {
+  Widget _buildLoginAction(final String icon, final LoginOption loginOption) {
     return GestureDetector(
       onTap: () {
         _vm.logIn(loginOption);

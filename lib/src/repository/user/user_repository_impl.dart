@@ -2,7 +2,7 @@ import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -20,22 +20,22 @@ class UserRepositoryImpl implements UserRepository {
         _userDao = userDao;
 
   @override
-  Future<SysUser> signUp(SysUser user) {
+  Future<UserProfile> signUp(UserProfile user) {
     return _remoteUserDataSource.signUp(user);
   }
 
   @override
-  Future<SysUser> update(SysUser user) {
+  Future<UserProfile> update(UserProfile user) {
     return _remoteUserDataSource.update(user);
   }
 
   @override
-  Future<List<SysUser>> getAll() {
+  Future<List<UserProfile>> getAll() {
     return _userDao.findAll();
   }
 
   @override
-  Future<SysUser> signIn(AuthRequest authRequest) async {
+  Future<UserProfile> signIn(AuthRequest authRequest) async {
     var user = await _remoteUserDataSource.signIn(authRequest);
     await _userDao.clear();
     await _userDao.insert(user);
@@ -44,7 +44,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    List<SysUser> list = await _userDao.findAll();
+    List<UserProfile> list = await _userDao.findAll();
     if (list != null && list.isNotEmpty) {
       return true;
     }
@@ -58,8 +58,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<SysUser> thirdPartySignIn(String firstName, String lastName, String email, String idToken) async {
-    var user = SysUser(
+  Future<UserProfile> thirdPartySignIn(String firstName, String lastName, String email, String idToken) async {
+    var user = UserProfile(
         firstName: firstName,
         dateOfBirth: DateTime.now().toString(),
         lastName: lastName,
@@ -72,7 +72,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<SysUser> getCurrentUser(String id) async {
+  Future<UserProfile> getCurrentUser(String id) async {
     return await _userDao.findByThirdPartyId(id);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 
 abstract class ThirdPartyAuthRepository {
   Future<void> signInWithGoogle();
@@ -13,5 +13,5 @@ abstract class ThirdPartyAuthRepository {
 
   bool get isLogIn;
 
-  SysUser sysUser();
+  UserProfile sysUser();
 }

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class _State extends State<RegistrationPage> {
   }
 
   void loginNow() {
-    SysUser user = SysUser(
+    UserProfile user = UserProfile(
         firstName: nameController.text,
         dateOfBirth: DateTime.now().toString(),
         lastName: nameController.text,

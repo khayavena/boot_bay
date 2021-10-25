@@ -1,7 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:dio/dio.dart';
@@ -13,8 +13,8 @@ class UserViewModel extends ViewModel {
   final UserRepository _userRepository;
   final ThirdPartyAuthRepository _thirdPartyAuthRepository;
 
-  List<SysUser> _users = [];
-  SysUser _user = SysUser();
+  List<UserProfile> _users = [];
+  UserProfile _user = UserProfile();
 
   String dataErrorMessage;
   bool _loggedIn = false;
@@ -26,7 +26,7 @@ class UserViewModel extends ViewModel {
   })  : _userRepository = userRepository,
         _thirdPartyAuthRepository = thirdPartyAuthRepository;
 
-  Future<List<SysUser>> getAllUsers() async {
+  Future<List<UserProfile>> getAllUsers() async {
     _loader = Loader.busy;
     try {
       _users = await _userRepository.getAll();
@@ -47,11 +47,11 @@ class UserViewModel extends ViewModel {
     return _users;
   }
 
-  List<SysUser> get getUsers => _users;
+  List<UserProfile> get getUsers => _users;
 
-  SysUser get getUser => _user;
+  UserProfile get getUser => _user;
 
-  Future<SysUser> signUp(SysUser user) async {
+  Future<UserProfile> signUp(UserProfile user) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
@@ -74,6 +74,8 @@ class UserViewModel extends ViewModel {
   }
 
   Future<void> logIn(final LoginOption loginOption) async {
+    _loader = Loader.busy;
+    notifyListeners();
     switch (loginOption) {
       case LoginOption.fb:
         await _thirdPartyAuthRepository.signInWithFacebook();
@@ -85,9 +87,11 @@ class UserViewModel extends ViewModel {
         // TODO: Handle this case.
         break;
     }
+    _loader = Loader.complete;
+    notifyListeners();
   }
 
-  Future<SysUser> signIn() async {
+  Future<UserProfile> signIn() async {
     _loader = Loader.busy;
     notifyListeners();
     try {
@@ -112,7 +116,7 @@ class UserViewModel extends ViewModel {
 
   Loader get loader => _loader;
 
-  Future<SysUser> saveCategory(SysUser category) {
+  Future<UserProfile> saveCategory(UserProfile category) {
     return _userRepository.update(category);
   }
 

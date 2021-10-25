@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
@@ -13,42 +13,42 @@ class UserDaoImpl implements UserDao {
   }) : _database = database;
 
   @override
-  Future<List<SysUser>> findAll() async {
+  Future<List<UserProfile>> findAll() async {
     final recordSnapshot = await _userStore.find(_database);
     return recordSnapshot.map((snapshot) {
-      final student = SysUser.fromJson(snapshot.value);
+      final student = UserProfile.fromJson(snapshot.value);
       return student;
     }).toList();
   }
 
   @override
-  Future<SysUser> findById(String id) async {
+  Future<UserProfile> findById(String id) async {
     final recordSnapshot = await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('id', id)));
-    return SysUser.fromJson(recordSnapshot.value);
+    return UserProfile.fromJson(recordSnapshot.value);
   }
 
   @override
-  Future<SysUser> findByThirdPartyId(String id) async {
+  Future<UserProfile> findByThirdPartyId(String id) async {
     final recordSnapshot =
         await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('thirdPartyId', id)));
-    return SysUser.fromJson(recordSnapshot.value);
+    return UserProfile.fromJson(recordSnapshot.value);
     ;
   }
 
   @override
-  Future<void> insert(SysUser user) async {
+  Future<void> insert(UserProfile user) async {
     int b = await _userStore.add(_database, user.toJson());
     print('User status $b');
   }
 
   @override
-  Future<void> insertAll(List<SysUser> users) {
+  Future<void> insertAll(List<UserProfile> users) {
     // TODO: implement insertAll
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(SysUser user) async {
+  Future<void> update(UserProfile user) async {
     var finder = Finder(
       filter: Filter.equals('id', user.id),
     );
@@ -57,7 +57,7 @@ class UserDaoImpl implements UserDao {
   }
 
   @override
-  Future<void> updateAll(List<SysUser> users) {
+  Future<void> updateAll(List<UserProfile> users) {
     // TODO: implement updateAll
     throw UnimplementedError();
   }

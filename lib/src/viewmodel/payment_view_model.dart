@@ -4,7 +4,7 @@ import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
-import 'package:bootbay/src/model/sys_user.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/repository/payment/payment_repository.dart';
 import 'package:bootbay/src/repository/user/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
@@ -102,7 +102,7 @@ class PaymentViewModel extends ViewModel {
 
   Loader get loader => _loader;
 
-  Future<SysUser> saveCategory(SysUser category) {
+  Future<UserProfile> saveCategory(UserProfile category) {
     return _userRepository.update(category);
   }
 
