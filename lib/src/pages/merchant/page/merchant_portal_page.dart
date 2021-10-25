@@ -112,9 +112,10 @@ class _State extends State<MerchantPortalPage> {
             ),
             Text(label,
                 style: TextStyle(
-                  color: CustomColor().originalBlack,
+                  color: Colors.black87,
                   fontSize: 15,
-                  fontWeight: FontWeight.w400,
+                  fontFamily: 'SFProText',
+                  fontWeight: FontWeight.w700,
                 )),
           ],
         ),
