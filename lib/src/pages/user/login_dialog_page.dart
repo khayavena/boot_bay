@@ -35,19 +35,6 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
     return Scaffold(
         body: Stack(
       children: [
-        Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text('Welcome to BOOT PAY',
-                  style: TextStyle(
-                    color: primaryBlackColor,
-                    fontSize: 12,
-                    fontWeight: largeFont,
-                    fontStyle: FontStyle.normal,
-                    letterSpacing: -0.6400000000000001,
-                  )),
-            )),
         Align(alignment: Alignment.center, child: _buildBody()),
       ],
     ));
@@ -55,7 +42,7 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
 
   Widget _buildBody() {
     return Container(
-      height: 450,
+      height: 500,
       child: Consumer<UserViewModel>(
         builder: (BuildContext context, UserViewModel value, Widget child) {
           switch (value.loader) {
@@ -75,6 +62,28 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Welcome to Boot-Pay',
+                    style: TextStyle(
+                      color: secondaryBlueColor,
+                      fontSize: 24,
+                      fontWeight: mediumFont,
+                      fontStyle: FontStyle.normal,
+                      letterSpacing: -0.6400000000000001,
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text('Login with',
+                    style: TextStyle(
+                      color: secondaryBlueColor,
+                      fontSize: 16,
+                      fontWeight: largeFont,
+                      fontStyle: FontStyle.normal,
+                      letterSpacing: -0.6400000000000001,
+                    )),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

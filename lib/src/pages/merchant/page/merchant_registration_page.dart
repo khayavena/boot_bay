@@ -80,7 +80,6 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                 _merchantViewModel?.resetLoader();
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppRouting.mediaContent, arguments: value.getMerchant.id);
                   },
                   child: Container(
                     height: 43,

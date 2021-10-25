@@ -3,7 +3,6 @@ import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/category/add_category_page.dart';
 import 'package:bootbay/src/pages/category/edit_category_page.dart';
-import 'package:bootbay/src/pages/mediacontent/media_content_page.dart';
 import 'package:bootbay/src/pages/merchant/page/edit_merchant_management_page.dart';
 import 'package:bootbay/src/pages/merchant/page/edit_merchant_options_page.dart';
 import 'package:bootbay/src/pages/merchant/page/merchant_category_list_page.dart';
@@ -34,7 +33,6 @@ class AppRouting {
   static const String merchantsManagementList = '/merchantManagementListPage';
   static const String merchantCategoryList = '/merchantItemCategoryListPage';
   static const String merchantManagementEditOptions = '/merchantManagementEditOptionsPage';
-  static const String mediaContent = "/mediaContentPage";
   static const String editCategory = "/editCategoryPage";
   static const String addCategory = "/addCategoryPage";
   static const String addProduct = "/addProductPage";
@@ -79,8 +77,7 @@ class AppRouting {
             MerchantManagementListPage(
               userId: args,
             ));
-      case mediaContent:
-        return createRoute(mediaContent, MediaContentWidget(id: args));
+
       case merchantCategoryList:
         return createRoute(merchantCategoryList, MerchantCategoryListPage(merchant: args as Merchant));
       case productDetail:
