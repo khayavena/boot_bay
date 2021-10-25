@@ -113,18 +113,9 @@ class _CategoryProductPageState extends State<CategoryProductPage> implements Cl
     _productViewModel.getMerchantProductsByCategory(id, merchantId);
   }
 
-  // void refreshFilter() {
-  //   ProductQuery query = ProductQuery(categories: _categoryViewModel.getSelectedCategories().map((e) => e.id).toList());
-  //   _productViewModel.queryProducts(query);
-  // }
-
   Widget _buildCategories(CategoryViewModel categoryViewModel) {
     switch (categoryViewModel.loader) {
       case Loader.complete:
-        // ProductQuery query = ProductQuery(categories: [widget.category.id]);
-        // if (_productViewModel != null) {
-        //   _productViewModel?.queryProducts(query);
-        // }
         return Container(
             child: ListView(
                 scrollDirection: Axis.horizontal,
