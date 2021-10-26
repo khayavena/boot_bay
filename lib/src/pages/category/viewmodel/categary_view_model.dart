@@ -2,14 +2,12 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
-import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class CategoryViewModel extends ViewModel {
   final CategoryRepository _categoryRepository;
-  final MediaContentViewModel _contentViewModel;
 
   List<Category> _categories = [];
   Set<Category> _selectedCategories = Set();
@@ -20,9 +18,8 @@ class CategoryViewModel extends ViewModel {
   Loader _loader = Loader.idl;
 
   CategoryViewModel(
-      {@required CategoryRepository categoryRepository, @required MediaContentViewModel mediaContentViewModel})
-      : _categoryRepository = categoryRepository,
-        _contentViewModel = mediaContentViewModel;
+      {@required CategoryRepository categoryRepository, })
+      : _categoryRepository = categoryRepository;
 
   Future<List<Category>> getAllCategories() async {
     _loader = Loader.busy;

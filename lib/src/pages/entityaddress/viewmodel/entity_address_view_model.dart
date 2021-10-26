@@ -2,6 +2,8 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/entity_address.dart';
 import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 
 class EntityAddressViewModel extends ViewModel {
   final EntityAddressRepository _addressRepository;
@@ -9,7 +11,8 @@ class EntityAddressViewModel extends ViewModel {
   EntityAddress _entityAddress;
   List<EntityAddress> _entityAddresses;
 
-  EntityAddressViewModel({EntityAddressRepository addressRepository}) : _addressRepository = addressRepository;
+  EntityAddressViewModel({@required EntityAddressRepository addressRepository})
+      : _addressRepository = addressRepository;
 
   Future<List<EntityAddress>> getAddresses(String entityId) async {
     status = Loader.busy;
@@ -66,5 +69,22 @@ class EntityAddressViewModel extends ViewModel {
     status = Loader.idl;
     _entityAddresses = [];
     _entityAddress = null;
+  }
+
+  void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace) {
+    if (_entityAddress == null) {
+      _entityAddress = new EntityAddress(
+          parentId: parentId,
+          address: maxBoxPlace.placeName,
+          latitude: maxBoxPlace.geometry.coordinates[0],
+          longitude: maxBoxPlace.geometry.coordinates[1]);
+    } else {
+      _entityAddress = new EntityAddress(
+          id: _entityAddress.id,
+          parentId: parentId,
+          address: maxBoxPlace.placeName,
+          latitude: maxBoxPlace.geometry.coordinates[0],
+          longitude: maxBoxPlace.geometry.coordinates[1]);
+    }
   }
 }

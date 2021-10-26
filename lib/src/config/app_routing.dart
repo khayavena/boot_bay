@@ -18,7 +18,7 @@ import 'package:bootbay/src/pages/shopping/page/home_page.dart';
 import 'package:bootbay/src/pages/shopping/page/product_detail_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_cart_page.dart';
 import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
-import 'package:bootbay/src/pages/user/login_dialog_page.dart';
+import 'package:bootbay/src/pages/user/login_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouting {

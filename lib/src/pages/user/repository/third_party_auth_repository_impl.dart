@@ -49,7 +49,6 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
     var facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken.token);
     var userCredential = await _firebaseAuth.signInWithCredential(facebookAuthCredential);
     var additionalInfo = userCredential.additionalUserInfo.profile;
-    var current = await _repository.getCurrentUser(userCredential.user.uid);
     _user = await _repository.thirdPartySignIn(
         additionalInfo['first_name'], additionalInfo['last_name'], userCredential.user.email, userCredential.user.uid);
   }
@@ -58,6 +57,7 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
   Future<void> createUser(String email, password) async {
     try {
       var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      _user = await _repository.thirdPartySignIn("", "", userCredential.user.email, userCredential.user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -73,6 +73,7 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
   Future<void> signInUser(String email, password) async {
     try {
       var userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      _user = await _repository.thirdPartySignIn("", "", userCredential.user.email, userCredential.user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

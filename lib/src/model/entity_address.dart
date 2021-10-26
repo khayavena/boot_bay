@@ -12,7 +12,7 @@ class EntityAddress {
         latitude = json['latitude'],
         longitude = json['longitude'];
 
-  EntityAddress({this.id, this.address, this.latitude, this.longitude});
+  EntityAddress({this.id, this.parentId, this.address, this.latitude, this.longitude});
 
   Map<String, dynamic> toJson() => {
         "id": id,

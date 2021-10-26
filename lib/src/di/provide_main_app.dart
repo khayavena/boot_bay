@@ -4,6 +4,8 @@ import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
+import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository.dart';
@@ -18,8 +20,8 @@ import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
-import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
+import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,6 +42,8 @@ Future<void> provideMainApp(Flavor flavor) async {
         ChangeNotifierProvider(create: (context) => DropDownValueChangeNotifier()),
         ChangeNotifierProvider(create: (context) => BottomNavChangeNotifier()),
         ChangeNotifierProvider(create: (context) => MediaViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => EntityAddressViewModel(addressRepository: moduleLocator<EntityAddressRepository>())),
         ChangeNotifierProvider(
             create: (context) => ProductViewModel(productRepository: moduleLocator<ProductRepository>())),
         ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: moduleLocator<CartRepository>())),

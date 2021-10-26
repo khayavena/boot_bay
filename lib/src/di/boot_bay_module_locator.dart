@@ -13,6 +13,7 @@ import 'package:bootbay/src/data/local/product/wish_list_dao_impl.dart';
 import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/local/user/user_dao_impl.dart';
 import 'package:bootbay/src/data/remote/dio/dio_api_client.dart';
+import 'package:bootbay/src/data/remote/entity_address/entity_address_data_source_impl.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource_impl.dart';
 import 'package:bootbay/src/data/remote/merchant/remote_merchant_data_source.dart';
@@ -31,6 +32,8 @@ import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository_impl.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository_impl.dart';
+import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
+import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository_impl.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository_impl.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
@@ -123,6 +126,11 @@ void _setRepositories(dio) {
       remoteUserDataSource: moduleLocator<RemoteUserDataSource>(),
       userDao: moduleLocator<UserDao>(),
       networkHelper: moduleLocator<NetworkHelper>(),
+    ),
+  );
+  moduleLocator.registerLazySingleton<EntityAddressRepository>(
+    () => EntityAddressRepositoryImpl(
+      addressDataSource: RemoteEntityAddressDataSourceImpl(dio: dio),
     ),
   );
 
