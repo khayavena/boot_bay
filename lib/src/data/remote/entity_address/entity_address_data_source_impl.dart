@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class RemoteEntityAddressDataSourceImpl implements RemoteEntityAddressDataSource {
-  static const _base = '/address';
+  static const _base = '/api/address';
   final Dio _dio;
 
   RemoteEntityAddressDataSourceImpl({@required Dio dio}) : _dio = dio;

@@ -76,15 +76,15 @@ class EntityAddressViewModel extends ViewModel {
       _entityAddress = new EntityAddress(
           parentId: parentId,
           address: maxBoxPlace.placeName,
-          latitude: maxBoxPlace.geometry.coordinates[0],
-          longitude: maxBoxPlace.geometry.coordinates[1]);
+          latitude: maxBoxPlace.geometry.coordinates[1],
+          longitude: maxBoxPlace.geometry.coordinates[0]);
     } else {
       _entityAddress = new EntityAddress(
           id: _entityAddress.id,
           parentId: parentId,
           address: maxBoxPlace.placeName,
-          latitude: maxBoxPlace.geometry.coordinates[0],
-          longitude: maxBoxPlace.geometry.coordinates[1]);
+          latitude: maxBoxPlace.geometry.coordinates[1],
+          longitude: maxBoxPlace.geometry.coordinates[0]);
     }
   }
 }

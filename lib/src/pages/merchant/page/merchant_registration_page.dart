@@ -2,6 +2,7 @@ import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
+import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
@@ -26,8 +27,9 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   TextEditingController regNoController = TextEditingController();
 
   MerchantRegistrationViewModel _merchantViewModel;
-
   UserViewModel userViewModel;
+  EntityAddressViewModel _entityAddressViewModel;
+  MapBoxPlace _mapBoxPlace;
 
   @override
   void initState() {
@@ -37,6 +39,10 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         listen: false,
       );
       userViewModel = Provider.of<UserViewModel>(
+        context,
+        listen: false,
+      );
+      _entityAddressViewModel = Provider.of<EntityAddressViewModel>(
         context,
         listen: false,
       );
@@ -50,82 +56,33 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         appBar: AppBar(
           title: Text('Merchant Registration'),
         ),
-        body: Consumer<MerchantRegistrationViewModel>(
-          builder: (BuildContext context, MerchantRegistrationViewModel value, Widget child) {
-            switch (value.loader) {
-              case Loader.idl:
-                return Padding(
-                    padding: EdgeInsets.all(10),
-                    child: ListView(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: locationController,
-                          style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
-                          onTap: () {
-                            showAddress();
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.location_on_outlined),
-                            hintStyle: TextStyle(
-                              fontFamily: 'Gotham',
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                              fontStyle: FontStyle.normal,
-                            ),
-                            labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
-                            hintText: "Merchant address",
-                          ),
-                        ),
-                        buildEditText(emailController, "Email'"),
-                        buildEditText(nameController, "Name'"),
-                        buildEditText(phoneController, "Phone No"),
-                        buildEditText(taxNoController, "Tax No"),
-                        buildEditText(regNoController, 'Registration No'),
-                        ElevatedButton(
-                          child: Text('Add Merchant'),
-                          onPressed: () {
-                            registerNow();
-                          },
-                        ),
-                      ],
-                    ));
-              case Loader.error:
-                return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-                break;
-              case Loader.busy:
-                return Center(child: ColorLoader5());
-                break;
-              case Loader.complete:
-                _merchantViewModel?.resetLoader();
-                return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: 43,
-                    decoration: BoxDecoration(
-                      color: Color(0xff2783a9),
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x7f103747),
-                          offset: Offset(2, 2),
-                          blurRadius: 8,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-                break;
-            }
-            return Container();
-          },
+        body: Container(
+          child: Consumer<MerchantRegistrationViewModel>(
+            builder: (BuildContext context, MerchantRegistrationViewModel value, Widget child) {
+              switch (value.loader) {
+                case Loader.idl:
+                  return _buildBody();
+                case Loader.error:
+                  return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
+                  break;
+                case Loader.busy:
+                  return Center(child: ColorLoader5());
+                  break;
+                case Loader.complete:
+                  _merchantViewModel?.resetLoader();
+                  return _buildBody();
+                  break;
+              }
+              return _buildBody();
+            },
+          ),
         ));
   }
 
   void registerNow() async {
-    var userId = userViewModel.getUser.id;
+    var user = await userViewModel.getCurrentUser();
     var merchantRequest = Merchant(
-        userId: userId,
+        userId: user.id,
         name: nameController.text,
         location: locationController.text,
         rating: 0,
@@ -136,7 +93,12 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         createDate: DateTime.now().toString(),
         regNo: regNoController.text,
         taxNo: taxNoController.text);
-    _merchantViewModel.register(merchantRequest);
+    await _merchantViewModel.register(merchantRequest).then((value) async {
+      if (_mapBoxPlace != null) {
+        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace);
+        await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
+      }
+    });
   }
 
   Widget buildEditText(TextEditingController controller, String text) {
@@ -174,8 +136,8 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
             searchHint: 'Your Hint here',
             onSelected: (place) {
               if (place != null) {
-                var p = place;
-                locationController.text = p.placeName;
+                locationController.text = place.placeName;
+                _mapBoxPlace = place;
               }
             },
             context: context,
@@ -183,5 +145,43 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         );
       },
     );
+  }
+
+  Widget _buildBody() {
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            TextFormField(
+              controller: locationController,
+              style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
+              onTap: () {
+                showAddress();
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.location_on_outlined),
+                hintStyle: TextStyle(
+                  fontFamily: 'Gotham',
+                  color: Colors.blueGrey,
+                  fontSize: 15,
+                  fontStyle: FontStyle.normal,
+                ),
+                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+                hintText: "Merchant address",
+              ),
+            ),
+            buildEditText(emailController, "Email'"),
+            buildEditText(nameController, "Name'"),
+            buildEditText(phoneController, "Phone No"),
+            buildEditText(taxNoController, "Tax No"),
+            buildEditText(regNoController, 'Registration No'),
+            ElevatedButton(
+              child: Text('Add Merchant'),
+              onPressed: () {
+                registerNow();
+              },
+            ),
+          ],
+        ));
   }
 }
