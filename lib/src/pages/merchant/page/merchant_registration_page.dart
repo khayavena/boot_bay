@@ -3,7 +3,7 @@ import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
-import 'package:bootbay/src/viewmodel/UserViewModel.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -58,33 +58,26 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                     padding: EdgeInsets.all(10),
                     child: ListView(
                       children: <Widget>[
-                        ElevatedButton(
-                            onPressed: () {
-                              showDialog<void>(
-                                context: context,
-                                barrierDismissible: false, // user must tap button!
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Search your address"),
-                                    content: MapBoxPlaceSearchWidget(
-                                      popOnSelect: true,
-                                      apiKey: moduleLocator<EnvConfig>().mapBoxKey,
-                                      searchHint: 'Your Hint here',
-                                      onSelected: (place) {
-                                        if (place != null) {
-                                          var p = place;
-                                        }
-                                      },
-                                      context: context,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Text("Address")),
+                        TextFormField(
+                          controller: locationController,
+                          style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
+                          onTap: () {
+                            showAddress();
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_on_outlined),
+                            hintStyle: TextStyle(
+                              fontFamily: 'Gotham',
+                              color: Colors.blueGrey,
+                              fontSize: 15,
+                              fontStyle: FontStyle.normal,
+                            ),
+                            labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+                            hintText: "Merchant address",
+                          ),
+                        ),
                         buildEditText(emailController, "Email'"),
                         buildEditText(nameController, "Name'"),
-                        buildEditText(locationController, "Location Name'"),
                         buildEditText(phoneController, "Phone No"),
                         buildEditText(taxNoController, "Tax No"),
                         buildEditText(regNoController, 'Registration No'),
@@ -147,15 +140,48 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   }
 
   Widget buildEditText(TextEditingController controller, String text) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: TextField(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextFormField(
         controller: controller,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: text,
+        style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
+        decoration: new InputDecoration(
+          enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+          hintStyle: TextStyle(
+            fontFamily: 'Gotham',
+            color: Colors.black54,
+            fontSize: 15,
+            fontStyle: FontStyle.italic,
+          ),
+          labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+          hintText: text,
         ),
       ),
+    );
+  }
+
+  void showAddress() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // repository must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Search your address"),
+          content: MapBoxPlaceSearchWidget(
+            height: 600,
+            popOnSelect: true,
+            apiKey: moduleLocator<EnvConfig>().mapBoxKey,
+            searchHint: 'Your Hint here',
+            onSelected: (place) {
+              if (place != null) {
+                var p = place;
+                locationController.text = p.placeName;
+              }
+            },
+            context: context,
+          ),
+        );
+      },
     );
   }
 }

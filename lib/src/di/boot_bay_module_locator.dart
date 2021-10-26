@@ -12,8 +12,6 @@ import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/data/local/product/wish_list_dao_impl.dart';
 import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/data/local/user/user_dao_impl.dart';
-import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
-import 'package:bootbay/src/data/remote/user/remote_user_data_source_Impl.dart';
 import 'package:bootbay/src/data/remote/dio/dio_api_client.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource.dart';
 import 'package:bootbay/src/data/remote/mediacontent/remote_media_content_datasource_impl.dart';
@@ -26,11 +24,13 @@ import 'package:bootbay/src/data/remote/product/remote_category_service_impl.dar
 import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
 import 'package:bootbay/src/data/remote/product/remote_product_service_impl.dart';
 import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/data/remote/user/remote_user_data_source_Impl.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/helpers/network_helper_impl.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository_impl.dart';
+import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
+import 'package:bootbay/src/pages/checkout/repository/payment_repository_impl.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository_impl.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
@@ -39,14 +39,12 @@ import 'package:bootbay/src/pages/shopping/repository/cart/cart_repository.dart'
 import 'package:bootbay/src/pages/shopping/repository/cart/cart_repository_impl.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository_impl.dart';
+import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
+import 'package:bootbay/src/pages/user/repository/third_party_auth_repository_impl.dart';
+import 'package:bootbay/src/pages/user/repository/user_repository.dart';
+import 'package:bootbay/src/pages/user/repository/user_repository_impl.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository_impl.dart';
-import 'package:bootbay/src/repository/payment/payment_repository.dart';
-import 'package:bootbay/src/repository/payment/payment_repository_impl.dart';
-import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
-import 'package:bootbay/src/repository/user/third_party_auth_repository_impl.dart';
-import 'package:bootbay/src/repository/user/user_repository.dart';
-import 'package:bootbay/src/repository/user/user_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -61,7 +59,6 @@ GetIt get moduleLocator => _locator;
 Future<void> setupLocator(Flavor flavor) async {
   var config = await EnvConfigServiceImpl(flavor).getEnvConfig();
   final Database database = await AppDatabaseImpl.instance.database;
-  baseUrl = config.baseUrl;
   final dio = DioClient.getClient(
     config.baseUrl,
     config.appKey,

@@ -4,7 +4,7 @@ import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/pages/checkout/web_checkout_page.dart';
-import 'package:bootbay/src/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';

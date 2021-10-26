@@ -1,6 +1,6 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/user_profile.dart';
-import 'package:bootbay/src/viewmodel/UserViewModel.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/nested_scroll_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

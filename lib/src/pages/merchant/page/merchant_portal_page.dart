@@ -2,7 +2,7 @@ import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/viewmodel/UserViewModel.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';

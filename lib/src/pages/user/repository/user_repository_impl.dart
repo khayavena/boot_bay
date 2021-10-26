@@ -3,7 +3,7 @@ import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/user_profile.dart';
-import 'package:bootbay/src/repository/user/user_repository.dart';
+import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class UserRepositoryImpl implements UserRepository {

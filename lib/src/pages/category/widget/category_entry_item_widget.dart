@@ -1,6 +1,6 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:cached_network_image/cached_network_image.dart';

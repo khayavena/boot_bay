@@ -1,6 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';

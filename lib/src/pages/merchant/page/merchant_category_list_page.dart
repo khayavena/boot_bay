@@ -2,7 +2,7 @@ import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/category/widget/category_entry_item_widget.dart';

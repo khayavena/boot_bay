@@ -1,5 +1,5 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/shopping/page/price_view.dart';
 import 'package:bootbay/src/themes/light_color.dart';

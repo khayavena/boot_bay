@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
-import 'package:bootbay/src/helpers/globals.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
@@ -121,7 +121,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   Future<void> _showInputDialog(String title) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false, // repository must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),

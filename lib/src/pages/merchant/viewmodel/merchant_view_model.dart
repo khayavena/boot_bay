@@ -10,7 +10,6 @@ class MerchantViewModel extends ViewModel {
   MerchantRepository _merchantRepository;
   Loader _loader = Loader.idl;
   List<Merchant> _merchants = [];
-  String dataErrorMessage;
 
   MerchantViewModel({
     @required MerchantRepository merchantRepository,

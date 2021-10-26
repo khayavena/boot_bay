@@ -6,7 +6,7 @@ abstract class UserRepository {
 
   Future<UserProfile> signIn(AuthRequest authRequest);
 
-  Future<UserProfile> update(UserProfile user);
+  Future<UserProfile> update(UserProfile profile);
 
   Future<UserProfile> getCurrentUser(String id);
 
@@ -16,5 +16,5 @@ abstract class UserRepository {
 
   Future<bool> logOut(String id);
 
-  Future<UserProfile> thirdPartySignIn(String firstName, String lasName, String email, String idToken);
+  Future<UserProfile> thirdPartySignIn(String firstName, String lasName, String email, String thirdPartyId);
 }

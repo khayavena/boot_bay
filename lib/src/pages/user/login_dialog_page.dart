@@ -3,7 +3,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/widget_styles.dart';
-import 'package:bootbay/src/viewmodel/UserViewModel.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

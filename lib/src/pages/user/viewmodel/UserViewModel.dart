@@ -2,12 +2,12 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/user_profile.dart';
-import 'package:bootbay/src/repository/user/third_party_auth_repository.dart';
-import 'package:bootbay/src/repository/user/user_repository.dart';
+import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
+import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'ViewModel.dart';
+import '../../../viewmodel/ViewModel.dart';
 
 class UserViewModel extends ViewModel {
   final UserRepository _userRepository;
@@ -71,6 +71,7 @@ class UserViewModel extends ViewModel {
       _loader = Loader.error;
       notifyListeners();
     }
+    return _user;
   }
 
   Future<void> logIn(final LoginOption loginOption) async {
@@ -95,7 +96,6 @@ class UserViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      var currentUser = _thirdPartyAuthRepository.sysUser();
       _user = await _userRepository.signIn(AuthRequest());
       _loader = Loader.complete;
       notifyListeners();
@@ -114,14 +114,14 @@ class UserViewModel extends ViewModel {
     return _user;
   }
 
-  Future<UserProfile> getCurrentUser() {
-    _thirdPartyAuthRepository.sysUser();
+  Future<UserProfile> getCurrentUser() async {
+    return await _thirdPartyAuthRepository.sysUserProfile();
   }
 
   Loader get loader => _loader;
 
-  Future<UserProfile> saveCategory(UserProfile category) {
-    return _userRepository.update(category);
+  Future<UserProfile> saveCategory(UserProfile profile) {
+    return _userRepository.update(profile);
   }
 
   void resetLoader() {
