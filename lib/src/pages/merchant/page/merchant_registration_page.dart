@@ -116,7 +116,9 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
     await _merchantViewModel.register(merchantRequest).then((value) async {
       if (_mapBoxPlace != null) {
         _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace, 'merchant');
-        await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
+        if (_entityAddressViewModel.entityAddress != null) {
+          await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
+        }
         if (_imageProviderViewModel.isValidImage) {
           await _mediaViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
         }
