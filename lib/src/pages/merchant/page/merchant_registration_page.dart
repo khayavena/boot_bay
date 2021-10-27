@@ -1,8 +1,11 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/costom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
+import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
+import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
@@ -29,6 +32,8 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   MerchantRegistrationViewModel _merchantViewModel;
   UserViewModel userViewModel;
   EntityAddressViewModel _entityAddressViewModel;
+  ImageProviderViewModel _imageProviderViewModel;
+  MediaContentViewModel _mediaContentViewModel;
   MapBoxPlace _mapBoxPlace;
 
   @override
@@ -46,6 +51,14 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         context,
         listen: false,
       );
+      _imageProviderViewModel = Provider.of<ImageProviderViewModel>(
+        context,
+        listen: false,
+      );
+      _mediaContentViewModel = Provider.of<MediaContentViewModel>(
+        context,
+        listen: false,
+      );
     });
     super.initState();
   }
@@ -53,8 +66,19 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: CustomColor().appBackground,
+
         appBar: AppBar(
-          title: Text('Merchant Registration'),
+          automaticallyImplyLeading: true,
+          backgroundColor: CustomColor().appBackground,
+          title: Text(
+            'Merchant Registration',
+            style: TextStyle(
+              color: CustomColor().black,
+              fontSize: 15,
+              fontStyle: FontStyle.normal,
+            ),
+          ),
         ),
         body: Container(
           child: Consumer<MerchantRegistrationViewModel>(
@@ -97,23 +121,28 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
       if (_mapBoxPlace != null) {
         _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace);
         await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
+        if (_imageProviderViewModel.isValidImage) {
+          await _mediaContentViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
+        }
       }
     });
   }
 
-  Widget buildEditText(TextEditingController controller, String text) {
+  Widget buildEditText(TextEditingController controller, String text, Icon suffixIcon) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      padding: EdgeInsets.only(
+        top: 10,
+      ),
       child: TextFormField(
         controller: controller,
         style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
-        decoration: new InputDecoration(
-          enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+        decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintStyle: TextStyle(
             fontFamily: 'Gotham',
             color: Colors.black54,
             fontSize: 15,
-            fontStyle: FontStyle.italic,
+            fontStyle: FontStyle.normal,
           ),
           labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
           hintText: text,
@@ -122,7 +151,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
     );
   }
 
-  void showAddress() {
+  void showActionDialog() {
     showDialog<void>(
       context: context,
       barrierDismissible: false, // repository must tap button!
@@ -149,39 +178,80 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
 
   Widget _buildBody() {
     return Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-            TextFormField(
-              controller: locationController,
-              style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
-              onTap: () {
-                showAddress();
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.location_on_outlined),
-                hintStyle: TextStyle(
-                  fontFamily: 'Gotham',
-                  color: Colors.blueGrey,
-                  fontSize: 15,
-                  fontStyle: FontStyle.normal,
+            buildEditText(nameController, "Merchant Name", Icon(Icons.business_outlined)),
+            buildEditText(emailController, "Email", Icon(Icons.email_outlined)),
+            buildEditText(phoneController, "Contact no", Icon(Icons.phone)),
+            buildEditText(taxNoController, "Tax reference(optional)", Icon(Icons.money_off_sharp)),
+            buildEditText(
+              regNoController,
+              'Reg no(optional)',
+              Icon(Icons.copyright_outlined),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+              child: TextFormField(
+                controller: locationController,
+                style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
+                onTap: () {
+                  showActionDialog();
+                },
+                decoration: InputDecoration(
+                  suffixIcon: Icon(Icons.location_on_outlined),
+                  hintStyle: TextStyle(
+                    fontFamily: 'Gotham',
+                    color: Colors.blueGrey,
+                    fontSize: 15,
+                    fontStyle: FontStyle.normal,
+                  ),
+                  labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+                  hintText: "Merchant address",
                 ),
-                labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
-                hintText: "Merchant address",
               ),
             ),
-            buildEditText(emailController, "Email'"),
-            buildEditText(nameController, "Name'"),
-            buildEditText(phoneController, "Phone No"),
-            buildEditText(taxNoController, "Tax No"),
-            buildEditText(regNoController, 'Registration No'),
-            ElevatedButton(
-              child: Text('Add Merchant'),
-              onPressed: () {
-                registerNow();
-              },
+            _buildImage(),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    uploadImage();
+                  },
+                  child: Text(
+                    "Upload".toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: 'Gotham',
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 10),
+              child: ElevatedButton(
+                child: Text('Add Merchant'),
+                onPressed: () {
+                  registerNow();
+                },
+              ),
             ),
           ],
         ));
+  }
+
+  Widget _buildImage() {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child:
+          Consumer<ImageProviderViewModel>(builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: value.proverFileImageView(),
+        );
+      }),
+    );
+  }
+
+  void uploadImage() async {
+    _imageProviderViewModel.openGalleryForImage();
   }
 }

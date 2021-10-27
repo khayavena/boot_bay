@@ -31,7 +31,7 @@ class EditProductPage extends StatefulWidget {
 class _EditProductPageState extends State<EditProductPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  MediaViewModel _mediaViewModel;
+  ImageProviderViewModel _mediaViewModel;
   ProductViewModel _productViewModel;
   double finalAmount;
 
@@ -46,7 +46,7 @@ class _EditProductPageState extends State<EditProductPage> {
         context,
         listen: false,
       );
-      _mediaViewModel = Provider.of<MediaViewModel>(
+      _mediaViewModel = Provider.of<ImageProviderViewModel>(
         context,
         listen: false,
       );
@@ -211,7 +211,8 @@ class _EditProductPageState extends State<EditProductPage> {
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+          child: Consumer<ImageProviderViewModel>(
+              builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.15,
               child: value.proverFileImageView(imageUrl: getImageUri(widget.product.id)),

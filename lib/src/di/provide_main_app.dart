@@ -41,7 +41,7 @@ Future<void> provideMainApp(Flavor flavor) async {
         ChangeNotifierProvider(create: (context) => ViewModel()),
         ChangeNotifierProvider(create: (context) => DropDownValueChangeNotifier()),
         ChangeNotifierProvider(create: (context) => BottomNavChangeNotifier()),
-        ChangeNotifierProvider(create: (context) => MediaViewModel()),
+        ChangeNotifierProvider(create: (context) => ImageProviderViewModel()),
         ChangeNotifierProvider(
             create: (context) => EntityAddressViewModel(addressRepository: moduleLocator<EntityAddressRepository>())),
         ChangeNotifierProvider(

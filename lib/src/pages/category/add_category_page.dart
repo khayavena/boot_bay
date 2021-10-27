@@ -31,7 +31,7 @@ class AddCategoryPage extends StatefulWidget {
 class _AddCategoryPageState extends State<AddCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  MediaViewModel _categoryMediaViewModel;
+  ImageProviderViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -47,7 +47,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         listen: false,
       );
 
-      _categoryMediaViewModel = Provider.of<MediaViewModel>(
+      _categoryMediaViewModel = Provider.of<ImageProviderViewModel>(
         context,
         listen: false,
       );
@@ -149,8 +149,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         var category = Category(name: categoryController.text.toString(), merchantId: widget.merchant.id);
         var categoryResponse = await _categoryViewModel.saveCategory(category);
         if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
-          var catImageResponse = await _mediaContentViewModel.saveProductFile(
-              _categoryMediaViewModel.fileInput.path, categoryResponse.id);
+          var catImageResponse =
+              await _mediaContentViewModel.saveProductFile(_categoryMediaViewModel.fileInput.path, categoryResponse.id);
         }
         _categoryMediaViewModel.clear();
         _mediaContentViewModel.clear();
@@ -167,7 +167,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+            child: Consumer<ImageProviderViewModel>(
+                builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
               return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
@@ -177,7 +178,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     );
   }
 
-  Widget _buildFileImage(MediaViewModel value) {
+  Widget _buildFileImage(ImageProviderViewModel value) {
     return Image.file(
       File(
         value.fileInput.path,

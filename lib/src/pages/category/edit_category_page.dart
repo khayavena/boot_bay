@@ -33,7 +33,7 @@ class EditCategoryPage extends StatefulWidget {
 class _EditCategoryPageState extends State<EditCategoryPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  MediaViewModel _categoryMediaViewModel;
+  ImageProviderViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -48,7 +48,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         context,
         listen: false,
       );
-      _categoryMediaViewModel = Provider.of<MediaViewModel>(
+      _categoryMediaViewModel = Provider.of<ImageProviderViewModel>(
         context,
         listen: false,
       );
@@ -167,7 +167,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+            child: Consumer<ImageProviderViewModel>(
+                builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
               return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
             }),
           ),
@@ -177,7 +178,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Widget _buildFileImage(MediaViewModel value) {
+  Widget _buildFileImage(ImageProviderViewModel value) {
     return Image.file(
       File(
         value.fileInput.path,

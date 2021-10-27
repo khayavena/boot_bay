@@ -1,6 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
@@ -33,7 +33,7 @@ class AddProductPage extends StatefulWidget {
 class _AddProductPageState extends State<AddProductPage> {
   MediaContentViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
-  MediaViewModel _mediaViewModel;
+  ImageProviderViewModel _mediaViewModel;
   ProductViewModel _productViewModel;
   double finalAmount;
 
@@ -48,7 +48,7 @@ class _AddProductPageState extends State<AddProductPage> {
         context,
         listen: false,
       );
-      _mediaViewModel = Provider.of<MediaViewModel>(
+      _mediaViewModel = Provider.of<ImageProviderViewModel>(
         context,
         listen: false,
       );
@@ -201,7 +201,8 @@ class _AddProductPageState extends State<AddProductPage> {
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Consumer<MediaViewModel>(builder: (BuildContext context, MediaViewModel value, Widget child) {
+          child: Consumer<ImageProviderViewModel>(
+              builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.15,
               child: value.proverFileImageView(),

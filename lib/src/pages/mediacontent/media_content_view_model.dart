@@ -17,7 +17,7 @@ class MediaContentViewModel extends ViewModel {
   MediaContentViewModel({@required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
-  Future<MediaContentResponse> saveFile(String path, String id) async {
+  Future<MediaContentResponse> saveMerchantILogo(String path, String id) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
