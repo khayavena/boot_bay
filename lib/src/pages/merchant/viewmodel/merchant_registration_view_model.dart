@@ -20,7 +20,7 @@ class MerchantRegistrationViewModel extends ViewModel {
     return _merchant;
   }
 
-  Loader get loader => _loader;
+  Loader get status => _loader;
 
   void resetLoader() {
     _loader = Loader.idl;

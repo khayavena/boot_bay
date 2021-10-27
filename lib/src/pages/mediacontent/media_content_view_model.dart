@@ -6,7 +6,7 @@ import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class MediaContentViewModel extends ViewModel {
+class MediaViewModel extends ViewModel {
   MediaContentRepository _mediaContentRepository;
   Loader _loader;
 
@@ -14,7 +14,7 @@ class MediaContentViewModel extends ViewModel {
 
   MediaContentResponse mediaResponse;
 
-  MediaContentViewModel({@required MediaContentRepository mediaContentRepository})
+  MediaViewModel({@required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
   Future<MediaContentResponse> saveMerchantILogo(String path, String id) async {

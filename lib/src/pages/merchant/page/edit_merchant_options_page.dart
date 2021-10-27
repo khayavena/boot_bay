@@ -82,7 +82,7 @@ class _EditMerchantManagementOptionsWidgetState extends State<EditMerchantManage
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: CustomColor().appBackground,
-        appBar: CustomAppBar.build("Merchant Edit Options", context),
+        appBar: CustomAppBar.build("Merchant Options", context),
         body: _buildOptions());
   }
 }

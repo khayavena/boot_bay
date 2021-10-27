@@ -31,7 +31,7 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  MediaContentViewModel _mediaContentViewModel;
+  MediaViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
   ImageProviderViewModel _mediaViewModel;
   ProductViewModel _productViewModel;
@@ -40,7 +40,7 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _mediaContentViewModel = Provider.of<MediaContentViewModel>(
+      _mediaContentViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -87,8 +87,8 @@ class _AddProductPageState extends State<AddProductPage> {
               }),
         ],
       ),
-      body: Consumer2<MediaContentViewModel, ProductViewModel>(builder:
-          (BuildContext context, MediaContentViewModel value, ProductViewModel productViewModel, Widget child) {
+      body: Consumer2<MediaViewModel, ProductViewModel>(builder:
+          (BuildContext context, MediaViewModel value, ProductViewModel productViewModel, Widget child) {
         if (value.status == Loader.busy || productViewModel.loader == Loader.busy) {
           return WidgetLoader();
         }

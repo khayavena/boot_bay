@@ -53,7 +53,7 @@ Future<void> provideMainApp(Flavor flavor) async {
             create: (context) => MerchantViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
         ChangeNotifierProvider(
             create: (context) =>
-                MediaContentViewModel(mediaContentRepository: moduleLocator<MediaContentRepository>())),
+                MediaViewModel(mediaContentRepository: moduleLocator<MediaContentRepository>())),
         ChangeNotifierProvider(
             create: (context) =>
                 MerchantRegistrationViewModel(merchantRepository: moduleLocator<MerchantRepository>())),

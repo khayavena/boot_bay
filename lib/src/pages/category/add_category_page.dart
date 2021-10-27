@@ -29,7 +29,7 @@ class AddCategoryPage extends StatefulWidget {
 }
 
 class _AddCategoryPageState extends State<AddCategoryPage> {
-  MediaContentViewModel _mediaContentViewModel;
+  MediaViewModel _mediaContentViewModel;
   CategoryViewModel _categoryViewModel;
   ImageProviderViewModel _categoryMediaViewModel;
 
@@ -38,7 +38,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _mediaContentViewModel = Provider.of<MediaContentViewModel>(
+      _mediaContentViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -126,8 +126,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         return AlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
-            child: Consumer<MediaContentViewModel>(
-                builder: (BuildContext context, MediaContentViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(
+                builder: (BuildContext context, MediaViewModel value, Widget child) {
               if (value.status == Loader.busy) {
                 return WidgetLoader();
               }

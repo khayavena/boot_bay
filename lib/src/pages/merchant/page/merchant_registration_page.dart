@@ -8,7 +8,7 @@ import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
-import 'package:bootbay/src/wigets/shared/loading/color_loader_5.dart';
+import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
@@ -33,7 +33,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   UserViewModel userViewModel;
   EntityAddressViewModel _entityAddressViewModel;
   ImageProviderViewModel _imageProviderViewModel;
-  MediaContentViewModel _mediaContentViewModel;
+  MediaViewModel _mediaViewModel;
   MapBoxPlace _mapBoxPlace;
 
   @override
@@ -55,7 +55,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         context,
         listen: false,
       );
-      _mediaContentViewModel = Provider.of<MediaContentViewModel>(
+      _mediaViewModel = Provider.of<MediaViewModel>(
         context,
         listen: false,
       );
@@ -66,11 +66,12 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: CustomColor().appBackground,
-
+        backgroundColor: CustomColor().pureWhite,
         appBar: AppBar(
           automaticallyImplyLeading: true,
-          backgroundColor: CustomColor().appBackground,
+          centerTitle: true,
+          iconTheme: IconThemeData(color: CustomColor().black),
+          backgroundColor: CustomColor().pureWhite,
           title: Text(
             'Merchant Registration',
             style: TextStyle(
@@ -81,23 +82,18 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
           ),
         ),
         body: Container(
-          child: Consumer<MerchantRegistrationViewModel>(
-            builder: (BuildContext context, MerchantRegistrationViewModel value, Widget child) {
-              switch (value.loader) {
-                case Loader.idl:
-                  return _buildBody();
-                case Loader.error:
-                  return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-                  break;
-                case Loader.busy:
-                  return Center(child: ColorLoader5());
-                  break;
-                case Loader.complete:
-                  _merchantViewModel?.resetLoader();
-                  return _buildBody();
-                  break;
+          child: Consumer3<MerchantRegistrationViewModel, MediaViewModel, EntityAddressViewModel>(
+            builder: (BuildContext context, MerchantRegistrationViewModel value, MediaViewModel value1,
+                EntityAddressViewModel value2, Widget child) {
+              if (value.status == Loader.busy || value1.status == Loader.busy || value2.status == Loader.busy) {
+                return WidgetLoader();
+              } else if (value.status == Loader.error ||
+                  value1.status == Loader.error ||
+                  value2.status == Loader.error) {
+                return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
+              } else {
+                return _buildBody();
               }
-              return _buildBody();
             },
           ),
         ));
@@ -122,7 +118,7 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace);
         await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
         if (_imageProviderViewModel.isValidImage) {
-          await _mediaContentViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
+          await _mediaViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
         }
       }
     });
