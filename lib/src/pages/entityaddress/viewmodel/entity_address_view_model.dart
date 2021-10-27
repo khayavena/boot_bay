@@ -71,10 +71,11 @@ class EntityAddressViewModel extends ViewModel {
     _entityAddress = null;
   }
 
-  void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace) {
+  void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace, String type) {
     if (_entityAddress == null) {
       _entityAddress = new EntityAddress(
           parentId: parentId,
+          type: type,
           address: maxBoxPlace.placeName,
           latitude: maxBoxPlace.geometry.coordinates[1],
           longitude: maxBoxPlace.geometry.coordinates[0]);
@@ -82,6 +83,7 @@ class EntityAddressViewModel extends ViewModel {
       _entityAddress = new EntityAddress(
           id: _entityAddress.id,
           parentId: parentId,
+          type: type,
           address: maxBoxPlace.placeName,
           latitude: maxBoxPlace.geometry.coordinates[1],
           longitude: maxBoxPlace.geometry.coordinates[0]);

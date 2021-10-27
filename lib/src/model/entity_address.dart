@@ -2,6 +2,7 @@ class EntityAddress {
   String id;
   String parentId;
   String address;
+  String type;
   double latitude;
   double longitude;
 
@@ -9,15 +10,17 @@ class EntityAddress {
       : id = json['id'],
         parentId = json['parentId'],
         address = json['address'],
+        type = json['type'],
         latitude = json['latitude'],
         longitude = json['longitude'];
 
-  EntityAddress({this.id, this.parentId, this.address, this.latitude, this.longitude});
+  EntityAddress({this.id, this.parentId, this.address, this.type, this.latitude, this.longitude});
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "parentId": parentId,
         "address": address,
+        "type": type,
         "latitude": latitude,
         "longitude": longitude,
       };

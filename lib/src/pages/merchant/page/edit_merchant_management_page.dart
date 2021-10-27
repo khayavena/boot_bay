@@ -123,7 +123,7 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         taxNo: taxNoController.text);
     await _merchantViewModel.register(merchantRequest).then((value) async {
       if (_mapBoxPlace != null) {
-        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace);
+        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace,'merchant');
         await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
         if (_imageProviderViewModel.isValidImage) {
           await _mediaViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
