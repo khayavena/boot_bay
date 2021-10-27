@@ -73,14 +73,14 @@ class EntityAddressViewModel extends ViewModel {
 
   void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace, String type) {
     if (_entityAddress == null) {
-      _entityAddress = new EntityAddress(
+      _entityAddress =  EntityAddress(
           parentId: parentId,
           type: type,
           address: maxBoxPlace.placeName,
           latitude: maxBoxPlace.geometry.coordinates[1],
           longitude: maxBoxPlace.geometry.coordinates[0]);
     } else {
-      _entityAddress = new EntityAddress(
+      _entityAddress =  EntityAddress(
           id: _entityAddress.id,
           parentId: parentId,
           type: type,
