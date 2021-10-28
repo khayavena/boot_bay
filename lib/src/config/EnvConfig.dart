@@ -6,8 +6,6 @@ class EnvConfig {
   String appVersion;
   String databaseName;
   String baseUrl;
-  String googleAuthUrl;
-  String firebaseAuthId;
   String tweetApiKey;
   String tweetApiKeySecret;
   String tweetBearerToken;
@@ -23,8 +21,6 @@ class EnvConfig {
       this.connectTimeOut,
       this.receiveTimeout,
       this.databaseName,
-      this.googleAuthUrl,
-      this.firebaseAuthId,
       this.tweetApiKey,
       this.tweetApiKeySecret,
       this.tweetBearerToken,
@@ -37,8 +33,6 @@ class EnvConfig {
       baseUrl: json['baseUrl'] as String,
       connectTimeOut: json['connectTimeOut'] as int,
       receiveTimeout: json['receiveTimeout'] as int,
-      googleAuthUrl: json['googleAuthUrl'],
-      firebaseAuthId: json['firebaseId'],
       databaseName: json['databaseName'],
       tweetApiKey: json['tweetKey'],
       tweetApiKeySecret: json['tweetKeySecret'],
@@ -54,8 +48,6 @@ class EnvConfig {
       "baseUrl": this.baseUrl,
       "connectTimeOut": this.connectTimeOut,
       "receiveTimeout": this.receiveTimeout,
-      "googleAuth": this.googleAuthUrl,
-      "firebaseAuthId": this.firebaseAuthId,
       "mapBoxKey": this.mapBoxKey,
     };
   }

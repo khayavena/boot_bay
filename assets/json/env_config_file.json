@@ -4,8 +4,6 @@
     "baseUrl": "https://boot-bay.herokuapp.com",
     "appName": "SuperSport Dev",
     "databaseName": "boot_database.db",
-    "firebaseId": "1:446686780416:android:913a97a83eed1ccf8a0ce5",
-    "googleAuthUrl": "https://www.googleapis.com/auth/contacts.readonly",
     "appKey": "5qeb2e41e66fe5d0f909cc811",
     "tweetKey": "nODSqTOqOqfJPFWB8FZFvYLZ2",
     "tweetKeySecret": "21i8jVumXgQzrbJGsuIm4vs7D0C1qCHFlJxluDEi165FPT4nFw",
