@@ -57,7 +57,6 @@ class EntityAddressViewModel extends ViewModel {
     status = Loader.busy;
     notifyListeners();
     var results = await _addressRepository.getAddresses(entityId);
-    results[0].selected = true;
     for (var address in results) {
       if (address.selected) {
         _entityAddress = address;

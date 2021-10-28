@@ -16,7 +16,7 @@ class EntityAddress {
         longitude = json['longitude'],
         selected = json['selected'] ?? false;
 
-  EntityAddress({this.id, this.parentId, this.address, this.type, this.latitude, this.longitude});
+  EntityAddress({this.id, this.parentId, this.address, this.type, this.latitude, this.longitude, selected = false});
 
   Map<String, dynamic> toJson() => {
         "id": id,
