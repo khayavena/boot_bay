@@ -72,7 +72,6 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
           padding: EdgeInsets.symmetric(vertical: 12),
           width: AppTheme.fullWidth(context) * .8,
           height: 50,
-          decoration: buttonDecorator,
           child: Text(
             'PAY ZAR ${wishListViewViewModel.finalAmount()}',
             style: TextStyle(
