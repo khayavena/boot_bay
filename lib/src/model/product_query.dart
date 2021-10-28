@@ -8,7 +8,7 @@ class ProductQuery {
   ProductQuery({
     @required this.merchantId,
     @required this.categories,
-    @required this.token,
+    this.token,
   });
 
   Map<String, dynamic> toJson() {

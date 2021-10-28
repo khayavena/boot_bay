@@ -21,7 +21,7 @@ class EntityAddressViewModel extends ViewModel {
     if (results != null && results.isNotEmpty) {
       status = Loader.complete;
     } else {
-      status = Loader.error;
+      status = Loader.complete;
     }
     notifyListeners();
     return results;
@@ -53,6 +53,26 @@ class EntityAddressViewModel extends ViewModel {
     return results;
   }
 
+  Future<List<EntityAddress>> getAll(String entityId) async {
+    status = Loader.busy;
+    notifyListeners();
+    var results = await _addressRepository.getAddresses(entityId);
+    results[0].selected = true;
+    for (var address in results) {
+      if (address.selected) {
+        _entityAddress = address;
+        break;
+      }
+    }
+    if (results != null) {
+      status = Loader.complete;
+    } else {
+      status = Loader.error;
+    }
+    notifyListeners();
+    return results;
+  }
+
   Future<void> delete(String entityId, addressId) async {
     status = Loader.busy;
     notifyListeners();
@@ -73,14 +93,14 @@ class EntityAddressViewModel extends ViewModel {
 
   void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace, String type) {
     if (_entityAddress == null) {
-      _entityAddress =  EntityAddress(
+      _entityAddress = EntityAddress(
           parentId: parentId,
           type: type,
           address: maxBoxPlace.placeName,
           latitude: maxBoxPlace.geometry.coordinates[1],
           longitude: maxBoxPlace.geometry.coordinates[0]);
     } else {
-      _entityAddress =  EntityAddress(
+      _entityAddress = EntityAddress(
           id: _entityAddress.id,
           parentId: parentId,
           type: type,

@@ -2,9 +2,9 @@ import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
 import 'package:bootbay/src/pages/checkout/checkout_page.dart';
+import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
-import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:bootbay/src/wigets/wish/cart_list_view.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
   }
 
   Widget _submitButton(BuildContext context, WishListViewModel wishListViewViewModel) {
-    return FlatButton(
+    return ElevatedButton(
         onPressed: () async {
           Navigator.push(
             context,

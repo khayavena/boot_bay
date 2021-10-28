@@ -66,6 +66,5 @@ flutter:
     - assets/images/wish_inactive_ic.png
     - assets/images/women_landing_ic.png
     - assets/json/env_config_file.json
-    - assets/json/json_file.json
     - assets/user.png
     - assets/images/

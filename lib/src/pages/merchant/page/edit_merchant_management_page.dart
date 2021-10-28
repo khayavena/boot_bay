@@ -47,7 +47,6 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         context,
         listen: false,
       );
-
       _entityAddressViewModel = Provider.of<EntityAddressViewModel>(
         context,
         listen: false,
@@ -60,14 +59,10 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         context,
         listen: false,
       );
+      _entityAddressViewModel.getAll('61790d54fc410b54c00bce5b');
     });
 
-    emailController.text = widget.merchant.email;
-    nameController.text = widget.merchant.name;
-    locationController.text = widget.merchant.location;
-    phoneController.text = widget.merchant.phone;
-    taxNoController.text = widget.merchant.taxNo;
-    regNoController.text = widget.merchant.regNo;
+    initValues();
     super.initState();
   }
 
@@ -100,7 +95,10 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
                   value2.status == Loader.error) {
                 return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
               } else {
-                return _buildBody();
+                if (value2 != null && value2.entityAddress != null) {
+                  updateAddressField(value2.entityAddress.address);
+                }
+                return _buildBody(value2);
               }
             },
           ),
@@ -123,7 +121,7 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         taxNo: taxNoController.text);
     await _merchantViewModel.register(merchantRequest).then((value) async {
       if (_mapBoxPlace != null) {
-        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace,'merchant');
+        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace, 'merchant');
         await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
         if (_imageProviderViewModel.isValidImage) {
           await _mediaViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
@@ -132,7 +130,10 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
     });
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(EntityAddressViewModel addressViewModel) {
+    if (addressViewModel?.entityAddress != null) {
+      locationController.text = addressViewModel.entityAddress.address;
+    }
     return Padding(
         padding: EdgeInsets.all(16),
         child: ListView(
@@ -257,5 +258,18 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         );
       },
     );
+  }
+
+  updateAddressField(String value) {
+    locationController.text = value;
+  }
+
+  void initValues() {
+    emailController.text = widget.merchant.email;
+    nameController.text = widget.merchant.name;
+    locationController.text = widget.merchant.location;
+    phoneController.text = widget.merchant.phone;
+    taxNoController.text = widget.merchant.taxNo;
+    regNoController.text = widget.merchant.regNo;
   }
 }

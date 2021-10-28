@@ -5,6 +5,7 @@ class EntityAddress {
   String type;
   double latitude;
   double longitude;
+  bool selected;
 
   EntityAddress.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -12,7 +13,8 @@ class EntityAddress {
         address = json['address'],
         type = json['type'],
         latitude = json['latitude'],
-        longitude = json['longitude'];
+        longitude = json['longitude'],
+        selected = json['selected'] ?? false;
 
   EntityAddress({this.id, this.parentId, this.address, this.type, this.latitude, this.longitude});
 
@@ -23,5 +25,6 @@ class EntityAddress {
         "type": type,
         "latitude": latitude,
         "longitude": longitude,
+        "selected": selected,
       };
 }

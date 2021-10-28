@@ -1,7 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
-import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/category/widget/category_card.dart';
 import 'package:bootbay/src/pages/category/widget/category_card_loader.dart';
@@ -123,7 +122,6 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
   Widget _buildCategories(CategoryViewModel categoryViewModel) {
     switch (categoryViewModel.loader) {
       case Loader.complete:
-        ProductQuery query = ProductQuery(categories: categoryViewModel.getCategories.map((e) => e.id).toList());
         return Container(
             child: ListView(
                 scrollDirection: Axis.horizontal,
