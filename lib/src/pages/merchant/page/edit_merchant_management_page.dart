@@ -2,6 +2,7 @@ import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
@@ -59,7 +60,7 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
         context,
         listen: false,
       );
-      _entityAddressViewModel.getAll('61790d54fc410b54c00bce5b');
+      _entityAddressViewModel.getAll(widget.merchant.id);
     });
 
     initValues();
@@ -225,7 +226,7 @@ class _EditMerchantManagementPageState extends State<EditMerchantManagementPage>
           Consumer<ImageProviderViewModel>(builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.15,
-          child: value.proverFileImageView(),
+          child: value.proverFileImageView(imageUrl: getImageUri(widget.merchant.id)),
         );
       }),
     );
