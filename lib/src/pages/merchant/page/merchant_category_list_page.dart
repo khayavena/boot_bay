@@ -43,7 +43,7 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor().appBackground,
+      backgroundColor: CustomColor().pureWhite,
       body: buildCollapsingWidget(
           bodyWidget: Container(
             child: Column(

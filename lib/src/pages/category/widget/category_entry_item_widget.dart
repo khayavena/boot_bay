@@ -14,56 +14,60 @@ class CategoryEntryItemWidget extends StatelessWidget {
 
   Widget _buildTiles(Category root, context) {
     if (!root.hasChildren)
-      return Container(
-        color: CustomColor().pureWhite,
-        child: ListTile(
-          leading: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(getImageUri(root.id)),
-                ),
-              )),
-          title: Text(
-            root.name,
-            style: TextStyle(
-                color: CustomColor().originalBlack,
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                fontSize: 15.0),
-          ),
-          trailing: GestureDetector(
-              onTap: () {
-                _settingModalBottomSheet(context, root, merchant);
-              },
-              child: Icon(
-                Icons.keyboard_arrow_right,
-              )),
-        ),
-      );
-    return Container(
-      color: CustomColor().pureWhite,
-      child: ExpansionTile(
-        leading: Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(getImageUri(root.id)),
+      return Column(
+        children: [
+          Container(
+            color: CustomColor().pureWhite,
+            child: ListTile(
+              leading: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(getImageUri(root.id)),
+                    ),
+                  )),
+              title: Text(
+                root.name,
+                style: TextStyle(
+                    color: CustomColor().originalBlack,
+                    fontWeight: FontWeight.w400,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 15.0),
               ),
-            )),
-        key: PageStorageKey<Category>(root),
-        title: Text(root.name,
-            style: TextStyle(
-                color: CustomColor().originalBlack,
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.normal,
-                fontSize: 15.0)),
-        children: root.categories.map((item) => _buildTiles(item, context)).toList(),
-      ),
+              trailing: GestureDetector(
+                  onTap: () {
+                    _settingModalBottomSheet(context, root, merchant);
+                  },
+                  child: Icon(
+                    Icons.keyboard_arrow_right,
+                  )),
+            ),
+          ),
+          Divider()
+        ],
+      );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: EdgeInsets.all( 8),
+          height: 56,
+          child: Text(root.name,
+              style: TextStyle(
+                  color: CustomColor().originalBlack,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 15.0)),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: root.categories.map((item) => _buildTiles(item, context)).toList(),
+        )
+      ],
     );
   }
 
@@ -73,8 +77,6 @@ class CategoryEntryItemWidget extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
-    Map<String, dynamic> map = {'category': root, 'merchant': merchant};
-    Navigator.pushNamed(context, AppRouting.editCategory, arguments: map);
-    //Navigator.pushNamed(context, AppRouting.addCategory, arguments: merchant);
+    Navigator.pushNamed(context, AppRouting.editCategory, arguments: {'category': root, 'merchant': merchant});
   }
 }
