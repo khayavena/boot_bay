@@ -43,6 +43,34 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.vdi.bootbay.braintree</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.vdi.bootbay.braintree</string>
+            </array>
+        </dict>
+    </array>
 
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>fbAPP-ID</string>
+      </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1065424834206217</string>
+    <key>FacebookClientToken</key>
+    <string>fd25370ffc21676e494d8745db53b7d9</string>
+    <key>FacebookDisplayName</key>
+    <string>bootbay</string>
 </dict>
 </plist>
