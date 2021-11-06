@@ -10,6 +10,9 @@
     "tweetBearerToken": "AAAAAAAAAAAAAAAAAAAAAAH2UwEAAAAAuQDbl0R1rdKfkntYGy8dSTEbJ7Y%3Dq5xwZsd3YmhsWq9T3M5k4bzrLqvsZnUn6RYtXSdZVkSxmz8GaO",
     "mapBoxKey": "pk.eyJ1IjoidmVuYWtoYXlhIiwiYSI6ImNrdjc1NGZrbDJiNmUyb2xwcHo5cTJpb2IifQ.HlIjUHh7ATCCgGVuMaTJsw",
     "connectTimeOut": 10000,
-    "receiveTimeout": 10000
+    "receiveTimeout": 10000,
+    "wavePubKey": "FLWPUBK_TEST-422f46982e908250b5b14af0a70e883c-X",
+    "waveEncryptKey": "FLWSECK_TEST4258ba104ccb",
+    "waveSecretKey": "FLWSECK_TEST-b6e7c5e9b40538526b8a3514390874ca-X"
   }
 }
