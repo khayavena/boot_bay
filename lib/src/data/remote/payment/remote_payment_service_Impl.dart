@@ -29,8 +29,10 @@ class RemotePaymentServiceImpl<T> implements RemotePaymentService {
   }
 
   @override
-  Future<MerchantTransactionLog> logTransaction(MerchantTransactionLog logData) {
-    // TODO: implement logTransaction
-    throw UnimplementedError();
+  Future<MerchantTransactionLog> logTransaction(
+      MerchantTransactionLog logData) async {
+    Response response =
+        await _dio.post('/api/payment/log', data: logData.toJson());
+    return MerchantTransactionLog.fromJson(response.data);
   }
 }
