@@ -1,3 +1,4 @@
+import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/token_request.dart';
@@ -9,4 +10,6 @@ abstract class PaymentRepository {
   Future<PaymentResponse> pay(PaymentRequest paymentRequest);
 
   Future<List<PaymentResponse>> getAll();
+
+  Future<MerchantTransactionLog> logTransaction(MerchantTransactionLog logData);
 }

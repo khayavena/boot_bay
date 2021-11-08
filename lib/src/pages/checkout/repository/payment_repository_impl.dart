@@ -1,6 +1,7 @@
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
 import 'package:bootbay/src/data/remote/payment/remote_payment_service.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
+import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/token_request.dart';
@@ -37,5 +38,11 @@ class PaymentRepositoryImpl implements PaymentRepository {
       _paymentDao.insert(value);
       return value;
     });
+  }
+
+  @override
+  Future<MerchantTransactionLog> logTransaction(MerchantTransactionLog logData) {
+    // TODO: implement logTransaction
+    throw UnimplementedError();
   }
 }

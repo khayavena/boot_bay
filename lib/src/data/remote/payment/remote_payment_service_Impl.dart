@@ -1,4 +1,5 @@
 import 'package:bootbay/src/data/remote/payment/remote_payment_service.dart';
+import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/token_request.dart';
@@ -25,5 +26,11 @@ class RemotePaymentServiceImpl<T> implements RemotePaymentService {
     Response response =
         await _dio.post('/api/payment/checkout', data: paymentRequest.toJson());
     return PaymentResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<MerchantTransactionLog> logTransaction(MerchantTransactionLog logData) {
+    // TODO: implement logTransaction
+    throw UnimplementedError();
   }
 }

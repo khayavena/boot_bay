@@ -1,5 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
+import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/token_request.dart';
@@ -24,7 +25,9 @@ class PaymentViewModel extends ViewModel {
   PaymentStatus paymentStatus;
   TokenResponse _tokenResponse;
 
-  PaymentViewModel({@required UserRepository userRepository, @required PaymentRepository paymentRepository})
+  PaymentViewModel(
+      {@required UserRepository userRepository,
+      @required PaymentRepository paymentRepository})
       : _userRepository = userRepository,
         _paymentRepository = paymentRepository;
 
@@ -108,6 +111,10 @@ class PaymentViewModel extends ViewModel {
 
   void resetLoader() {
     _loader = Loader.idl;
+  }
+
+  void logTransaction(MerchantTransactionLog logData) {
+    _paymentRepository.logTransaction(logData);
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/pages/checkout/checkout_page.dart';
+import 'package:bootbay/src/pages/checkout/braintree/brain_tree_checkout_page.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
@@ -50,13 +49,14 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
     );
   }
 
-  Widget _submitButton(BuildContext context, WishListViewModel wishListViewViewModel) {
+  Widget _submitButton(
+      BuildContext context, WishListViewModel wishListViewViewModel) {
     return ElevatedButton(
         onPressed: () async {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CheckoutCartPage(
+              builder: (context) => BraintreeCheckoutCartPage(
                 finalAmount: wishListViewViewModel.finalAmount(),
                 itemIds: wishListViewViewModel.itemIds(),
                 currency: wishListViewViewModel.currency(),
@@ -114,13 +114,16 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
               ),
             )),
           ],
-          leading:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+          leading: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {}),
           centerTitle: true,
         ),
         body: Container(
           child: Consumer<WishListViewModel>(
-            builder: (BuildContext context, WishListViewModel productViewModel, Widget child) {
+            builder: (BuildContext context, WishListViewModel productViewModel,
+                Widget child) {
               return SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(

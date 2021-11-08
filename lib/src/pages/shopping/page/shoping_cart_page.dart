@@ -2,7 +2,7 @@ import 'package:bootbay/res.dart';
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/pages/checkout/checkout_page.dart';
+import 'package:bootbay/src/pages/checkout/braintree/brain_tree_checkout_page.dart';
 import 'package:bootbay/src/pages/shopping/page/cart_list_view.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
@@ -65,7 +65,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CheckoutCartPage(
+                builder: (context) => BraintreeCheckoutCartPage(
                   finalAmount: productViewModel.finalAmount(),
                   itemIds: productViewModel.itemIds(),
                   currency: productViewModel.currency(),
