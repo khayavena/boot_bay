@@ -116,6 +116,12 @@ class PaymentViewModel extends ViewModel {
   void logTransaction(MerchantTransactionLog logData) {
     _paymentRepository.logTransaction(logData);
   }
+
+  void setPaymentSuccess() {
+    paymentStatus = PaymentStatus.payment;
+    _loader = Loader.complete;
+    notifyListeners();
+  }
 }
 
 enum PaymentStatus { auth, payment }

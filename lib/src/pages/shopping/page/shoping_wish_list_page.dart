@@ -1,7 +1,8 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/pages/checkout/braintree/brain_tree_checkout_page.dart';
+import 'package:bootbay/src/pages/checkout/flutterwave/flutter_wave_checkout_page.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
@@ -20,10 +21,13 @@ class ShoppingWishListPage extends StatefulWidget {
 class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
   double price;
 
+  UserViewModel _userViewModel;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<WishListViewModel>(context, listen: false).getItems();
+      _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();
   }
@@ -53,19 +57,24 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
       BuildContext context, WishListViewModel wishListViewViewModel) {
     return ElevatedButton(
         onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BraintreeCheckoutCartPage(
-                finalAmount: wishListViewViewModel.finalAmount(),
-                itemIds: wishListViewViewModel.itemIds(),
-                currency: wishListViewViewModel.currency(),
-                merchantId: '5ee3bfbea1fbe46a462d6c4a',
+          var currrentUser = await _userViewModel.getCurrentUser();
+          if(currrentUser != null){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FlutterCheckoutPage(
+                  finalAmount: wishListViewViewModel.finalAmount(),
+                  itemIds: wishListViewViewModel.itemIds(),
+                  currency: wishListViewViewModel.currency(),
+                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                  currrentUser: currrentUser,
+                ),
+                // Pass the arguments as part of the RouteSettings. The
+                // DetailScreen reads the arguments from these settings.
               ),
-              // Pass the arguments as part of the RouteSettings. The
-              // DetailScreen reads the arguments from these settings.
-            ),
-          );
+            );
+          }
+
         },
         child: Container(
           alignment: Alignment.center,

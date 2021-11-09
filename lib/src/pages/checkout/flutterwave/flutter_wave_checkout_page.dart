@@ -2,9 +2,9 @@ import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/merchant_transaction_log.dart';
-import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
+import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
@@ -20,6 +20,7 @@ class FlutterCheckoutPage extends StatefulWidget {
   final String itemIds;
   final String currency;
   final String merchantId;
+  final UserProfile currrentUser;
 
   @override
   _FlutterCheckoutPageState createState() => _FlutterCheckoutPageState();
@@ -28,7 +29,8 @@ class FlutterCheckoutPage extends StatefulWidget {
       {@required this.finalAmount,
       @required this.itemIds,
       @required this.currency,
-      @required this.merchantId});
+      @required this.merchantId,
+      @required this.currrentUser});
 }
 
 class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
@@ -44,7 +46,7 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
       );
       _paymentViewModel.getToken(TokenRequest(
           merchantId: widget.merchantId,
-          customerId: '614999179',
+          customerId: widget.currrentUser.id,
           isAfrica: true));
     });
     super.initState();
@@ -62,7 +64,11 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
           case Loader.idl:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
-              beginPayment();
+              return paymentStatus('Authorized, ${_tokenResponse.orderId}');
+            }
+            if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
+              _tokenResponse = paymentViewModel.getTokenResponse;
+              return paymentStatus('Payment Successful', isSuccess: true);
             }
         }
         return paymentStatus('Please wait, loading');
@@ -85,25 +91,13 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(
-          height: 15,
-        ),
-        isSuccess == null ? WidgetLoader() : SizedBox()
+        ElevatedButton(
+            onPressed: () {
+              beginPayment();
+            },
+            child: Text("Continue")),
       ],
     );
-  }
-
-  void initiatePayment(String orderId, String paymentNonce, double amount,
-      String startTime, String merchantId, String itemIds, String deviceData) {
-    PaymentRequest request = PaymentRequest(
-        chargeAmount: amount,
-        orderId: orderId,
-        nonce: paymentNonce,
-        itemIds: itemIds,
-        merchantId: merchantId,
-        startTime: startTime,
-        deviceData: deviceData);
-    _paymentViewModel.pay(request);
   }
 
   void beginPayment() async {
@@ -113,11 +107,11 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
         publicKey: moduleLocator<EnvConfig>().wavePubKey,
         currency: widget.currency,
         amount: widget.finalAmount.toString(),
-        email: "valid@email.com",
-        fullName: "Valid Full Name",
+        email: widget.currrentUser.email,
+        fullName: widget.currrentUser.fullName,
         txRef: _tokenResponse.orderId,
         isDebugMode: true,
-        phoneNumber: "0123456789",
+        phoneNumber: '0640231798',
         acceptCardPayment: true,
         acceptUSSDPayment: false,
         acceptAccountPayment: false,
@@ -131,6 +125,7 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
     try {
       final ChargeResponse response =
           await flutterWave.initializeForUiPayments();
+
       if (response == null) {
         // user didn't complete the transaction.
       } else {
@@ -142,6 +137,7 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
               itemIds: widget.itemIds,
               amount: widget.finalAmount,
               status: 'success');
+          _paymentViewModel.setPaymentSuccess();
           _paymentViewModel.logTransaction(logData);
         } else {
           // check message
