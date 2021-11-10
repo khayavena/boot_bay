@@ -1,5 +1,6 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/checkout/flutterwave/flutter_wave_checkout_page.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
@@ -22,11 +23,13 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
   double price;
 
   UserViewModel _userViewModel;
+  List<Product> products;
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<WishListViewModel>(context, listen: false).getItems();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      products = await Provider.of<WishListViewModel>(context, listen: false)
+          .getItems();
       _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();
@@ -58,7 +61,7 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
     return ElevatedButton(
         onPressed: () async {
           var currrentUser = await _userViewModel.getCurrentUser();
-          if(currrentUser != null){
+          if (currrentUser != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -68,13 +71,13 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
                   currency: wishListViewViewModel.currency(),
                   merchantId: '5ee3bfbea1fbe46a462d6c4a',
                   currrentUser: currrentUser,
+                  products: products,
                 ),
                 // Pass the arguments as part of the RouteSettings. The
                 // DetailScreen reads the arguments from these settings.
               ),
             );
           }
-
         },
         child: Container(
           alignment: Alignment.center,

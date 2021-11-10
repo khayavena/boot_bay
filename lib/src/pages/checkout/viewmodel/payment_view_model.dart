@@ -3,6 +3,7 @@ import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
+import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/model/user_profile.dart';
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 class PaymentViewModel extends ViewModel {
   UserRepository _userRepository;
   PaymentRepository _paymentRepository;
-
+  List<Product> products = [];
   List<PaymentResponse> _payments = [];
   PaymentResponse _paymentResponse = PaymentResponse();
 
@@ -113,8 +114,20 @@ class PaymentViewModel extends ViewModel {
     _loader = Loader.idl;
   }
 
-  void logTransaction(MerchantTransactionLog logData) {
-    _paymentRepository.logTransaction(logData);
+  Future<void> logTransaction(MerchantTransactionLog logData) async {
+    _loader = Loader.busy;
+    paymentStatus = PaymentStatus.payment;
+    notifyListeners();
+    var results = await _paymentRepository.logTransaction(logData);
+    if (results != null) {
+
+    }
+    _loader = Loader.complete;
+    notifyListeners();
+  }
+
+  void setProducts(List<Product> products) {
+    this.products = products;
   }
 
   void setPaymentSuccess() {

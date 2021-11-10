@@ -1,18 +1,16 @@
-import 'package:bootbay/src/config/EnvConfig.dart';
-import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/model/merchant_transaction_log.dart';
+import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/flutterwave_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/checkout/widget/bill_product_row_widget.dart';
+import 'package:bootbay/src/wigets/currency_input_field.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutterwave/core/flutterwave.dart';
-import 'package:flutterwave/models/responses/charge_response.dart';
-import 'package:flutterwave/utils/flutterwave_constants.dart';
 import 'package:provider/provider.dart';
 
 class FlutterCheckoutPage extends StatefulWidget {
@@ -21,6 +19,7 @@ class FlutterCheckoutPage extends StatefulWidget {
   final String currency;
   final String merchantId;
   final UserProfile currrentUser;
+  final List<Product> products;
 
   @override
   _FlutterCheckoutPageState createState() => _FlutterCheckoutPageState();
@@ -30,11 +29,13 @@ class FlutterCheckoutPage extends StatefulWidget {
       @required this.itemIds,
       @required this.currency,
       @required this.merchantId,
-      @required this.currrentUser});
+      @required this.currrentUser,
+      @required this.products});
 }
 
 class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
   PaymentViewModel _paymentViewModel;
+  FlutterWaveViewModel _waveViewModel;
   TokenResponse _tokenResponse;
 
   @override
@@ -44,6 +45,12 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
         context,
         listen: false,
       );
+      _paymentViewModel?.products = widget.products;
+      _waveViewModel = Provider.of<FlutterWaveViewModel>(
+        context,
+        listen: false,
+      );
+
       _paymentViewModel.getToken(TokenRequest(
           merchantId: widget.merchantId,
           customerId: widget.currrentUser.id,
@@ -55,33 +62,35 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: Consumer<PaymentViewModel>(
-          builder: (BuildContext context, paymentViewModel, Widget child) {
-        switch (paymentViewModel.loader) {
-          case Loader.busy:
-            return WidgetLoader();
-          case Loader.complete:
-          case Loader.idl:
-            if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
-              _tokenResponse = paymentViewModel.getTokenResponse;
-              return paymentStatus('Authorized, ${_tokenResponse.orderId}');
-            }
-            if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
-              _tokenResponse = paymentViewModel.getTokenResponse;
-              return paymentStatus('Payment Successful', isSuccess: true);
-            }
-        }
-        return paymentStatus('Please wait, loading');
+      body: Container(child: Consumer2<PaymentViewModel, FlutterWaveViewModel>(
+          builder: (BuildContext context, payViewModel, waveViewModel,
+              Widget child) {
+        return _buildView(context, payViewModel, waveViewModel);
       })),
     );
   }
 
-  Widget paymentStatus(String status, {bool isSuccess}) {
+  Widget _buildBillWidget(
+      BuildContext context, PaymentViewModel payViewModel, String status,
+      {bool isSuccess}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         SizedBox(
           height: 80,
+        ),
+        Center(
+          child: TitleText(
+            text: "Your Bill",
+            fontSize: 22,
+            color: Colors.grey,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        CurrencyInputField(
+          initVue: widget.finalAmount,
+          onChanged: _onAmountChange,
+          symbol: "R-",
         ),
         Center(
           child: TitleText(
@@ -91,74 +100,54 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
             fontWeight: FontWeight.w600,
           ),
         ),
+        Expanded(
+            child: ListView(
+          padding: EdgeInsets.all(0),
+          children: payViewModel.products
+              .map((e) => BillProductRow(
+                    expense: e,
+                    currency: widget.currency,
+                    onDismissed: onDismissed,
+                    onUpdated: onUpdate,
+                  ))
+              .toList(),
+        )),
         ElevatedButton(
             onPressed: () {
-              beginPayment();
+              beginPayment(context);
             },
             child: Text("Continue")),
       ],
     );
   }
 
-  void beginPayment() async {
-    final Flutterwave flutterWave = Flutterwave.forUIPayment(
-        context: this.context,
-        encryptionKey: moduleLocator<EnvConfig>().waveEncryptKey,
-        publicKey: moduleLocator<EnvConfig>().wavePubKey,
-        currency: widget.currency,
-        amount: widget.finalAmount.toString(),
-        email: widget.currrentUser.email,
-        fullName: widget.currrentUser.fullName,
-        txRef: _tokenResponse.orderId,
-        isDebugMode: true,
-        phoneNumber: '0640231798',
-        acceptCardPayment: true,
-        acceptUSSDPayment: false,
-        acceptAccountPayment: false,
-        acceptFrancophoneMobileMoney: false,
-        acceptGhanaPayment: false,
-        acceptMpesaPayment: false,
-        acceptRwandaMoneyPayment: true,
-        acceptUgandaPayment: false,
-        acceptZambiaPayment: false);
+  void beginPayment(BuildContext context) async {
+    _waveViewModel.pay(context, widget.currrentUser, _tokenResponse.orderId,
+        widget.finalAmount, widget.currency, widget.itemIds, widget.merchantId);
+  }
 
-    try {
-      final ChargeResponse response =
-          await flutterWave.initializeForUiPayments();
-
-      if (response == null) {
-        // user didn't complete the transaction.
-      } else {
-        final isSuccessful = checkPaymentIsSuccessful(response);
-        if (isSuccessful) {
-          var logData = MerchantTransactionLog(
-              id: _tokenResponse.orderId,
-              merchantId: widget.merchantId,
-              itemIds: widget.itemIds,
-              amount: widget.finalAmount,
-              status: 'success');
-          _paymentViewModel.setPaymentSuccess();
-          _paymentViewModel.logTransaction(logData);
-        } else {
-          // check message
-          print(response.message);
-
-          // check status
-          print(response.status);
-
-          // check processor error
-          print(response.data.processorResponse);
-        }
-      }
-    } catch (error, stacktrace) {
-      // handleError(error);
+  Widget _buildView(BuildContext context, PaymentViewModel payViewModel,
+      FlutterWaveViewModel waveViewModel) {
+    if (payViewModel.loader == Loader.busy ||
+        waveViewModel.state == Loader.busy) {
+      return WidgetLoader();
     }
+    if (waveViewModel.state == Loader.complete) {
+      payViewModel.logTransaction(waveViewModel.transactionLog);
+      return _buildBillWidget(context, payViewModel, 'Payment Successful',
+          isSuccess: true);
+    }
+    if (payViewModel.paymentStatus == PaymentStatus.auth) {
+      _tokenResponse = payViewModel.getTokenResponse;
+      return _buildBillWidget(
+          context, payViewModel, 'Authorized, ${_tokenResponse.orderId}');
+    }
+    return _buildBillWidget(context, payViewModel, 'Please wait, loading');
   }
 
-  bool checkPaymentIsSuccessful(final ChargeResponse response) {
-    return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
-        response.data.currency == widget.currency &&
-        response.data.amount == widget.finalAmount &&
-        response.data.txRef == _tokenResponse.orderId;
-  }
+  void onUpdate(Product p1) {}
+
+  void onDismissed(Product p1) {}
+
+  void _onAmountChange(double value) {}
 }

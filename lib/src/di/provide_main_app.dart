@@ -3,6 +3,7 @@ import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/flutterwave_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
 import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
@@ -39,34 +40,47 @@ Future<void> provideMainApp(Flavor flavor) async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
-        ChangeNotifierProvider(create: (context) => DropDownValueChangeNotifier()),
+        ChangeNotifierProvider(
+            create: (context) => DropDownValueChangeNotifier()),
         ChangeNotifierProvider(create: (context) => BottomNavChangeNotifier()),
         ChangeNotifierProvider(create: (context) => ImageProviderViewModel()),
         ChangeNotifierProvider(
-            create: (context) => EntityAddressViewModel(addressRepository: moduleLocator<EntityAddressRepository>())),
+            create: (context) => EntityAddressViewModel(
+                addressRepository: moduleLocator<EntityAddressRepository>())),
         ChangeNotifierProvider(
-            create: (context) => ProductViewModel(productRepository: moduleLocator<ProductRepository>())),
-        ChangeNotifierProvider(create: (context) => CartViewModel(cartRepository: moduleLocator<CartRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => WishListViewModel(wishListRepository: moduleLocator<WishListRepository>())),
-        ChangeNotifierProvider(
-            create: (context) => MerchantViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
+            create: (context) => ProductViewModel(
+                productRepository: moduleLocator<ProductRepository>())),
         ChangeNotifierProvider(
             create: (context) =>
-                MediaViewModel(mediaContentRepository: moduleLocator<MediaContentRepository>())),
+                CartViewModel(cartRepository: moduleLocator<CartRepository>())),
         ChangeNotifierProvider(
-            create: (context) =>
-                MerchantRegistrationViewModel(merchantRepository: moduleLocator<MerchantRepository>())),
+            create: (context) => WishListViewModel(
+                wishListRepository: moduleLocator<WishListRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => MerchantViewModel(
+                merchantRepository: moduleLocator<MerchantRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => MediaViewModel(
+                mediaContentRepository:
+                    moduleLocator<MediaContentRepository>())),
+        ChangeNotifierProvider(
+            create: (context) => MerchantRegistrationViewModel(
+                merchantRepository: moduleLocator<MerchantRepository>())),
         ChangeNotifierProvider(
             create: (context) => UserViewModel(
                 userRepository: moduleLocator<UserRepository>(),
-                thirdPartyAuthRepository: moduleLocator<ThirdPartyAuthRepository>())),
+                thirdPartyAuthRepository:
+                    moduleLocator<ThirdPartyAuthRepository>())),
         ChangeNotifierProvider(
             create: (context) => PaymentViewModel(
                 userRepository: moduleLocator<UserRepository>(),
                 paymentRepository: moduleLocator<PaymentRepository>())),
         ChangeNotifierProvider(
-            create: (context) => CategoryViewModel(categoryRepository: moduleLocator<CategoryRepository>())),
+            create: (context) => CategoryViewModel(
+                categoryRepository: moduleLocator<CategoryRepository>())),
+        ChangeNotifierProvider(
+            create: (context) =>
+                FlutterWaveViewModel(envConfig: moduleLocator<EnvConfig>())),
       ],
       child: App(),
     ),
