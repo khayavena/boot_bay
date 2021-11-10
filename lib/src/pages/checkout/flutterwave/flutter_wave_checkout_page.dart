@@ -1,4 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
+import 'package:bootbay/src/helpers/ResColor.dart';
+import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
@@ -77,20 +79,25 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         SizedBox(
-          height: 80,
+          height: 25,
         ),
         Center(
-          child: TitleText(
-            text: "Your Bill",
-            fontSize: 22,
-            color: Colors.grey,
-            fontWeight: FontWeight.w600,
-          ),
+          child: Text('YOUR BILL',
+              style: TextStyle(
+                color: primaryBlackColor,
+                fontSize: 12,
+                fontWeight: largeFont,
+                fontStyle: FontStyle.normal,
+                letterSpacing: -0.6400000000000001,
+              )),
         ),
-        CurrencyInputField(
-          initVue: widget.finalAmount,
-          onChanged: _onAmountChange,
-          symbol: "R-",
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CurrencyInputField(
+            initVue: widget.finalAmount,
+            onChanged: _onAmountChange,
+            symbol: "R-",
+          ),
         ),
         Center(
           child: TitleText(
