@@ -18,7 +18,7 @@ class FlutterCheckoutPage extends StatefulWidget {
   final String itemIds;
   final String currency;
   final String merchantId;
-  final UserProfile currrentUser;
+  final UserProfile currentUser;
   final List<Product> products;
 
   @override
@@ -29,7 +29,7 @@ class FlutterCheckoutPage extends StatefulWidget {
       @required this.itemIds,
       @required this.currency,
       @required this.merchantId,
-      @required this.currrentUser,
+      @required this.currentUser,
       @required this.products});
 }
 
@@ -53,7 +53,7 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
 
       _paymentViewModel.getToken(TokenRequest(
           merchantId: widget.merchantId,
-          customerId: widget.currrentUser.id,
+          customerId: widget.currentUser.id,
           isAfrica: true));
     });
     super.initState();
@@ -122,7 +122,7 @@ class _FlutterCheckoutPageState extends State<FlutterCheckoutPage> {
   }
 
   void beginPayment(BuildContext context) async {
-    _waveViewModel.pay(context, widget.currrentUser, _tokenResponse.orderId,
+    _waveViewModel.pay(context, widget.currentUser, _tokenResponse.orderId,
         widget.finalAmount, widget.currency, widget.itemIds, widget.merchantId);
   }
 

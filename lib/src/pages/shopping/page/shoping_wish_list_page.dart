@@ -70,7 +70,7 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
                   itemIds: wishListViewViewModel.itemIds(),
                   currency: wishListViewViewModel.currency(),
                   merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                  currrentUser: currrentUser,
+                  currentUser: currrentUser,
                   products: products,
                 ),
                 // Pass the arguments as part of the RouteSettings. The
