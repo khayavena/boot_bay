@@ -119,9 +119,7 @@ class PaymentViewModel extends ViewModel {
     paymentStatus = PaymentStatus.payment;
     notifyListeners();
     var results = await _paymentRepository.logTransaction(logData);
-    if (results != null) {
-
-    }
+    if (results != null) {}
     _loader = Loader.complete;
     notifyListeners();
   }
@@ -134,6 +132,21 @@ class PaymentViewModel extends ViewModel {
     paymentStatus = PaymentStatus.payment;
     _loader = Loader.complete;
     notifyListeners();
+  }
+  String getPamentText(){
+    switch(_loader){
+
+      case Loader.error:
+        return 'Pay Error';
+        break;
+      case Loader.busy:
+       return 'Pay Busy';
+      case Loader.complete:
+        return 'Pay Done';
+      case Loader.idl:
+        return 'Pay Idle';
+
+    }
   }
 }
 

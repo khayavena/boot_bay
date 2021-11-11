@@ -1,14 +1,19 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/model/payment_request.dart';
+import 'package:bootbay/src/helpers/ResFont.dart';
+import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
+import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/braintree_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/checkout/widget/bill_product_row_widget.dart';
+import 'package:bootbay/src/pages/checkout/widget/card_to_spend_widget.dart';
+import 'package:bootbay/src/pages/checkout/widget/payment_metho_action_widget.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:provider/provider.dart';
 
 class BraintreeCheckoutCartPage extends StatefulWidget {
@@ -16,6 +21,8 @@ class BraintreeCheckoutCartPage extends StatefulWidget {
   final String itemIds;
   final String currency;
   final String merchantId;
+  final UserProfile profile;
+  final List<Product> products;
 
   @override
   _BraintreeCheckoutCartPageState createState() =>
@@ -25,12 +32,16 @@ class BraintreeCheckoutCartPage extends StatefulWidget {
       {@required this.finalAmount,
       @required this.itemIds,
       @required this.currency,
-      @required this.merchantId});
+      @required this.merchantId,
+      @required this.profile,
+      @required this.products});
 }
 
 class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
   PaymentViewModel _paymentViewModel;
   TokenResponse _tokenResponse;
+
+  BrainTreeViewModel _brainTreeViewModel;
 
   @override
   void initState() {
@@ -39,10 +50,15 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
         context,
         listen: false,
       );
+      _brainTreeViewModel = Provider.of<BrainTreeViewModel>(
+        context,
+        listen: false,
+      );
       _paymentViewModel.getToken(TokenRequest(
           merchantId: widget.merchantId,
-          customerId: '614999179',
+          customerId: widget.profile.customerId,
           isAfrica: false));
+      _paymentViewModel.products = widget.products;
     });
     super.initState();
   }
@@ -50,52 +66,25 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: Consumer<PaymentViewModel>(
-          builder: (BuildContext context, paymentViewModel, Widget child) {
+      body: Container(child: Consumer2<PaymentViewModel, BrainTreeViewModel>(
+          builder: (BuildContext context, paymentViewModel, brainTreeViewModel,
+              Widget child) {
         switch (paymentViewModel.loader) {
           case Loader.busy:
             return WidgetLoader();
           case Loader.complete:
-          case Loader.idl:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
-              loadPaymentMethod(paymentViewModel.getTokenResponse);
-            } else {
-              bool value = paymentViewModel.getPaymentResponse.status;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                      child: paymentStatus(
-                          paymentViewModel.getPaymentResponse.message,
-                          isSuccess: value)),
-                  Container(
-                      width: 100, height: 100, child: Image.asset(Res.success)),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Center(
-                    child: TitleText(
-                      text: paymentViewModel.getPaymentResponse.currency +
-                          "-" +
-                          paymentViewModel.getPaymentResponse.totalAmount
-                              .toStringAsFixed(2)
-                              .toString(),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Center(
-                      child: TitleText(
-                    text:
-                        "Payment Id: " + paymentViewModel.getPaymentResponse.id,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w600,
-                  ))
-                ],
-              );
+              // if (brainTreeViewModel.state != Loader.complete) {
+              //   loadPaymentMethod(
+              //       paymentViewModel.getTokenResponse, brainTreeViewModel);
+              // }
+
+              return _buildBillWidget(
+                  context, paymentViewModel, 'Authorized', brainTreeViewModel);
+            }
+            if (paymentViewModel.paymentStatus == PaymentStatus.payment) {
+              return _buildPaymentSuccess(paymentViewModel);
             }
             break;
           case Loader.error:
@@ -138,47 +127,103 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
     );
   }
 
-  void loadPaymentMethod(TokenResponse tokenResponse) async {
-    final request = buildRequest(tokenResponse.token);
-    BraintreeDropInResult result = await BraintreeDropIn.start(request);
-    if (result != null) {
-      initiatePayment(
-          tokenResponse.orderId,
-          result.paymentMethodNonce.nonce,
-          widget.finalAmount,
-          tokenResponse.startTime,
-          widget.merchantId,
-          widget.itemIds,
-          result.deviceData);
-    }
+  void loadPaymentMethod(TokenResponse tokenResponse,
+      BrainTreeViewModel brainTreeViewModel) async {
+    await _brainTreeViewModel.authorizePay(_tokenResponse, widget.finalAmount,
+        widget.currency, widget.itemIds, widget.merchantId);
   }
 
-  void initiatePayment(String orderId, String paymentNonce, double amount,
-      String startTime, String merchantId, String itemIds, String deviceData) {
-    PaymentRequest request = PaymentRequest(
-        chargeAmount: amount,
-        orderId: orderId,
-        nonce: paymentNonce,
-        itemIds: itemIds,
-        merchantId: merchantId,
-        startTime: startTime,
-        deviceData: deviceData);
-    _paymentViewModel.pay(request);
-  }
-
-  BraintreeDropInRequest buildRequest(String token) {
-    return BraintreeDropInRequest(
-      clientToken: token,
-      collectDeviceData: true,
-      googlePaymentRequest: BraintreeGooglePaymentRequest(
-        totalPrice: widget.finalAmount.toStringAsFixed(2),
-        currencyCode: widget.currency,
-        billingAddressRequired: false,
-      ),
-      paypalRequest: BraintreePayPalRequest(
-        amount: widget.finalAmount.toString(),
-        displayName: 'Digi Titan',
-      ),
+  Widget _buildPaymentSuccess(PaymentViewModel paymentViewModel) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Center(
+            child: paymentStatus(paymentViewModel.getPaymentResponse.message,
+                isSuccess: paymentViewModel.getPaymentResponse.status)),
+        Container(width: 100, height: 100, child: Image.asset(Res.success)),
+        SizedBox(
+          height: 50,
+        ),
+        Center(
+          child: TitleText(
+            text: paymentViewModel.getPaymentResponse.currency +
+                "-" +
+                paymentViewModel.getPaymentResponse.totalAmount
+                    .toStringAsFixed(2)
+                    .toString(),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Center(
+            child: TitleText(
+          text: "Payment Id: " + paymentViewModel.getPaymentResponse.id,
+          color: Colors.grey,
+          fontWeight: FontWeight.w600,
+        ))
+      ],
     );
   }
+
+  Widget _buildBillWidget(BuildContext context, PaymentViewModel payViewModel,
+      String status, BrainTreeViewModel brainTreeViewModel,
+      {bool isSuccess}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 50, bottom: 16),
+            child: Text('YOUR BILL',
+                style: TextStyle(
+                  color: Color(0xff2783a9),
+                  fontSize: 25,
+                  fontWeight: mediumFont,
+                  fontStyle: FontStyle.normal,
+                  letterSpacing: -0.6400000000000001,
+                )),
+          ),
+        ),
+        CardToSpend(leftToSpend: widget.finalAmount, currency: widget.currency),
+        InkWell(
+          onTap: () {
+            loadPaymentMethod(
+                payViewModel.getTokenResponse, brainTreeViewModel);
+          },
+          child: SelectPayMethodRow(
+            title: "Select Payment Method",
+          ),
+        ),
+        Expanded(
+            child: ListView(
+          padding: EdgeInsets.all(0),
+          children: payViewModel.products
+              .map((e) => BillProductRow(
+                    expense: e,
+                    currency: widget.currency,
+                    onDismissed: onDismissed,
+                    onUpdated: onUpdate,
+                  ))
+              .toList(),
+        )),
+        ElevatedButton(
+            onPressed: () {
+              beginPayment(context);
+            },
+            child: Text("Continue")),
+      ],
+    );
+  }
+
+  onDismissed(Product p1) {}
+
+  onUpdate(Product p1) {}
+
+  void beginPayment(BuildContext context) {
+    _paymentViewModel.pay(_brainTreeViewModel.finalRequest);
+  }
+
+  void _onAmountChange(double value) {}
 }

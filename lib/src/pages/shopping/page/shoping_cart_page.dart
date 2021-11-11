@@ -6,9 +6,9 @@ import 'package:bootbay/src/pages/checkout/braintree/brain_tree_checkout_page.da
 import 'package:bootbay/src/pages/shopping/page/cart_list_view.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
+import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:bootbay/src/themes/theme.dart';
-import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -31,7 +31,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<CartViewModel>(context, listen: false).getCatItems();
-      wishListViewModel = Provider.of<WishListViewModel>(context, listen: false);
+      wishListViewModel =
+          Provider.of<WishListViewModel>(context, listen: false);
       _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();
@@ -62,15 +63,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return ElevatedButton(
         onPressed: () async {
           if (_userViewModel.isLoggedIn()) {
+            var user = await _userViewModel.getCurrentUser();
+            var items = await productViewModel.getCatItems();
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => BraintreeCheckoutCartPage(
-                  finalAmount: productViewModel.finalAmount(),
-                  itemIds: productViewModel.itemIds(),
-                  currency: productViewModel.currency(),
-                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                ),
+                    finalAmount: productViewModel.finalAmount(),
+                    itemIds: productViewModel.itemIds(),
+                    currency: productViewModel.currency(),
+                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                    profile: user,
+                    products: items),
                 // Pass the arguments as part of the RouteSettings. The
                 // DetailScreen reads the arguments from these settings.
               ),
@@ -79,20 +83,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             Navigator.pushNamed(context, AppRouting.loginPage);
           }
         },
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 12),
-          width: AppTheme.fullWidth(context) * .8,
-          height: 50,
-          decoration: buttonDecorator,
-          child: Text(
-            'PAY ZAR ${productViewModel.roundAmount()}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontFamily: 'SFProText',
-              fontWeight: FontWeight.w700,
-            ),
+        child: Text(
+          'PAY ZAR ${productViewModel.roundAmount()}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontFamily: 'SFProText',
+            fontWeight: FontWeight.w700,
           ),
         ));
   }
@@ -127,13 +124,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               ),
             )),
           ],
-          leading:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+          leading: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {}),
           centerTitle: true,
         ),
         body: Container(
           child: Consumer<CartViewModel>(
-            builder: (BuildContext context, CartViewModel productViewModel, Widget child) {
+            builder: (BuildContext context, CartViewModel productViewModel,
+                Widget child) {
               return SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(

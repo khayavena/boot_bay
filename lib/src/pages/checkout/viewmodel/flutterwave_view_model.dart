@@ -86,9 +86,9 @@ class FlutterWaveViewModel extends ChangeNotifier {
         response.data.txRef == orderId;
   }
 
-  Loader get state => _state;
-
   MerchantTransactionLog get transactionLog => _transactionLog;
+
+  Loader get state => _state;
 
   void setState(Loader state) {
     _state = state;

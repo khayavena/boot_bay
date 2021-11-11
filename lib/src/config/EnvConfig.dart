@@ -15,6 +15,8 @@ class EnvConfig {
   String wavePubKey;
   String waveEncryptKey;
   String waveSecretKey;
+  String yocoPubKey;
+  String yocoSecretKey;
 
   EnvConfig(
       {this.appKey,
@@ -30,7 +32,9 @@ class EnvConfig {
       this.mapBoxKey,
       this.wavePubKey,
       this.waveEncryptKey,
-      this.waveSecretKey});
+      this.waveSecretKey,
+      this.yocoPubKey,
+      this.yocoSecretKey});
 
   factory EnvConfig.fromJson(Map<String, dynamic> json) => EnvConfig(
         appKey: json['appKey'] as String,
@@ -47,5 +51,7 @@ class EnvConfig {
         wavePubKey: json['wavePubKey'],
         waveEncryptKey: json['waveEncryptKey'],
         waveSecretKey: json['waveSecretKey'],
+        yocoPubKey: json['yocoPubKey'],
+        yocoSecretKey: json['yocoSecretKey'],
       );
 }

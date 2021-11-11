@@ -3,6 +3,7 @@ import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/braintree_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/flutterwave_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
@@ -81,6 +82,7 @@ Future<void> provideMainApp(Flavor flavor) async {
         ChangeNotifierProvider(
             create: (context) =>
                 FlutterWaveViewModel(envConfig: moduleLocator<EnvConfig>())),
+        ChangeNotifierProvider(create: (context) => BrainTreeViewModel()),
       ],
       child: App(),
     ),

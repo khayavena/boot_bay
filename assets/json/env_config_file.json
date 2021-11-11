@@ -13,6 +13,8 @@
     "receiveTimeout": 10000,
     "wavePubKey": "FLWPUBK_TEST-422f46982e908250b5b14af0a70e883c-X",
     "waveEncryptKey": "FLWSECK_TEST4258ba104ccb",
-    "waveSecretKey": "FLWSECK_TEST-b6e7c5e9b40538526b8a3514390874ca-X"
+    "waveSecretKey": "FLWSECK_TEST-b6e7c5e9b40538526b8a3514390874ca-X",
+    "yocoPubKey": "pk_test_4cff43ab0z9K97O92974",
+    "yocoSecretKey": "sk_test_d19e2cb6O90b0nea2814605865c6"
   }
 }
