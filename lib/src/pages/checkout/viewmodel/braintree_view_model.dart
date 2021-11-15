@@ -14,6 +14,7 @@ class BrainTreeViewModel extends ChangeNotifier {
     setState(Loader.busy);
     final request = _buildRequest(token.token, finalAmount, currency);
     var result = await BraintreeDropIn.start(request);
+
     if (result != null) {
       _request = PaymentRequest(
           chargeAmount: finalAmount,
@@ -35,6 +36,8 @@ class BrainTreeViewModel extends ChangeNotifier {
       maskCardNumber: true,
       clientToken: token,
       collectDeviceData: true,
+      vaultManagerEnabled: true,
+      cardEnabled: true,
       googlePaymentRequest: BraintreeGooglePaymentRequest(
         totalPrice: finalAmount.toStringAsFixed(2),
         currencyCode: currency,

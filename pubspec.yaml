@@ -54,6 +54,7 @@ flutter:
     - assets/fonts/signika_regular.ttf
     - assets/fonts/signika_semi_bold.ttf
     - assets/html/brainTreeDropIn.html
+    - assets/html/yocoDropIn.html
     - assets/images/account_ic.png
     - assets/images/android_new_logo.jpg
     - assets/images/cart_ic.png

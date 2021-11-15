@@ -6,6 +6,7 @@ import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/braintree_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/flutterwave_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';
 import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
 import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
@@ -83,6 +84,9 @@ Future<void> provideMainApp(Flavor flavor) async {
             create: (context) =>
                 FlutterWaveViewModel(envConfig: moduleLocator<EnvConfig>())),
         ChangeNotifierProvider(create: (context) => BrainTreeViewModel()),
+        ChangeNotifierProvider(
+            create: (context) =>
+                YocoViewModel(moduleLocator<EnvConfig>().yocoPubKey)),
       ],
       child: App(),
     ),

@@ -1,7 +1,9 @@
 import 'package:bootbay/res.dart';
+import 'package:bootbay/src/config/EnvConfig.dart';
+import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/checkout/flutterwave/flutter_wave_checkout_page.dart';
+import 'package:bootbay/src/pages/checkout/braintree/yoco_web_drop_in_page.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/themes/light_color.dart';
@@ -60,19 +62,23 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
       BuildContext context, WishListViewModel wishListViewViewModel) {
     return ElevatedButton(
         onPressed: () async {
-          var currrentUser = await _userViewModel.getCurrentUser();
-          if (currrentUser != null) {
+          var currentUser = await _userViewModel.getCurrentUser();
+
+          var buildRequest = await buildUrl(
+              wishListViewViewModel.finalAmount(),
+              wishListViewViewModel.currency(),
+              moduleLocator<EnvConfig>().yocoPubKey);
+
+          if (currentUser != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FlutterCheckoutPage(
-                  finalAmount: wishListViewViewModel.finalAmount(),
-                  itemIds: wishListViewViewModel.itemIds(),
-                  currency: wishListViewViewModel.currency(),
-                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                  currentUser: currrentUser,
-                  products: products,
-                ),
+                builder: (context) => YocoWebDropInPage(
+                    finalAmount: wishListViewViewModel.finalAmount(),
+                    itemIds: wishListViewViewModel.itemIds(),
+                    currency: wishListViewViewModel.currency(),
+                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                    url: buildRequest),
                 // Pass the arguments as part of the RouteSettings. The
                 // DetailScreen reads the arguments from these settings.
               ),

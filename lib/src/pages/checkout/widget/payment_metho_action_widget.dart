@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class SelectPayMethodRow extends StatelessWidget {
   final String title;
+  final String cardMask;
 
-  const SelectPayMethodRow({Key key, this.title}) : super(key: key);
+  const SelectPayMethodRow({Key key, this.title, this.cardMask}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SelectPayMethodRow extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          title,
+          cardMask,
           style: TextStyle(
             color: Color(0xff2783a9),
             fontSize: 12,

@@ -1,12 +1,16 @@
 import 'package:bootbay/res.dart';
+import 'package:bootbay/src/config/EnvConfig.dart';
+import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/pages/checkout/braintree/yoco_web_drop_in_page.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/braintree_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
+import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';
 import 'package:bootbay/src/pages/checkout/widget/bill_product_row_widget.dart';
 import 'package:bootbay/src/pages/checkout/widget/card_to_spend_widget.dart';
 import 'package:bootbay/src/pages/checkout/widget/payment_metho_action_widget.dart';
@@ -192,9 +196,37 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
             loadPaymentMethod(
                 payViewModel.getTokenResponse, brainTreeViewModel);
           },
-          child: SelectPayMethodRow(
-            title: "Select Payment Method",
-          ),
+          child: Consumer<YocoViewModel>(
+              builder: (BuildContext context, yocoViewModel, Widget child) {
+            return InkWell(
+              onTap: () async {
+                var buildRequest = await buildUrl(
+                    widget.finalAmount,
+                    widget.currency,
+                    moduleLocator<EnvConfig>().yocoPubKey);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => YocoWebDropInPage(
+                        finalAmount: widget.finalAmount,
+                        itemIds: widget.itemIds,
+                        currency: widget.currency,
+                        merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                        url: buildRequest),
+                    // Pass the arguments as part of the RouteSettings. The
+                    // DetailScreen reads the arguments from these settings.
+                  ),
+                );
+              },
+              child: SelectPayMethodRow(
+                title: yocoViewModel?.yocoPayMethod?.yocoToken?.source?.brand ??
+                    "Select Payment Method",
+                cardMask:
+                    yocoViewModel?.yocoPayMethod?.yocoToken?.source?.maskedCard ??
+                        'Not card selected',
+              ),
+            );
+          }),
         ),
         Expanded(
             child: ListView(

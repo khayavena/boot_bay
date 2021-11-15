@@ -5,6 +5,7 @@ class Res {
   static const String signika_regular = "assets/fonts/signika_regular.ttf";
   static const String signika_semi_bold = "assets/fonts/signika_semi_bold.ttf";
   static const String brainTreeDropIn = "assets/html/brainTreeDropIn.html";
+  static const String yocoDropIn = "assets/html/yocoDropIn.html";
   static const String account_ic = "assets/images/account_ic.png";
   static const String android_new_logo = "assets/images/android_new_logo.jpg";
   static const String cart_ic = "assets/images/cart_ic.png";
