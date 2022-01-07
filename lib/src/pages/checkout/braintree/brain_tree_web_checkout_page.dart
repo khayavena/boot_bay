@@ -118,7 +118,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
         itemIds: itemIds,
         merchantId: merchantId,
         startTime: startTime,
-        deviceData: deviceData);
+        deviceData: deviceData, currency: '');
     _paymentViewModel.pay(request);
   }
 }

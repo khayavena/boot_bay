@@ -47,6 +47,8 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
 
   BrainTreeViewModel _brainTreeViewModel;
 
+  YocoViewModel _yokoViewModel;
+
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -55,6 +57,10 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
         listen: false,
       );
       _brainTreeViewModel = Provider.of<BrainTreeViewModel>(
+        context,
+        listen: false,
+      );
+      _yokoViewModel = Provider.of<YocoViewModel>(
         context,
         listen: false,
       );
@@ -79,10 +85,6 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
           case Loader.complete:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
-              // if (brainTreeViewModel.state != Loader.complete) {
-              //   loadPaymentMethod(
-              //       paymentViewModel.getTokenResponse, brainTreeViewModel);
-              // }
 
               return _buildBillWidget(
                   context, paymentViewModel, 'Authorized', brainTreeViewModel);
@@ -131,7 +133,7 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
     );
   }
 
-  void loadPaymentMethod(TokenResponse tokenResponse,
+  void loadBrainTreeMethod(TokenResponse tokenResponse,
       BrainTreeViewModel brainTreeViewModel) async {
     await _brainTreeViewModel.authorizePay(_tokenResponse, widget.finalAmount,
         widget.currency, widget.itemIds, widget.merchantId);
@@ -191,43 +193,50 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
           ),
         ),
         CardToSpend(leftToSpend: widget.finalAmount, currency: widget.currency),
-        InkWell(
-          onTap: () {
-            loadPaymentMethod(
-                payViewModel.getTokenResponse, brainTreeViewModel);
-          },
-          child: Consumer<YocoViewModel>(
-              builder: (BuildContext context, yocoViewModel, Widget child) {
-            return InkWell(
-              onTap: () async {
-                var buildRequest = await buildUrl(
-                    widget.finalAmount,
-                    widget.currency,
-                    moduleLocator<EnvConfig>().yocoPubKey);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => YocoWebDropInPage(
-                        finalAmount: widget.finalAmount,
-                        itemIds: widget.itemIds,
-                        currency: widget.currency,
-                        merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                        url: buildRequest),
-                    // Pass the arguments as part of the RouteSettings. The
-                    // DetailScreen reads the arguments from these settings.
-                  ),
-                );
-              },
-              child: SelectPayMethodRow(
-                title: yocoViewModel?.yocoPayMethod?.yocoToken?.source?.brand ??
-                    "Select Payment Method",
-                cardMask:
-                    yocoViewModel?.yocoPayMethod?.yocoToken?.source?.maskedCard ??
-                        'Not card selected',
-              ),
-            );
-          }),
-        ),
+        Consumer<YocoViewModel>(
+            builder: (BuildContext context, yocoViewModel, Widget child) {
+          if (yocoViewModel.yocoPayMethod != null) {
+            yocoViewModel.buildPay(
+                _tokenResponse,
+                widget.finalAmount,
+                widget.currency,
+                widget.itemIds,
+                widget.merchantId,
+                yocoViewModel.yocoPayMethod.yocoToken.id);
+          }
+
+          return InkWell(
+            onTap: () async {
+              if (widget.currency != "ZAR") {
+                loadBrainTreeMethod(
+                    payViewModel.getTokenResponse, brainTreeViewModel);
+                return;
+              }
+              var buildRequest = await buildUrl(widget.finalAmount,
+                  widget.currency, moduleLocator<EnvConfig>().yocoPubKey);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => YocoWebDropInPage(
+                      finalAmount: widget.finalAmount,
+                      itemIds: widget.itemIds,
+                      currency: widget.currency,
+                      merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                      url: buildRequest),
+                  // Pass the arguments as part of the RouteSettings. The
+                  // DetailScreen reads the arguments from these settings.
+                ),
+              );
+            },
+            child: SelectPayMethodRow(
+              title: yocoViewModel?.yocoPayMethod?.yocoToken?.source?.brand ??
+                  "Select Payment Method",
+              cardMask:
+                  yocoViewModel?.yocoPayMethod?.yocoToken?.source?.maskedCard ??
+                      'Not card selected',
+            ),
+          );
+        }),
         Expanded(
             child: ListView(
           padding: EdgeInsets.all(0),
@@ -254,7 +263,7 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
   onUpdate(Product p1) {}
 
   void beginPayment(BuildContext context) {
-    _paymentViewModel.pay(_brainTreeViewModel.finalRequest);
+    _paymentViewModel.pay(_yokoViewModel.finalRequest);
   }
 
   void _onAmountChange(double value) {}

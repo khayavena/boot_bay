@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class YocoWebDropInPage extends StatefulWidget {
+class WaveWebDropInPage extends StatefulWidget {
   static const String TOKEN_AUTHORIZATION = "token_authorization";
   final double finalAmount;
   final String itemIds;
@@ -16,7 +16,7 @@ class YocoWebDropInPage extends StatefulWidget {
   final String merchantId;
   String url;
 
-  YocoWebDropInPage(
+  WaveWebDropInPage(
       {this.finalAmount,
       this.itemIds,
       this.currency,
@@ -24,10 +24,10 @@ class YocoWebDropInPage extends StatefulWidget {
       this.url});
 
   @override
-  _YocoWebDropInPageState createState() => _YocoWebDropInPageState();
+  _WaveWebDropInPageState createState() => _WaveWebDropInPageState();
 }
 
-class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
+class _WaveWebDropInPageState extends State<WaveWebDropInPage> {
   YocoViewModel yocoViewModel;
 
   @override
@@ -65,7 +65,7 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
               },
             ),
           );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
           break;
       }
       return WebView(
@@ -84,7 +84,7 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
                   default:
                     var json = jsonDecode(result.message);
                     print(json);
-                    String error = json['error']?? null;
+                    String error = json['error'] ?? null;
                     if (error == null) {
                       vm.fromJson(json);
                       Navigator.pop(context);

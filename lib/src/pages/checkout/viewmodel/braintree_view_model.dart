@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 
 class BrainTreeViewModel extends ChangeNotifier {
+  static const String GATE_WAY = "braintree";
   PaymentRequest _request;
 
   Loader _state = Loader.idl;
@@ -23,7 +24,11 @@ class BrainTreeViewModel extends ChangeNotifier {
           itemIds: itemIds,
           merchantId: merchantId,
           startTime: DateTime.now().toString(),
-          deviceData: result.deviceData);
+          deviceData: result.deviceData,
+          gateWay: GATE_WAY,
+          currency: currency,
+          chargeAmountInCents:
+              finalAmount.toStringAsFixed(2).toString().replaceAll(".", ""));
       setState(Loader.complete);
     } else {
       setState(Loader.error);

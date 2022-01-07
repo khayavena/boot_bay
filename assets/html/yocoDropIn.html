@@ -5,7 +5,11 @@
     <title>Checkout</title>
     <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
 </head>
+<h1>Pay Now</h1>
+
 <body>
+
+<!-- classes in square brackets will be allied based on field and form state -->
 <form id="payment-form" method="POST">
     <div class="one-liner">
         <div id="card-frame">
@@ -16,11 +20,13 @@
     </div>
     <p class="success-payment-message"/>
 </form>
+
 <script>
 
     const sdk = new window.YocoSDK({
         publicKey: yocoPubKey
     });
+    // var inline = sdk.inline({ layout: 'plain|basic|field' });
     const inline = sdk.inline({
         layout: 'basic',
         amountInCents: payAmount,

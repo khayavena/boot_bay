@@ -9,7 +9,6 @@ class YocoToken {
   YocoToken({this.id, this.source, this.sourceType, this.status});
 
   YocoToken.fromJson( json)
-
       : id = json['id'] ?? '',
         source = Source.fromJson(json['source']),
         sourceType = json['sourceType'],
