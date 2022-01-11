@@ -83,8 +83,7 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
                     break;
                   default:
                     var json = jsonDecode(result.message);
-                    print(json);
-                    String error = json['error']?? null;
+                    String error = json['error'] ?? null;
                     if (error == null) {
                       vm.fromJson(json);
                       Navigator.pop(context);
