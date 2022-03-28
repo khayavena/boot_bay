@@ -4,6 +4,30 @@
     <meta charset="utf-8">
     <title>Checkout</title>
     <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+    <style>
+        .button {
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        .button1 {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+        }
+        .button1:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+
 </head>
 <h1>Pay Now</h1>
 
@@ -14,9 +38,9 @@
     <div class="one-liner">
         <div id="card-frame">
         </div>
-        <button id="pay-button">
-            PAY ZAR 24.99
-        </button>
+        <div style="display: table-cell; vertical-align: middle; text-align: center;">
+            <button id="pay-button" class="button button1">Authorise</button>
+        </div>
     </div>
     <p class="success-payment-message"/>
 </form>
@@ -33,6 +57,7 @@
         currency: currencySymbol
     });
     inline.mount('#card-frame')
+
 </script>
 <script>
     const form = document.getElementById('payment-form');

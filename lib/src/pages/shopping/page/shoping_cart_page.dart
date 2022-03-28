@@ -2,7 +2,6 @@ import 'package:bootbay/res.dart';
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/pages/checkout/braintree/brain_tree_checkout_page.dart';
 import 'package:bootbay/src/pages/shopping/page/cart_list_view.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
@@ -13,6 +12,8 @@ import 'package:bootbay/src/wigets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+
+import '../../checkout/braintree/checkout_page.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   ShoppingCartPage({Key key}) : super(key: key);
@@ -68,7 +69,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BraintreeCheckoutCartPage(
+                builder: (context) => CheckoutCartPage(
                     finalAmount: productViewModel.finalAmount(),
                     itemIds: productViewModel.itemIds(),
                     currency: productViewModel.currency(),

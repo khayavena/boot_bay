@@ -8,7 +8,6 @@ import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/pages/checkout/braintree/yoco_web_drop_in_page.dart';
-import 'package:bootbay/src/pages/checkout/viewmodel/braintree_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';
 import 'package:bootbay/src/pages/checkout/widget/bill_product_row_widget.dart';
@@ -20,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class BraintreeCheckoutCartPage extends StatefulWidget {
+class CheckoutCartPage extends StatefulWidget {
   final double finalAmount;
   final String itemIds;
   final String currency;
@@ -29,10 +28,9 @@ class BraintreeCheckoutCartPage extends StatefulWidget {
   final List<Product> products;
 
   @override
-  _BraintreeCheckoutCartPageState createState() =>
-      _BraintreeCheckoutCartPageState();
+  _CheckoutCartPageState createState() => _CheckoutCartPageState();
 
-  BraintreeCheckoutCartPage(
+  CheckoutCartPage(
       {@required this.finalAmount,
       @required this.itemIds,
       @required this.currency,
@@ -41,22 +39,15 @@ class BraintreeCheckoutCartPage extends StatefulWidget {
       @required this.products});
 }
 
-class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
+class _CheckoutCartPageState extends State<CheckoutCartPage> {
   PaymentViewModel _paymentViewModel;
   TokenResponse _tokenResponse;
-
-  BrainTreeViewModel _brainTreeViewModel;
-
   YocoViewModel _yokoViewModel;
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _paymentViewModel = Provider.of<PaymentViewModel>(
-        context,
-        listen: false,
-      );
-      _brainTreeViewModel = Provider.of<BrainTreeViewModel>(
         context,
         listen: false,
       );
@@ -76,18 +67,19 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(child: Consumer2<PaymentViewModel, BrainTreeViewModel>(
-          builder: (BuildContext context, paymentViewModel, brainTreeViewModel,
-              Widget child) {
+      body: Container(child: Consumer<PaymentViewModel>(
+          builder: (BuildContext context, paymentViewModel, Widget child) {
         switch (paymentViewModel.loader) {
           case Loader.busy:
             return WidgetLoader();
           case Loader.complete:
             if (paymentViewModel.paymentStatus == PaymentStatus.auth) {
               _tokenResponse = paymentViewModel.getTokenResponse;
-
               return _buildBillWidget(
-                  context, paymentViewModel, 'Authorized', brainTreeViewModel);
+                context,
+                paymentViewModel,
+                'Authorized',
+              );
             }
             if (paymentViewModel.paymentStatus == PaymentStatus.payment) {
               return _buildPaymentSuccess(paymentViewModel);
@@ -133,11 +125,9 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
     );
   }
 
-  void loadBrainTreeMethod(TokenResponse tokenResponse,
-      BrainTreeViewModel brainTreeViewModel) async {
-    await _brainTreeViewModel.authorizePay(_tokenResponse, widget.finalAmount,
-        widget.currency, widget.itemIds, widget.merchantId);
-  }
+  void loadBrainTreeMethod(
+    TokenResponse tokenResponse,
+  ) async {}
 
   Widget _buildPaymentSuccess(PaymentViewModel paymentViewModel) {
     return Column(
@@ -173,8 +163,8 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
     );
   }
 
-  Widget _buildBillWidget(BuildContext context, PaymentViewModel payViewModel,
-      String status, BrainTreeViewModel brainTreeViewModel,
+  Widget _buildBillWidget(
+      BuildContext context, PaymentViewModel payViewModel, String status,
       {bool isSuccess}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -207,11 +197,6 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
 
           return InkWell(
             onTap: () async {
-              if (widget.currency != "ZAR") {
-                loadBrainTreeMethod(
-                    payViewModel.getTokenResponse, brainTreeViewModel);
-                return;
-              }
               var buildRequest = await buildUrl(widget.finalAmount,
                   widget.currency, moduleLocator<EnvConfig>().yocoPubKey);
               Navigator.push(
@@ -265,6 +250,4 @@ class _BraintreeCheckoutCartPageState extends State<BraintreeCheckoutCartPage> {
   void beginPayment(BuildContext context) {
     _paymentViewModel.pay(_yokoViewModel.finalRequest);
   }
-
-  void _onAmountChange(double value) {}
 }

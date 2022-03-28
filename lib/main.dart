@@ -8,7 +8,7 @@ void main() async {
   provideMainApp(Flavor.DEV);
 }
 
-class App extends StatelessWidget {
+class BootApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
