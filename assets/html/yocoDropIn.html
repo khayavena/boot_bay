@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
+    <title>Authorise Payment</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta charset="utf-8">
     <title>Checkout</title>
     <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
@@ -26,6 +28,7 @@
             background-color: #4CAF50;
             color: white;
         }
+
     </style>
 
 </head>
@@ -58,6 +61,7 @@
     });
     inline.mount('#card-frame')
 
+
 </script>
 <script>
     const form = document.getElementById('payment-form');
@@ -80,6 +84,7 @@
             DropInChannel.postMessage(JSON.stringify({"error": JSON.stringify(error)}));
         });
     });
+
 </script>
 </body>
 </html>
