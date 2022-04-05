@@ -10,13 +10,13 @@
         .button {
             position: center;
             margin: auto;
-            background-color: green;
+            background-color: #2783a9;
             color: #fff;
             border: none;
             border-radius: 10px;
             padding: 15px;
             min-height: 30px;
-            min-width: 120px;
+            min-width: 250px;
         }
 
 
@@ -26,6 +26,8 @@
             align-items: center;
             text-align: center;
         }
+
+
 
 
     </style>
@@ -40,7 +42,7 @@
         <div id="card-frame">
         </div>
         <br/>
-        <button id="pay-button" class="button center">Authorise</button>
+        <button id="pay-button" class="button center">AUTHORISE</button>
     </div>
     <p class="success-payment-message"/>
 </form>
@@ -56,6 +58,8 @@
         currency: currencySymbol
     });
     inline.mount('#card-frame')
+
+
 
 
 </script>
@@ -79,6 +83,8 @@
             DropInChannel.postMessage(JSON.stringify({"error": JSON.stringify(error)}));
         });
     });
+
+
 
 
 </script>
