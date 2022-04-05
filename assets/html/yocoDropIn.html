@@ -8,17 +8,15 @@
     <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
     <style>
         .button {
-            display: flex;
-            justify-content: center;
+            position: center;
             margin: auto;
+            background-color: green;
+            color: #fff;
             border: none;
-            color: white;
-            padding: 16px 32px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 30px;
+            min-width: 120px;
         }
 
 
@@ -27,8 +25,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            height: 50px;
-            border: 3px solid green;
         }
 
 
@@ -54,14 +50,12 @@
     const sdk = new window.YocoSDK({
         publicKey: yocoPubKey
     });
-    // var inline = sdk.inline({ layout: 'plain|basic|field' });
     const inline = sdk.inline({
         layout: 'basic',
         amountInCents: payAmount,
         currency: currencySymbol
     });
     inline.mount('#card-frame')
-
 
 
 </script>
@@ -76,7 +70,6 @@
         inline.createToken().then(function (result) {
             submitButton.disabled = false;
             if (result.error) {
-                const errorMessage = result.error.message;
                 DropInChannel.postMessage(JSON.stringify({"error": result.error.message}));
             } else {
                 DropInChannel.postMessage(JSON.stringify({result}));
@@ -86,7 +79,6 @@
             DropInChannel.postMessage(JSON.stringify({"error": JSON.stringify(error)}));
         });
     });
-
 
 
 </script>

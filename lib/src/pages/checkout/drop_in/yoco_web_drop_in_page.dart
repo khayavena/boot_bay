@@ -28,6 +28,8 @@ class YocoWebDropInPage extends StatefulWidget {
 }
 
 class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
+  static const DropInChannel = "DropInChannel";
+  static const DropInStarted = "started";
   YocoViewModel yocoViewModel;
 
   @override
@@ -49,7 +51,11 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
         backgroundColor: primaryWhite,
         bottomOpacity: 0.0,
         elevation: 0.0,
-        title: Text("Authorise Credit Card"),
+        automaticallyImplyLeading: true,
+        title: Text(
+          "Authorise Credit Card",
+          style: TextStyle(color: secondaryBlueColor),
+        ),
       ),
       body: loadDropIn(),
     );
@@ -60,16 +66,6 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
         builder: (BuildContext context, vm, Widget child) {
       switch (vm.loader) {
         case Loader.error:
-          final snackBar = SnackBar(
-            content: Text(vm.errorMessage),
-            action: SnackBarAction(
-              label: 'Undo',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
           break;
       }
       return Stack(
@@ -84,10 +80,10 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
                     onWebViewCreated: (controller) {},
                     javascriptChannels: Set.from([
                       JavascriptChannel(
-                          name: "DropInChannel",
+                          name: DropInChannel,
                           onMessageReceived: (JavascriptMessage result) async {
                             switch (result.message) {
-                              case "started":
+                              case DropInStarted:
                                 vm.setState(Loader.busy);
                                 break;
                               default:
