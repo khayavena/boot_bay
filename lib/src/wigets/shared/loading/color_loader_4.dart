@@ -1,9 +1,11 @@
-import 'package:bootbay/src/wigets/shared/loading/dot_type.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
 
-class WidgetLoader extends StatefulWidget {
+import 'package:bootbay/src/wigets/shared/loading/dot_type.dart';
+import 'package:flutter/material.dart';
 
+import '../../../helpers/costom_color.dart';
+
+class WidgetLoader extends StatefulWidget {
   final Color dotOneColor;
   final Color dotTwoColor;
   final Color dotThreeColor;
@@ -11,14 +13,13 @@ class WidgetLoader extends StatefulWidget {
   final DotType dotType;
   final Icon dotIcon;
 
-  WidgetLoader({
-    this.dotOneColor = Colors.redAccent,
-    this.dotTwoColor = Colors.green,
-    this.dotThreeColor = Colors.blueAccent,
-    this.duration = const Duration(milliseconds: 1000),
-    this.dotType = DotType.circle,
-    this.dotIcon = const Icon(Icons.blur_on)
-  });
+  WidgetLoader(
+      {this.dotOneColor = Colors.redAccent,
+      this.dotTwoColor = Colors.green,
+      this.dotThreeColor = Colors.blueAccent,
+      this.duration = const Duration(milliseconds: 1000),
+      this.dotType = DotType.circle,
+      this.dotIcon = const Icon(Icons.blur_on)});
 
   @override
   _WidgetLoaderState createState() => _WidgetLoaderState();
@@ -35,8 +36,7 @@ class _WidgetLoaderState extends State<WidgetLoader>
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-        duration: widget.duration, vsync: this);
+    controller = AnimationController(duration: widget.duration, vsync: this);
 
     animation_1 = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -71,71 +71,73 @@ class _WidgetLoaderState extends State<WidgetLoader>
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Transform.translate(
-            offset: Offset(
-              0.0,
-              -30 *
-                  (animation_1.value <= 0.50
-                      ? animation_1.value
-                      : 1.0 - animation_1.value),
-            ),
-            child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Dot(
-                radius: 10.0,
-                color: widget.dotOneColor,
-                type: widget.dotType,
-                icon: widget.dotIcon,
+      color: CustomColor().pureWhite,
+      child: Center(
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Transform.translate(
+              offset: Offset(
+                0.0,
+                -30 *
+                    (animation_1.value <= 0.50
+                        ? animation_1.value
+                        : 1.0 - animation_1.value),
+              ),
+              child: new Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Dot(
+                  radius: 10.0,
+                  color: widget.dotOneColor,
+                  type: widget.dotType,
+                  icon: widget.dotIcon,
+                ),
               ),
             ),
-          ),
-          Transform.translate(
-            offset: Offset(
-              0.0,
-              -30 *
-                  (animation_2.value <= 0.50
-                      ? animation_2.value
-                      : 1.0 - animation_2.value),
-            ),
-            child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Dot(
-                radius: 10.0,
-                color: widget.dotTwoColor,
-                type: widget.dotType,
-                icon: widget.dotIcon,
+            Transform.translate(
+              offset: Offset(
+                0.0,
+                -30 *
+                    (animation_2.value <= 0.50
+                        ? animation_2.value
+                        : 1.0 - animation_2.value),
+              ),
+              child: new Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Dot(
+                  radius: 10.0,
+                  color: widget.dotTwoColor,
+                  type: widget.dotType,
+                  icon: widget.dotIcon,
+                ),
               ),
             ),
-          ),
-          Transform.translate(
-            offset: Offset(
-              0.0,
-              -30 *
-                  (animation_3.value <= 0.50
-                      ? animation_3.value
-                      : 1.0 - animation_3.value),
-            ),
-            child: new Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Dot(
-                radius: 10.0,
-                color: widget.dotThreeColor,
-                type: widget.dotType,
-                icon: widget.dotIcon,
+            Transform.translate(
+              offset: Offset(
+                0.0,
+                -30 *
+                    (animation_3.value <= 0.50
+                        ? animation_3.value
+                        : 1.0 - animation_3.value),
+              ),
+              child: new Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Dot(
+                  radius: 10.0,
+                  color: widget.dotThreeColor,
+                  type: widget.dotType,
+                  icon: widget.dotIcon,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-
     controller.dispose();
     super.dispose();
   }
@@ -152,16 +154,24 @@ class Dot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Center(
-      child: type == DotType.icon ?
-          Icon(icon.icon, color: color, size: 1.3 * radius,)
+      child: type == DotType.icon
+          ? Icon(
+              icon.icon,
+              color: color,
+              size: 1.3 * radius,
+            )
           : new Transform.rotate(
-        angle: type == DotType.diamond ? pi/4 : 0.0,
-        child: Container(
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(color: color, shape: type == DotType.circle? BoxShape.circle : BoxShape.rectangle),
-        ),
-      ),
+              angle: type == DotType.diamond ? pi / 4 : 0.0,
+              child: Container(
+                width: radius,
+                height: radius,
+                decoration: BoxDecoration(
+                    color: color,
+                    shape: type == DotType.circle
+                        ? BoxShape.circle
+                        : BoxShape.rectangle),
+              ),
+            ),
     );
   }
 }

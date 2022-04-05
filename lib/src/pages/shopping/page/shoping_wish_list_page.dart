@@ -1,9 +1,6 @@
 import 'package:bootbay/res.dart';
-import 'package:bootbay/src/config/EnvConfig.dart';
-import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/pages/checkout/braintree/yoco_web_drop_in_page.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/themes/light_color.dart';
@@ -13,6 +10,8 @@ import 'package:bootbay/src/wigets/wish/cart_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+
+import '../../checkout/drop_in/yoco_web_drop_in_page.dart';
 
 class ShoppingWishListPage extends StatefulWidget {
   ShoppingWishListPage({Key key}) : super(key: key);
@@ -63,24 +62,16 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
     return ElevatedButton(
         onPressed: () async {
           var currentUser = await _userViewModel.getCurrentUser();
-
-          var buildRequest = await buildUrl(
-              wishListViewViewModel.finalAmount(),
-              wishListViewViewModel.currency(),
-              moduleLocator<EnvConfig>().yocoPubKey);
-
           if (currentUser != null) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => YocoWebDropInPage(
-                    finalAmount: wishListViewViewModel.finalAmount(),
-                    itemIds: wishListViewViewModel.itemIds(),
-                    currency: wishListViewViewModel.currency(),
-                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                    url: buildRequest),
-                // Pass the arguments as part of the RouteSettings. The
-                // DetailScreen reads the arguments from these settings.
+                  finalAmount: wishListViewViewModel.finalAmount(),
+                  itemIds: wishListViewViewModel.itemIds(),
+                  currency: wishListViewViewModel.currency(),
+                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                ),
               ),
             );
           }

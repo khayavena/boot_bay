@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-class PaymentSuccesPage extends StatefulWidget{
+class PaymentSuccessPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return PaymentSuccesPageState();
+    return PaymentSuccessPageState();
   }
-  
 }
-class PaymentSuccesPageState extends State<PaymentSuccesPage>{
+
+class PaymentSuccessPageState extends State<PaymentSuccessPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold();
   }
-  
 }

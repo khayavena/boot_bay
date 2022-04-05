@@ -1,13 +1,11 @@
 import 'package:bootbay/res.dart';
-import 'package:bootbay/src/config/EnvConfig.dart';
-import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/token_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:bootbay/src/model/user_profile.dart';
-import 'package:bootbay/src/pages/checkout/braintree/yoco_web_drop_in_page.dart';
+import 'package:bootbay/src/pages/checkout/drop_in/yoco_web_drop_in_page.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';
 import 'package:bootbay/src/pages/checkout/widget/bill_product_row_widget.dart';
@@ -125,10 +123,6 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
     );
   }
 
-  void loadBrainTreeMethod(
-    TokenResponse tokenResponse,
-  ) async {}
-
   Widget _buildPaymentSuccess(PaymentViewModel paymentViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -197,19 +191,15 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
 
           return InkWell(
             onTap: () async {
-              var buildRequest = await buildUrl(widget.finalAmount,
-                  widget.currency, moduleLocator<EnvConfig>().yocoPubKey);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => YocoWebDropInPage(
-                      finalAmount: widget.finalAmount,
-                      itemIds: widget.itemIds,
-                      currency: widget.currency,
-                      merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                      url: buildRequest),
-                  // Pass the arguments as part of the RouteSettings. The
-                  // DetailScreen reads the arguments from these settings.
+                    finalAmount: widget.finalAmount,
+                    itemIds: widget.itemIds,
+                    currency: widget.currency,
+                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                  ),
                 ),
               );
             },
@@ -236,7 +226,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
         )),
         ElevatedButton(
             onPressed: () {
-              beginPayment(context);
+              beginPayment();
             },
             child: Text("Continue")),
       ],
@@ -247,7 +237,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
 
   onUpdate(Product p1) {}
 
-  void beginPayment(BuildContext context) {
+  void beginPayment() {
     _paymentViewModel.pay(_yokoViewModel.finalRequest);
   }
 }

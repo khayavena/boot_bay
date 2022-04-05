@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/pay_method/yoco_pay_method.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/token_response.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class YocoViewModel extends ChangeNotifier {
   static const String GATE_WAY = "yoco";
+  static const String AMOUNT_DELIMER = ".";
   Loader _loader;
   YocoPayMethod _yocoPayMethod;
   final String yocoPubKey;
@@ -59,4 +63,19 @@ class YocoViewModel extends ChangeNotifier {
   }
 
   PaymentRequest get finalRequest => _request;
+
+  Future<String> buildUrl(double finalAmount, String currency) async {
+    setState(Loader.busy);
+    var dropInHtml = await rootBundle.loadString("assets/html/yocoDropIn.html");
+    var inCents = finalAmount.toString().replaceAll(AMOUNT_DELIMER, "");
+    dropInHtml = dropInHtml
+        .replaceAll("payAmount", inCents)
+        .replaceAll("currencySymbol", "'$currency'")
+        .replaceAll("yocoPubKey", "'$yocoPubKey'");
+    final String contentBase64 =
+        base64Encode(const Utf8Encoder().convert(dropInHtml));
+    _finalUrl = 'data:text/html;base64,$contentBase64';
+    setState(Loader.complete);
+    return _finalUrl;
+  }
 }

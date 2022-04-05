@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/pages/user/repository/user_additional_info.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
@@ -36,28 +38,35 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
       var user = await _firebaseAuth.signInWithCredential(credential);
       var additionalInfo = user.additionalUserInfo.profile;
       var data = GoogleAdditionalInfo.fromJson(additionalInfo);
-      _user =
-          await _repository.thirdPartySignIn(data.givenName, data.familyName, googleSignInAccount.email, user.user.uid);
-    } on FirebaseAuthException catch (e) {
-      throw e;
+      _user = await _repository.thirdPartySignIn(data.givenName,
+          data.familyName, googleSignInAccount.email, user.user.uid);
+    } catch (e, s) {
+      log(e);
     }
   }
 
   @override
   Future<void> signInWithFacebook() async {
     var loginResult = await _facebookAuth.login();
-    var facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken.token);
-    var userCredential = await _firebaseAuth.signInWithCredential(facebookAuthCredential);
+    var facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken.token);
+    var userCredential =
+        await _firebaseAuth.signInWithCredential(facebookAuthCredential);
     var additionalInfo = userCredential.additionalUserInfo.profile;
     _user = await _repository.thirdPartySignIn(
-        additionalInfo['first_name'], additionalInfo['last_name'], userCredential.user.email, userCredential.user.uid);
+        additionalInfo['first_name'],
+        additionalInfo['last_name'],
+        userCredential.user.email,
+        userCredential.user.uid);
   }
 
   @override
   Future<void> createUser(String email, password) async {
     try {
-      var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      _user = await _repository.thirdPartySignIn("", "", userCredential.user.email, userCredential.user.uid);
+      var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      _user = await _repository.thirdPartySignIn(
+          "", "", userCredential.user.email, userCredential.user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -72,8 +81,10 @@ class ThirdPartyAuthRepositoryImpl implements ThirdPartyAuthRepository {
   @override
   Future<void> signInUser(String email, password) async {
     try {
-      var userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      _user = await _repository.thirdPartySignIn("", "", userCredential.user.email, userCredential.user.uid);
+      var userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      _user = await _repository.thirdPartySignIn(
+          "", "", userCredential.user.email, userCredential.user.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

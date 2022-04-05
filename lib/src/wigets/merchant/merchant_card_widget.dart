@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class MerchantCardWidget extends StatefulWidget {
   final Merchant merchant;
 
-  const MerchantCardWidget({Key key, @required this.merchant}) : super(key: key);
+  const MerchantCardWidget({Key key, @required this.merchant})
+      : super(key: key);
 
   @override
   _MerchantCardWidgetState createState() {
@@ -25,7 +26,8 @@ class _MerchantCardWidgetState extends State<MerchantCardWidget> {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          Navigator.of(context).pushNamed(AppRouting.merchantLanding, arguments: widget.merchant);
+          Navigator.of(context).pushNamed(AppRouting.merchantLanding,
+              arguments: widget.merchant);
         },
         child: _buildColumn(),
       ),
@@ -58,14 +60,16 @@ class _MerchantCardWidgetState extends State<MerchantCardWidget> {
         SizedBox(
           height: 8,
         ),
-        Text("${widget.merchant.location}",
-            style: TextStyle(
-              color: Color(0xff333333),
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.normal,
-              letterSpacing: -0.8000000000000003,
-            ))
+        Text(
+          "${widget.merchant.location}",
+          style: TextStyle(
+            color: Color(0xff333333),
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            letterSpacing: -0.8000000000000003,
+          ),
+        )
       ],
     );
   }
