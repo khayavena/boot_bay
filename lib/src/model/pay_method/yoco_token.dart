@@ -1,14 +1,18 @@
 import 'package:bootbay/src/model/pay_method/yoco_source.dart';
 
-class YocoToken {
+class Result {
   String id;
   Source source;
   String sourceType;
   String status;
 
-  YocoToken({this.id, this.source, this.sourceType, this.status});
+  Result(
+      {required this.id,
+      required this.source,
+      required this.sourceType,
+      required this.status});
 
-  YocoToken.fromJson( json)
+  Result.fromJson(json)
       : id = json['id'] ?? '',
         source = Source.fromJson(json['source']),
         sourceType = json['sourceType'],

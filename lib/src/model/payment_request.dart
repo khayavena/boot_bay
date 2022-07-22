@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class PaymentRequest {
   double chargeAmount;
   String chargeAmountInCents;
@@ -13,16 +11,16 @@ class PaymentRequest {
   String gateWay;
 
   PaymentRequest({
-    @required this.chargeAmount,
-    @required this.chargeAmountInCents,
-    @required this.nonce,
-    @required this.orderId,
-    @required this.merchantId,
-    @required this.itemIds,
-    @required this.deviceData,
-    @required this.startTime,
-    @required this.currency,
-    @required this.gateWay,
+    required this.chargeAmount,
+    required this.chargeAmountInCents,
+    required this.nonce,
+    required this.orderId,
+    required this.merchantId,
+    required this.itemIds,
+    required this.deviceData,
+    required this.startTime,
+    required this.currency,
+    required this.gateWay,
   });
 
   PaymentRequest.fromJson(Map<String, dynamic> json)

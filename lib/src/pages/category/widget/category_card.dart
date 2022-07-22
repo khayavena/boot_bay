@@ -3,11 +3,11 @@ import 'package:bootbay/src/model/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatefulWidget {
-
   final Category model;
   final ClickCategory clickCategory;
 
-  CategoryCard({Key key, this.model, this.clickCategory}) : super(key: key);
+  CategoryCard({Key? key, required this.model, required this.clickCategory})
+      : super(key: key);
 
   @override
   _CategoryCardState createState() => _CategoryCardState();

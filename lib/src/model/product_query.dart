@@ -1,14 +1,12 @@
-import 'package:flutter/material.dart';
-
 class ProductQuery {
   String merchantId;
   List<String> categories = [];
   String token;
 
   ProductQuery({
-    @required this.merchantId,
-    @required this.categories,
-    this.token,
+    required this.merchantId,
+    required this.categories,
+    this.token = "",
   });
 
   Map<String, dynamic> toJson() {

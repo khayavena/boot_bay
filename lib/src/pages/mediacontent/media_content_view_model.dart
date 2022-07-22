@@ -4,24 +4,24 @@ import 'package:bootbay/src/model/mediacontent/media_content_response.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class MediaViewModel extends ViewModel {
   MediaContentRepository _mediaContentRepository;
-  Loader _loader;
+  late Loader _loader;
 
-  String dataErrorMessage;
+  late String dataErrorMessage;
 
-  MediaContentResponse mediaResponse;
+  late MediaContentResponse mediaResponse;
 
-  MediaViewModel({@required MediaContentRepository mediaContentRepository})
+  MediaViewModel({required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
   Future<MediaContentResponse> saveMerchantILogo(String path, String id) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      mediaResponse = await _mediaContentRepository.uploadMerchantLogo(path, id);
+      mediaResponse =
+          await _mediaContentRepository.uploadMerchantLogo(path, id);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;
@@ -66,7 +66,8 @@ class MediaViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      mediaResponse = await _mediaContentRepository.uploadProductImage(path, id);
+      mediaResponse =
+          await _mediaContentRepository.uploadProductImage(path, id);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;

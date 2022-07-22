@@ -16,13 +16,14 @@ class YocoWebDropInPage extends StatefulWidget {
   final String itemIds;
   final String currency;
   final String merchantId;
+  final String url;
 
-  const YocoWebDropInPage({
-    this.finalAmount,
-    this.itemIds,
-    this.currency,
-    this.merchantId,
-  });
+  const YocoWebDropInPage(
+      {required this.finalAmount,
+      required this.itemIds,
+      required this.currency,
+      required this.merchantId,
+      required this.url});
 
   @override
   _YocoWebDropInPageState createState() => _YocoWebDropInPageState();
@@ -34,11 +35,11 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<YocoViewModel>(
-        context,
-        listen: false,
-      ).buildUrl(widget.finalAmount, widget.currency);
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      // await   Provider.of<YocoViewModel>(
+      //     context,
+      //     listen: false,
+      //   ).buildUrl(widget.finalAmount, widget.currency);
     });
     super.initState();
   }
@@ -53,68 +54,77 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
 
   Widget loadDropIn() {
     return Consumer<YocoViewModel>(
-        builder: (BuildContext context, yocoViewModel, Widget child) {
+        builder: (BuildContext context, yocoViewModel, Widget? child) {
       switch (yocoViewModel.loader) {
         case Loader.error:
+          break;
+        case Loader.busy:
+          // TODO: Handle this case.
+          break;
+        case Loader.complete:
+          // TODO: Handle this case.
+          break;
+        case Loader.idl:
+          // TODO: Handle this case.
           break;
       }
       return Stack(
         children: [
           Container(
-            child: yocoViewModel.finalUrl == null
-                ? WidgetLoader()
-                : Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                            child: Text(
-                          widget.currency +
-                              "-" +
-                              widget.finalAmount.toStringAsFixed(2).toString(),
-                          style: TextStyle(
-                            color: Color(0xff2783a9),
-                            fontSize: 25,
-                            fontWeight: mediumFont,
-                            fontStyle: FontStyle.normal,
-                            letterSpacing: -0.6400000000000001,
-                          ),
-                        )),
-                        SizedBox(height: 16),
-                        Expanded(
-                          child: WebView(
-                            initialUrl: yocoViewModel.finalUrl,
-                            javascriptMode: JavascriptMode.unrestricted,
-                            onPageFinished: (string) async {},
-                            onWebViewCreated: (controller) {},
-                            javascriptChannels: Set.from([
-                              JavascriptChannel(
-                                  name: DropInChannel,
-                                  onMessageReceived:
-                                      (JavascriptMessage result) async {
-                                    switch (result.message) {
-                                      case DropInStarted:
-                                        yocoViewModel.setState(Loader.busy);
-                                        break;
-                                      default:
-                                        var json = jsonDecode(result.message);
-                                        String error = json['error'] ?? null;
-                                        if (error == null) {
-                                          yocoViewModel.fromJson(json);
-                                          Navigator.pop(context);
-                                        } else {
-                                          yocoViewModel.errorMessage = error;
-                                          yocoViewModel.setState(Loader.error);
-                                        }
-                                    }
-                                  }),
-                            ]),
-                          ),
-                        ),
-                      ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                      child: Text(
+                    widget.currency +
+                        "-" +
+                        widget.finalAmount.toStringAsFixed(2).toString(),
+                    style: TextStyle(
+                      color: Color(0xff2783a9),
+                      fontSize: 25,
+                      fontWeight: mediumFont,
+                      fontStyle: FontStyle.normal,
+                      letterSpacing: -0.6400000000000001,
+                    ),
+                  )),
+                  SizedBox(height: 16),
+                  Expanded(
+                    child: WebView(
+                      // initialUrl: widget.url,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      onPageFinished: (string) async {},
+                      onWebViewCreated: (controller) {
+                        controller.loadHtmlString(widget.url);
+                      },
+                      javascriptChannels: Set.from([
+                        JavascriptChannel(
+                            name: DropInChannel,
+                            onMessageReceived:
+                                (JavascriptMessage result) async {
+                              switch (result.message) {
+                                case DropInStarted:
+                                  yocoViewModel.setState(Loader.busy);
+                                  break;
+                                default:
+                                  var json = jsonDecode(result.message);
+                                  String? error = json['error'] ?? null;
+                                  if (error == null) {
+                                    yocoViewModel.fromJson(json);
+                                    Navigator.pop(context);
+                                  } else {
+                                    yocoViewModel.errorMessage = error;
+                                    yocoViewModel.setState(Loader.error);
+                                  }
+                              }
+                            }),
+                      ]),
                     ),
                   ),
+                ],
+              ),
+            ),
           ),
           yocoViewModel.loader == Loader.busy
               ? WidgetLoader()

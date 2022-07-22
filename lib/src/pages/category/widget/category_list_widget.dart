@@ -1,5 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/category/widget/category_entry_item_widget.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class CategoryListWidget extends StatefulWidget {
   final Merchant merchant;
 
-  CategoryListWidget({@required this.merchant});
+  CategoryListWidget({required this.merchant});
 
   @override
   _CategoryListWidgetState createState() {
@@ -26,10 +26,12 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.merchant != null) {
-        Provider.of<CategoryViewModel>(context, listen: false).getCategoriesById(widget.merchant.id);
+      if (widget.merchant.id.isNotEmpty) {
+        Provider.of<CategoryViewModel>(context, listen: false)
+            .getCategoriesById(widget.merchant.id);
       } else {
-        Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
+        Provider.of<CategoryViewModel>(context, listen: false)
+            .getAllCategories();
       }
     });
     super.initState();
@@ -45,7 +47,8 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
 
   Widget _buildBody() {
     return Container(
-      child: Consumer<CategoryViewModel>(builder: (BuildContext context, CategoryViewModel value, Widget child) {
+      child: Consumer<CategoryViewModel>(builder:
+          (BuildContext context, CategoryViewModel value, Widget? child) {
         switch (value.loader) {
           case Loader.idl:
           case Loader.complete:
@@ -68,7 +71,8 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
       shrinkWrap: true,
       separatorBuilder: (context, index) => getAppDivider(),
       itemCount: value.getCategories.length,
-      itemBuilder: (context, index) => CategoryEntryItemWidget(value.getCategories[index], widget.merchant),
+      itemBuilder: (context, index) =>
+          CategoryEntryItemWidget(value.getCategories[index], widget.merchant),
     );
   }
 }

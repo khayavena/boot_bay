@@ -5,26 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageProviderViewModel extends ChangeNotifier {
-  XFile _fileInput;
+  late XFile _fileInput;
 
   XFile get fileInput => _fileInput;
 
   void openGalleryForImage() async {
-    XFile pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       _fileInput = pickedImage;
       notifyListeners();
     }
   }
 
-  void clear() {
-    _fileInput = null;
-  }
+  void clear() {}
 
-  Widget proverFileImageView({String imageUrl}) {
-    if (fileInput == null)
+  Widget proverFileImageView(
+      {String imageUrl = 'https://i.imgur.com/sUFH1Aq.png'}) {
+    if (fileInput.path.isNotEmpty)
       return Image(
-        image: CachedNetworkImageProvider(imageUrl ?? 'https://i.imgur.com/sUFH1Aq.png'),
+        image: CachedNetworkImageProvider(imageUrl),
       );
     return Image.file(
       File(
@@ -34,7 +34,7 @@ class ImageProviderViewModel extends ChangeNotifier {
     );
   }
 
-  String get path => _fileInput?.path ?? '';
+  String get path => _fileInput.path;
 
-  bool get isValidImage => fileInput != null;
+  bool get isValidImage => path.isNotEmpty;
 }

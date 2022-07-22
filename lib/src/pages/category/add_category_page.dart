@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -22,16 +22,16 @@ import '../mediacontent/media_view_model.dart';
 class AddCategoryPage extends StatefulWidget {
   final Merchant merchant;
 
-  AddCategoryPage({this.merchant});
+  AddCategoryPage({required this.merchant});
 
   @override
   _AddCategoryPageState createState() => _AddCategoryPageState();
 }
 
 class _AddCategoryPageState extends State<AddCategoryPage> {
-  MediaViewModel _mediaContentViewModel;
-  CategoryViewModel _categoryViewModel;
-  ImageProviderViewModel _categoryMediaViewModel;
+  late MediaViewModel _mediaContentViewModel;
+  late CategoryViewModel _categoryViewModel;
+  late ImageProviderViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -64,8 +64,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           bodyWidget: _buildBody(),
           title: widget.merchant.name,
           headerIcon: getImageUri(widget.merchant.id),
-          backButton:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
+          backButton: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {})),
     );
   }
 
@@ -89,7 +91,11 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           size: 56,
         ),
         decoration: BoxDecoration(boxShadow: [
-          BoxShadow(color: const Color(0x7b999999), offset: Offset(1, 2), blurRadius: 4, spreadRadius: 0)
+          BoxShadow(
+              color: const Color(0x7b999999),
+              offset: Offset(1, 2),
+              blurRadius: 4,
+              spreadRadius: 0)
         ], color: Colors.white));
   }
 
@@ -126,8 +132,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         return AlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
-            child: Consumer<MediaViewModel>(
-                builder: (BuildContext context, MediaViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(builder:
+                (BuildContext context, MediaViewModel value, Widget? child) {
               if (value.status == Loader.busy) {
                 return WidgetLoader();
               }
@@ -146,11 +152,14 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     return TextButton(
       child: Text('Approve'),
       onPressed: () async {
-        var category = Category(name: categoryController.text.toString(), merchantId: widget.merchant.id);
+        var category = Category(
+            name: categoryController.text.toString(),
+            merchantId: widget.merchant.id);
         var categoryResponse = await _categoryViewModel.saveCategory(category);
-        if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
-          var catImageResponse =
-              await _mediaContentViewModel.saveProductFile(_categoryMediaViewModel.fileInput.path, categoryResponse.id);
+        if (_categoryMediaViewModel.fileInput != null &&
+            _categoryMediaViewModel.fileInput.path.isNotEmpty) {
+          var catImageResponse = await _mediaContentViewModel.saveProductFile(
+              _categoryMediaViewModel.fileInput.path, categoryResponse.id);
         }
         _categoryMediaViewModel.clear();
         _mediaContentViewModel.clear();
@@ -167,9 +176,12 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<ImageProviderViewModel>(
-                builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
-              return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
+            child: Consumer<ImageProviderViewModel>(builder:
+                (BuildContext context, ImageProviderViewModel value,
+                    Widget? child) {
+              return value.fileInput == null
+                  ? _buildAttach()
+                  : _buildFileImage(value);
             }),
           ),
         ),

@@ -1,6 +1,5 @@
 import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/model/product.dart';
-import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
 class WishListDaoImpl implements WishListDao {
@@ -9,7 +8,7 @@ class WishListDaoImpl implements WishListDao {
   Database _database;
 
   WishListDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override
@@ -23,9 +22,10 @@ class WishListDaoImpl implements WishListDao {
 
   @override
   Future<Product> findById(String id) async {
-    final recordSnapshot = await _wishListStore.findFirst(_database, finder: Finder(filter: Filter.equals("id", id)));
+    final recordSnapshot = await _wishListStore.findFirst(_database,
+        finder: Finder(filter: Filter.equals("id", id)));
     if (recordSnapshot == null) {
-      return null;
+      return Product();
     }
     return Product.fromJson(recordSnapshot.value);
   }
@@ -38,7 +38,8 @@ class WishListDaoImpl implements WishListDao {
 
   @override
   Future<void> delete(Product product) async {
-    var b = await _wishListStore.delete(_database, finder: Finder(filter: Filter.equals("id", product.id)));
+    var b = await _wishListStore.delete(_database,
+        finder: Finder(filter: Filter.equals("id", product.id)));
     print('Delete status $b');
   }
 
@@ -53,7 +54,6 @@ class WishListDaoImpl implements WishListDao {
     list.forEach((element) {
       if (element.id == id) {
         exist = true;
-        return exist;
       }
     });
     return exist;

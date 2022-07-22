@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ViewModel extends ChangeNotifier {
-  String dataErrorMessage;
+  late String dataErrorMessage;
 
   void handleDioError(DioError error) {
     switch (error.type) {
@@ -16,7 +16,7 @@ class ViewModel extends ChangeNotifier {
         dataErrorMessage = 'Timeout could not receive data';
         break;
       case DioErrorType.response:
-        switch (error.response.statusCode) {
+        switch (error.response?.statusCode) {
           case 500:
             dataErrorMessage = 'Internal Server Error';
             break;

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class TokenRequest {
   String merchantId;
   String customerId;
@@ -8,7 +6,7 @@ class TokenRequest {
   TokenRequest.fromJson(Map<String, dynamic> json)
       : merchantId = json['merchantId'],
         customerId = json['customerId'],
-  isAfrica = json['isAfrica'];
+        isAfrica = json['isAfrica'];
 
   Map<String, dynamic> toJson() => {
         'merchantId': merchantId,
@@ -17,8 +15,8 @@ class TokenRequest {
       };
 
   TokenRequest({
-    @required this.merchantId,
-    @required this.customerId,
-    @required this.isAfrica,
+    required this.merchantId,
+    required this.customerId,
+    required this.isAfrica,
   });
 }

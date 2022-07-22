@@ -8,13 +8,13 @@ class Source {
   String maskedCard;
 
   Source(
-      {this.object,
-      this.brand,
-      this.expiryMonth,
-      this.expiryYear,
-      this.fingerprint,
-      this.id,
-      this.maskedCard});
+      {required this.object,
+      required this.brand,
+      required this.expiryMonth,
+      required this.expiryYear,
+      required this.fingerprint,
+      required this.id,
+      required this.maskedCard});
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(

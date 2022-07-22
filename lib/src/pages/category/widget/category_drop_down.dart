@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 
 class CategoryDropDownWidget<T> extends StatefulWidget {
   final List<Category> categories;
-  final Function(Category) onCategoryChanged;
+  final Function(Category?) onCategoryChanged;
 
-  CategoryDropDownWidget({Key key, @required this.categories, @required this.onCategoryChanged}) : super(key: key);
+  CategoryDropDownWidget(
+      {Key? key, required this.categories, required this.onCategoryChanged})
+      : super(key: key);
 
   @override
-  _CategoryDropDownWidgetState createState() => new _CategoryDropDownWidgetState();
+  _CategoryDropDownWidgetState createState() =>
+      new _CategoryDropDownWidgetState();
 }
 
 class _CategoryDropDownWidgetState extends State<CategoryDropDownWidget> {
-  Category _selectedCategory;
+  late Category? _selectedCategory;
 
   @override
   void initState() {
@@ -27,7 +30,7 @@ class _CategoryDropDownWidgetState extends State<CategoryDropDownWidget> {
         hint: new Text("Select Classification"),
         value: _selectedCategory,
         isDense: true,
-        onChanged: (Category newValue) {
+        onChanged: (Category? newValue) {
           widget.onCategoryChanged(newValue);
           setState(() {
             _selectedCategory = newValue;
@@ -36,7 +39,8 @@ class _CategoryDropDownWidgetState extends State<CategoryDropDownWidget> {
         items: widget.categories.map((Category category) {
           return new DropdownMenuItem<Category>(
             value: category,
-            child: new Text(category.name, style: new TextStyle(color: Colors.black)),
+            child: new Text(category.name,
+                style: new TextStyle(color: Colors.black)),
           );
         }).toList(),
       ),

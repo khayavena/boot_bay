@@ -11,17 +11,18 @@ class MerchantResponse {
 
   Merchant get merchant => _merchant;
 
-  MerchantResponse({String configId, String message, Merchant merchant}) {
-    _configId = configId;
-    _message = message;
-    _merchant = merchant;
-  }
+  MerchantResponse(
+      {required String configId,
+      required String message,
+      required Merchant merchant})
+      : _configId = configId,
+        _message = message,
+        _merchant = merchant;
 
-  MerchantResponse.fromJson(dynamic json) {
-    _configId = json["configId"] ?? '';
-    _message = json["message"];
-    _merchant = Merchant.fromJson(json["merchant"]);
-  }
+  MerchantResponse.fromJson(dynamic json)
+      : _configId = json["configId"] ?? '',
+        _message = json["message"],
+        _merchant = Merchant.fromJson(json["merchant"]);
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};

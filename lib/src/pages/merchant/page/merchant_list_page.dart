@@ -8,7 +8,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class MerchantListPage extends StatefulWidget {
-  MerchantListPage({Key key}) : super(key: key);
+  MerchantListPage({Key? key}) : super(key: key);
 
   @override
   _MerchantListPageState createState() => _MerchantListPageState();
@@ -25,12 +25,15 @@ class _MerchantListPageState extends State<MerchantListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppBar.build("Boot-Bay", context), body: Container(child: _productWidget()));
+    return Scaffold(
+        appBar: CustomAppBar.build("Boot-Bay", context),
+        body: Container(child: _productWidget()));
   }
 
   Widget _productWidget() {
     return Consumer<MerchantViewModel>(
-      builder: (BuildContext context, MerchantViewModel merchantViewModel, Widget child) {
+      builder: (BuildContext context, MerchantViewModel merchantViewModel,
+          Widget? child) {
         return _buildProducts(merchantViewModel);
       },
     );
@@ -42,7 +45,10 @@ class _MerchantListPageState extends State<MerchantListPage> {
         merchantViewModel.resetLoader();
         return GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                crossAxisCount: 2,
+                childAspectRatio: .6 / 1,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8),
             padding: EdgeInsets.only(left: 8, right: 8),
             scrollDirection: Axis.vertical,
             children: merchantViewModel.getMerchants
@@ -59,7 +65,8 @@ class _MerchantListPageState extends State<MerchantListPage> {
       case Loader.error:
         merchantViewModel.resetLoader();
         return Center(
-          child: Text("We currently experiencing problems, please try Again later"),
+          child: Text(
+              "We currently experiencing problems, please try Again later"),
         );
       default:
         return Center(

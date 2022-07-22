@@ -1,5 +1,4 @@
 import 'package:bootbay/src/model/product.dart';
-import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
 import 'cart_dao.dart';
@@ -10,7 +9,7 @@ class CartDaoImpl implements CartDao {
   Database _database;
 
   CartDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override
@@ -24,9 +23,10 @@ class CartDaoImpl implements CartDao {
 
   @override
   Future<Product> findProductById(String id) async {
-    final recordSnapshot = await _productStore.findFirst(_database, finder: Finder(filter: Filter.equals("id", id)));
+    final recordSnapshot = await _productStore.findFirst(_database,
+        finder: Finder(filter: Filter.equals("id", id)));
     if (recordSnapshot == null) {
-      return null;
+      return Product();
     }
     return Product.fromJson(recordSnapshot.value);
   }
@@ -39,7 +39,8 @@ class CartDaoImpl implements CartDao {
 
   @override
   Future<void> delete(Product product) async {
-    var b = await _productStore.delete(_database, finder: Finder(filter: Filter.equals("id", product.id)));
+    var b = await _productStore.delete(_database,
+        finder: Finder(filter: Filter.equals("id", product.id)));
     print('Delete status $b');
   }
 
@@ -54,7 +55,6 @@ class CartDaoImpl implements CartDao {
     list.forEach((element) {
       if (element.id == id) {
         exist = true;
-        return exist;
       }
     });
     return exist;

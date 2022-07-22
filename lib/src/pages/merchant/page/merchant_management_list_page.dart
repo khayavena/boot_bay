@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 class MerchantManagementListPage extends StatefulWidget {
   final String userId;
 
-  MerchantManagementListPage({Key key, this.userId}) : super(key: key);
+  MerchantManagementListPage({Key? key, required this.userId})
+      : super(key: key);
 
   @override
   _MerchantListPageState createState() => _MerchantListPageState();
@@ -20,19 +21,23 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MerchantViewModel>(context, listen: false).getAllMerchantsByUserId(widget.userId);
+      Provider.of<MerchantViewModel>(context, listen: false)
+          .getAllMerchantsByUserId(widget.userId);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CustomAppBar.build("Manage Merchants", context), body: Container(child: _productWidget()));
+    return Scaffold(
+        appBar: CustomAppBar.build("Manage Merchants", context),
+        body: Container(child: _productWidget()));
   }
 
   Widget _productWidget() {
     return Consumer<MerchantViewModel>(
-      builder: (BuildContext context, MerchantViewModel merchantViewModel, Widget child) {
+      builder: (BuildContext context, MerchantViewModel merchantViewModel,
+          Widget? child) {
         return _buildProducts(merchantViewModel);
       },
     );
@@ -44,7 +49,10 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
         merchantViewModel.resetLoader();
         return GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                crossAxisCount: 2,
+                childAspectRatio: .6 / 1,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8),
             padding: EdgeInsets.only(left: 8, right: 8),
             scrollDirection: Axis.vertical,
             children: merchantViewModel.getMerchants
@@ -61,7 +69,8 @@ class _MerchantListPageState extends State<MerchantManagementListPage> {
       case Loader.error:
         merchantViewModel.resetLoader();
         return Center(
-          child: Text("We currently experiencing problems, please try Again later"),
+          child: Text(
+              "We currently experiencing problems, please try Again later"),
         );
       default:
         return Center(

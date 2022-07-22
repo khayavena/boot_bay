@@ -18,11 +18,11 @@ class _State extends State<RegistrationPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
-  UserViewModel _userViewModel;
+  late UserViewModel _userViewModel;
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();
@@ -34,8 +34,10 @@ class _State extends State<RegistrationPage> {
         body: buildDefaultCollapsingWidget(
             bodyWidget: _buildBody(),
             title: 'Welcome to Digit-Titan',
-            backButton:
-                IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})));
+            backButton: IconButton(
+                icon: ImageIcon(AssetImage(Res.leading_icon)),
+                color: primaryBlackColor,
+                onPressed: () {})));
   }
 
   void loginNow() {
@@ -58,7 +60,10 @@ class _State extends State<RegistrationPage> {
                 padding: EdgeInsets.all(10),
                 child: Text(
                   'Boot Login',
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 30),
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30),
                 )),
             Container(
                 alignment: Alignment.center,

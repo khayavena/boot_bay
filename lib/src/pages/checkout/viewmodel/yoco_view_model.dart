@@ -9,14 +9,20 @@ import 'package:flutter/services.dart';
 
 class YocoViewModel extends ChangeNotifier {
   static const String GATE_WAY = "yoco";
-  static const String AMOUNT_DELIMER = ".";
-  Loader _loader;
-  YocoPayMethod _yocoPayMethod;
-  final String yocoPubKey;
-  String _finalUrl;
-  String _errorMessage;
+  static const String AMOUNT_DELIMITER = ".";
+  static const String htmlAssetPath = "assets/html/yocoDropIn.html";
+  static const String htmlContentTye = "data:text/html;base64";
+  static const String payKey = "payAmount";
+  static const String currencySymbol = "currencySymbol";
+  static const String yocoKey = "yocoPubKey";
 
-  PaymentRequest _request;
+  late Loader _loader = Loader.idl;
+  late YocoPayMethod? _yocoPayMethod = null;
+  final String yocoPubKey;
+  late String _finalUrl = "";
+  late String _errorMessage;
+
+  late PaymentRequest _request;
 
   YocoViewModel(this.yocoPubKey);
 
@@ -32,9 +38,7 @@ class YocoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  YocoPayMethod get yocoPayMethod => _yocoPayMethod;
-
-  String get finalUrl => _finalUrl;
+  YocoPayMethod? get yocoPayMethod => _yocoPayMethod;
 
   Loader get loader => _loader;
 
@@ -53,7 +57,7 @@ class YocoViewModel extends ChangeNotifier {
         chargeAmountInCents:
             finalAmount.toStringAsFixed(2).toString().replaceAll(".", ""),
         orderId: token.orderId,
-        nonce: yocoPayMethod.yocoToken.id,
+        nonce: yocoPayMethod?.result.id ?? '',
         itemIds: itemIds,
         currency: currency,
         merchantId: merchantId,
@@ -65,17 +69,16 @@ class YocoViewModel extends ChangeNotifier {
   PaymentRequest get finalRequest => _request;
 
   Future<String> buildUrl(double finalAmount, String currency) async {
-    setState(Loader.busy);
-    var dropInHtml = await rootBundle.loadString("assets/html/yocoDropIn.html");
-    var inCents = finalAmount.toString().replaceAll(AMOUNT_DELIMER, "");
-    dropInHtml = dropInHtml
-        .replaceAll("payAmount", inCents)
-        .replaceAll("currencySymbol", "'$currency'")
-        .replaceAll("yocoPubKey", "'$yocoPubKey'");
-    final String contentBase64 =
-        base64Encode(const Utf8Encoder().convert(dropInHtml));
-    _finalUrl = 'data:text/html;base64,$contentBase64';
-    setState(Loader.complete);
+    final dropInHtml = await rootBundle.loadString(htmlAssetPath);
+    final amountInCents =
+        finalAmount.toString().replaceAll(AMOUNT_DELIMITER, "");
+    final dropInHtmlView = dropInHtml
+        .replaceAll(payKey, amountInCents)
+        .replaceAll(currencySymbol, "'$currency'")
+        .replaceAll(yocoKey, "'$yocoPubKey'");
+    final String encodedContentBase64 =
+        base64Encode(const Utf8Encoder().convert(dropInHtmlView));
+    _finalUrl = dropInHtmlView;
     return _finalUrl;
   }
 }

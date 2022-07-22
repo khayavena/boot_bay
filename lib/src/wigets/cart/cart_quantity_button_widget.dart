@@ -7,14 +7,15 @@ import 'package:provider/provider.dart';
 class CartQuantityButtonWidget extends StatefulWidget {
   final Product product;
 
-  CartQuantityButtonWidget({Key key, @required this.product}) : super(key: key);
+  CartQuantityButtonWidget({Key? key, required this.product}) : super(key: key);
 
   @override
-  _CartQuantityButtonWidgetState createState() => _CartQuantityButtonWidgetState();
+  _CartQuantityButtonWidgetState createState() =>
+      _CartQuantityButtonWidgetState();
 }
 
 class _CartQuantityButtonWidgetState extends State<CartQuantityButtonWidget> {
-  CartViewModel _cartViewModel;
+  late CartViewModel _cartViewModel;
 
   @override
   void initState() {
@@ -41,7 +42,8 @@ class _CartQuantityButtonWidgetState extends State<CartQuantityButtonWidget> {
         ),
         child: Consumer<CartViewModel>(
             key: Key(widget.product.id),
-            builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
+            builder: (BuildContext context, CartViewModel cartViewModel,
+                Widget? child) {
               return GestureDetector(
                 // onTap: () {
                 //   cartViewModel.cartAction(widget.product);
@@ -55,7 +57,10 @@ class _CartQuantityButtonWidgetState extends State<CartQuantityButtonWidget> {
                         child: Text(
                           '-',
                           style: TextStyle(
-                              color: Colors.black, fontSize: 18, fontFamily: 'SFProText', fontWeight: FontWeight.w700),
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontFamily: 'SFProText',
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                       width: 25,
@@ -79,7 +84,10 @@ class _CartQuantityButtonWidgetState extends State<CartQuantityButtonWidget> {
                         child: Text(
                           '+',
                           style: TextStyle(
-                              color: Colors.black, fontSize: 18, fontFamily: 'SFProText', fontWeight: FontWeight.w700),
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontFamily: 'SFProText',
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                       margin: EdgeInsets.only(left: 24),

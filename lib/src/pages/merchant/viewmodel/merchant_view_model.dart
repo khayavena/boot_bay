@@ -4,7 +4,6 @@ import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/merchant/repository/merchant_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class MerchantViewModel extends ViewModel {
   MerchantRepository _merchantRepository;
@@ -12,7 +11,7 @@ class MerchantViewModel extends ViewModel {
   List<Merchant> _merchants = [];
 
   MerchantViewModel({
-    @required MerchantRepository merchantRepository,
+    required MerchantRepository merchantRepository,
   }) : _merchantRepository = merchantRepository;
 
   Future<List<Merchant>> getAllMerchants() async {

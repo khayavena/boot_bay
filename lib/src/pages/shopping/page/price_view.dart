@@ -17,7 +17,7 @@ class PriceView extends StatelessWidget {
   }
 
   const PriceView({
-    @required this.currency,
-    @required this.amount,
+    required this.currency,
+    required this.amount,
   });
 }

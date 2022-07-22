@@ -1,32 +1,17 @@
 class GoogleAdditionalInfo {
-  String givenName;
-  String locale;
-  String familyName;
-  String picture;
-  String aud;
-  String azp;
-  int exp;
-  int iat;
-  String iss;
-  String sub;
-  String name;
-  String email;
-  bool emailVerified;
-
-  GoogleAdditionalInfo(
-      {this.givenName,
-      this.locale,
-      this.familyName,
-      this.picture,
-      this.aud,
-      this.azp,
-      this.exp,
-      this.iat,
-      this.iss,
-      this.sub,
-      this.name,
-      this.email,
-      this.emailVerified});
+  late String givenName;
+  late String locale;
+  late String familyName;
+  late String picture;
+  late String aud;
+  late String azp;
+  late int exp;
+  late int iat;
+  late String iss;
+  late String sub;
+  late String name;
+  late String email;
+  late bool emailVerified;
 
   GoogleAdditionalInfo.fromJson(Map<String, dynamic> json) {
     givenName = json['given_name'];

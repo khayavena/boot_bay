@@ -10,7 +10,11 @@ class BillProductRow extends StatelessWidget {
   final Function(Product) onUpdated;
 
   const BillProductRow(
-      {Key key, this.expense, this.currency, this.onDismissed, this.onUpdated})
+      {Key? key,
+      required this.expense,
+      required this.currency,
+      required this.onDismissed,
+      required this.onUpdated})
       : super(key: key);
 
   @override

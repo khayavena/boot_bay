@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/local/product/category_dao.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/product.dart';
@@ -10,7 +9,7 @@ class CategoryDaoImpl implements CategoryDao {
   Database _database;
 
   CategoryDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override

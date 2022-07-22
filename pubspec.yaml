@@ -1,5 +1,5 @@
 name: bootbay
-description: A new Flutter application.
+description: Flutter application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -8,29 +8,28 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.16.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^4.0.0
-  sembast: ^3.2.0
-  provider: ^6.0.2
-  cupertino_icons: ^1.0.4
-  webview_flutter: ^2.0.2
+  dio: ^4.0.6
+  sembast: ^3.2.0+1
+  provider: ^6.0.3
+  cupertino_icons: ^1.0.5
+  webview_flutter: ^3.0.4
   smooth_star_rating: 1.1.1
-  cached_network_image: ^3.2.0
+  cached_network_image: ^3.2.1
   get_it: ^7.2.0
   image_picker:
   intl: ^0.17.0
-  currency_text_input_formatter: ^2.1.3
-  flutterwave: ^1.0.1
-  firebase_auth: ^3.3.11
-  google_sign_in: ^5.2.4
-  firebase_core: ^1.13.1
-  flutter_facebook_auth: ^4.1.2
-  mapbox_search_flutter: ^1.0.6+1
-  flutter_svg: ^1.0.3
+  currency_text_input_formatter: ^2.1.7
+  firebase_auth: ^3.4.1
+  google_sign_in: ^5.4.0
+  firebase_core: ^1.19.1
+  flutter_facebook_auth: ^4.4.0
+  flutter_mapbox_autocomplete: ^2.0.0
+  flutter_svg:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -45,7 +44,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/fonts/signika_bold.ttf

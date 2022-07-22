@@ -13,15 +13,16 @@ class ProductCard extends StatefulWidget {
   final Product product;
   final bool isEdit;
 
-  ProductCard({Key key, this.product, this.isEdit = false}) : super(key: key);
+  ProductCard({Key? key, required this.product, this.isEdit = false})
+      : super(key: key);
 
   @override
   _ProductCardState createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
-  Product product;
-  bool toggle;
+  late Product product;
+  late bool toggle;
 
   @override
   void initState() {
@@ -34,14 +35,18 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(AppRouting.productDetail, arguments: product);
+        Navigator.of(context)
+            .pushNamed(AppRouting.productDetail, arguments: product);
       },
       child: Container(
         child: Stack(
           children: <Widget>[
             _buildColumn(),
             _buildSaleWidget(),
-            Align(alignment: Alignment.bottomRight, child: CartButtonWidget(key: Key(product.id), product: product)),
+            Align(
+                alignment: Alignment.bottomRight,
+                child:
+                    CartButtonWidget(key: Key(product.id), product: product)),
             Align(
               alignment: Alignment.topRight,
               child: WishButtonWidget(
@@ -53,7 +58,9 @@ class _ProductCardState extends State<ProductCard> {
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(AppRouting.editProductPage, arguments: product);
+                        Navigator.of(context).pushNamed(
+                            AppRouting.editProductPage,
+                            arguments: product);
                       },
                       child: Text('Edit'),
                     ),

@@ -2,13 +2,13 @@ import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository.dart';
-import 'package:flutter/foundation.dart';
 
 class WishListRepositoryImpl implements WishListRepository {
   WishListDao _wishListDao;
   NetworkHelper _networkHelper;
 
-  WishListRepositoryImpl({@required WishListDao wishListDao, @required NetworkHelper networkHelper})
+  WishListRepositoryImpl(
+      {required WishListDao wishListDao, required NetworkHelper networkHelper})
       : _wishListDao = wishListDao,
         _networkHelper = networkHelper;
 

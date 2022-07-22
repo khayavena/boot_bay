@@ -16,19 +16,21 @@ import 'package:provider/provider.dart';
 class MerchantLandingPage extends StatefulWidget {
   final Merchant merchant;
 
-  MerchantLandingPage({Key key, this.merchant}) : super(key: key);
+  MerchantLandingPage({Key? key, required this.merchant}) : super(key: key);
 
   @override
   _MerchantLandingPageState createState() => _MerchantLandingPageState();
 }
 
-class _MerchantLandingPageState extends State<MerchantLandingPage> implements ClickCategory {
-  ProductViewModel _productViewModel;
-  CategoryViewModel _categoryViewModel;
+class _MerchantLandingPageState extends State<MerchantLandingPage>
+    implements ClickCategory {
+  late ProductViewModel _productViewModel;
+  late CategoryViewModel _categoryViewModel;
 
   Widget _categoryWidget() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, CategoryViewModel categoryViewModel, Widget child) {
+      builder: (BuildContext context, CategoryViewModel categoryViewModel,
+          Widget? child) {
         return Container(
           width: AppTheme.fullWidth(context),
           height: 38,
@@ -40,7 +42,8 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
 
   Widget _productWidget() {
     return Consumer<ProductViewModel>(
-      builder: (BuildContext context, ProductViewModel productViewModel, Widget child) {
+      builder: (BuildContext context, ProductViewModel productViewModel,
+          Widget? child) {
         return _buildProducts(productViewModel);
       },
     );
@@ -103,7 +106,8 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
+      _categoryViewModel =
+          Provider.of<CategoryViewModel>(context, listen: false);
       _productViewModel = Provider.of<ProductViewModel>(context, listen: false);
       refreshCategory(widget.merchant.id);
     });
@@ -155,7 +159,10 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
         return Expanded(
           child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                  crossAxisCount: 2,
+                  childAspectRatio: .6 / 1,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8),
               padding: EdgeInsets.only(left: 8, right: 8),
               scrollDirection: Axis.vertical,
               children: productViewModel.getProducts
@@ -171,7 +178,8 @@ class _MerchantLandingPageState extends State<MerchantLandingPage> implements Cl
         );
       case Loader.error:
         return Center(
-          child: Text("We currently experiencing problems, please try Again later "),
+          child: Text(
+              "We currently experiencing problems, please try Again later "),
         );
       default:
         return Center(

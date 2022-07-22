@@ -1,8 +1,8 @@
 class UserProfile {
   bool active;
-  String contactNo;
+  String? contactNo;
   String customerId;
-  String dateOfBirth;
+  String? dateOfBirth;
   String email;
   String firstName;
   String fullName;
@@ -11,24 +11,24 @@ class UserProfile {
   bool marchant;
   int parentId;
   String password;
-  String role;
+  String? role;
   String thirdPartyId;
 
   UserProfile(
-      {this.active,
-      this.contactNo,
-      this.customerId,
-      this.dateOfBirth,
-      this.email,
-      this.firstName,
-      this.fullName,
-      this.id,
-      this.lastName,
-      this.marchant,
-      this.parentId,
-      this.password,
-      this.role,
-      this.thirdPartyId});
+      {this.active = false,
+      this.contactNo = "",
+      this.customerId = "",
+      this.dateOfBirth = "",
+      this.email = "",
+      this.firstName = "",
+      this.fullName = "",
+      this.id = "",
+      this.lastName = "",
+      this.marchant = false,
+      this.parentId = 0,
+      this.password = "",
+      this.role = "",
+      this.thirdPartyId = ""});
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
@@ -68,9 +68,7 @@ class UserProfile {
     if (this.dateOfBirth != null) {
       data['dateOfBirth'] = this.dateOfBirth;
     }
-    if (this.password != null) {
-      data['password'] = this.password;
-    }
+    data['password'] = this.password;
     return data;
   }
 }

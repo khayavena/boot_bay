@@ -14,17 +14,16 @@ import 'package:provider/provider.dart';
 import '../../checkout/drop_in/yoco_web_drop_in_page.dart';
 
 class ShoppingWishListPage extends StatefulWidget {
-  ShoppingWishListPage({Key key}) : super(key: key);
+  ShoppingWishListPage({Key? key}) : super(key: key);
 
   @override
   _ShoppingWishListPageState createState() => _ShoppingWishListPageState();
 }
 
 class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
-  double price;
-
-  UserViewModel _userViewModel;
-  List<Product> products;
+  late double price;
+  late UserViewModel _userViewModel;
+  late List<Product> products;
 
   @override
   void initState() {
@@ -67,11 +66,11 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => YocoWebDropInPage(
-                  finalAmount: wishListViewViewModel.finalAmount(),
-                  itemIds: wishListViewViewModel.itemIds(),
-                  currency: wishListViewViewModel.currency(),
-                  merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                ),
+                    finalAmount: wishListViewViewModel.finalAmount(),
+                    itemIds: wishListViewViewModel.itemIds(),
+                    currency: wishListViewViewModel.currency(),
+                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                    url: ""),
               ),
             );
           }
@@ -132,7 +131,7 @@ class _ShoppingWishListPageState extends State<ShoppingWishListPage> {
         body: Container(
           child: Consumer<WishListViewModel>(
             builder: (BuildContext context, WishListViewModel productViewModel,
-                Widget child) {
+                Widget? child) {
               return SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(

@@ -1,11 +1,11 @@
 class Product {
   String categoryId;
-  String category;
-  String creation;
+  String category = "";
+  String? creation;
   String description;
   String id;
-  String lastUpdate;
-  String merchantId;
+  String? lastUpdate;
+  String? merchantId;
   String name;
   double price;
   double scoring;
@@ -15,19 +15,19 @@ class Product {
   int orderQuantity;
 
   Product(
-      {this.categoryId,
-      this.creation,
-      this.description,
-      this.id,
-      this.lastUpdate,
-      this.merchantId,
-      this.name,
-      this.price,
-      this.scoring,
-      this.isWeighed,
-      this.isLiked,
-      this.isSelected,
-      this.orderQuantity});
+      {this.categoryId = "",
+      this.creation = "",
+      this.description = "",
+      this.id = "",
+      this.lastUpdate = "",
+      this.merchantId = "",
+      this.name = "",
+      this.price = 0.0,
+      this.scoring = 0.1,
+      this.isWeighed = false,
+      this.isLiked = false,
+      this.isSelected = false,
+      this.orderQuantity = 0});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(

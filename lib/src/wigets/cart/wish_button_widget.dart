@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class WishButtonWidget extends StatefulWidget {
   final Product product;
 
-  WishButtonWidget({Key key, @required this.product}) : super(key: key);
+  WishButtonWidget({Key? key, required this.product}) : super(key: key);
 
   @override
   _WishButtonWidgetState createState() => _WishButtonWidgetState();
@@ -21,7 +21,8 @@ class _WishButtonWidgetState extends State<WishButtonWidget> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<WishListViewModel>(context, listen: false).checkExist(widget.product);
+      Provider.of<WishListViewModel>(context, listen: false)
+          .checkExist(widget.product);
     });
     super.initState();
   }
@@ -34,7 +35,8 @@ class _WishButtonWidgetState extends State<WishButtonWidget> {
   Widget _buildCartWidget() {
     return Consumer<WishListViewModel>(
         key: Key(widget.product.id),
-        builder: (BuildContext context, WishListViewModel wishViewModel, Widget child) {
+        builder: (BuildContext context, WishListViewModel wishViewModel,
+            Widget? child) {
           if (widget.product.id == wishViewModel.currentId) {
             if (wishViewModel.isItemExist) {
               icon = Res.wish_active_ic;
@@ -44,13 +46,12 @@ class _WishButtonWidgetState extends State<WishButtonWidget> {
           }
 
           return Container(
-            child: IconButton(
-                icon: ImageIcon(AssetImage(icon)),
-                color: primaryRedColor,
-                onPressed: () {
-                  wishViewModel.wishListAction(widget.product);
-                })
-          );
+              child: IconButton(
+                  icon: ImageIcon(AssetImage(icon)),
+                  color: primaryRedColor,
+                  onPressed: () {
+                    wishViewModel.wishListAction(widget.product);
+                  }));
         });
   }
 }

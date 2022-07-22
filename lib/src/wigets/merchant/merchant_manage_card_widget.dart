@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class MerchantManagementCardWidget extends StatefulWidget {
   final Merchant merchant;
 
-  const MerchantManagementCardWidget({Key key, @required this.merchant}) : super(key: key);
+  const MerchantManagementCardWidget({Key? key, required this.merchant})
+      : super(key: key);
 
   @override
   _MerchantManagementCardWidgetState createState() {
@@ -17,7 +18,8 @@ class MerchantManagementCardWidget extends StatefulWidget {
   }
 }
 
-class _MerchantManagementCardWidgetState extends State<MerchantManagementCardWidget> {
+class _MerchantManagementCardWidgetState
+    extends State<MerchantManagementCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -25,7 +27,9 @@ class _MerchantManagementCardWidgetState extends State<MerchantManagementCardWid
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          Navigator.of(context).pushNamed(AppRouting.merchantManagementEditOptions, arguments: widget.merchant);
+          Navigator.of(context).pushNamed(
+              AppRouting.merchantManagementEditOptions,
+              arguments: widget.merchant);
         },
         child: _buildColumn(),
       ),

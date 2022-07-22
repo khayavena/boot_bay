@@ -17,7 +17,7 @@ class LoginDialogPage extends StatefulWidget {
 }
 
 class _LoginDialogPageState extends State<LoginDialogPage> {
-  UserViewModel _vm;
+  late UserViewModel _vm;
 
   @override
   void initState() {
@@ -44,16 +44,14 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
     return Container(
       height: 500,
       child: Consumer<UserViewModel>(
-        builder: (BuildContext context, UserViewModel value, Widget child) {
+        builder: (BuildContext context, UserViewModel value, Widget? child) {
           switch (value.loader) {
             case Loader.error:
-              return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
-              break;
+              return Center(child: Text(value.dataErrorMessage));
             case Loader.busy:
               return Center(child: ColorLoader5());
-              break;
             case Loader.complete:
-              value?.resetLoader();
+              value.resetLoader();
               Navigator.pop(context);
               break;
             case Loader.idl:
@@ -152,7 +150,8 @@ class _LoginDialogPageState extends State<LoginDialogPage> {
       child: Container(
         width: 80,
         height: 80,
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(icon), fit: BoxFit.cover)),
+        decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage(icon), fit: BoxFit.cover)),
         padding: EdgeInsets.only(top: 50.0),
       ),
     );

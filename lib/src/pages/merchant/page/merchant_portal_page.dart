@@ -1,7 +1,7 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,7 +18,7 @@ class _State extends State<MerchantPortalPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  UserViewModel _userViewModel;
+  late UserViewModel _userViewModel;
 
   @override
   void initState() {
@@ -47,8 +47,10 @@ class _State extends State<MerchantPortalPage> {
               fontFamily: 'SFProText',
             ),
           ),
-          leading:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+          leading: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {}),
           centerTitle: true,
         ),
         body: _buildOptions());
@@ -57,15 +59,19 @@ class _State extends State<MerchantPortalPage> {
   Widget _buildOptions() {
     return GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 1 / .6, mainAxisSpacing: 8, crossAxisSpacing: 8),
+            crossAxisCount: 2,
+            childAspectRatio: 1 / .6,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8),
         padding: EdgeInsets.only(left: 8, right: 8, top: 16),
         scrollDirection: Axis.vertical,
         children: [
           GestureDetector(
               onTap: () async {
                 if (_userViewModel.isLoggedIn()) {
-                  Navigator.of(context)
-                      .pushNamed(AppRouting.merchantsManagementList, arguments: _userViewModel.getUser.id);
+                  Navigator.of(context).pushNamed(
+                      AppRouting.merchantsManagementList,
+                      arguments: _userViewModel.getUser.id);
                 } else {
                   //alert
                 }
@@ -74,7 +80,8 @@ class _State extends State<MerchantPortalPage> {
           GestureDetector(
               onTap: () async {
                 if (_userViewModel.isLoggedIn()) {
-                  Navigator.of(context).pushNamed(AppRouting.merchantsRegistration);
+                  Navigator.of(context)
+                      .pushNamed(AppRouting.merchantsRegistration);
                 } else {
                   //alert
                 }

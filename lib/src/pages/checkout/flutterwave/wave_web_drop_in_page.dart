@@ -14,25 +14,25 @@ class WaveWebDropInPage extends StatefulWidget {
   final String itemIds;
   final String currency;
   final String merchantId;
-  String url;
+  late String url;
 
   WaveWebDropInPage(
-      {this.finalAmount,
-      this.itemIds,
-      this.currency,
-      this.merchantId,
-      this.url});
+      {required this.finalAmount,
+      required this.itemIds,
+      required this.currency,
+      required this.merchantId,
+      required this.url});
 
   @override
   _WaveWebDropInPageState createState() => _WaveWebDropInPageState();
 }
 
 class _WaveWebDropInPageState extends State<WaveWebDropInPage> {
-  YocoViewModel yocoViewModel;
+  late YocoViewModel yocoViewModel;
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       yocoViewModel = Provider.of<YocoViewModel>(
         context,
         listen: false,
@@ -53,7 +53,7 @@ class _WaveWebDropInPageState extends State<WaveWebDropInPage> {
 
   Widget loadDropIn() {
     return Consumer<YocoViewModel>(
-        builder: (BuildContext context, vm, Widget child) {
+        builder: (BuildContext context, vm, Widget? child) {
       switch (vm.loader) {
         case Loader.error:
           final snackBar = SnackBar(

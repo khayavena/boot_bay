@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 class CartItemWidget extends StatelessWidget {
   final Product model;
 
-  const CartItemWidget({Key key, this.model}) : super(key: key);
+  const CartItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,11 @@ class CartItemWidget extends StatelessWidget {
                     image: CachedNetworkImageProvider(getImageUri(model.id)),
                   ),
                 ))),
-        Flexible(flex: 1, child: Container(margin: EdgeInsets.only(left: 4, right: 8), child: _leftColumn()))
+        Flexible(
+            flex: 1,
+            child: Container(
+                margin: EdgeInsets.only(left: 4, right: 8),
+                child: _leftColumn()))
       ],
     );
   }

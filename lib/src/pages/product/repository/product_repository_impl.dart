@@ -5,7 +5,6 @@ import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/product_response.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
-import 'package:flutter/material.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   RemoteProductService _remoteProductService;
@@ -13,9 +12,9 @@ class ProductRepositoryImpl implements ProductRepository {
   NetworkHelper _networkHelper;
 
   ProductRepositoryImpl({
-    @required RemoteProductService remoteProductService,
-    @required ProductDao localProductService,
-    @required NetworkHelper networkHelper,
+    required RemoteProductService remoteProductService,
+    required ProductDao localProductService,
+    required NetworkHelper networkHelper,
   })  : _remoteProductService = remoteProductService,
         _localProductService = localProductService,
         _networkHelper = networkHelper;
@@ -50,13 +49,16 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<Product>> getMerchantProductsByCategory(String categoryId, String merchantId) {
-    return _remoteProductService.getMerchantProductsByCategory(categoryId, merchantId);
+  Future<List<Product>> getMerchantProductsByCategory(
+      String categoryId, String merchantId) {
+    return _remoteProductService.getMerchantProductsByCategory(
+        categoryId, merchantId);
   }
 
   @override
   Future<List<Product>> getProductsByCategory(String categoryId) async {
-    var products = await _remoteProductService.getProductsByCategory(categoryId);
+    var products =
+        await _remoteProductService.getProductsByCategory(categoryId);
     if (products.isNotEmpty) {
       _localProductService.insertAll(products);
     }
@@ -70,7 +72,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   // ignore: missing_return
-  Future<void> delete(Product product) {
+  Future<void> delete(Product product) async {
     _localProductService.delete(product);
   }
 

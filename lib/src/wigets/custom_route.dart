@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimatedRoute<T> extends MaterialPageRoute<T> {
-  AnimatedRoute({WidgetBuilder builder, RouteSettings settings})
+  AnimatedRoute(
+      {required WidgetBuilder builder, required RouteSettings settings})
       : super(builder: builder, settings: settings);
 
   @override

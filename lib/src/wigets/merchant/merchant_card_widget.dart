@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class MerchantCardWidget extends StatefulWidget {
   final Merchant merchant;
 
-  const MerchantCardWidget({Key key, @required this.merchant})
+  const MerchantCardWidget({Key? key, required this.merchant})
       : super(key: key);
 
   @override

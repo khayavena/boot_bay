@@ -1,6 +1,5 @@
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
 import 'package:bootbay/src/model/payment_response.dart';
-import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
 class PaymentDaoImpl implements PaymentDao {
@@ -9,7 +8,7 @@ class PaymentDaoImpl implements PaymentDao {
   Database _database;
 
   PaymentDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override

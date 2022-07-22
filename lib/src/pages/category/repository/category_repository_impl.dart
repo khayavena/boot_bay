@@ -3,15 +3,14 @@ import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
-import 'package:flutter/material.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
   RemoteCategoryDataSource _remoteCategoryService;
   NetworkHelper _networkHelper;
 
   CategoryRepositoryImpl({
-    @required RemoteCategoryDataSource remoteProductService,
-    @required NetworkHelper networkHelper,
+    required RemoteCategoryDataSource remoteProductService,
+    required NetworkHelper networkHelper,
   })  : _remoteCategoryService = remoteProductService,
         _networkHelper = networkHelper;
 

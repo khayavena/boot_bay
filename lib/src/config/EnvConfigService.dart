@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 class EnvConfigServiceImpl implements EnvConfigService {
   static final errorMessage = 'Error loading config.';
   Flavor flavor;
-  EnvConfig envConfig;
+  late EnvConfig envConfig;
 
   EnvConfigServiceImpl(this.flavor);
 

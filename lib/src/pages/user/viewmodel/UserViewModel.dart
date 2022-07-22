@@ -5,7 +5,6 @@ import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 import '../../../viewmodel/ViewModel.dart';
 
@@ -16,13 +15,13 @@ class UserViewModel extends ViewModel {
   List<UserProfile> _users = [];
   UserProfile _user = UserProfile();
 
-  String dataErrorMessage;
+  late String dataErrorMessage;
   bool _loggedIn = false;
   Loader _loader = Loader.idl;
 
   UserViewModel({
-    @required UserRepository userRepository,
-    @required ThirdPartyAuthRepository thirdPartyAuthRepository,
+    required UserRepository userRepository,
+    required ThirdPartyAuthRepository thirdPartyAuthRepository,
   })  : _userRepository = userRepository,
         _thirdPartyAuthRepository = thirdPartyAuthRepository;
 
@@ -96,7 +95,7 @@ class UserViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _user = await _userRepository.signIn(AuthRequest());
+      _user = await _userRepository.signIn(AuthRequest(thirdPartyId: ''));
       _loader = Loader.complete;
       notifyListeners();
       return _user;

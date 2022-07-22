@@ -4,19 +4,16 @@ import 'package:bootbay/src/helpers/network_helper.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/user_profile.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
-import 'package:flutter/material.dart';
 
 class UserRepositoryImpl implements UserRepository {
   RemoteUserDataSource _remoteUserDataSource;
   UserDao _userDao;
-  NetworkHelper _networkHelper;
 
   UserRepositoryImpl(
-      {@required RemoteUserDataSource remoteUserDataSource,
-      @required NetworkHelper networkHelper,
-      @required UserDao userDao})
+      {required RemoteUserDataSource remoteUserDataSource,
+      required NetworkHelper networkHelper,
+      required UserDao userDao})
       : _remoteUserDataSource = remoteUserDataSource,
-        _networkHelper = networkHelper,
         _userDao = userDao;
 
   @override
@@ -45,7 +42,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<bool> isLoggedIn() async {
     List<UserProfile> list = await _userDao.findAll();
-    if (list != null && list.isNotEmpty) {
+    if (list.isNotEmpty) {
       return true;
     }
     return false;
@@ -58,7 +55,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<UserProfile> thirdPartySignIn(String firstName, String lastName, String email, String idToken) async {
+  Future<UserProfile> thirdPartySignIn(
+      String firstName, String lastName, String email, String idToken) async {
     var user = UserProfile(
         firstName: firstName,
         dateOfBirth: DateTime.now().toString(),

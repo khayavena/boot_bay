@@ -6,18 +6,11 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
 class AppDatabaseImpl {
-  static final AppDatabaseImpl _singleton = AppDatabaseImpl._();
-
-  static AppDatabaseImpl get instance => _singleton;
-  Completer<Database> _dbOpenCompleter;
-
-  AppDatabaseImpl._();
+  late Completer<Database> _dbOpenCompleter;
 
   Future<Database> get database async {
-    if (_dbOpenCompleter == null) {
-      _dbOpenCompleter = Completer();
-      _openDatabase();
-    }
+    _dbOpenCompleter = Completer();
+    await _openDatabase();
     return _dbOpenCompleter.future;
   }
 

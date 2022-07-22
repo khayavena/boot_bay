@@ -7,31 +7,35 @@ import 'package:bootbay/src/model/product_response.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class ProductViewModel extends ViewModel {
   ProductRepository _productRepository;
-  Loader _loader;
+  late Loader _loader = Loader.idl;
   List<Product> _products = [];
   List<Product> cartItems = [];
   Product _product = Product();
-  Category _category;
-  ProductResponse _productResponse;
-  String dataErrorMessage;
+  late Category _category;
+  late ProductResponse _productResponse;
+  late String dataErrorMessage;
 
   ProductViewModel({
-    @required ProductRepository productRepository,
+    required ProductRepository productRepository,
   }) : _productRepository = productRepository;
 
   void saveProduct(Product product) {
     _productRepository.saveProduct(product);
   }
 
-  Future<Product> saveRemoteProduct(String merchantId, String name, description, double price) async {
+  Future<Product> saveRemoteProduct(
+      String merchantId, String name, description, double price) async {
     if (_category != null) {
       _product.categoryId = _category.id;
       var productResponse = await _productRepository.saveRemoteProduct(Product(
-          categoryId: _category.id, merchantId: merchantId, name: name, description: description, price: price));
+          categoryId: _category.id,
+          merchantId: merchantId,
+          name: name,
+          description: description,
+          price: price));
       _product = productResponse.item;
       notifyListeners();
     }
@@ -52,11 +56,13 @@ class ProductViewModel extends ViewModel {
     _productRepository.delete(product);
   }
 
-  Future<List<Product>> getMerchantProductsByCategory(String categoryId, String merchantId) async {
+  Future<List<Product>> getMerchantProductsByCategory(
+      String categoryId, String merchantId) async {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _products = await _productRepository.getMerchantProductsByCategory(categoryId, merchantId);
+      _products = await _productRepository.getMerchantProductsByCategory(
+          categoryId, merchantId);
 
       _loader = Loader.complete;
       notifyListeners();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SizeSelectorWidget extends StatelessWidget {
   final String size;
 
-  SizeSelectorWidget({this.size});
+  SizeSelectorWidget({required this.size});
 
   @override
   Widget build(BuildContext context) {

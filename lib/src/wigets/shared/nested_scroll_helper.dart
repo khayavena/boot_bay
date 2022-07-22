@@ -1,12 +1,12 @@
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:flutter/material.dart';
 
 Widget buildCollapsingWidget(
-    {@required Widget bodyWidget,
-    List<Widget> actions,
-    @required String headerIcon,
-    @required Widget backButton,
-    @required String title}) {
+    {required Widget bodyWidget,
+    List<Widget>? actions,
+    required String headerIcon,
+    required Widget backButton,
+    required String title}) {
   return NestedScrollView(
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
@@ -39,7 +39,10 @@ Widget buildCollapsingWidget(
 }
 
 Widget buildDefaultCollapsingWidget(
-    {@required Widget bodyWidget, List<Widget> actions, @required Widget backButton, @required String title}) {
+    {required Widget bodyWidget,
+    List<Widget>? actions,
+    required Widget backButton,
+    required String title}) {
   return NestedScrollView(
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
@@ -49,9 +52,10 @@ Widget buildDefaultCollapsingWidget(
           expandedHeight: 150.0,
           floating: false,
           pinned: true,
-          title:Text( title),
+          title: Text(title),
           actions: actions == null ? [] : actions,
-          flexibleSpace: FlexibleSpaceBar(centerTitle: true, background: getDefaultBackground(title)),
+          flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true, background: getDefaultBackground(title)),
         ),
       ];
     },
@@ -67,9 +71,12 @@ Widget getDefaultBackground(String title) {
     PositionedDirectional(
       top: 0,
       start: 0,
-      child: Container(width: 375, height: 204, decoration: BoxDecoration(color:  Color(0xffd8d8d8))),
+      child: Container(
+          width: 375,
+          height: 204,
+          decoration: BoxDecoration(color: Color(0xffd8d8d8))),
     ),
-    // Football3.3
+
     PositionedDirectional(
       top: 0,
       start: 0,
@@ -88,7 +95,7 @@ Widget getDefaultBackground(String title) {
                 gradient: LinearGradient(
                     begin: Alignment(0.13648371883650204, 0.29639567233383773),
                     end: Alignment(0.05216666666666671, 1.0000000000000002),
-                    colors: [Color(0x008f54e7),  Color(0xff54a1f8)]))),
+                    colors: [Color(0x008f54e7), Color(0xff54a1f8)]))),
       ),
     ),
     // Rectangle
@@ -104,7 +111,7 @@ Widget getDefaultBackground(String title) {
                 gradient: LinearGradient(
                     begin: Alignment(0.13648371883650204, 0.29639567233383773),
                     end: Alignment(0.05216666666666671, 1.0000000000000002),
-                    colors: [Color(0x008d4ded),  Color(0xff54a1f8)]))),
+                    colors: [Color(0x008d4ded), Color(0xff54a1f8)]))),
       ),
     ),
     // RUGBY
@@ -112,7 +119,7 @@ Widget getDefaultBackground(String title) {
       top: 97,
       start: 16,
       child: Text(title.toUpperCase(),
-          style:  TextStyle(
+          style: TextStyle(
               color: CustomColor.cta_blue,
               fontWeight: FontWeight.w700,
               fontFamily: "SFCompactDisplay",
@@ -128,11 +135,11 @@ Widget getDefaultBackground(String title) {
           Container(
               width: 375,
               height: 1,
-              decoration: BoxDecoration(border: Border.all(color:  Color(0xffeeeeee), width: 1))),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffeeeeee), width: 1))),
     )
   ]);
 }
-
 
 Widget getAppDivider() {
   return Container(

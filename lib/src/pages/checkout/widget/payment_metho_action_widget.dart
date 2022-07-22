@@ -4,7 +4,11 @@ class SelectPayMethodRow extends StatelessWidget {
   final String title;
   final String cardMask;
 
-  const SelectPayMethodRow({Key key, this.title, this.cardMask}) : super(key: key);
+  const SelectPayMethodRow(
+      {Key? key,
+      this.title = "Select Payment Method",
+      this.cardMask = 'Not card selected'})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

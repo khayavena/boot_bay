@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/local/product/product_dao.dart';
 import 'package:bootbay/src/model/product.dart';
 import 'package:sembast/sembast.dart';
-
 
 class ProductDaoImpl implements ProductDao {
   static const String folderName = "Products";
@@ -10,7 +8,7 @@ class ProductDaoImpl implements ProductDao {
   Database _database;
 
   ProductDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override
@@ -26,7 +24,7 @@ class ProductDaoImpl implements ProductDao {
   Future<Product> findProductById(String id) async {
     final recordSnapshot = await _productStore.findFirst(_database,
         finder: Finder(filter: Filter.byKey(id)));
-    return Product.fromJson(recordSnapshot.value);
+    return Product.fromJson(recordSnapshot?.value ?? {});
   }
 
   @override
@@ -50,10 +48,9 @@ class ProductDaoImpl implements ProductDao {
   }
 
   @override
-  // ignore: missing_return
   Future<void> delete(Product product) async {
-    var b = await _productStore.delete(
-        _database, finder: Finder(filter: Filter.byKey(product.id)));
-     print('Delete status $b');
+    var b = await _productStore.delete(_database,
+        finder: Finder(filter: Filter.byKey(product.id)));
+    print('Delete status $b');
   }
 }

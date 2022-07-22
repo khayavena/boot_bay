@@ -32,7 +32,8 @@ class AppRouting {
   static const String merchantsManagementEdit = '/editMerchantManagementPage';
   static const String merchantsManagementList = '/merchantManagementListPage';
   static const String merchantCategoryList = '/merchantItemCategoryListPage';
-  static const String merchantManagementEditOptions = '/merchantManagementEditOptionsPage';
+  static const String merchantManagementEditOptions =
+      '/merchantManagementEditOptionsPage';
   static const String editCategory = "/editCategoryPage";
   static const String addCategory = "/addCategoryPage";
   static const String addProduct = "/addProductPage";
@@ -69,11 +70,12 @@ class AppRouting {
         return createRoute(
             merchantsManagementList,
             MerchantManagementListPage(
-              userId: args,
+              userId: args as String,
             ));
 
       case merchantCategoryList:
-        return createRoute(merchantCategoryList, MerchantCategoryListPage(merchant: args as Merchant));
+        return createRoute(merchantCategoryList,
+            MerchantCategoryListPage(merchant: args as Merchant));
       case productDetail:
         if (args is Product) {
           return createRoute(
@@ -87,7 +89,7 @@ class AppRouting {
         return createRoute(
             editProductPage,
             EditProductPage(
-              product: args,
+              product: args as Product,
             ));
 
         return _errorRoute(error: 'Failed to load product page');
@@ -114,7 +116,7 @@ class AppRouting {
 
         return _errorRoute();
       case editCategory:
-        Map map = args;
+        Map map = args as Map;
         Category category = map['category'];
         Merchant merchant = map['merchant'];
         return createRoute(
@@ -130,7 +132,7 @@ class AppRouting {
               category: args as Category,
             ));
       case addProduct:
-        Map map = args;
+        Map map = args as Map;
         Category category = map['category'] ?? null;
         Merchant merchant = map['merchant'];
         return createRoute(

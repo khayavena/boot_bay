@@ -61,7 +61,7 @@ GetIt get moduleLocator => _locator;
 
 Future<void> setupLocator(Flavor flavor) async {
   var config = await EnvConfigServiceImpl(flavor).getEnvConfig();
-  final Database database = await AppDatabaseImpl.instance.database;
+  final Database database = await AppDatabaseImpl().database;
   final dio = DioClient.getClient(
     config.baseUrl,
     config.appKey,
@@ -76,45 +76,58 @@ Future<void> setupLocator(Flavor flavor) async {
 void _setUpAuthentication() {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  moduleLocator.registerLazySingleton<ThirdPartyAuthRepository>(() => ThirdPartyAuthRepositoryImpl(
-      repository: moduleLocator<UserRepository>(),
-      firebaseAuth: auth,
-      googleSignIn: _googleSignIn,
-      facebookAuth: FacebookAuth.instance));
+  moduleLocator.registerLazySingleton<ThirdPartyAuthRepository>(() =>
+      ThirdPartyAuthRepositoryImpl(
+          repository: moduleLocator<UserRepository>(),
+          firebaseAuth: auth,
+          googleSignIn: _googleSignIn,
+          facebookAuth: FacebookAuth.instance));
 }
 
 void _setUpRemoteServices(dio) async {
   moduleLocator.registerLazySingleton<Dio>(() => dio);
 
-  moduleLocator.registerLazySingleton<RemoteUserDataSource>(() => RemoteUserDataSourceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemoteUserDataSource>(
+      () => RemoteUserDataSourceImpl(dio: dio));
 
-  moduleLocator.registerLazySingleton<RemoteMerchantDataSource>(() => RemoteMerchantDataSourceImpl(dioClient: dio));
+  moduleLocator.registerLazySingleton<RemoteMerchantDataSource>(
+      () => RemoteMerchantDataSourceImpl(dioClient: dio));
 
-  moduleLocator.registerLazySingleton<RemoteProductService>(() => RemoteProductServiceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemoteProductService>(
+      () => RemoteProductServiceImpl(dio: dio));
 
-  moduleLocator.registerLazySingleton<RemoteMediaContentDataSource>(() => RemoteMediaContentDataSourceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemoteMediaContentDataSource>(
+      () => RemoteMediaContentDataSourceImpl(dio: dio));
 
-  moduleLocator.registerLazySingleton<RemoteCategoryDataSource>(() => RemoteCategoryServiceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemoteCategoryDataSource>(
+      () => RemoteCategoryServiceImpl(dio: dio));
 
-  moduleLocator.registerLazySingleton<RemotePaymentService>(() => RemotePaymentServiceImpl(dio: dio));
+  moduleLocator.registerLazySingleton<RemotePaymentService>(
+      () => RemotePaymentServiceImpl(dio: dio));
 }
 
 void _setUpDatabase(database) async {
   moduleLocator.registerLazySingleton<Database>(() => database);
 
-  moduleLocator.registerLazySingleton<UserDao>(() => UserDaoImpl(database: moduleLocator<Database>()));
+  moduleLocator.registerLazySingleton<UserDao>(
+      () => UserDaoImpl(database: moduleLocator<Database>()));
 
-  moduleLocator.registerLazySingleton<ProductDao>(() => ProductDaoImpl(database: moduleLocator<Database>()));
+  moduleLocator.registerLazySingleton<ProductDao>(
+      () => ProductDaoImpl(database: moduleLocator<Database>()));
 
-  moduleLocator.registerLazySingleton<CartDao>(() => CartDaoImpl(database: moduleLocator<Database>()));
+  moduleLocator.registerLazySingleton<CartDao>(
+      () => CartDaoImpl(database: moduleLocator<Database>()));
 
-  moduleLocator.registerLazySingleton<WishListDao>(() => WishListDaoImpl(database: moduleLocator<Database>()));
+  moduleLocator.registerLazySingleton<WishListDao>(
+      () => WishListDaoImpl(database: moduleLocator<Database>()));
 
-  moduleLocator.registerLazySingleton<PaymentDao>(() => PaymentDaoImpl(database: moduleLocator<Database>()));
+  moduleLocator.registerLazySingleton<PaymentDao>(
+      () => PaymentDaoImpl(database: moduleLocator<Database>()));
 }
 
 void _setEnvAndUtils(Flavor flavor) async {
-  moduleLocator.registerLazySingleton<EnvConfigService>(() => EnvConfigServiceImpl(flavor));
+  moduleLocator.registerLazySingleton<EnvConfigService>(
+      () => EnvConfigServiceImpl(flavor));
   moduleLocator.registerLazySingleton<NetworkHelper>(() => NetworkHelperImpl());
   final config = await moduleLocator<EnvConfigService>().getEnvConfig();
   moduleLocator.registerLazySingleton<EnvConfig>(() => config);
@@ -134,28 +147,39 @@ void _setRepositories(dio) {
     ),
   );
 
-  moduleLocator.registerLazySingleton<CartRepository>(
-      () => CartRepositoryImpl(cartDao: moduleLocator<CartDao>(), networkHelper: moduleLocator<NetworkHelper>()));
+  moduleLocator.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(
+      cartDao: moduleLocator<CartDao>(),
+      networkHelper: moduleLocator<NetworkHelper>()));
 
   moduleLocator.registerLazySingleton<WishListRepository>(() =>
-      WishListRepositoryImpl(wishListDao: moduleLocator<WishListDao>(), networkHelper: moduleLocator<NetworkHelper>()));
+      WishListRepositoryImpl(
+          wishListDao: moduleLocator<WishListDao>(),
+          networkHelper: moduleLocator<NetworkHelper>()));
 
-  moduleLocator.registerLazySingleton<MerchantRepository>(
-      () => MerchantRepositoryImpl(remoteMerchantDataSource: moduleLocator<RemoteMerchantDataSource>()));
+  moduleLocator.registerLazySingleton<MerchantRepository>(() =>
+      MerchantRepositoryImpl(
+          remoteMerchantDataSource: moduleLocator<RemoteMerchantDataSource>()));
 
-  moduleLocator.registerLazySingleton<MediaContentRepository>(
-      () => MediaContentRepositoryImpl(mediaContentDataSource: moduleLocator<RemoteMediaContentDataSource>()));
+  moduleLocator.registerLazySingleton<MediaContentRepository>(() =>
+      MediaContentRepositoryImpl(
+          mediaContentDataSource:
+              moduleLocator<RemoteMediaContentDataSource>()));
 
-  moduleLocator.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(
-      remoteProductService: RemoteProductServiceImpl(dio: dio),
-      localProductService: ProductDaoImpl(database: moduleLocator<Database>()),
-      networkHelper: moduleLocator<NetworkHelper>()));
+  moduleLocator.registerLazySingleton<ProductRepository>(() =>
+      ProductRepositoryImpl(
+          remoteProductService: RemoteProductServiceImpl(dio: dio),
+          localProductService:
+              ProductDaoImpl(database: moduleLocator<Database>()),
+          networkHelper: moduleLocator<NetworkHelper>()));
 
-  moduleLocator.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(
-      remoteProductService: moduleLocator<RemoteCategoryDataSource>(), networkHelper: moduleLocator<NetworkHelper>()));
+  moduleLocator.registerLazySingleton<CategoryRepository>(() =>
+      CategoryRepositoryImpl(
+          remoteProductService: moduleLocator<RemoteCategoryDataSource>(),
+          networkHelper: moduleLocator<NetworkHelper>()));
 
-  moduleLocator.registerLazySingleton<PaymentRepository>(() => PaymentRepositoryImpl(
-      paymentService: moduleLocator<RemotePaymentService>(),
-      paymentDao: moduleLocator<PaymentDao>(),
-      networkHelper: moduleLocator<NetworkHelper>()));
+  moduleLocator.registerLazySingleton<PaymentRepository>(() =>
+      PaymentRepositoryImpl(
+          paymentService: moduleLocator<RemotePaymentService>(),
+          paymentDao: moduleLocator<PaymentDao>(),
+          networkHelper: moduleLocator<NetworkHelper>()));
 }

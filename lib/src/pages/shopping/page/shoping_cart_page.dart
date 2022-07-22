@@ -13,17 +13,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 class ShoppingCartPage extends StatefulWidget {
-  ShoppingCartPage({Key key}) : super(key: key);
+  ShoppingCartPage({Key? key}) : super(key: key);
 
   @override
   _ShoppingCartPageState createState() => _ShoppingCartPageState();
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-  double price;
+  late double price;
 
-  WishListViewModel wishListViewModel;
-  UserViewModel _userViewModel;
+  late WishListViewModel wishListViewModel;
+  late UserViewModel _userViewModel;
 
   @override
   void initState() {
@@ -131,7 +131,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         body: Container(
           child: Consumer<CartViewModel>(
             builder: (BuildContext context, CartViewModel productViewModel,
-                Widget child) {
+                Widget? child) {
               return SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 30),
                 child: Column(

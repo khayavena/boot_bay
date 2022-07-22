@@ -19,22 +19,22 @@ class EnvConfig {
   String yocoSecretKey;
 
   EnvConfig(
-      {this.appKey,
-      this.appName,
-      this.appVersion,
-      this.baseUrl,
-      this.connectTimeOut,
-      this.receiveTimeout,
-      this.databaseName,
-      this.tweetApiKey,
-      this.tweetApiKeySecret,
-      this.tweetBearerToken,
-      this.mapBoxKey,
-      this.wavePubKey,
-      this.waveEncryptKey,
-      this.waveSecretKey,
-      this.yocoPubKey,
-      this.yocoSecretKey});
+      {this.appKey = "",
+      this.appName = "",
+      this.appVersion = "",
+      this.baseUrl = "",
+      this.connectTimeOut = 30,
+      this.receiveTimeout = 30,
+      this.databaseName = "",
+      this.tweetApiKey = "",
+      this.tweetApiKeySecret = "",
+      this.tweetBearerToken = "",
+      this.mapBoxKey = "",
+      this.wavePubKey = "",
+      this.waveEncryptKey = "",
+      this.waveSecretKey = "",
+      this.yocoPubKey = "",
+      this.yocoSecretKey = ""});
 
   factory EnvConfig.fromJson(Map<String, dynamic> json) => EnvConfig(
         appKey: json['appKey'] as String,

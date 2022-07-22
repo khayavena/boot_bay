@@ -1,11 +1,13 @@
 class PaymentResponse {
-  String id;
-  String auditId;
-  String message;
-  bool status;
-  double totalAmount;
-  String currency;
+  late String id;
+  late String auditId;
+  late String message;
+  late bool status;
+  late double totalAmount;
+  late String currency;
+
   PaymentResponse();
+
   PaymentResponse.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         auditId = json['auditId'],

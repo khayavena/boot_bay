@@ -16,23 +16,25 @@ import 'package:flutter/rendering.dart';
 class ProductDetailPage extends StatefulWidget {
   final Product product;
 
-  ProductDetailPage({Key key, this.product}) : super(key: key);
+  ProductDetailPage({Key? key, required this.product}) : super(key: key);
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
+class _ProductDetailPageState extends State<ProductDetailPage>
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
   bool isLiked = true;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    animation =
-        Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: controller, curve: Curves.easeInToLinear));
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    animation = Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInToLinear));
     controller.forward();
   }
 
@@ -91,7 +93,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 child: Image(
                   width: double.maxFinite,
                   fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(getImageUri(widget.product.id)),
+                  image: CachedNetworkImageProvider(
+                      getImageUri(widget.product.id)),
                 )),
           ))
         ],
@@ -125,8 +128,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                   child: Container(
                     width: 50,
                     height: 5,
-                    decoration:
-                        BoxDecoration(color: LightColor.iconColor, borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration: BoxDecoration(
+                        color: LightColor.iconColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -162,10 +166,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       PriceView(currency: "ZAR", amount: widget.product.price),
                       Row(
                         children: <Widget>[
-                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
-                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
-                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
-                          Icon(Icons.star, color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star,
+                              color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star,
+                              color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star,
+                              color: LightColor.yellowColor, size: 17),
+                          Icon(Icons.star,
+                              color: LightColor.yellowColor, size: 17),
                           Icon(Icons.star_border, size: 17),
                         ],
                       )

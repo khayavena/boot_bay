@@ -1,10 +1,10 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class CustomColor {
   CustomColor({bool dark = false});
 
   static const cta_blue = Color(0xff075ab4);
-  static const button_color =  Color(0xff2783a9);
+  static const button_color = Color(0xff2783a9);
 
   Color _primary = Color.fromRGBO(7, 90, 180, 1);
   Color _marineBlue = Color.fromRGBO(1, 44, 97, 1);

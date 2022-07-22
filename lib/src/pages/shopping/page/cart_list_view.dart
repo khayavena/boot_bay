@@ -6,7 +6,7 @@ class CartListView extends StatelessWidget {
   final List<Product> cartItems;
 
   CartListView({
-    @required this.cartItems,
+    required this.cartItems,
   });
 
   @override
@@ -14,11 +14,11 @@ class CartListView extends StatelessWidget {
     return Column(
         children: cartItems
             .map((model) => Padding(
-              padding: const EdgeInsets.only(top:16.0),
-              child: CartItemWidget(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: CartItemWidget(
                     model: model,
                   ),
-            ))
+                ))
             .toList());
   }
 }

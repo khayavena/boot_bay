@@ -27,11 +27,15 @@ class CustomAppBar {
         ),
       ),
       actions: <Widget>[
-        IconButton(icon: ImageIcon(AssetImage(Res.search_ic)), color: primaryBlackColor, onPressed: () {}),
+        IconButton(
+            icon: ImageIcon(AssetImage(Res.search_ic)),
+            color: primaryBlackColor,
+            onPressed: () {}),
         Container(
           width: 50,
           height: 50,
-          child: Consumer<CartViewModel>(builder: (context, CartViewModel vw, Widget child) {
+          child: Consumer<CartViewModel>(
+              builder: (context, CartViewModel vw, Widget? child) {
             return Stack(
               children: [
                 Container(
@@ -60,7 +64,10 @@ class CustomAppBar {
           }),
         )
       ],
-      leading: IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {}),
+      leading: IconButton(
+          icon: ImageIcon(AssetImage(Res.leading_icon)),
+          color: primaryBlackColor,
+          onPressed: () {}),
       centerTitle: true,
     );
   }

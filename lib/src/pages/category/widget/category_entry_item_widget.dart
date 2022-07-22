@@ -1,5 +1,5 @@
 import 'package:bootbay/src/config/app_routing.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -54,7 +54,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          margin: EdgeInsets.all( 8),
+          margin: EdgeInsets.all(8),
           height: 56,
           child: Text(root.name,
               style: TextStyle(
@@ -65,7 +65,10 @@ class CategoryEntryItemWidget extends StatelessWidget {
         ),
         Column(
           mainAxisSize: MainAxisSize.min,
-          children: root.categories.map((item) => _buildTiles(item, context)).toList(),
+          children: root.categories
+                  ?.map((item) => _buildTiles(item, context))
+                  .toList() ??
+              [],
         )
       ],
     );
@@ -77,6 +80,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
-    Navigator.pushNamed(context, AppRouting.editCategory, arguments: {'category': root, 'merchant': merchant});
+    Navigator.pushNamed(context, AppRouting.editCategory,
+        arguments: {'category': root, 'merchant': merchant});
   }
 }

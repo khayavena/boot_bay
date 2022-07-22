@@ -8,15 +8,16 @@ class CurrencyInputField extends StatelessWidget {
   final ValueChanged<double> onChanged;
 
   CurrencyInputField({
-    Key key,
-    @required this.onChanged,
+    Key? key,
+    required this.onChanged,
     this.initVue = 0,
-    @required this.symbol,
+    required this.symbol,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final CurrencyTextInputFormatter _formatter = CurrencyTextInputFormatter(symbol: symbol, decimalDigits: 2);
+    final CurrencyTextInputFormatter _formatter =
+        CurrencyTextInputFormatter(symbol: symbol, decimalDigits: 2);
     return TextFormField(
       initialValue: initVue.toString(),
       onChanged: (String value) {
@@ -34,7 +35,8 @@ class CurrencyInputField extends StatelessWidget {
 
   InputDecoration _buildDecorator() {
     return InputDecoration(
-      enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+      enabledBorder: new OutlineInputBorder(
+          borderSide: new BorderSide(color: Colors.black54)),
       hintStyle: TextStyle(
         fontFamily: 'Gotham',
         color: Colors.black54,

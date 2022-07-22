@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -24,16 +24,16 @@ class EditCategoryPage extends StatefulWidget {
   final Category category;
   final Merchant merchant;
 
-  EditCategoryPage({this.category, this.merchant});
+  EditCategoryPage({required this.category, required this.merchant});
 
   @override
   _EditCategoryPageState createState() => _EditCategoryPageState();
 }
 
 class _EditCategoryPageState extends State<EditCategoryPage> {
-  MediaViewModel _mediaContentViewModel;
-  CategoryViewModel _categoryViewModel;
-  ImageProviderViewModel _categoryMediaViewModel;
+  late MediaViewModel _mediaContentViewModel;
+  late CategoryViewModel _categoryViewModel;
+  late ImageProviderViewModel _categoryMediaViewModel;
 
   TextEditingController categoryController = TextEditingController();
 
@@ -62,10 +62,12 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       backgroundColor: CustomColor().appBackground,
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
-          title: widget.category?.name?.toUpperCase() ?? widget.merchant.name,
-          headerIcon: getImageUri(widget.category?.id ?? widget.merchant.id),
-          backButton:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
+          title: widget.category.name.toUpperCase(),
+          headerIcon: getImageUri(widget.category.id),
+          backButton: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {})),
     );
   }
 
@@ -89,7 +91,11 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           size: 56,
         ),
         decoration: BoxDecoration(boxShadow: [
-          BoxShadow(color: const Color(0x7b999999), offset: Offset(1, 2), blurRadius: 4, spreadRadius: 0)
+          BoxShadow(
+              color: const Color(0x7b999999),
+              offset: Offset(1, 2),
+              blurRadius: 4,
+              spreadRadius: 0)
         ], color: Colors.white));
   }
 
@@ -111,7 +117,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Future<void> _showInputDialog(String parentId, String title) async {
+  Future<void> _showInputDialog(String? parentId, String title) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // repository must tap button!
@@ -119,8 +125,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
         return AlertDialog(
           title: Text(title),
           content: SingleChildScrollView(
-            child: Consumer<MediaViewModel>(
-                builder: (BuildContext context, MediaViewModel value, Widget child) {
+            child: Consumer<MediaViewModel>(builder:
+                (BuildContext context, MediaViewModel value, Widget? child) {
               if (value.status == Loader.busy) {
                 return WidgetLoader();
               }
@@ -135,20 +141,22 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  TextButton _buildApproveButton(String parentId) {
+  TextButton _buildApproveButton(String? parentId) {
     return TextButton(
       child: Text('Approve'),
       onPressed: () async {
         Category category;
         if (parentId != null) {
-          category =
-              Category(parentId: parentId, name: categoryController.text.toString(), merchantId: widget.merchant.id);
+          category = Category(
+              parentId: parentId,
+              name: categoryController.text.toString(),
+              merchantId: widget.merchant.id);
         } else {
           category = widget.category;
           category.name = categoryController.text.toString();
         }
         var categoryResponse = await _categoryViewModel.saveCategory(category);
-        if (_categoryMediaViewModel.fileInput != null && _categoryMediaViewModel.fileInput.path.isNotEmpty) {
+        if (_categoryMediaViewModel.fileInput.path.isNotEmpty) {
           var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
               _categoryMediaViewModel.fileInput.path, categoryResponse.id);
         }
@@ -159,7 +167,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
     );
   }
 
-  Widget createAlertBody(String parentId, String title) {
+  Widget createAlertBody(String? parentId, String title) {
     return ListBody(
       children: <Widget>[
         GestureDetector(
@@ -167,9 +175,12 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           child: Container(
             height: 300,
             color: Colors.black26,
-            child: Consumer<ImageProviderViewModel>(
-                builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
-              return value.fileInput == null ? _buildAttach() : _buildFileImage(value);
+            child: Consumer<ImageProviderViewModel>(builder:
+                (BuildContext context, ImageProviderViewModel value,
+                    Widget? child) {
+              return value.fileInput == null
+                  ? _buildAttach()
+                  : _buildFileImage(value);
             }),
           ),
         ),
@@ -198,14 +209,18 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               : ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRouting.addProduct,
-                        arguments: {"category": widget.category, "merchant": widget.merchant});
+                        arguments: {
+                          "category": widget.category,
+                          "merchant": widget.merchant
+                        });
                   },
                   child: Text('Add Item'),
                 ),
           _padHorizontal(),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
+              Navigator.pushNamed(context, AppRouting.addCategory,
+                  arguments: widget.merchant);
             },
             child: Text('New Class'),
           ),
@@ -226,7 +241,8 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           _padHorizontal(),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, AppRouting.editCategoryProductPage, arguments: widget.category);
+              Navigator.pushNamed(context, AppRouting.editCategoryProductPage,
+                  arguments: widget.category);
             },
             child: Text("Manage Items"),
           )

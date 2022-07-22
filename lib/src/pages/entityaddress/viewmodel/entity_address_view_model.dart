@@ -2,23 +2,21 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/entity_address.dart';
 import 'package:bootbay/src/pages/entityaddress/repository/entity_address_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 
 class EntityAddressViewModel extends ViewModel {
   final EntityAddressRepository _addressRepository;
   Loader status = Loader.idl;
-  EntityAddress _entityAddress;
-  List<EntityAddress> _entityAddresses;
+  late EntityAddress _entityAddress;
+  late List<EntityAddress> _entityAddresses;
 
-  EntityAddressViewModel({@required EntityAddressRepository addressRepository})
+  EntityAddressViewModel({required EntityAddressRepository addressRepository})
       : _addressRepository = addressRepository;
 
   Future<List<EntityAddress>> getAddresses(String entityId) async {
     status = Loader.busy;
     notifyListeners();
     var results = await _addressRepository.getAddresses(entityId);
-    if (results != null && results.isNotEmpty) {
+    if (results.isNotEmpty) {
       status = Loader.complete;
     } else {
       status = Loader.complete;
@@ -87,25 +85,25 @@ class EntityAddressViewModel extends ViewModel {
   void clear() {
     status = Loader.idl;
     _entityAddresses = [];
-    _entityAddress = null;
   }
 
-  void updateSelectedAddress(final String parentId, final MapBoxPlace maxBoxPlace, String type) {
-    if (_entityAddress == null) {
+  void updateSelectedAddress(final String parentId, final String placeName,
+      double latitude, double longitude, String type) {
+    if (_entityAddress.id.isNotEmpty) {
       _entityAddress = EntityAddress(
           parentId: parentId,
           type: type,
-          address: maxBoxPlace.placeName,
-          latitude: maxBoxPlace.geometry.coordinates[1],
-          longitude: maxBoxPlace.geometry.coordinates[0]);
+          address: placeName,
+          latitude: latitude,
+          longitude: longitude);
     } else {
       _entityAddress = EntityAddress(
           id: _entityAddress.id,
           parentId: parentId,
           type: type,
-          address: maxBoxPlace.placeName,
-          latitude: maxBoxPlace.geometry.coordinates[1],
-          longitude: maxBoxPlace.geometry.coordinates[0]);
+          address: placeName,
+          latitude: latitude,
+          longitude: longitude);
     }
   }
 }

@@ -1,102 +1,59 @@
 class Merchant {
-  String _id;
-  String _userId;
-  String _name;
-  String _location;
-  double _rating;
-  String _logoUrl;
-
-  set logoUrl(String value) {
-    _logoUrl = value;
-  }
-
-  String _createDate;
-  String _lastUpdate;
-  String _email;
-  String _phone;
-  String _taxNo;
-  String _regNo;
-
-  String get id => _id;
-
-  String get userId => _userId;
-
-  String get name => _name;
-
-  String get location => _location;
-
-  double get rating => _rating;
-
-  String get logoUrl => _logoUrl;
-
-  String get createDate => _createDate;
-
-  String get lastUpdate => _lastUpdate;
-
-  String get email => _email;
-
-  String get phone => _phone;
-
-  String get taxNo => _taxNo;
-
-  String get regNo => _regNo;
+  String id;
+  String userId;
+  String name;
+  String location;
+  double rating;
+  String logoUrl;
+  String? createDate;
+  String? lastUpdate;
+  String email;
+  String phone;
+  String taxNo;
+  String regNo;
 
   Merchant(
-      {String id,
-      String userId,
-      String name,
-      String location,
-      double rating,
-      String logoUrl,
-      String createDate,
-      String lastUpdate,
-      String email,
-      String phone,
-      String taxNo,
-      String regNo}) {
-    _id = id;
-    _userId = userId;
-    _name = name;
-    _location = location;
-    _rating = rating;
-    _logoUrl = logoUrl;
-    _createDate = createDate;
-    _lastUpdate = lastUpdate;
-    _email = email;
-    _phone = phone;
-    _taxNo = taxNo;
-    _regNo = regNo;
-  }
+      {this.id = "",
+      this.userId = "",
+      this.name = "",
+      this.location = "",
+      this.rating = 0,
+      this.logoUrl = "",
+      this.createDate = "",
+      this.lastUpdate = "",
+      this.email = "",
+      this.phone = "",
+      this.taxNo = "",
+      this.regNo = ""}) {}
 
-  Merchant.fromJson(dynamic json) {
-    _id = json["id"];
-    _userId = json["userId"];
-    _name = json["name"];
-    _location = json["location"];
-    _rating = json["rating"];
-    _logoUrl = json["logoUrl"];
-    _createDate = json["createDate"];
-    _lastUpdate = json["lastUpdate"];
-    _email = json["email"];
-    _phone = json["phone"];
-    _taxNo = json["taxNo"];
-    _regNo = json["regNo"];
-  }
+  Merchant.fromJson(dynamic json)
+      : id = json["id"],
+        userId = json["userId"],
+        name = json["name"],
+        location = json["location"],
+        rating = json["rating"],
+        logoUrl = json["logoUrl"],
+        createDate = json["createDate"],
+        lastUpdate = json["lastUpdate"],
+        email = json["email"],
+        phone = json["phone"],
+        taxNo = json["taxNo"],
+        regNo = json["regNo"];
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map["id"] = _id;
-    map["userId"] = _userId;
-    map["name"] = _name;
-    map["location"] = _location;
-    map["rating"] = _rating;
-    map["logoUrl"] = _logoUrl;
+    map["id"] = id;
+    map["userId"] = userId;
+    map["name"] = name;
+    map["location"] = location;
+    map["rating"] = rating;
+    map["logoUrl"] = logoUrl;
     // map["createDate"] = _createDate;
     // map["lastUpdate"] = _lastUpdate;
-    map["email"] = _email;
-    map["phone"] = _phone;
-    map["taxNo"] = _taxNo;
-    map["regNo"] = _regNo;
+    map["email"] = email;
+    map["phone"] = phone;
+    map["taxNo"] = taxNo;
+    map["regNo"] = regNo;
     return map;
   }
 }

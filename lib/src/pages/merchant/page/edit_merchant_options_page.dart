@@ -1,6 +1,6 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/helpers/WidgetDecorators.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/wigets/shared/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class EditMerchantManagementOptionsWidget extends StatefulWidget {
   final Merchant merchant;
 
-  EditMerchantManagementOptionsWidget({@required this.merchant});
+  EditMerchantManagementOptionsWidget({required this.merchant});
 
   @override
   _EditMerchantManagementOptionsWidgetState createState() {
@@ -16,22 +16,29 @@ class EditMerchantManagementOptionsWidget extends StatefulWidget {
   }
 }
 
-class _EditMerchantManagementOptionsWidgetState extends State<EditMerchantManagementOptionsWidget> {
+class _EditMerchantManagementOptionsWidgetState
+    extends State<EditMerchantManagementOptionsWidget> {
   Widget _buildOptions() {
     return GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 1 / .6, mainAxisSpacing: 8, crossAxisSpacing: 8),
+            crossAxisCount: 2,
+            childAspectRatio: 1 / .6,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8),
         padding: EdgeInsets.only(left: 8, right: 8, top: 16),
         scrollDirection: Axis.vertical,
         children: [
           GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantsManagementEdit, arguments: widget.merchant);
+                Navigator.of(context).pushNamed(
+                    AppRouting.merchantsManagementEdit,
+                    arguments: widget.merchant);
               },
               child: getItem("Edit Merchant", Icons.add_business_outlined)),
           GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantCategoryList, arguments: widget.merchant);
+                Navigator.of(context).pushNamed(AppRouting.merchantCategoryList,
+                    arguments: widget.merchant);
               },
               child: getItem("Categories", Icons.category_outlined)),
           GestureDetector(

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
@@ -24,18 +24,19 @@ class AddProductPage extends StatefulWidget {
   final Merchant merchant;
   final Category category;
 
-  AddProductPage({Key key, this.merchant, this.category}) : super(key: key);
+  AddProductPage({Key? key, required this.merchant, required this.category})
+      : super(key: key);
 
   @override
   _AddProductPageState createState() => _AddProductPageState();
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  MediaViewModel _mediaContentViewModel;
-  CategoryViewModel _categoryViewModel;
-  ImageProviderViewModel _mediaViewModel;
-  ProductViewModel _productViewModel;
-  double finalAmount;
+  late MediaViewModel _mediaContentViewModel;
+  late CategoryViewModel _categoryViewModel;
+  late ImageProviderViewModel _mediaViewModel;
+  late ProductViewModel _productViewModel;
+  late double finalAmount;
 
   @override
   void initState() {
@@ -88,8 +89,10 @@ class _AddProductPageState extends State<AddProductPage> {
         ],
       ),
       body: Consumer2<MediaViewModel, ProductViewModel>(builder:
-          (BuildContext context, MediaViewModel value, ProductViewModel productViewModel, Widget child) {
-        if (value.status == Loader.busy || productViewModel.loader == Loader.busy) {
+          (BuildContext context, MediaViewModel value,
+              ProductViewModel productViewModel, Widget? child) {
+        if (value.status == Loader.busy ||
+            productViewModel.loader == Loader.busy) {
           return WidgetLoader();
         }
         return _buildBody();
@@ -99,18 +102,18 @@ class _AddProductPageState extends State<AddProductPage> {
 
   Widget _buildDropDown() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, CategoryViewModel categoryViewModel, Widget child) {
+      builder: (BuildContext context, CategoryViewModel categoryViewModel,
+          Widget? child) {
         switch (categoryViewModel.loader) {
           case Loader.error:
           case Loader.busy:
           case Loader.idl:
             return SizedBox();
           case Loader.complete:
-            if (_categoryViewModel != null &&
-                _categoryViewModel.getCategories != null &&
-                _categoryViewModel.getCategories.isNotEmpty) {
+            if (_categoryViewModel.getCategories.isNotEmpty) {
               return CustomDropdown(
-                dropdownMenuItemList: _buildCategoryDropDownItems(categoryViewModel.getCategories),
+                dropdownMenuItemList: _buildCategoryDropDownItems(
+                    categoryViewModel.getCategories),
                 onChanged: onSelectedCategory,
                 value: categoryViewModel.getCategories[0],
                 hint: 'Select Classification',
@@ -118,14 +121,13 @@ class _AddProductPageState extends State<AddProductPage> {
             } else {
               return SizedBox();
             }
-            break;
         }
-        return SizedBox();
       },
     );
   }
 
-  List<DropdownMenuItem<Category>> _buildCategoryDropDownItems(List<Category> categories) {
+  List<DropdownMenuItem<Category>> _buildCategoryDropDownItems(
+      List<Category> categories) {
     List<DropdownMenuItem<Category>> items = [];
     for (Category favouriteFoodModel in categories) {
       items.add(DropdownMenuItem(
@@ -136,10 +138,8 @@ class _AddProductPageState extends State<AddProductPage> {
     return items;
   }
 
-  void onSelectedCategory(final Category category) {
-    if (_productViewModel != null) {
-      _productViewModel.setSelectedCategory(category);
-    }
+  void onSelectedCategory(final Object category) {
+    _productViewModel.setSelectedCategory(category as Category);
   }
 
   void _onAmountChange(final double value) {
@@ -163,7 +163,8 @@ class _AddProductPageState extends State<AddProductPage> {
             controller: name,
             style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
-              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+              enabledBorder: new OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
                 fontFamily: 'Gotham',
                 color: Colors.black54,
@@ -197,12 +198,14 @@ class _AddProductPageState extends State<AddProductPage> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text("Add an image".toUpperCase(),
-              style: TextStyle(fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
+              style: TextStyle(
+                  fontFamily: 'Gotham', color: Colors.teal, fontSize: 20)),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Consumer<ImageProviderViewModel>(
-              builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
+          child: Consumer<ImageProviderViewModel>(builder:
+              (BuildContext context, ImageProviderViewModel value,
+                  Widget? child) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.15,
               child: value.proverFileImageView(),
@@ -228,15 +231,18 @@ class _AddProductPageState extends State<AddProductPage> {
           child: ElevatedButton(
             onPressed: () async {
               await _productViewModel
-                  .saveRemoteProduct(widget.merchant.id, name.text.toString(), description.text.toString(), finalAmount)
-                  .then((value) => _mediaContentViewModel.saveProductFile(_mediaViewModel.path, value.id));
+                  .saveRemoteProduct(widget.merchant.id, name.text.toString(),
+                      description.text.toString(), finalAmount)
+                  .then((value) => _mediaContentViewModel.saveProductFile(
+                      _mediaViewModel.path, value.id));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child:
-                      Text("Submit".toUpperCase(), style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
+                  child: Text("Submit".toUpperCase(),
+                      style: TextStyle(
+                          fontFamily: 'Gotham', color: CustomColor().black)),
                 ),
               ],
             ),

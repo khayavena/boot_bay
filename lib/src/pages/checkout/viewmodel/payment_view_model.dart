@@ -1,6 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
-import 'package:bootbay/src/model/merchant_transaction_log.dart';
 import 'package:bootbay/src/model/payment_request.dart';
 import 'package:bootbay/src/model/payment_response.dart';
 import 'package:bootbay/src/model/product.dart';
@@ -11,7 +10,6 @@ import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class PaymentViewModel extends ViewModel {
   UserRepository _userRepository;
@@ -20,15 +18,15 @@ class PaymentViewModel extends ViewModel {
   List<PaymentResponse> _payments = [];
   PaymentResponse _paymentResponse = PaymentResponse();
 
-  String dataErrorMessage;
+  late String dataErrorMessage;
 
   Loader _loader = Loader.idl;
-  PaymentStatus paymentStatus;
-  TokenResponse _tokenResponse;
+  late PaymentStatus paymentStatus;
+  late TokenResponse _tokenResponse;
 
   PaymentViewModel(
-      {@required UserRepository userRepository,
-      @required PaymentRepository paymentRepository})
+      {required UserRepository userRepository,
+      required PaymentRepository paymentRepository})
       : _userRepository = userRepository,
         _paymentRepository = paymentRepository;
 
@@ -114,16 +112,6 @@ class PaymentViewModel extends ViewModel {
     _loader = Loader.idl;
   }
 
-  Future<void> logTransaction(MerchantTransactionLog logData) async {
-    _loader = Loader.busy;
-    paymentStatus = PaymentStatus.payment;
-    notifyListeners();
-    var results = await _paymentRepository.logTransaction(logData);
-    if (results != null) {}
-    _loader = Loader.complete;
-    notifyListeners();
-  }
-
   void setProducts(List<Product> products) {
     this.products = products;
   }
@@ -133,19 +121,18 @@ class PaymentViewModel extends ViewModel {
     _loader = Loader.complete;
     notifyListeners();
   }
-  String getPamentText(){
-    switch(_loader){
 
+  String getPamentText() {
+    switch (_loader) {
       case Loader.error:
         return 'Pay Error';
         break;
       case Loader.busy:
-       return 'Pay Busy';
+        return 'Pay Busy';
       case Loader.complete:
         return 'Pay Done';
       case Loader.idl:
         return 'Pay Idle';
-
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:bootbay/src/config/EnvConfig.dart';
 import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
@@ -11,14 +11,15 @@ import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
+import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 import 'package:provider/provider.dart';
 
 class MerchantRegistrationPage extends StatefulWidget {
   MerchantRegistrationPage();
 
   @override
-  _MerchantRegistrationPageState createState() => _MerchantRegistrationPageState();
+  _MerchantRegistrationPageState createState() =>
+      _MerchantRegistrationPageState();
 }
 
 class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
@@ -29,12 +30,12 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   TextEditingController taxNoController = TextEditingController();
   TextEditingController regNoController = TextEditingController();
 
-  MerchantRegistrationViewModel _merchantViewModel;
-  UserViewModel userViewModel;
-  EntityAddressViewModel _entityAddressViewModel;
-  ImageProviderViewModel _imageProviderViewModel;
-  MediaViewModel _mediaViewModel;
-  MapBoxPlace _mapBoxPlace;
+  late MerchantRegistrationViewModel _merchantViewModel;
+  late UserViewModel userViewModel;
+  late EntityAddressViewModel _entityAddressViewModel;
+  late ImageProviderViewModel _imageProviderViewModel;
+  late MediaViewModel _mediaViewModel;
+  MapBoxPlace? _mapBoxPlace;
 
   @override
   void initState() {
@@ -82,15 +83,21 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
           ),
         ),
         body: Container(
-          child: Consumer3<MerchantRegistrationViewModel, MediaViewModel, EntityAddressViewModel>(
-            builder: (BuildContext context, MerchantRegistrationViewModel value, MediaViewModel value1,
-                EntityAddressViewModel value2, Widget child) {
-              if (value.status == Loader.busy || value1.status == Loader.busy || value2.status == Loader.busy) {
+          child: Consumer3<MerchantRegistrationViewModel, MediaViewModel,
+              EntityAddressViewModel>(
+            builder: (BuildContext context,
+                MerchantRegistrationViewModel value,
+                MediaViewModel value1,
+                EntityAddressViewModel value2,
+                Widget? child) {
+              if (value.status == Loader.busy ||
+                  value1.status == Loader.busy ||
+                  value2.status == Loader.busy) {
                 return WidgetLoader();
               } else if (value.status == Loader.error ||
                   value1.status == Loader.error ||
                   value2.status == Loader.error) {
-                return Center(child: Text(value?.dataErrorMessage ?? 'Something is wrong'));
+                return Center(child: Text(value.dataErrorMessage));
               } else {
                 return _buildBody();
               }
@@ -115,18 +122,24 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         taxNo: taxNoController.text);
     await _merchantViewModel.register(merchantRequest).then((value) async {
       if (_mapBoxPlace != null) {
-        _entityAddressViewModel.updateSelectedAddress(value.id, _mapBoxPlace, 'merchant');
-        if (_entityAddressViewModel.entityAddress != null) {
-          await _entityAddressViewModel.saveAddress(_entityAddressViewModel.entityAddress);
-        }
+        _entityAddressViewModel.updateSelectedAddress(
+            value.id,
+            _mapBoxPlace?.placeName ?? "",
+            _mapBoxPlace?.geometry?.coordinates![0] ?? 0,
+            _mapBoxPlace?.geometry?.coordinates![1] ?? 0,
+            'merchant');
+        await _entityAddressViewModel
+            .saveAddress(_entityAddressViewModel.entityAddress);
         if (_imageProviderViewModel.isValidImage) {
-          await _mediaViewModel.saveMerchantILogo(_imageProviderViewModel.path, value.id);
+          await _mediaViewModel.saveMerchantILogo(
+              _imageProviderViewModel.path, value.id);
         }
       }
     });
   }
 
-  Widget buildEditText(TextEditingController controller, String text, Icon suffixIcon) {
+  Widget buildEditText(
+      TextEditingController controller, String text, Icon suffixIcon) {
     return Padding(
       padding: EdgeInsets.only(
         top: 10,
@@ -156,18 +169,14 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Search your address"),
-          content: MapBoxPlaceSearchWidget(
-            height: 600,
-            popOnSelect: true,
+          content: MapBoxAutoCompleteWidget(
+            closeOnSelect: true,
             apiKey: moduleLocator<EnvConfig>().mapBoxKey,
-            searchHint: 'Your Hint here',
-            onSelected: (place) {
-              if (place != null) {
-                locationController.text = place.placeName;
-                _mapBoxPlace = place;
-              }
+            hint: 'Enter your address',
+            onSelect: (place) {
+              locationController.text = place.placeName!;
+              _mapBoxPlace = place;
             },
-            context: context,
           ),
         );
       },
@@ -179,10 +188,12 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-            buildEditText(nameController, "Merchant Name", Icon(Icons.business_outlined)),
+            buildEditText(
+                nameController, "Merchant Name", Icon(Icons.business_outlined)),
             buildEditText(emailController, "Email", Icon(Icons.email_outlined)),
             buildEditText(phoneController, "Contact no", Icon(Icons.phone)),
-            buildEditText(taxNoController, "Tax reference(optional)", Icon(Icons.money_off_sharp)),
+            buildEditText(taxNoController, "Tax reference(optional)",
+                Icon(Icons.money_off_sharp)),
             buildEditText(
               regNoController,
               'Reg no(optional)',
@@ -204,7 +215,8 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
                     fontSize: 15,
                     fontStyle: FontStyle.normal,
                   ),
-                  labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+                  labelStyle:
+                      TextStyle(fontFamily: 'Gotham', color: Colors.black),
                   hintText: "Merchant address",
                 ),
               ),
@@ -239,8 +251,8 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   Widget _buildImage() {
     return Padding(
       padding: EdgeInsets.all(10.0),
-      child:
-          Consumer<ImageProviderViewModel>(builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
+      child: Consumer<ImageProviderViewModel>(builder:
+          (BuildContext context, ImageProviderViewModel value, Widget? child) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.15,
           child: value.proverFileImageView(),

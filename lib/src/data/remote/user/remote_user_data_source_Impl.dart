@@ -1,14 +1,13 @@
-import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
+import 'package:bootbay/src/model/AuthRequest.dart';
 import 'package:bootbay/src/model/user_profile.dart';
+import 'package:dio/dio.dart';
 
 class RemoteUserDataSourceImpl implements RemoteUserDataSource {
   Dio _dio;
 
   RemoteUserDataSourceImpl({
-    @required Dio dio,
+    required Dio dio,
   }) : _dio = dio;
 
   @override
@@ -28,7 +27,8 @@ class RemoteUserDataSourceImpl implements RemoteUserDataSource {
   @override
   Future<List<UserProfile>> getAll() async {
     Response response = await _dio.get('/api/user/all');
-    return List<UserProfile>.from(response.data.map((json) => UserProfile.fromJson(json)));
+    return List<UserProfile>.from(
+        response.data.map((json) => UserProfile.fromJson(json)));
   }
 
   @override

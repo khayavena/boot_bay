@@ -4,19 +4,18 @@ import 'package:bootbay/src/model/product.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class WishListViewModel extends ViewModel {
   WishListRepository _cartRepository;
-  Loader _loader;
+  late Loader _loader;
   bool _isItemExist = false;
   List<Product> _wishItems = [];
-  String dataErrorMessage;
+  late String dataErrorMessage;
 
   String currentId = "";
 
   WishListViewModel({
-    @required WishListRepository wishListRepository,
+    required WishListRepository wishListRepository,
   }) : _cartRepository = wishListRepository;
 
   get wishItems => _wishItems;

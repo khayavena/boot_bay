@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:bootbay/src/wigets/shared/loading/dot_type.dart';
 import 'package:flutter/material.dart';
 
-import '../../../helpers/costom_color.dart';
+import '../../../helpers/custom_color.dart';
 
 class WidgetLoader extends StatefulWidget {
   final Color dotOneColor;
@@ -27,10 +27,10 @@ class WidgetLoader extends StatefulWidget {
 
 class _WidgetLoaderState extends State<WidgetLoader>
     with SingleTickerProviderStateMixin {
-  Animation<double> animation_1;
-  Animation<double> animation_2;
-  Animation<double> animation_3;
-  AnimationController controller;
+  late Animation<double> animation_1;
+  late Animation<double> animation_2;
+  late Animation<double> animation_3;
+  late AnimationController controller;
 
   @override
   void initState() {
@@ -149,7 +149,11 @@ class Dot extends StatelessWidget {
   final DotType type;
   final Icon icon;
 
-  Dot({this.radius, this.color, this.type, this.icon});
+  Dot(
+      {required this.radius,
+      required this.color,
+      required this.type,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {

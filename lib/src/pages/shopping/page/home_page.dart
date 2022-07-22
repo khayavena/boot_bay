@@ -22,14 +22,19 @@ import 'package:provider/provider.dart';
 import '../../merchant/page/merchant_list_page.dart';
 
 class HomeBottomNavPage extends StatefulWidget {
-  HomeBottomNavPage({Key key}) : super(key: key);
+  HomeBottomNavPage({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<HomeBottomNavPage> {
-  final List<Widget> _children = [MerchantListPage(), ShoppingCartPage(), ShoppingWishListPage(), MerchantPortalPage()];
+  final List<Widget> _children = [
+    MerchantListPage(),
+    ShoppingCartPage(),
+    ShoppingWishListPage(),
+    MerchantPortalPage()
+  ];
 
   @override
   void initState() {
@@ -50,15 +55,15 @@ class _HomeState extends State<HomeBottomNavPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          Consumer<BottomNavChangeNotifier>(builder: (BuildContext context, BottomNavChangeNotifier vm, Widget child) {
+      body: Consumer<BottomNavChangeNotifier>(builder:
+          (BuildContext context, BottomNavChangeNotifier vm, Widget? child) {
         if (vm != null) {
           return _children[vm.selectedIndex];
         }
         return _children[0];
       }),
-      bottomNavigationBar:
-          Consumer<BottomNavChangeNotifier>(builder: (BuildContext context, BottomNavChangeNotifier vm, Widget child) {
+      bottomNavigationBar: Consumer<BottomNavChangeNotifier>(builder:
+          (BuildContext context, BottomNavChangeNotifier vm, Widget? child) {
         return BottomNavigationBar(
           landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
           type: BottomNavigationBarType.fixed,
@@ -72,27 +77,25 @@ class _HomeState extends State<HomeBottomNavPage> {
           // be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage(Res.shop_ic),color: Color(0xff2783a9)
-              ),
+              icon:
+                  ImageIcon(AssetImage(Res.shop_ic), color: Color(0xff2783a9)),
               label: 'Buy',
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
-                AssetImage(Res.cart_ic),color: Color(0xff2783a9),
+                AssetImage(Res.cart_ic),
+                color: Color(0xff2783a9),
               ),
               label: 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage(Res.wish_inactive_ic),color: Color(0xff2783a9)
-              ),
+              icon: ImageIcon(AssetImage(Res.wish_inactive_ic),
+                  color: Color(0xff2783a9)),
               label: 'Wish',
             ),
             BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage(Res.account_ic),color: Color(0xff2783a9)
-                ),
+                icon: ImageIcon(AssetImage(Res.account_ic),
+                    color: Color(0xff2783a9)),
                 label: 'Profile')
           ],
         );

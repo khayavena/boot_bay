@@ -1,7 +1,7 @@
 import 'package:bootbay/src/config/app_routing.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResColor.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
@@ -17,7 +17,7 @@ import '../../../../res.dart';
 class MerchantCategoryListPage extends StatefulWidget {
   final Merchant merchant;
 
-  MerchantCategoryListPage({@required this.merchant});
+  MerchantCategoryListPage({required this.merchant});
 
   @override
   _MerchantCategoryListPageState createState() {
@@ -31,11 +31,11 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.merchant != null) {
-        Provider.of<CategoryViewModel>(context, listen: false).getCategoriesById(widget.merchant.id);
-      } else {
-        Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
-      }
+      Provider.of<CategoryViewModel>(context, listen: false)
+          .getCategoriesById(widget.merchant.id);
+      // else {
+      //   Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
+      // }
     });
     super.initState();
   }
@@ -54,19 +54,23 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(width: 150, height: 30),
+                        constraints:
+                            BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addProduct, arguments: {"merchant": widget.merchant});
+                            Navigator.pushNamed(context, AppRouting.addProduct,
+                                arguments: {"merchant": widget.merchant});
                           },
                           child: Text('Add Item'),
                         ),
                       ),
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(width: 150, height: 30),
+                        constraints:
+                            BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addCategory, arguments: widget.merchant);
+                            Navigator.pushNamed(context, AppRouting.addCategory,
+                                arguments: widget.merchant);
                           },
                           child: Text('Add Classification'),
                         ),
@@ -81,7 +85,10 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
             ),
           ),
           actions: [
-            IconButton(icon: ImageIcon(AssetImage(Res.search_ic)), color: primaryBlackColor, onPressed: () {}),
+            IconButton(
+                icon: ImageIcon(AssetImage(Res.search_ic)),
+                color: primaryBlackColor,
+                onPressed: () {}),
             IconButton(
                 icon: ImageIcon(AssetImage(Res.cart_ic)),
                 color: primaryBlackColor,
@@ -89,16 +96,19 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                   Navigator.of(context).pushNamed(AppRouting.cartList);
                 })
           ],
-          title: widget.merchant?.name ?? '',
+          title: widget.merchant.name,
           headerIcon: getImageUri(widget.merchant.id),
-          backButton:
-              IconButton(icon: ImageIcon(AssetImage(Res.leading_icon)), color: primaryBlackColor, onPressed: () {})),
+          backButton: IconButton(
+              icon: ImageIcon(AssetImage(Res.leading_icon)),
+              color: primaryBlackColor,
+              onPressed: () {})),
     );
   }
 
   Widget _buildBody() {
     return Container(
-      child: Consumer<CategoryViewModel>(builder: (BuildContext context, CategoryViewModel value, Widget child) {
+      child: Consumer<CategoryViewModel>(builder:
+          (BuildContext context, CategoryViewModel value, Widget? child) {
         switch (value.loader) {
           case Loader.idl:
           case Loader.complete:
@@ -121,7 +131,8 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
       shrinkWrap: true,
       separatorBuilder: (context, index) => getAppDivider(),
       itemCount: value.getCategories.length,
-      itemBuilder: (context, index) => CategoryEntryItemWidget(value.getCategories[index], widget.merchant),
+      itemBuilder: (context, index) =>
+          CategoryEntryItemWidget(value.getCategories[index], widget.merchant),
     );
   }
 }

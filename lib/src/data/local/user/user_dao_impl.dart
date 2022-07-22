@@ -1,6 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
 import 'package:bootbay/src/model/user_profile.dart';
-import 'package:flutter/material.dart';
 import 'package:sembast/sembast.dart';
 
 class UserDaoImpl implements UserDao {
@@ -9,7 +8,7 @@ class UserDaoImpl implements UserDao {
   Database _database;
 
   UserDaoImpl({
-    @required Database database,
+    required Database database,
   }) : _database = database;
 
   @override
@@ -23,15 +22,16 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<UserProfile> findById(String id) async {
-    final recordSnapshot = await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('id', id)));
-    return UserProfile.fromJson(recordSnapshot.value);
+    final recordSnapshot = await _userStore.findFirst(_database,
+        finder: Finder(filter: Filter.equals('id', id)));
+    return UserProfile.fromJson(recordSnapshot?.value ?? {});
   }
 
   @override
   Future<UserProfile> findByThirdPartyId(String id) async {
-    final recordSnapshot =
-        await _userStore.findFirst(_database, finder: Finder(filter: Filter.equals('thirdPartyId', id)));
-    return UserProfile.fromJson(recordSnapshot.value);
+    final recordSnapshot = await _userStore.findFirst(_database,
+        finder: Finder(filter: Filter.equals('thirdPartyId', id)));
+    return UserProfile.fromJson(recordSnapshot?.value ?? {});
     ;
   }
 
@@ -64,7 +64,8 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<void> deleteAllUser(String id) async {
-    int delete = await _userStore.delete(_database, finder: Finder(filter: Filter.equals('id', id)));
+    int delete = await _userStore.delete(_database,
+        finder: Finder(filter: Filter.equals('id', id)));
   }
 
   @override

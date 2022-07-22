@@ -29,18 +29,18 @@ class CheckoutCartPage extends StatefulWidget {
   _CheckoutCartPageState createState() => _CheckoutCartPageState();
 
   CheckoutCartPage(
-      {@required this.finalAmount,
-      @required this.itemIds,
-      @required this.currency,
-      @required this.merchantId,
-      @required this.profile,
-      @required this.products});
+      {required this.finalAmount,
+      required this.itemIds,
+      required this.currency,
+      required this.merchantId,
+      required this.profile,
+      required this.products});
 }
 
 class _CheckoutCartPageState extends State<CheckoutCartPage> {
-  PaymentViewModel _paymentViewModel;
-  TokenResponse _tokenResponse;
-  YocoViewModel _yokoViewModel;
+  late PaymentViewModel _paymentViewModel;
+  late TokenResponse _tokenResponse;
+  late YocoViewModel _yokoViewModel;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(child: Consumer<PaymentViewModel>(
-          builder: (BuildContext context, paymentViewModel, Widget child) {
+          builder: (BuildContext context, paymentViewModel, Widget? child) {
         switch (paymentViewModel.loader) {
           case Loader.busy:
             return WidgetLoader();
@@ -100,7 +100,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
     );
   }
 
-  Widget paymentStatus(String status, {bool isSuccess}) {
+  Widget paymentStatus(String status, {bool isSuccess = false}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -118,7 +118,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
         SizedBox(
           height: 15,
         ),
-        isSuccess == null ? WidgetLoader() : SizedBox()
+        isSuccess == false ? WidgetLoader() : SizedBox()
       ],
     );
   }
@@ -158,8 +158,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
   }
 
   Widget _buildBillWidget(
-      BuildContext context, PaymentViewModel payViewModel, String status,
-      {bool isSuccess}) {
+      BuildContext context, PaymentViewModel payViewModel, String status) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -178,7 +177,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
         ),
         CardToSpend(leftToSpend: widget.finalAmount, currency: widget.currency),
         Consumer<YocoViewModel>(
-            builder: (BuildContext context, yocoViewModel, Widget child) {
+            builder: (BuildContext context, yocoViewModel, Widget? child) {
           if (yocoViewModel.yocoPayMethod != null) {
             yocoViewModel.buildPay(
                 _tokenResponse,
@@ -186,29 +185,31 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
                 widget.currency,
                 widget.itemIds,
                 widget.merchantId,
-                yocoViewModel.yocoPayMethod.yocoToken.id);
+                yocoViewModel.yocoPayMethod?.result.id);
           }
 
           return InkWell(
             onTap: () async {
+              final url = await Provider.of<YocoViewModel>(
+                context,
+                listen: false,
+              ).buildUrl(widget.finalAmount, widget.currency);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => YocoWebDropInPage(
-                    finalAmount: widget.finalAmount,
-                    itemIds: widget.itemIds,
-                    currency: widget.currency,
-                    merchantId: '5ee3bfbea1fbe46a462d6c4a',
-                  ),
+                      finalAmount: widget.finalAmount,
+                      itemIds: widget.itemIds,
+                      currency: widget.currency,
+                      merchantId: '5ee3bfbea1fbe46a462d6c4a',
+                      url: url),
                 ),
               );
             },
             child: SelectPayMethodRow(
-              title: yocoViewModel?.yocoPayMethod?.yocoToken?.source?.brand ??
-                  "Select Payment Method",
+              title: yocoViewModel.yocoPayMethod?.result.source.brand ?? '',
               cardMask:
-                  yocoViewModel?.yocoPayMethod?.yocoToken?.source?.maskedCard ??
-                      'Not card selected',
+                  yocoViewModel.yocoPayMethod?.result.source.maskedCard ?? '',
             ),
           );
         }),

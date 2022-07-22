@@ -7,7 +7,7 @@ class DioApiInterceptor extends Interceptor {
 
   final String _appKey;
 
-  DioApiInterceptor({String appKey}) : _appKey = appKey;
+  DioApiInterceptor({String appKey = ""}) : _appKey = appKey;
 
   @override
   onRequest(RequestOptions options, inte) {

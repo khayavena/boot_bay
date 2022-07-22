@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 class WishItemWidget extends StatelessWidget {
   final Product model;
 
-  const WishItemWidget({Key key, this.model}) : super(key: key);
+  const WishItemWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,11 @@ class WishItemWidget extends StatelessWidget {
                     image: CachedNetworkImageProvider(getImageUri(model.id)),
                   ),
                 ))),
-        Flexible(flex: 1, child: Container(margin: EdgeInsets.only(left: 4, right: 8), child: _leftColumn()))
+        Flexible(
+            flex: 1,
+            child: Container(
+                margin: EdgeInsets.only(left: 4, right: 8),
+                child: _leftColumn()))
       ],
     );
   }

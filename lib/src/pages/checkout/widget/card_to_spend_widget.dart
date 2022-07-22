@@ -5,16 +5,16 @@ class CardToSpend extends StatelessWidget {
   final double leftToSpend;
   final String currency;
 
-  const CardToSpend({Key key, this.leftToSpend, this.currency})
+  const CardToSpend(
+      {Key? key, required this.leftToSpend, required this.currency})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new Card(
       shape: new BeveledRectangleBorder(
-        side: BorderSide(color:  Color(0xff2783a9)),
+        side: BorderSide(color: Color(0xff2783a9)),
         borderRadius: BorderRadius.all(Radius.circular(0.0)),
-
       ),
       child: new Center(
         child: new Column(

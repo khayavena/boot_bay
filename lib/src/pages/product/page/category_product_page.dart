@@ -15,19 +15,21 @@ import 'package:provider/provider.dart';
 class CategoryProductPage extends StatefulWidget {
   final Category category;
 
-  CategoryProductPage({Key key, this.category}) : super(key: key);
+  CategoryProductPage({Key? key, required this.category}) : super(key: key);
 
   @override
   _CategoryProductPageState createState() => _CategoryProductPageState();
 }
 
-class _CategoryProductPageState extends State<CategoryProductPage> implements ClickCategory {
-  ProductViewModel _productViewModel;
-  CategoryViewModel _categoryViewModel;
+class _CategoryProductPageState extends State<CategoryProductPage>
+    implements ClickCategory {
+  late ProductViewModel _productViewModel;
+  late CategoryViewModel _categoryViewModel;
 
   Widget _categoryWidget() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, CategoryViewModel categoryViewModel, Widget child) {
+      builder: (BuildContext context, CategoryViewModel categoryViewModel,
+          Widget? child) {
         return Container(
           width: AppTheme.fullWidth(context),
           height: 38,
@@ -39,7 +41,8 @@ class _CategoryProductPageState extends State<CategoryProductPage> implements Cl
 
   Widget _productWidget() {
     return Consumer<ProductViewModel>(
-      builder: (BuildContext context, ProductViewModel productViewModel, Widget child) {
+      builder: (BuildContext context, ProductViewModel productViewModel,
+          Widget? child) {
         return _buildProducts(productViewModel);
       },
     );
@@ -102,7 +105,8 @@ class _CategoryProductPageState extends State<CategoryProductPage> implements Cl
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _categoryViewModel = Provider.of<CategoryViewModel>(context, listen: false);
+      _categoryViewModel =
+          Provider.of<CategoryViewModel>(context, listen: false);
       _productViewModel = Provider.of<ProductViewModel>(context, listen: false);
       refreshCategory(widget.category.merchantId);
     });
@@ -149,7 +153,10 @@ class _CategoryProductPageState extends State<CategoryProductPage> implements Cl
         return Expanded(
           child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: .6 / 1, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                  crossAxisCount: 2,
+                  childAspectRatio: .6 / 1,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8),
               padding: EdgeInsets.only(left: 8, right: 8),
               scrollDirection: Axis.vertical,
               children: productViewModel.getProducts
@@ -166,7 +173,8 @@ class _CategoryProductPageState extends State<CategoryProductPage> implements Cl
         );
       case Loader.error:
         return Center(
-          child: Text("We currently experiencing problems, please try Again later "),
+          child: Text(
+              "We currently experiencing problems, please try Again later "),
         );
       default:
         return Center(

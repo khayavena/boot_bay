@@ -4,7 +4,6 @@ import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/pages/category/repository/category_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class CategoryViewModel extends ViewModel {
   final CategoryRepository _categoryRepository;
@@ -13,13 +12,13 @@ class CategoryViewModel extends ViewModel {
   Set<Category> _selectedCategories = Set();
   Category _category = Category();
 
-  String dataErrorMessage;
+  late String dataErrorMessage = "";
 
   Loader _loader = Loader.idl;
 
-  CategoryViewModel(
-      {@required CategoryRepository categoryRepository, })
-      : _categoryRepository = categoryRepository;
+  CategoryViewModel({
+    required CategoryRepository categoryRepository,
+  }) : _categoryRepository = categoryRepository;
 
   Future<List<Category>> getAllCategories() async {
     _loader = Loader.busy;
@@ -38,6 +37,7 @@ class CategoryViewModel extends ViewModel {
       handleDioError(error);
     } catch (error) {
       _loader = Loader.error;
+      dataErrorMessage = 'error.message';
       notifyListeners();
     }
     return _categories;

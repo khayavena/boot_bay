@@ -1,7 +1,7 @@
 class AuthRequest {
   String thirdPartyId;
 
-  AuthRequest({this.thirdPartyId});
+  AuthRequest({required this.thirdPartyId});
 
   Map<String, dynamic> toJson() {
     return {

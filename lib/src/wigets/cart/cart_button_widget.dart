@@ -14,14 +14,19 @@ class CartButtonWidget extends StatefulWidget {
   static String _addToCart = 'Add to cart';
   static String _removeItem = 'Remove Item';
 
-  CartButtonWidget({Key key, @required this.product, this.isDetail = false, this.isCartList = false}) : super(key: key);
+  CartButtonWidget(
+      {Key? key,
+      required this.product,
+      this.isDetail = false,
+      this.isCartList = false})
+      : super(key: key);
 
   @override
   _CartButtonWidgetState createState() => _CartButtonWidgetState();
 }
 
 class _CartButtonWidgetState extends State<CartButtonWidget> {
-  CartViewModel _cartViewModel;
+  late CartViewModel _cartViewModel;
   var label = CartButtonWidget._addToCart;
 
   @override
@@ -41,7 +46,8 @@ class _CartButtonWidgetState extends State<CartButtonWidget> {
   Widget _buildCartWidget() {
     return Consumer<CartViewModel>(
         key: Key(widget.product.id),
-        builder: (BuildContext context, CartViewModel cartViewModel, Widget child) {
+        builder:
+            (BuildContext context, CartViewModel cartViewModel, Widget? child) {
           if (widget.isCartList) {
             label = CartButtonWidget._removeItem;
           } else {

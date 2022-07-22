@@ -6,7 +6,7 @@ class WishListView extends StatelessWidget {
   final List<Product> wishItems;
 
   WishListView({
-    @required this.wishItems,
+    required this.wishItems,
   });
 
   @override

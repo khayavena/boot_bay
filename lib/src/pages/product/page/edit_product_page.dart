@@ -1,5 +1,5 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
-import 'package:bootbay/src/helpers/costom_color.dart';
+import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/product.dart';
@@ -22,18 +22,18 @@ DateTime now = DateTime.now();
 class EditProductPage extends StatefulWidget {
   final Product product;
 
-  EditProductPage({Key key, this.product}) : super(key: key);
+  EditProductPage({Key? key, required this.product}) : super(key: key);
 
   @override
   _EditProductPageState createState() => _EditProductPageState();
 }
 
 class _EditProductPageState extends State<EditProductPage> {
-  MediaViewModel _mediaContentViewModel;
-  CategoryViewModel _categoryViewModel;
-  ImageProviderViewModel _mediaViewModel;
-  ProductViewModel _productViewModel;
-  double finalAmount;
+  late MediaViewModel _mediaContentViewModel;
+  late CategoryViewModel _categoryViewModel;
+  late ImageProviderViewModel _mediaViewModel;
+  late ProductViewModel _productViewModel;
+  late double finalAmount;
 
   @override
   void initState() {
@@ -54,7 +54,8 @@ class _EditProductPageState extends State<EditProductPage> {
         context,
         listen: false,
       );
-      _categoryViewModel.getCategoriesById(widget.product.merchantId);
+
+      _categoryViewModel.getCategoriesById(widget.product.merchantId ?? "");
     });
     initData();
     super.initState();
@@ -87,8 +88,10 @@ class _EditProductPageState extends State<EditProductPage> {
         ],
       ),
       body: Consumer2<MediaViewModel, ProductViewModel>(builder:
-          (BuildContext context, MediaViewModel value, ProductViewModel productViewModel, Widget child) {
-        if (value.status == Loader.busy || productViewModel.loader == Loader.busy) {
+          (BuildContext context, MediaViewModel value,
+              ProductViewModel productViewModel, Widget? child) {
+        if (value.status == Loader.busy ||
+            productViewModel.loader == Loader.busy) {
           return WidgetLoader();
         }
         return _buildBody();
@@ -98,7 +101,8 @@ class _EditProductPageState extends State<EditProductPage> {
 
   Widget _buildDropDown() {
     return Consumer<CategoryViewModel>(
-      builder: (BuildContext context, CategoryViewModel categoryViewModel, Widget child) {
+      builder: (BuildContext context, CategoryViewModel categoryViewModel,
+          Widget? child) {
         switch (categoryViewModel.loader) {
           case Loader.error:
           case Loader.busy:
@@ -109,7 +113,8 @@ class _EditProductPageState extends State<EditProductPage> {
                 _categoryViewModel.getCategories != null &&
                 _categoryViewModel.getCategories.isNotEmpty) {
               return CustomDropdown(
-                dropdownMenuItemList: _buildCategoryDropDownItems(categoryViewModel.getCategories),
+                dropdownMenuItemList: _buildCategoryDropDownItems(
+                    categoryViewModel.getCategories),
                 onChanged: onSelectedCategory,
                 value: categoryViewModel.getCategories[0],
                 hint: 'Select Classification',
@@ -124,7 +129,8 @@ class _EditProductPageState extends State<EditProductPage> {
     );
   }
 
-  List<DropdownMenuItem<Category>> _buildCategoryDropDownItems(List<Category> categories) {
+  List<DropdownMenuItem<Category>> _buildCategoryDropDownItems(
+      List<Category> categories) {
     List<DropdownMenuItem<Category>> items = [];
     for (Category favouriteFoodModel in categories) {
       items.add(DropdownMenuItem(
@@ -135,9 +141,9 @@ class _EditProductPageState extends State<EditProductPage> {
     return items;
   }
 
-  void onSelectedCategory(final Category category) {
+  void onSelectedCategory(final Object category) {
     if (_productViewModel != null) {
-      _productViewModel.setSelectedCategory(category);
+      _productViewModel.setSelectedCategory(category as Category);
     }
   }
 
@@ -162,14 +168,16 @@ class _EditProductPageState extends State<EditProductPage> {
             controller: name,
             style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
-              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+              enabledBorder: new OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
                 fontFamily: 'Gotham',
                 color: Colors.black54,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black87),
+              labelStyle:
+                  TextStyle(fontFamily: 'Gotham', color: Colors.black87),
               hintText: 'Item Name',
             ),
           ),
@@ -181,14 +189,16 @@ class _EditProductPageState extends State<EditProductPage> {
             controller: description,
             style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
             decoration: new InputDecoration(
-              enabledBorder: new OutlineInputBorder(borderSide: new BorderSide(color: Colors.black54)),
+              enabledBorder: new OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
                 fontFamily: 'Gotham',
                 color: Colors.black54,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black87),
+              labelStyle:
+                  TextStyle(fontFamily: 'Gotham', color: Colors.black87),
               hintText: 'Description',
             ),
           ),
@@ -207,15 +217,20 @@ class _EditProductPageState extends State<EditProductPage> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text("Add an image".toUpperCase(),
-              style: TextStyle(fontFamily: 'Gotham', color: Color(0xff2783a9), fontSize: 20)),
+              style: TextStyle(
+                  fontFamily: 'Gotham',
+                  color: Color(0xff2783a9),
+                  fontSize: 20)),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Consumer<ImageProviderViewModel>(
-              builder: (BuildContext context, ImageProviderViewModel value, Widget child) {
+          child: Consumer<ImageProviderViewModel>(builder:
+              (BuildContext context, ImageProviderViewModel value,
+                  Widget? child) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.15,
-              child: value.proverFileImageView(imageUrl: getImageUri(widget.product.id)),
+              child: value.proverFileImageView(
+                  imageUrl: getImageUri(widget.product.id)),
             );
           }),
         ),
@@ -240,9 +255,12 @@ class _EditProductPageState extends State<EditProductPage> {
               widget.product.name = name.text.toString();
               widget.product.description = description.text.toString();
               widget.product.price = finalAmount;
-              await _productViewModel.editRemoteProduct(widget.product).then((value) {
+              await _productViewModel
+                  .editRemoteProduct(widget.product)
+                  .then((value) {
                 if (_mediaViewModel.isValidImage) {
-                  _mediaContentViewModel.saveProductFile(_mediaViewModel.path, value.id);
+                  _mediaContentViewModel.saveProductFile(
+                      _mediaViewModel.path, value.id);
                 }
               });
             },
@@ -250,8 +268,9 @@ class _EditProductPageState extends State<EditProductPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                  child:
-                      Text("Submit".toUpperCase(), style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black)),
+                  child: Text("Submit".toUpperCase(),
+                      style: TextStyle(
+                          fontFamily: 'Gotham', color: CustomColor().black)),
                 ),
               ],
             ),
