@@ -1,18 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 
-class CustomDropdown<T> extends StatefulWidget {
-  // final List<DropdownMenuItem<T>>? dropdownMenuItemList;
-  final List<DropdownMenuItem<Object>>? dropdownMenuItemList;
+class DynamicDropdownWidget<T> extends StatefulWidget {
+  final List<DropdownMenuItem<dynamic>> dropdownMenuItemList;
   final ValueChanged<Object> onChanged;
   T value;
   final bool isEnabled;
   final String hint;
 
-  CustomDropdown({
+  DynamicDropdownWidget({
     Key? key,
     required this.dropdownMenuItemList,
     required this.onChanged,
@@ -22,18 +19,13 @@ class CustomDropdown<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomDropdownState<T> createState() => _CustomDropdownState<T>();
+  _DynamicDropdownWidgetState<T> createState() =>
+      _DynamicDropdownWidgetState<T>();
 }
 
-class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
+class _DynamicDropdownWidgetState<T> extends State<DynamicDropdownWidget<T>> {
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DropDownValueChangeNotifier>(
-        context,
-        listen: false,
-      ).changed(widget.value);
-    });
     super.initState();
   }
 
@@ -51,39 +43,31 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
                 color: Colors.black,
                 width: 1,
               ),
-              color:
-                  widget.isEnabled ? Colors.white : Colors.grey.withAlpha(100)),
+              color: _color),
           child: DropdownButtonHideUnderline(
-            child: Consumer<DropDownValueChangeNotifier<T>>(builder:
-                (BuildContext context, DropDownValueChangeNotifier consumer,
-                    Widget? child) {
-              return DropdownButton(
-                hint: Text(widget.hint),
-                isExpanded: true,
-                itemHeight: 50.0,
-                style: TextStyle(
-                    fontSize: 15.0,
-                    color: widget.isEnabled ? Colors.black : Colors.grey[700]),
-                items: widget.dropdownMenuItemList,
-                onChanged: (Object? value) {
-                  widget.onChanged(value!);
-                  consumer.changed(value);
-                },
-                value: consumer.value,
-              );
-            }),
-          ),
+              child: DropdownButton<dynamic>(
+            hint: Text(widget.hint),
+            isExpanded: true,
+            itemHeight: 50.0,
+            style: _textStyle,
+            items: widget.dropdownMenuItemList,
+            onChanged: (Object? value) {
+              setState(() {
+                widget.onChanged(value!);
+                widget.value = value as T;
+              });
+            },
+            value: widget.value,
+          )),
         ),
       ),
     );
   }
-}
 
-class DropDownValueChangeNotifier<T> extends ChangeNotifier {
-  T? value;
+  TextStyle get _textStyle => TextStyle(
+      fontSize: 15.0,
+      color: widget.isEnabled ? Colors.black : Colors.grey[700]);
 
-  void changed(T? t) {
-    value = t;
-    notifyListeners();
-  }
+  Color get _color =>
+      widget.isEnabled ? Colors.white : Colors.grey.withAlpha(100);
 }

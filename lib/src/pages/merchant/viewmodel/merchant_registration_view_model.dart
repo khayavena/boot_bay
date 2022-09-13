@@ -9,7 +9,7 @@ class MerchantRegistrationViewModel extends ViewModel {
   MerchantRepository _merchantRepository;
   Loader _loader = Loader.idl;
   Merchant _merchant = Merchant();
-  late String dataErrorMessage;
+  String dataErrorMessage = "";
 
   MerchantRegistrationViewModel({
     required MerchantRepository merchantRepository,

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
-import 'package:bootbay/src/model/payment_response.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_response.dart';
 import 'package:sembast/sembast.dart';
 
 class PaymentDaoImpl implements PaymentDao {

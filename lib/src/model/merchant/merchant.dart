@@ -1,30 +1,35 @@
 class Merchant {
-  String id;
-  String userId;
-  String name;
-  String location;
-  double rating;
-  String logoUrl;
-  String? createDate;
-  String? lastUpdate;
-  String email;
-  String phone;
-  String taxNo;
-  String regNo;
+  String? id;
+  late String userId;
+  late String name;
+  late String location;
+  late double rating;
+  late String email;
+  late String phone;
+  late String taxNo;
+  late String regNo;
 
-  Merchant(
-      {this.id = "",
-      this.userId = "",
+  Merchant();
+
+  Merchant.copy(
+      {this.userId = "",
       this.name = "",
       this.location = "",
       this.rating = 0,
-      this.logoUrl = "",
-      this.createDate = "",
-      this.lastUpdate = "",
       this.email = "",
       this.phone = "",
       this.taxNo = "",
-      this.regNo = ""}) {}
+      this.regNo = ""});
+
+  Merchant.update(
+      {this.userId = "",
+      this.name = "",
+      this.location = "",
+      this.rating = 0,
+      this.email = "",
+      this.phone = "",
+      this.taxNo = "",
+      this.regNo = ""});
 
   Merchant.fromJson(dynamic json)
       : id = json["id"],
@@ -32,28 +37,20 @@ class Merchant {
         name = json["name"],
         location = json["location"],
         rating = json["rating"],
-        logoUrl = json["logoUrl"],
-        createDate = json["createDate"],
-        lastUpdate = json["lastUpdate"],
         email = json["email"],
         phone = json["phone"],
         taxNo = json["taxNo"],
         regNo = json["regNo"];
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["id"] = id;
-    map["userId"] = userId;
-    map["name"] = name;
-    map["location"] = location;
-    map["rating"] = rating;
-    map["logoUrl"] = logoUrl;
-    // map["createDate"] = _createDate;
-    // map["lastUpdate"] = _lastUpdate;
-    map["email"] = email;
-    map["phone"] = phone;
-    map["taxNo"] = taxNo;
-    map["regNo"] = regNo;
-    return map;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "name": name,
+        "location": location,
+        "rating": 0,
+        "email": email,
+        "phone": phone,
+        "taxNo": taxNo,
+        "regNo": regNo
+      };
 }

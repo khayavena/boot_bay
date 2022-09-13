@@ -1,5 +1,5 @@
 class Category {
-  String id;
+  String? id;
   String merchantId;
   String? parentId;
   String name;
@@ -10,13 +10,13 @@ class Category {
   bool get hasChildren => categories != null;
 
   Category(
-      {this.id = "",
-      this.parentId = "",
+      {this.parentId = "",
       this.merchantId = "",
       this.name = "",
       this.categories,
       this.isSelected = false,
-      this.image = ""});
+      this.image = "",
+      this.id});
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(

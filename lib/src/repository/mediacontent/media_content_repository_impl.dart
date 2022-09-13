@@ -9,18 +9,9 @@ class MediaContentRepositoryImpl implements MediaContentRepository {
       {required RemoteMediaContentDataSource mediaContentDataSource})
       : _mediaContentDataSource = mediaContentDataSource;
 
-  Future<MediaContentResponse> uploadMerchantLogo(
-      String path, String merchantId) async {
-    return _mediaContentDataSource.uploadMerchantLogo(path, merchantId);
-  }
-
   @override
-  Future<MediaContentResponse> uploadCategory(String path, String merchantId) {
-    return _mediaContentDataSource.uploadCategory(path, merchantId);
-  }
-
-  @override
-  Future<MediaContentResponse> uploadProductImage(String path, String id) {
-    return _mediaContentDataSource.uploadProductImage(path, id);
+  Future<MediaContentResponse> uploadImage(
+      String path, String id, String type) {
+    return _mediaContentDataSource.uploadImage(path, id, type);
   }
 }

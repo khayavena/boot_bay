@@ -45,7 +45,7 @@ class CustomAppBar {
                       icon: ImageIcon(AssetImage(Res.cart_ic)),
                       color: primaryBlackColor,
                       onPressed: () {
-                        Navigator.of(context).pushNamed(AppRouting.cartList);
+                        Navigator.of(context).pushNamed(AppRouting.cartListPage);
                       }),
                 ),
                 Align(

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/user/user_dao.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 import 'package:sembast/sembast.dart';
 
 class UserDaoImpl implements UserDao {
@@ -32,7 +32,6 @@ class UserDaoImpl implements UserDao {
     final recordSnapshot = await _userStore.findFirst(_database,
         finder: Finder(filter: Filter.equals('thirdPartyId', id)));
     return UserProfile.fromJson(recordSnapshot?.value ?? {});
-    ;
   }
 
   @override
@@ -43,7 +42,6 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<void> insertAll(List<UserProfile> users) {
-    // TODO: implement insertAll
     throw UnimplementedError();
   }
 
@@ -58,7 +56,6 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<void> updateAll(List<UserProfile> users) {
-    // TODO: implement updateAll
     throw UnimplementedError();
   }
 
@@ -70,7 +67,6 @@ class UserDaoImpl implements UserDao {
 
   @override
   Future<void> clear() {
-    // TODO: implement clear
     throw UnimplementedError();
   }
 }

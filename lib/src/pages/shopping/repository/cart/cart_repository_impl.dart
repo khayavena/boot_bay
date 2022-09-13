@@ -1,6 +1,6 @@
 import 'package:bootbay/src/data/local/product/cart_dao.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/pages/shopping/repository/cart/cart_repository.dart';
 
 class CartRepositoryImpl implements CartRepository {

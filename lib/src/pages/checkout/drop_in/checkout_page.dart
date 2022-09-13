@@ -1,10 +1,10 @@
 import 'package:bootbay/res.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
-import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/model/token_request.dart';
-import 'package:bootbay/src/model/token_response.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/token_request.dart';
+import 'package:bootbay/src/model/pay_method/model/token_response.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 import 'package:bootbay/src/pages/checkout/drop_in/yoco_web_drop_in_page.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/payment_view_model.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';

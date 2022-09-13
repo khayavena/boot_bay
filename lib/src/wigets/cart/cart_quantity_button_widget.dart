@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/pages/shopping/viewmodel/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

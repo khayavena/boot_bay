@@ -26,9 +26,9 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.merchant.id.isNotEmpty) {
+      if (widget.merchant.id != null) {
         Provider.of<CategoryViewModel>(context, listen: false)
-            .getCategoriesById(widget.merchant.id);
+            .getCategoriesById(widget.merchant.id ?? '');
       } else {
         Provider.of<CategoryViewModel>(context, listen: false)
             .getAllCategories();

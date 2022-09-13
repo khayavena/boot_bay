@@ -20,7 +20,8 @@ class RemoteMerchantDataSourceImpl implements RemoteMerchantDataSource {
   Future<Merchant> register(Merchant merchantRequest) async {
     Response response = await _dioClient.post('/api/merchant/register',
         data: merchantRequest.toJson());
-    return MerchantResponse.fromJson(response.data).merchant;
+    final results = response.data;
+    return Merchant.fromJson(results);
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/helpers/string_formaters.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

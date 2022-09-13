@@ -32,7 +32,7 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryViewModel>(context, listen: false)
-          .getCategoriesById(widget.merchant.id);
+          .getCategoriesById(widget.merchant.id ?? '');
       // else {
       //   Provider.of<CategoryViewModel>(context, listen: false).getAllCategories();
       // }
@@ -58,7 +58,7 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                             BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addProduct,
+                            Navigator.pushNamed(context, AppRouting.addProductPage,
                                 arguments: {"merchant": widget.merchant});
                           },
                           child: Text('Add Item'),
@@ -69,7 +69,7 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                             BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addCategory,
+                            Navigator.pushNamed(context, AppRouting.addCategoryPage,
                                 arguments: widget.merchant);
                           },
                           child: Text('Add Classification'),
@@ -93,11 +93,11 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                 icon: ImageIcon(AssetImage(Res.cart_ic)),
                 color: primaryBlackColor,
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRouting.cartList);
+                  Navigator.of(context).pushNamed(AppRouting.cartListPage);
                 })
           ],
           title: widget.merchant.name,
-          headerIcon: getImageUri(widget.merchant.id),
+          headerIcon: getImageUri(widget.merchant.id ?? ''),
           backButton: IconButton(
               icon: ImageIcon(AssetImage(Res.leading_icon)),
               color: primaryBlackColor,

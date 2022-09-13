@@ -1,6 +1,6 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/pages/shopping/repository/wish/wish_list_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';

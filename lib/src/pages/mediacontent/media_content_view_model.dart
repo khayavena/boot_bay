@@ -7,67 +7,22 @@ import 'package:dio/dio.dart';
 
 class MediaViewModel extends ViewModel {
   MediaContentRepository _mediaContentRepository;
-  late Loader _loader;
+  late Loader _loader = Loader.idl;
 
-  late String dataErrorMessage;
+  late String dataErrorMessage = '';
 
-  late MediaContentResponse mediaResponse;
+  MediaContentResponse mediaResponse = MediaContentResponse();
 
   MediaViewModel({required MediaContentRepository mediaContentRepository})
       : _mediaContentRepository = mediaContentRepository;
 
-  Future<MediaContentResponse> saveMerchantILogo(String path, String id) async {
-    _loader = Loader.busy;
-    notifyListeners();
-    try {
-      mediaResponse =
-          await _mediaContentRepository.uploadMerchantLogo(path, id);
-      _loader = Loader.complete;
-      notifyListeners();
-      return mediaResponse;
-    } on NetworkException catch (error) {
-      dataErrorMessage = error.message;
-      _loader = Loader.error;
-      notifyListeners();
-    } on DioError catch (error) {
-      _loader = Loader.error;
-      handleDioError(error);
-    } catch (error) {
-      _loader = Loader.error;
-      notifyListeners();
-    }
-    return mediaResponse;
-  }
-
-  Future<MediaContentResponse> saveCategoryFile(String path, String id) async {
-    _loader = Loader.busy;
-    notifyListeners();
-    try {
-      mediaResponse = await _mediaContentRepository.uploadCategory(path, id);
-      _loader = Loader.complete;
-      notifyListeners();
-      return mediaResponse;
-    } on NetworkException catch (error) {
-      dataErrorMessage = error.message;
-      _loader = Loader.error;
-      notifyListeners();
-    } on DioError catch (error) {
-      _loader = Loader.error;
-      handleDioError(error);
-    } catch (error) {
-      _loader = Loader.error;
-      notifyListeners();
-    }
-    return mediaResponse;
-  }
-
-  Future<MediaContentResponse> saveProductFile(String path, String id) async {
+  Future<MediaContentResponse> saveImage(
+      String path, String id, String type) async {
     print('saving product file');
     _loader = Loader.busy;
     notifyListeners();
     try {
-      mediaResponse =
-          await _mediaContentRepository.uploadProductImage(path, id);
+      mediaResponse = await _mediaContentRepository.uploadImage(path, id, type);
       _loader = Loader.complete;
       notifyListeners();
       return mediaResponse;

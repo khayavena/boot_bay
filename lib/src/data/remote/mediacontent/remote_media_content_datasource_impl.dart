@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 class RemoteMediaContentDataSourceImpl implements RemoteMediaContentDataSource {
   late Dio _dio;
   static String _contentType = 'application/x-www-form-urlencoded';
-  static String baseEndPoint = '/media';
+  static String baseEndPoint = '/content/';
 
   RemoteMediaContentDataSourceImpl({required Dio dio}) {
     _dio = dio;
@@ -15,34 +15,14 @@ class RemoteMediaContentDataSourceImpl implements RemoteMediaContentDataSource {
         .update(HttpHeaders.contentTypeHeader, (value) => _contentType);
   }
 
-  Future<MediaContentResponse> uploadMerchantLogo(
-      String path, String merchantId) async {
-    var formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(path),
-    });
-    var response = await _dio.post('$baseEndPoint/merchant/$merchantId/logo',
-        data: formData);
-    return MediaContentResponse.fromJson(response.data);
-  }
-
-  Future<MediaContentResponse> uploadCategory(
-      String path, String categoryId) async {
-    var formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(path),
-    });
-    var response = await _dio.post('$baseEndPoint/category/$categoryId/icon',
-        data: formData);
-    return MediaContentResponse.fromJson(response.data);
-  }
-
   @override
-  Future<MediaContentResponse> uploadProductImage(
-      String path, String id) async {
+  Future<MediaContentResponse> uploadImage(
+      String path, String id, String type) async {
     var formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(path),
     });
-    var response =
-        await _dio.post('$baseEndPoint/product/$id/icon', data: formData);
+    final response =
+        await _dio.post('$baseEndPoint$id/type/$type/upload', data: formData);
     return MediaContentResponse.fromJson(response.data);
   }
 }

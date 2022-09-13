@@ -7,7 +7,7 @@ class CartAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(AppRouting.cartList);
+          Navigator.of(context).pushNamed(AppRouting.cartListPage);
         },
         child: Container(width: 16, height: 16, child: Image.asset(Res.cart_ic)));
   }

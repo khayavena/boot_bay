@@ -1,6 +1,6 @@
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/pages/category/add_category_page.dart';
 import 'package:bootbay/src/pages/category/edit_category_page.dart';
 import 'package:bootbay/src/pages/merchant/page/edit_merchant_management_page.dart';
@@ -21,133 +21,111 @@ import 'package:bootbay/src/pages/shopping/page/shoping_wish_list_page.dart';
 import 'package:bootbay/src/pages/user/login_page.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/entityaddress/page/entity_address_page.dart';
+import '../pages/mediacontent/page/content_page.dart';
+
 class AppRouting {
-  static const String merchant_portal_page = '/MerchantPortalPage';
-  static const String productDetail = '/productDetailPage';
-  static const String cartList = '/cartPage';
-  static const String wishList = '/wishPage';
-  static const String merchantList = '/merchantsListPage';
-  static const String merchantLanding = '/merchantsLandingPage';
-  static const String merchantsRegistration = '/merchantsRegistrationPage';
-  static const String merchantsManagementEdit = '/editMerchantManagementPage';
-  static const String merchantsManagementList = '/merchantManagementListPage';
-  static const String merchantCategoryList = '/merchantItemCategoryListPage';
-  static const String merchantManagementEditOptions =
+  static const String merchantPortalPage = '/MerchantPortalPage';
+  static const String productDetailPage = '/productDetailPage';
+  static const String cartListPage = '/cartPage';
+  static const String wishListPage = '/wishPage';
+  static const String merchantListPage = '/merchantsListPage';
+  static const String merchantLandingPage = '/merchantsLandingPage';
+  static const String merchantsRegistrationPage = '/merchantsRegistrationPage';
+  static const String merchantsManagementEditPage =
+      '/editMerchantManagementPage';
+  static const String merchantsManagementListPage =
+      '/merchantManagementListPage';
+  static const String merchantCategoryListPage =
+      '/merchantItemCategoryListPage';
+  static const String merchantManagementEditOptionsPage =
       '/merchantManagementEditOptionsPage';
-  static const String editCategory = "/editCategoryPage";
-  static const String addCategory = "/addCategoryPage";
-  static const String addProduct = "/addProductPage";
+  static const String editCategoryPage = "/editCategoryPage";
+  static const String addCategoryPage = "/addCategoryPage";
+  static const String addProductPage = "/addProductPage";
   static const String editProductPage = '/editProductPage';
   static const String editCategoryProductPage = '/editCategoryProductPage';
   static const String loginPage = '/loginPage';
+  static const String addImagePage = '/addImage';
+  static const String addAddressPage = '/entityAddressPage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-
     switch (settings.name) {
       case '/':
         return createRoute('/', HomeBottomNavPage());
       case loginPage:
         return createRoute(loginPage, LoginDialogPage());
-      case merchant_portal_page:
-        return createRoute(merchant_portal_page, MerchantPortalPage());
-      case merchantsRegistration:
-        return createRoute(merchantsRegistration, MerchantRegistrationPage());
-
-      case cartList:
-        return createRoute(cartList, ShoppingCartPage());
-      case wishList:
-        return createRoute(wishList, ShoppingWishListPage());
-      case merchantList:
-        return createRoute(merchantList, MerchantListPage());
-      case merchantManagementEditOptions:
+      case merchantPortalPage:
+        return createRoute(merchantPortalPage, MerchantPortalPage());
+      case merchantsRegistrationPage:
         return createRoute(
-            merchantManagementEditOptions,
-            EditMerchantManagementOptionsWidget(
-              merchant: args as Merchant,
-            ));
-      case merchantsManagementList:
-        return createRoute(
-            merchantsManagementList,
-            MerchantManagementListPage(
-              userId: args as String,
-            ));
-
-      case merchantCategoryList:
-        return createRoute(merchantCategoryList,
+            merchantsRegistrationPage, MerchantRegistrationPage());
+      case cartListPage:
+        return createRoute(cartListPage, ShoppingCartPage());
+      case wishListPage:
+        return createRoute(wishListPage, ShoppingWishListPage());
+      case merchantListPage:
+        return createRoute(merchantListPage, MerchantListPage());
+      case merchantManagementEditOptionsPage:
+        return createRoute(merchantManagementEditOptionsPage,
+            EditMerchantManagementOptionsWidget(merchant: args as Merchant));
+      case merchantsManagementListPage:
+        return createRoute(merchantsManagementListPage,
+            MerchantManagementListPage(userId: args as String));
+      case merchantCategoryListPage:
+        return createRoute(merchantCategoryListPage,
             MerchantCategoryListPage(merchant: args as Merchant));
-      case productDetail:
+      case productDetailPage:
         if (args is Product) {
           return createRoute(
-              productDetail,
-              ProductDetailPage(
-                product: args,
-              ));
+              productDetailPage, ProductDetailPage(product: args));
         }
         return _errorRoute(error: 'Failed to load product page');
       case editProductPage:
         return createRoute(
-            editProductPage,
-            EditProductPage(
-              product: args as Product,
-            ));
+            editProductPage, EditProductPage(product: args as Product));
 
-        return _errorRoute(error: 'Failed to load product page');
-      case merchantLanding:
-        // Validation of correct data type
+      case merchantLandingPage:
         if (args is Merchant) {
           return createRoute(
-              merchantLanding,
-              MerchantLandingPage(
-                merchant: args,
-              ));
+              merchantLandingPage, MerchantLandingPage(merchant: args));
         }
-
         return _errorRoute();
-
-      case merchantsManagementEdit:
+      case merchantsManagementEditPage:
         if (args is Merchant) {
-          return createRoute(
-              merchantsManagementEdit,
-              EditMerchantManagementPage(
-                merchant: args,
-              ));
+          return createRoute(merchantsManagementEditPage,
+              EditMerchantManagementPage(merchant: args));
         }
-
         return _errorRoute();
-      case editCategory:
+      case editCategoryPage:
         Map map = args as Map;
         Category category = map['category'];
         Merchant merchant = map['merchant'];
-        return createRoute(
-            editCategory,
-            EditCategoryPage(
-              category: category,
-              merchant: merchant,
-            ));
+        return createRoute(editCategoryPage,
+            EditCategoryPage(category: category, merchant: merchant));
       case editCategoryProductPage:
-        return createRoute(
-            editCategoryProductPage,
-            CategoryProductPage(
-              category: args as Category,
-            ));
-      case addProduct:
+        return createRoute(editCategoryProductPage,
+            CategoryProductPage(category: args as Category));
+      case addProductPage:
         Map map = args as Map;
-        Category category = map['category'] ?? null;
+        Category? category = map['category'] ?? null;
         Merchant merchant = map['merchant'];
+        return createRoute(editCategoryPage,
+            AddProductPage(category: category, merchant: merchant));
+      case addCategoryPage:
         return createRoute(
-            editCategory,
-            AddProductPage(
-              category: category,
-              merchant: merchant,
-            ));
-      case addCategory:
+            addCategoryPage, AddCategoryPage(merchant: args as Merchant));
+      case addImagePage:
+        Map map = args as Map;
+        return createRoute(addImagePage,
+            ContentPage(id: map["id"], type: map["type"], name: map["name"]));
+      case addAddressPage:
+        Map map = args as Map;
         return createRoute(
-            addCategory,
-            AddCategoryPage(
-              merchant: args as Merchant,
-            ));
-
+            addAddressPage,
+            EntityAddressPage(
+                id: map["id"], type: map["type"], name: map["name"]));
       default:
         return _errorRoute();
     }

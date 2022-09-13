@@ -1,7 +1,7 @@
 {
   "Flavor.DEV": {
     "appVersion": "1.0.0",
-    "baseUrl": "https://boot-bay.herokuapp.com",
+    "baseUrl": "http://10.0.2.2:8081",
     "appName": "SuperSport Dev",
     "databaseName": "boot_database.db",
     "appKey": "5qeb2e41e66fe5d0f909cc811",

@@ -1,9 +1,9 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/model/product_query.dart';
-import 'package:bootbay/src/model/product_response.dart';
+import 'package:bootbay/src/model/pay_method/model/product_response.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
@@ -29,9 +29,9 @@ class ProductViewModel extends ViewModel {
   Future<Product> saveRemoteProduct(
       String merchantId, String name, description, double price) async {
     if (_category != null) {
-      _product.categoryId = _category.id;
+      _product.categoryId = _category.id??'';
       var productResponse = await _productRepository.saveRemoteProduct(Product(
-          categoryId: _category.id,
+          categoryId: _category.id??'',
           merchantId: merchantId,
           name: name,
           description: description,
@@ -44,7 +44,7 @@ class ProductViewModel extends ViewModel {
 
   Future<Product> editRemoteProduct(Product product) async {
     if (_category != null) {
-      product.categoryId = _category.id;
+      product.categoryId = _category.id??'';
       var productResponse = await _productRepository.saveRemoteProduct(product);
       _product = productResponse.item;
       notifyListeners();

@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_item_widget.dart';
 import 'package:flutter/material.dart';
 

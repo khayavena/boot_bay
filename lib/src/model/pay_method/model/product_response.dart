@@ -1,4 +1,4 @@
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 
 class ProductResponse {
   final Product item;

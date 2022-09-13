@@ -10,4 +10,6 @@ Text smallText(Color color, String text) => Text(text,
       fontWeight: mediumFont,
       fontStyle: FontStyle.normal,
       letterSpacing: 0,
-    ));
+    ),);
+
+String fontStyle() => fontStyle();

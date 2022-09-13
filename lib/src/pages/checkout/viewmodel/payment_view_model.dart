@@ -1,11 +1,11 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
-import 'package:bootbay/src/model/payment_request.dart';
-import 'package:bootbay/src/model/payment_response.dart';
-import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/model/token_request.dart';
-import 'package:bootbay/src/model/token_response.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_request.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_response.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/token_request.dart';
+import 'package:bootbay/src/model/pay_method/model/token_response.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';

@@ -25,7 +25,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(getImageUri(root.id)),
+                      image: CachedNetworkImageProvider(getImageUri(root.id??'')),
                     ),
                   )),
               title: Text(
@@ -80,7 +80,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
-    Navigator.pushNamed(context, AppRouting.editCategory,
+    Navigator.pushNamed(context, AppRouting.editCategoryPage,
         arguments: {'category': root, 'merchant': merchant});
   }
 }

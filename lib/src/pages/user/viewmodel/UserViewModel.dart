@@ -1,7 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:dio/dio.dart';

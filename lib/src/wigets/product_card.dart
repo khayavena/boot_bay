@@ -3,7 +3,7 @@ import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/ResFont.dart';
 import 'package:bootbay/src/helpers/ResSize.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -36,7 +36,7 @@ class _ProductCardState extends State<ProductCard> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(AppRouting.productDetail, arguments: product);
+            .pushNamed(AppRouting.productDetailPage, arguments: product);
       },
       child: Container(
         child: Stack(

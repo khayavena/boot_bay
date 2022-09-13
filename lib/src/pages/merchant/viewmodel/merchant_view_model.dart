@@ -40,7 +40,7 @@ class MerchantViewModel extends ViewModel {
     _loader = Loader.busy;
     notifyListeners();
     try {
-      _merchants = await _merchantRepository.getAll();
+      _merchants = await _merchantRepository.getAllByUserId(userId);
       _loader = Loader.complete;
       notifyListeners();
       return _merchants;

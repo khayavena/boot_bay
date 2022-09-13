@@ -69,11 +69,10 @@ class _State extends State<MerchantPortalPage> {
           GestureDetector(
               onTap: () async {
                 if (_userViewModel.isLoggedIn()) {
+                  final user = await _userViewModel.getCurrentUser();
                   Navigator.of(context).pushNamed(
-                      AppRouting.merchantsManagementList,
-                      arguments: _userViewModel.getUser.id);
-                } else {
-                  //alert
+                      AppRouting.merchantsManagementListPage,
+                      arguments: user.id);
                 }
               },
               child: buildActionItem("Manage", Icons.business)),
@@ -81,7 +80,7 @@ class _State extends State<MerchantPortalPage> {
               onTap: () async {
                 if (_userViewModel.isLoggedIn()) {
                   Navigator.of(context)
-                      .pushNamed(AppRouting.merchantsRegistration);
+                      .pushNamed(AppRouting.merchantsRegistrationPage);
                 } else {
                   //alert
                 }

@@ -6,7 +6,7 @@ import 'package:bootbay/src/viewmodel/ViewModel.dart';
 class EntityAddressViewModel extends ViewModel {
   final EntityAddressRepository _addressRepository;
   Loader status = Loader.idl;
-  late EntityAddress _entityAddress;
+  late EntityAddress _entityAddress = EntityAddress();
   late List<EntityAddress> _entityAddresses;
 
   EntityAddressViewModel({required EntityAddressRepository addressRepository})
@@ -15,25 +15,16 @@ class EntityAddressViewModel extends ViewModel {
   Future<List<EntityAddress>> getAddresses(String entityId) async {
     status = Loader.busy;
     notifyListeners();
-    var results = await _addressRepository.getAddresses(entityId);
-    if (results.isNotEmpty) {
-      status = Loader.complete;
-    } else {
-      status = Loader.complete;
-    }
+    _entityAddresses = await _addressRepository.getAddresses(entityId);
     notifyListeners();
-    return results;
+    return _entityAddresses;
   }
 
   Future<EntityAddress> saveAddress(EntityAddress entityAddress) async {
     status = Loader.busy;
     notifyListeners();
     var results = await _addressRepository.saveAddress(entityAddress);
-    if (results != null) {
-      status = Loader.complete;
-    } else {
-      status = Loader.error;
-    }
+    status = Loader.complete;
     notifyListeners();
     return results;
   }
@@ -42,11 +33,7 @@ class EntityAddressViewModel extends ViewModel {
     status = Loader.busy;
     notifyListeners();
     var results = await _addressRepository.updateAddress(entityAddress);
-    if (results != null) {
-      status = Loader.complete;
-    } else {
-      status = Loader.error;
-    }
+    status = Loader.complete;
     notifyListeners();
     return results;
   }
@@ -61,11 +48,7 @@ class EntityAddressViewModel extends ViewModel {
         break;
       }
     }
-    if (results != null) {
-      status = Loader.complete;
-    } else {
-      status = Loader.error;
-    }
+    status = Loader.complete;
     notifyListeners();
     return results;
   }
@@ -87,23 +70,7 @@ class EntityAddressViewModel extends ViewModel {
     _entityAddresses = [];
   }
 
-  void updateSelectedAddress(final String parentId, final String placeName,
-      double latitude, double longitude, String type) {
-    if (_entityAddress.id.isNotEmpty) {
-      _entityAddress = EntityAddress(
-          parentId: parentId,
-          type: type,
-          address: placeName,
-          latitude: latitude,
-          longitude: longitude);
-    } else {
-      _entityAddress = EntityAddress(
-          id: _entityAddress.id,
-          parentId: parentId,
-          type: type,
-          address: placeName,
-          latitude: latitude,
-          longitude: longitude);
-    }
+  void setAddress(EntityAddress saveAddress) {
+    this._entityAddress = saveAddress;
   }
 }

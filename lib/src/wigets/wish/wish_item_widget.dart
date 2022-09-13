@@ -1,6 +1,6 @@
 import 'package:bootbay/src/helpers/ResColor.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/wigets/cart/cart_button_widget.dart';
 import 'package:bootbay/src/wigets/cart/wish_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -2,7 +2,7 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/helpers/image_helper.dart';
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
 import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
@@ -13,6 +13,8 @@ import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+
+import '../../../helpers/ResText.dart';
 
 final name = TextEditingController();
 final description = TextEditingController();
@@ -77,7 +79,7 @@ class _EditProductPageState extends State<EditProductPage> {
         elevation: 0,
         title: Text(
           "Edit product",
-          style: TextStyle(fontFamily: 'Gotham', color: CustomColor().black),
+          style: TextStyle(fontFamily: fontStyle(), color: CustomColor().black),
         ),
         actions: [
           IconButton(
@@ -109,10 +111,8 @@ class _EditProductPageState extends State<EditProductPage> {
           case Loader.idl:
             return SizedBox();
           case Loader.complete:
-            if (_categoryViewModel != null &&
-                _categoryViewModel.getCategories != null &&
-                _categoryViewModel.getCategories.isNotEmpty) {
-              return CustomDropdown(
+            if (_categoryViewModel.getCategories.isNotEmpty) {
+              return DynamicDropdownWidget(
                 dropdownMenuItemList: _buildCategoryDropDownItems(
                     categoryViewModel.getCategories),
                 onChanged: onSelectedCategory,
@@ -122,9 +122,7 @@ class _EditProductPageState extends State<EditProductPage> {
             } else {
               return SizedBox();
             }
-            break;
         }
-        return SizedBox();
       },
     );
   }
@@ -142,9 +140,7 @@ class _EditProductPageState extends State<EditProductPage> {
   }
 
   void onSelectedCategory(final Object category) {
-    if (_productViewModel != null) {
-      _productViewModel.setSelectedCategory(category as Category);
-    }
+    _productViewModel.setSelectedCategory(category as Category);
   }
 
   void _onAmountChange(final double value) {
@@ -166,18 +162,18 @@ class _EditProductPageState extends State<EditProductPage> {
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: TextFormField(
             controller: name,
-            style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black87, fontFamily: fontStyle()),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(
                   borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
-                fontFamily: 'Gotham',
+                fontFamily: fontStyle(),
                 color: Colors.black54,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
               labelStyle:
-                  TextStyle(fontFamily: 'Gotham', color: Colors.black87),
+                  TextStyle(fontFamily: fontStyle(), color: Colors.black87),
               hintText: 'Item Name',
             ),
           ),
@@ -187,18 +183,18 @@ class _EditProductPageState extends State<EditProductPage> {
           child: TextFormField(
             maxLines: 100 ~/ 15,
             controller: description,
-            style: TextStyle(color: Colors.black87, fontFamily: 'Gotham'),
+            style: TextStyle(color: Colors.black87, fontFamily: fontStyle()),
             decoration: new InputDecoration(
               enabledBorder: new OutlineInputBorder(
                   borderSide: new BorderSide(color: Colors.black54)),
               hintStyle: TextStyle(
-                fontFamily: 'Gotham',
+                fontFamily: fontStyle(),
                 color: Colors.black54,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
               labelStyle:
-                  TextStyle(fontFamily: 'Gotham', color: Colors.black87),
+                  TextStyle(fontFamily: fontStyle(), color: Colors.black87),
               hintText: 'Description',
             ),
           ),
@@ -218,7 +214,7 @@ class _EditProductPageState extends State<EditProductPage> {
           padding: const EdgeInsets.all(10.0),
           child: Text("Add an image".toUpperCase(),
               style: TextStyle(
-                  fontFamily: 'Gotham',
+                  fontFamily: fontStyle(),
                   color: Color(0xff2783a9),
                   fontSize: 20)),
         ),
@@ -243,7 +239,7 @@ class _EditProductPageState extends State<EditProductPage> {
               child: Text(
                 "Upload".toUpperCase(),
                 style: TextStyle(
-                  fontFamily: 'Gotham',
+                  fontFamily: fontStyle(),
                 ),
               )),
         ),
@@ -259,8 +255,8 @@ class _EditProductPageState extends State<EditProductPage> {
                   .editRemoteProduct(widget.product)
                   .then((value) {
                 if (_mediaViewModel.isValidImage) {
-                  _mediaContentViewModel.saveProductFile(
-                      _mediaViewModel.path, value.id);
+                  _mediaContentViewModel.saveImage(
+                      _mediaViewModel.path, value.id, "product");
                 }
               });
             },
@@ -270,7 +266,7 @@ class _EditProductPageState extends State<EditProductPage> {
                 Center(
                   child: Text("Submit".toUpperCase(),
                       style: TextStyle(
-                          fontFamily: 'Gotham', color: CustomColor().black)),
+                          fontFamily: fontStyle(), color: CustomColor().black)),
                 ),
               ],
             ),

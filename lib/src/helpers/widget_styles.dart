@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ResText.dart';
+
 final blueButtonStyle = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
@@ -18,11 +20,11 @@ inputDecorator({
       enabledBorder: new OutlineInputBorder(
           borderSide: new BorderSide(color: Colors.black54)),
       hintStyle: TextStyle(
-        fontFamily: 'Gotham',
+        fontFamily: fontStyle(),
         color: Colors.black,
         fontSize: 15,
         fontStyle: FontStyle.italic,
       ),
-      labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+      labelStyle: TextStyle(fontFamily: fontStyle(), color: Colors.black),
       hintText: hint,
     );

@@ -1,10 +1,10 @@
 import 'package:bootbay/src/data/local/payment/payment_dao.dart';
 import 'package:bootbay/src/data/remote/payment/remote_payment_service.dart';
 import 'package:bootbay/src/helpers/network_helper.dart';
-import 'package:bootbay/src/model/payment_request.dart';
-import 'package:bootbay/src/model/payment_response.dart';
-import 'package:bootbay/src/model/token_request.dart';
-import 'package:bootbay/src/model/token_response.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_request.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_response.dart';
+import 'package:bootbay/src/model/pay_method/model/token_request.dart';
+import 'package:bootbay/src/model/pay_method/model/token_response.dart';
 import 'package:bootbay/src/pages/checkout/repository/payment_repository.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {

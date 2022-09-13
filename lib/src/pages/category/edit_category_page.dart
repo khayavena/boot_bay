@@ -63,7 +63,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
           title: widget.category.name.toUpperCase(),
-          headerIcon: getImageUri(widget.category.id),
+          headerIcon: getImageUri(widget.category.id??''),
           backButton: IconButton(
               icon: ImageIcon(AssetImage(Res.leading_icon)),
               color: primaryBlackColor,
@@ -150,15 +150,17 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           category = Category(
               parentId: parentId,
               name: categoryController.text.toString(),
-              merchantId: widget.merchant.id);
+              merchantId: widget.merchant.id ?? '');
         } else {
           category = widget.category;
           category.name = categoryController.text.toString();
         }
         var categoryResponse = await _categoryViewModel.saveCategory(category);
-        if (_categoryMediaViewModel.fileInput.path.isNotEmpty) {
-          var catImageResponse = await _mediaContentViewModel.saveCategoryFile(
-              _categoryMediaViewModel.fileInput.path, categoryResponse.id);
+        if (_categoryMediaViewModel.fileInput != null) {
+          var catImageResponse = await _mediaContentViewModel.saveImage(
+              _categoryMediaViewModel.fileInput?.path ?? '',
+              categoryResponse.id??'',
+              "category");
         }
         _categoryMediaViewModel.clear();
         _mediaContentViewModel.clear();
@@ -192,7 +194,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
   Widget _buildFileImage(ImageProviderViewModel value) {
     return Image.file(
       File(
-        value.fileInput.path,
+        value.fileInput?.path ?? '',
       ),
       fit: BoxFit.contain,
     );
@@ -208,7 +210,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
               ? SizedBox()
               : ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRouting.addProduct,
+                    Navigator.pushNamed(context, AppRouting.addProductPage,
                         arguments: {
                           "category": widget.category,
                           "merchant": widget.merchant
@@ -219,7 +221,7 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
           _padHorizontal(),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, AppRouting.addCategory,
+              Navigator.pushNamed(context, AppRouting.addCategoryPage,
                   arguments: widget.merchant);
             },
             child: Text('New Class'),

@@ -1,5 +1,5 @@
 import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:sembast/sembast.dart';
 
 class WishListDaoImpl implements WishListDao {

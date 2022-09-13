@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageProviderViewModel extends ChangeNotifier {
-  late XFile _fileInput;
+  XFile? _fileInput;
 
-  XFile get fileInput => _fileInput;
+  XFile? get fileInput => _fileInput;
 
   void openGalleryForImage() async {
     XFile? pickedImage =
@@ -22,19 +22,19 @@ class ImageProviderViewModel extends ChangeNotifier {
 
   Widget proverFileImageView(
       {String imageUrl = 'https://i.imgur.com/sUFH1Aq.png'}) {
-    if (fileInput.path.isNotEmpty)
+    if (fileInput != null)
       return Image(
         image: CachedNetworkImageProvider(imageUrl),
       );
     return Image.file(
       File(
-        fileInput.path,
+        fileInput?.path ?? imageUrl,
       ),
       fit: BoxFit.contain,
     );
   }
 
-  String get path => _fileInput.path;
+  String get path => _fileInput?.path ?? '';
 
   bool get isValidImage => path.isNotEmpty;
 }

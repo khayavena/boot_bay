@@ -1,5 +1,5 @@
 import 'package:bootbay/src/model/category.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 
 abstract class CategoryDao {
   Future<List<Category>> findAll();

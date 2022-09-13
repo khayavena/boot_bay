@@ -1,7 +1,7 @@
 import 'package:bootbay/src/data/remote/product/remote_product_service.dart';
-import 'package:bootbay/src/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:bootbay/src/model/product_query.dart';
-import 'package:bootbay/src/model/product_response.dart';
+import 'package:bootbay/src/model/pay_method/model/product_response.dart';
 import 'package:dio/dio.dart';
 
 class RemoteProductServiceImpl implements RemoteProductService {

@@ -31,13 +31,13 @@ class _EditMerchantManagementOptionsWidgetState
           GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(
-                    AppRouting.merchantsManagementEdit,
+                    AppRouting.merchantsManagementEditPage,
                     arguments: widget.merchant);
               },
               child: getItem("Edit Merchant", Icons.add_business_outlined)),
           GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(AppRouting.merchantCategoryList,
+                Navigator.of(context).pushNamed(AppRouting.merchantCategoryListPage,
                     arguments: widget.merchant);
               },
               child: getItem("Categories", Icons.category_outlined)),

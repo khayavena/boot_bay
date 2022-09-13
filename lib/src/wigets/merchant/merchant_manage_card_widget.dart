@@ -28,7 +28,7 @@ class _MerchantManagementCardWidgetState
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
           Navigator.of(context).pushNamed(
-              AppRouting.merchantManagementEditOptions,
+              AppRouting.merchantManagementEditOptionsPage,
               arguments: widget.merchant);
         },
         child: _buildColumn(),
@@ -46,7 +46,8 @@ class _MerchantManagementCardWidgetState
           width: 166,
           height: 204,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(getImageUri(widget.merchant.id)),
+          image:
+              CachedNetworkImageProvider(getImageUri(widget.merchant.id ?? '')),
         ),
         SizedBox(
           height: 8,

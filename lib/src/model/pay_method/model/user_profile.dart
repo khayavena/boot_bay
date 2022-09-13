@@ -6,7 +6,7 @@ class UserProfile {
   String email;
   String firstName;
   String fullName;
-  String id;
+  String? id;
   String lastName;
   bool marchant;
   int parentId;
@@ -22,7 +22,7 @@ class UserProfile {
       this.email = "",
       this.firstName = "",
       this.fullName = "",
-      this.id = "",
+      this.id,
       this.lastName = "",
       this.marchant = false,
       this.parentId = 0,

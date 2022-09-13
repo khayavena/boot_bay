@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/pay_method/yoco_pay_method.dart';
-import 'package:bootbay/src/model/payment_request.dart';
-import 'package:bootbay/src/model/token_response.dart';
+import 'package:bootbay/src/model/pay_method/model/payment_request.dart';
+import 'package:bootbay/src/model/pay_method/model/token_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 

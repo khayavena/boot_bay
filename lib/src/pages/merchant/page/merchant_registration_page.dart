@@ -1,18 +1,15 @@
-import 'package:bootbay/src/config/EnvConfig.dart';
-import 'package:bootbay/src/di/boot_bay_module_locator.dart';
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
-import 'package:bootbay/src/pages/entityaddress/viewmodel/entity_address_view_model.dart';
-import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
-import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/merchant/viewmodel/merchant_registration_view_model.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/wigets/shared/loading/color_loader_4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 import 'package:provider/provider.dart';
+
+import '../../../config/app_routing.dart';
+import '../../../helpers/ResText.dart';
 
 class MerchantRegistrationPage extends StatefulWidget {
   MerchantRegistrationPage();
@@ -32,10 +29,6 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
 
   late MerchantRegistrationViewModel _merchantViewModel;
   late UserViewModel userViewModel;
-  late EntityAddressViewModel _entityAddressViewModel;
-  late ImageProviderViewModel _imageProviderViewModel;
-  late MediaViewModel _mediaViewModel;
-  MapBoxPlace? _mapBoxPlace;
 
   @override
   void initState() {
@@ -48,20 +41,13 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
         context,
         listen: false,
       );
-      _entityAddressViewModel = Provider.of<EntityAddressViewModel>(
-        context,
-        listen: false,
-      );
-      _imageProviderViewModel = Provider.of<ImageProviderViewModel>(
-        context,
-        listen: false,
-      );
-      _mediaViewModel = Provider.of<MediaViewModel>(
-        context,
-        listen: false,
-      );
     });
     super.initState();
+  }
+
+  void dispose() {
+    _merchantViewModel.resetLoader();
+    super.dispose();
   }
 
   @override
@@ -83,23 +69,46 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
           ),
         ),
         body: Container(
-          child: Consumer3<MerchantRegistrationViewModel, MediaViewModel,
-              EntityAddressViewModel>(
-            builder: (BuildContext context,
-                MerchantRegistrationViewModel value,
-                MediaViewModel value1,
-                EntityAddressViewModel value2,
+          child: Consumer<MerchantRegistrationViewModel>(
+            builder: (BuildContext context, MerchantRegistrationViewModel value,
                 Widget? child) {
-              if (value.status == Loader.busy ||
-                  value1.status == Loader.busy ||
-                  value2.status == Loader.busy) {
+              if (value.status == Loader.busy) {
                 return WidgetLoader();
-              } else if (value.status == Loader.error ||
-                  value1.status == Loader.error ||
-                  value2.status == Loader.error) {
+              } else if (value.status == Loader.error) {
                 return Center(child: Text(value.dataErrorMessage));
-              } else {
+              } else if (value.status == Loader.idl) {
                 return _buildBody();
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                          child: Text("Skip Image"),
+                          onPressed: () async {
+                            Navigator.of(context).pushNamed(
+                                AppRouting.addAddressPage,
+                                arguments: {
+                                  "id": value.getMerchant.id,
+                                  "type": "merchant",
+                                  "name": value.getMerchant.name
+                                });
+                          }),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRouting.addImagePage, arguments: {
+                              "id": value.getMerchant.id,
+                              "type": "merchant",
+                              "name": value.getMerchant.name
+                            });
+                          },
+                          child: Text("Add Image")),
+                    ],
+                  ),
+                );
               }
             },
           ),
@@ -107,79 +116,38 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
   }
 
   void registerNow() async {
-    var user = await userViewModel.getCurrentUser();
-    var merchantRequest = Merchant(
-        userId: user.id,
+    final user = await userViewModel.getCurrentUser();
+    final merchantRequest = Merchant.copy(
+        userId: user.id ?? '',
         name: nameController.text,
         location: locationController.text,
         rating: 0,
-        logoUrl: "",
         email: emailController.text,
         phone: phoneController.text,
-        lastUpdate: DateTime.now().toString(),
-        createDate: DateTime.now().toString(),
         regNo: regNoController.text,
         taxNo: taxNoController.text);
-    await _merchantViewModel.register(merchantRequest).then((value) async {
-      if (_mapBoxPlace != null) {
-        _entityAddressViewModel.updateSelectedAddress(
-            value.id,
-            _mapBoxPlace?.placeName ?? "",
-            _mapBoxPlace?.geometry?.coordinates![0] ?? 0,
-            _mapBoxPlace?.geometry?.coordinates![1] ?? 0,
-            'merchant');
-        await _entityAddressViewModel
-            .saveAddress(_entityAddressViewModel.entityAddress);
-        if (_imageProviderViewModel.isValidImage) {
-          await _mediaViewModel.saveMerchantILogo(
-              _imageProviderViewModel.path, value.id);
-        }
-      }
-    });
+    _merchantViewModel.register(merchantRequest);
   }
 
   Widget buildEditText(
       TextEditingController controller, String text, Icon suffixIcon) {
     return Padding(
-      padding: EdgeInsets.only(
-        top: 10,
-      ),
+      padding: EdgeInsets.only(top: 10),
       child: TextFormField(
         controller: controller,
-        style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
+        style: TextStyle(color: Colors.black, fontFamily: fontStyle()),
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           hintStyle: TextStyle(
-            fontFamily: 'Gotham',
+            fontFamily: fontStyle(),
             color: Colors.black54,
             fontSize: 15,
             fontStyle: FontStyle.normal,
           ),
-          labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.black),
+          labelStyle: TextStyle(fontFamily: fontStyle(), color: Colors.black),
           hintText: text,
         ),
       ),
-    );
-  }
-
-  void showActionDialog() {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // repository must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Search your address"),
-          content: MapBoxAutoCompleteWidget(
-            closeOnSelect: true,
-            apiKey: moduleLocator<EnvConfig>().mapBoxKey,
-            hint: 'Enter your address',
-            onSelect: (place) {
-              locationController.text = place.placeName!;
-              _mapBoxPlace = place;
-            },
-          ),
-        );
-      },
     );
   }
 
@@ -200,42 +168,6 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
               Icon(Icons.copyright_outlined),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-              child: TextFormField(
-                controller: locationController,
-                style: TextStyle(color: Colors.black, fontFamily: 'Gotham'),
-                onTap: () {
-                  showActionDialog();
-                },
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.location_on_outlined),
-                  hintStyle: TextStyle(
-                    fontFamily: 'Gotham',
-                    color: Colors.blueGrey,
-                    fontSize: 15,
-                    fontStyle: FontStyle.normal,
-                  ),
-                  labelStyle:
-                      TextStyle(fontFamily: 'Gotham', color: Colors.black),
-                  hintText: "Merchant address",
-                ),
-              ),
-            ),
-            _buildImage(),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    uploadImage();
-                  },
-                  child: Text(
-                    "Upload".toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: 'Gotham',
-                    ),
-                  )),
-            ),
-            Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10),
               child: ElevatedButton(
                 child: Text('Add Merchant'),
@@ -246,22 +178,5 @@ class _MerchantRegistrationPageState extends State<MerchantRegistrationPage> {
             ),
           ],
         ));
-  }
-
-  Widget _buildImage() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Consumer<ImageProviderViewModel>(builder:
-          (BuildContext context, ImageProviderViewModel value, Widget? child) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.15,
-          child: value.proverFileImageView(),
-        );
-      }),
-    );
-  }
-
-  void uploadImage() async {
-    _imageProviderViewModel.openGalleryForImage();
   }
 }

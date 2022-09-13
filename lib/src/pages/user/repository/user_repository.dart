@@ -1,5 +1,5 @@
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 
 abstract class UserRepository {
   Future<UserProfile> signUp(UserProfile user);

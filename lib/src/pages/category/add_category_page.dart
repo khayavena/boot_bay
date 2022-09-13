@@ -63,7 +63,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
           title: widget.merchant.name,
-          headerIcon: getImageUri(widget.merchant.id),
+          headerIcon: getImageUri(widget.merchant.id ?? ''),
           backButton: IconButton(
               icon: ImageIcon(AssetImage(Res.leading_icon)),
               color: primaryBlackColor,
@@ -154,12 +154,12 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       onPressed: () async {
         var category = Category(
             name: categoryController.text.toString(),
-            merchantId: widget.merchant.id);
+            merchantId: widget.merchant.id ?? '');
         var categoryResponse = await _categoryViewModel.saveCategory(category);
-        if (_categoryMediaViewModel.fileInput != null &&
-            _categoryMediaViewModel.fileInput.path.isNotEmpty) {
-          var catImageResponse = await _mediaContentViewModel.saveProductFile(
-              _categoryMediaViewModel.fileInput.path, categoryResponse.id);
+        if (_categoryMediaViewModel.fileInput != null) {
+          final path = _categoryMediaViewModel.fileInput?.path ?? "";
+          var catImageResponse = await _mediaContentViewModel.saveImage(
+              path, categoryResponse.id??'', "category");
         }
         _categoryMediaViewModel.clear();
         _mediaContentViewModel.clear();
@@ -193,7 +193,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   Widget _buildFileImage(ImageProviderViewModel value) {
     return Image.file(
       File(
-        value.fileInput.path,
+        value.fileInput?.path ?? '',
       ),
       fit: BoxFit.contain,
     );

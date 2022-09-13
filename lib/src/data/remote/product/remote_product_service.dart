@@ -1,6 +1,6 @@
 import 'package:bootbay/src/model/product_query.dart';
-import 'package:bootbay/src/model/product.dart';
-import 'package:bootbay/src/model/product_response.dart';
+import 'package:bootbay/src/model/pay_method/model/product.dart';
+import 'package:bootbay/src/model/pay_method/model/product_response.dart';
 
 abstract class RemoteProductService {
   Future<List<Product>> getAllProducts();

@@ -1,5 +1,5 @@
-import 'bin_data.dart';
-import 'details.dart';
+import '../../bin_data.dart';
+import '../../details.dart';
 
 class PaymentNonce {
   BinData binData;
@@ -34,12 +34,8 @@ class PaymentNonce {
     data['nonce'] = this.nonce;
     data['type'] = this.type;
     data['vaulted'] = this.vaulted;
-    if (this.binData != null) {
-      data['binData'] = this.binData.toJson();
-    }
-    if (this.details != null) {
-      data['details'] = this.details.toJson();
-    }
+    data['binData'] = this.binData.toJson();
+    data['details'] = this.details.toJson();
     return data;
   }
 }

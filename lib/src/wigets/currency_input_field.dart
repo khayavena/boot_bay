@@ -2,6 +2,8 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../helpers/ResText.dart';
+
 class CurrencyInputField extends StatelessWidget {
   final String symbol;
   final double initVue;
@@ -38,12 +40,12 @@ class CurrencyInputField extends StatelessWidget {
       enabledBorder: new OutlineInputBorder(
           borderSide: new BorderSide(color: Colors.black54)),
       hintStyle: TextStyle(
-        fontFamily: 'Gotham',
+        fontFamily: fontStyle(),
         color: Colors.black54,
         fontSize: 15,
         fontStyle: FontStyle.italic,
       ),
-      labelStyle: TextStyle(fontFamily: 'Gotham', color: Colors.pink),
+      labelStyle: TextStyle(fontFamily: fontStyle(), color: Colors.pink),
       hintText: "Price",
     );
   }

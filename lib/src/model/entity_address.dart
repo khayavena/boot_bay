@@ -1,11 +1,22 @@
 class EntityAddress {
-  String id;
-  String parentId;
-  String address;
-  String type;
-  double latitude;
-  double longitude;
-  bool selected;
+  String? id;
+  late String parentId;
+  late String address;
+  late String type;
+  late double latitude;
+  late double longitude;
+  late bool selected;
+
+  EntityAddress();
+
+  EntityAddress.copy(
+      {this.id,
+      required this.parentId,
+      required this.address,
+      required this.type,
+      required this.latitude,
+      required this.longitude,
+      this.selected = false});
 
   EntityAddress.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -15,15 +26,6 @@ class EntityAddress {
         latitude = json['latitude'],
         longitude = json['longitude'],
         selected = json['selected'] ?? false;
-
-  EntityAddress(
-      {this.id = "",
-      this.parentId = "",
-      this.address = "",
-      this.type = "",
-      this.latitude = 0,
-      this.longitude = 0,
-      this.selected = false});
 
   Map<String, dynamic> toJson() => {
         "id": id,

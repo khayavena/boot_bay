@@ -185,7 +185,7 @@ class _CategoryProductPageState extends State<CategoryProductPage>
 
   @override
   void onClick(final Category category) {
-    refreshProduct(category.id, category.merchantId);
+    refreshProduct(category.id ?? '', category.merchantId);
     _categoryViewModel.saveCategory(category);
   }
 

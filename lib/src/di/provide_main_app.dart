@@ -24,7 +24,6 @@ import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
 import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
-import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,8 +39,6 @@ Future<void> provideMainApp(Flavor flavor) async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => DropDownValueChangeNotifier()),
         ChangeNotifierProvider(create: (context) => BottomNavChangeNotifier()),
         ChangeNotifierProvider(create: (context) => ImageProviderViewModel()),
         ChangeNotifierProvider(

@@ -1,6 +1,6 @@
 import 'package:bootbay/src/data/remote/user/remote_user_data_source.dart';
 import 'package:bootbay/src/model/AuthRequest.dart';
-import 'package:bootbay/src/model/user_profile.dart';
+import 'package:bootbay/src/model/pay_method/model/user_profile.dart';
 import 'package:dio/dio.dart';
 
 class RemoteUserDataSourceImpl implements RemoteUserDataSource {
