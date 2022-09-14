@@ -18,11 +18,12 @@ class PaymentViewModel extends ViewModel {
   List<PaymentResponse> _payments = [];
   PaymentResponse _paymentResponse = PaymentResponse();
 
-  late String dataErrorMessage;
+  late String dataErrorMessage = "";
 
   Loader _loader = Loader.idl;
-  late PaymentStatus paymentStatus;
-  late TokenResponse _tokenResponse;
+  PaymentStatus paymentStatus = PaymentStatus.auth;
+
+  TokenResponse _tokenResponse = TokenResponse();
 
   PaymentViewModel(
       {required UserRepository userRepository,

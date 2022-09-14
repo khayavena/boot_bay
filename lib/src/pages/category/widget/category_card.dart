@@ -17,12 +17,10 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.clickCategory != null) {
-          widget.clickCategory.onClick(widget.model);
-          setState(() {
-            widget.model.isSelected = !widget.model.isSelected;
-          });
-        }
+        widget.clickCategory.onClick(widget.model);
+        setState(() {
+          widget.model.isSelected = !widget.model.isSelected;
+        });
       },
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10),

@@ -151,33 +151,40 @@ class _ContentPageState extends State<ContentPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ElevatedButton(
-            onPressed: () async {
-              _mediaContentViewModel.saveImage(
-                  _mediaViewModel.path, widget.id, widget.type);
-              Navigator.of(context).pushNamed(AppRouting.addAddressPage,
-                  arguments: {
-                    "id": widget.id,
-                    "type": widget.type,
-                    "name": widget.name
-                  });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Text("Add address".toUpperCase(),
-                      style: TextStyle(
-                          fontFamily: fontStyle(), color: CustomColor().black)),
-                ),
-              ],
-            ),
-          ),
-        ),
+        buildAddressButton(),
       ],
     );
+  }
+
+  Widget buildAddressButton() {
+    return widget.type == "product"
+        ? SizedBox()
+        : Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                _mediaContentViewModel.saveImage(
+                    _mediaViewModel.path, widget.id, widget.type);
+                Navigator.of(context).pushNamed(AppRouting.addAddressPage,
+                    arguments: {
+                      "id": widget.id,
+                      "type": widget.type,
+                      "name": widget.name
+                    });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text("Add address".toUpperCase(),
+                        style: TextStyle(
+                            fontFamily: fontStyle(),
+                            color: CustomColor().black)),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 

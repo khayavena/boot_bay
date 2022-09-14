@@ -226,7 +226,7 @@ class _EditProductPageState extends State<EditProductPage> {
             return Container(
               height: MediaQuery.of(context).size.height * 0.15,
               child: value.proverFileImageView(
-                  imageUrl: getImageUri(widget.product.id)),
+                  imageUrl: getImageUri(widget.product.id ?? '')),
             );
           }),
         ),
@@ -256,7 +256,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   .then((value) {
                 if (_mediaViewModel.isValidImage) {
                   _mediaContentViewModel.saveImage(
-                      _mediaViewModel.path, value.id, "product");
+                      _mediaViewModel.path, value.id ?? '', "product");
                 }
               });
             },

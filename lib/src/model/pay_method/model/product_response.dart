@@ -1,8 +1,10 @@
 import 'package:bootbay/src/model/pay_method/model/product.dart';
 
 class ProductResponse {
-  final Product item;
-  final String message;
+  late Product item;
+  late String message;
+
+  ProductResponse();
 
   ProductResponse.fromJson(json)
       : item = Product.fromJson(json['item']),

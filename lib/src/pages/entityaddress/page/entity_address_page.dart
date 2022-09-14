@@ -77,9 +77,7 @@ class _EntityAddressPageState extends State<EntityAddressPage> {
           case Loader.complete:
             return Center(
               child: ElevatedButton(
-                onPressed: () {
-
-                },
+                onPressed: () {},
                 child: Text(
                   "Done".toUpperCase(),
                   style: TextStyle(
@@ -94,6 +92,7 @@ class _EntityAddressPageState extends State<EntityAddressPage> {
                 AddressPickerWidget(
                   onSelected: onSelected,
                   parentId: widget.id,
+                  type: widget.type,
                 ),
                 ElevatedButton(
                     onPressed: () {

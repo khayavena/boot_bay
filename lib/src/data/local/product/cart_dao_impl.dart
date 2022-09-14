@@ -1,6 +1,7 @@
 import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../../helpers/network_exception.dart';
 import 'cart_dao.dart';
 
 class CartDaoImpl implements CartDao {
@@ -26,7 +27,7 @@ class CartDaoImpl implements CartDao {
     final recordSnapshot = await _productStore.findFirst(_database,
         finder: Finder(filter: Filter.equals("id", id)));
     if (recordSnapshot == null) {
-      return Product();
+      return throw NetworkException();
     }
     return Product.fromJson(recordSnapshot.value);
   }

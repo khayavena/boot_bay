@@ -45,7 +45,7 @@ class _CartButtonWidgetState extends State<CartButtonWidget> {
 
   Widget _buildCartWidget() {
     return Consumer<CartViewModel>(
-        key: Key(widget.product.id),
+        key: Key(widget.product.id ?? ''),
         builder:
             (BuildContext context, CartViewModel cartViewModel, Widget? child) {
           if (widget.isCartList) {

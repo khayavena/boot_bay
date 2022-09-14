@@ -29,7 +29,8 @@ class CartItemWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(getImageUri(model.id)),
+                    image:
+                        CachedNetworkImageProvider(getImageUri(model.id ?? '')),
                   ),
                 ))),
         Flexible(

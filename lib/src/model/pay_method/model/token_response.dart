@@ -1,9 +1,11 @@
 class TokenResponse {
-  String token;
+  String? token;
   String? message;
-  String orderId;
+  String? orderId;
   String? startTime;
   String? customerId;
+
+  TokenResponse();
 
   TokenResponse.fromJson(Map<String, dynamic> json)
       : token = json['token'],

@@ -46,14 +46,15 @@ import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.da
 import 'package:bootbay/src/pages/user/repository/third_party_auth_repository_impl.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository_impl.dart';
-import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
-import 'package:bootbay/src/repository/mediacontent/media_content_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sembast/sembast.dart';
+
+import '../pages/mediacontent/repository/mediacontent/media_content_repository.dart';
+import '../pages/mediacontent/repository/mediacontent/media_content_repository_impl.dart';
 
 GetIt _locator = GetIt.instance;
 

@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 
 import '../../../res.dart';
 
-class RegistrationPage extends StatefulWidget {
+class UserRegistrationPage extends StatefulWidget {
   @override
   _State createState() => _State();
 }
 
-class _State extends State<RegistrationPage> {
+class _State extends State<UserRegistrationPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -22,7 +22,7 @@ class _State extends State<RegistrationPage> {
 
   @override
   void initState() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       _userViewModel = Provider.of<UserViewModel>(context, listen: false);
     });
     super.initState();

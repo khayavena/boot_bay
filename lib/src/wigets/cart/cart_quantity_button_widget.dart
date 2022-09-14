@@ -41,7 +41,7 @@ class _CartQuantityButtonWidgetState extends State<CartQuantityButtonWidget> {
           ),
         ),
         child: Consumer<CartViewModel>(
-            key: Key(widget.product.id),
+            key: Key(widget.product.id ?? ''),
             builder: (BuildContext context, CartViewModel cartViewModel,
                 Widget? child) {
               return GestureDetector(

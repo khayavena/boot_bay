@@ -24,7 +24,7 @@ class MerchantLandingPage extends StatefulWidget {
 
 class _MerchantLandingPageState extends State<MerchantLandingPage>
     implements ClickCategory {
-   ProductViewModel? _productViewModel;
+  ProductViewModel? _productViewModel;
   late CategoryViewModel _categoryViewModel;
 
   Widget _categoryWidget() {
@@ -121,8 +121,6 @@ class _MerchantLandingPageState extends State<MerchantLandingPage>
   Widget _buildCategories(CategoryViewModel categoryViewModel) {
     switch (categoryViewModel.loader) {
       case Loader.complete:
-        refreshProduct(categoryViewModel.getCategories[0].id??'',
-            categoryViewModel.getCategories[0].merchantId);
         return Container(
             child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -187,7 +185,7 @@ class _MerchantLandingPageState extends State<MerchantLandingPage>
 
   @override
   void onClick(final Category category) {
-    refreshProduct(category.id??'', category.merchantId);
+    refreshProduct(category.id ?? '', category.merchantId);
     _categoryViewModel.saveCategory(category);
   }
 

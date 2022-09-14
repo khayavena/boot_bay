@@ -11,8 +11,10 @@ import '../../../helpers/custom_color.dart';
 class AddressPickerWidget extends StatefulWidget {
   final void Function(EntityAddress saveAddress) onSelected;
   final String parentId;
+  final String type;
 
-  AddressPickerWidget({required this.onSelected, required this.parentId});
+  AddressPickerWidget(
+      {required this.onSelected, required this.parentId, required this.type});
 
   @override
   State<AddressPickerWidget> createState() => _AddressPickerWidgetState();
@@ -45,7 +47,7 @@ class _AddressPickerWidgetState extends State<AddressPickerWidget> {
                     onSelect: (place) {
                       final address = EntityAddress.copy(
                           parentId: widget.parentId,
-                          type: place.placeType.toString(),
+                          type: widget.type,
                           address: place.placeName ?? '',
                           latitude: place.geometry?.coordinates?.first ?? 0,
                           longitude: place.geometry?.coordinates?.last ?? 0);

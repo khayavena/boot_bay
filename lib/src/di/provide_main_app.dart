@@ -22,13 +22,13 @@ import 'package:bootbay/src/pages/shopping/viewmodel/wish_list_view_model.dart';
 import 'package:bootbay/src/pages/user/repository/third_party_auth_repository.dart';
 import 'package:bootbay/src/pages/user/repository/user_repository.dart';
 import 'package:bootbay/src/pages/user/viewmodel/UserViewModel.dart';
-import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import '../pages/mediacontent/repository/mediacontent/media_content_repository.dart';
 
 Future<void> provideMainApp(Flavor flavor) async {
   WidgetsFlutterBinding.ensureInitialized();

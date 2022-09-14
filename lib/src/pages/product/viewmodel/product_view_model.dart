@@ -2,8 +2,8 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/pay_method/model/product.dart';
-import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/model/pay_method/model/product_response.dart';
+import 'package:bootbay/src/model/product_query.dart';
 import 'package:bootbay/src/pages/product/repository/product_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
@@ -14,9 +14,9 @@ class ProductViewModel extends ViewModel {
   List<Product> _products = [];
   List<Product> cartItems = [];
   Product _product = Product();
-  late Category _category;
-  late ProductResponse _productResponse;
-  late String dataErrorMessage;
+  late Category _category = Category();
+  late ProductResponse _productResponse = ProductResponse();
+  late String dataErrorMessage = "";
 
   ProductViewModel({
     required ProductRepository productRepository,
@@ -28,23 +28,23 @@ class ProductViewModel extends ViewModel {
 
   Future<Product> saveRemoteProduct(
       String merchantId, String name, description, double price) async {
-    if (_category != null) {
-      _product.categoryId = _category.id??'';
-      var productResponse = await _productRepository.saveRemoteProduct(Product(
-          categoryId: _category.id??'',
-          merchantId: merchantId,
-          name: name,
-          description: description,
-          price: price));
-      _product = productResponse.item;
-      notifyListeners();
-    }
+    _product.categoryId = _category.id ?? '';
+    _loader = Loader.busy;
+    var productResponse = await _productRepository.saveRemoteProduct(Product(
+        categoryId: _category.id ?? '',
+        merchantId: merchantId,
+        name: name,
+        description: description,
+        price: price));
+    _product = productResponse.item;
+    _loader = Loader.complete;
+    notifyListeners();
     return _product;
   }
 
   Future<Product> editRemoteProduct(Product product) async {
     if (_category != null) {
-      product.categoryId = _category.id??'';
+      product.categoryId = _category.id ?? '';
       var productResponse = await _productRepository.saveRemoteProduct(product);
       _product = productResponse.item;
       notifyListeners();
@@ -144,7 +144,7 @@ class ProductViewModel extends ViewModel {
     String items = '';
 
     getProducts.forEach((x) {
-      items += x.id;
+      items += x.id ?? '';
     });
     return items;
   }
@@ -163,4 +163,9 @@ class ProductViewModel extends ViewModel {
   Product get getProduct => _product;
 
   Loader get loader => _loader;
+
+  void reset() {
+    _loader = Loader.idl;
+    notifyListeners();
+  }
 }

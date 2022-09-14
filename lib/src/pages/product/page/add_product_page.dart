@@ -4,8 +4,6 @@ import 'package:bootbay/src/helpers/widget_styles.dart';
 import 'package:bootbay/src/model/category.dart';
 import 'package:bootbay/src/model/merchant/merchant.dart';
 import 'package:bootbay/src/pages/category/viewmodel/categary_view_model.dart';
-import 'package:bootbay/src/pages/mediacontent/media_content_view_model.dart';
-import 'package:bootbay/src/pages/mediacontent/media_view_model.dart';
 import 'package:bootbay/src/pages/product/viewmodel/product_view_model.dart';
 import 'package:bootbay/src/wigets/currency_input_field.dart';
 import 'package:bootbay/src/wigets/shared/custom_drop_down.dart';
@@ -15,6 +13,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../../helpers/ResText.dart';
+import '../widget/product_success_widget.dart';
 
 final name = TextEditingController();
 final description = TextEditingController();
@@ -34,38 +33,22 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  late MediaViewModel _mediaContentViewModel;
-  late CategoryViewModel _categoryViewModel;
-  late ImageProviderViewModel _mediaViewModel;
   late ProductViewModel _productViewModel;
   late double finalAmount;
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _mediaContentViewModel = Provider.of<MediaViewModel>(
+      Provider.of<CategoryViewModel>(
         context,
         listen: false,
-      );
-      _categoryViewModel = Provider.of<CategoryViewModel>(
-        context,
-        listen: false,
-      );
-      _mediaViewModel = Provider.of<ImageProviderViewModel>(
-        context,
-        listen: false,
-      );
+      ).getCategoriesById(widget.merchant.id ?? '');
       _productViewModel = Provider.of<ProductViewModel>(
         context,
         listen: false,
       );
-      _categoryViewModel.getCategoriesById(widget.merchant.id ?? '');
     });
     super.initState();
-  }
-
-  uploadImage() async {
-    _mediaViewModel.openGalleryForImage();
   }
 
   @override
@@ -90,14 +73,9 @@ class _AddProductPageState extends State<AddProductPage> {
               }),
         ],
       ),
-      body: Consumer2<MediaViewModel, ProductViewModel>(builder:
-          (BuildContext context, MediaViewModel value,
-              ProductViewModel productViewModel, Widget? child) {
-        if (value.status == Loader.busy ||
-            productViewModel.loader == Loader.busy) {
-          return WidgetLoader();
-        }
-        return _buildBody();
+      body: Consumer<ProductViewModel>(builder: (BuildContext context,
+          ProductViewModel productViewModel, Widget? child) {
+        return _buildBody(productViewModel);
       }),
     );
   }
@@ -150,12 +128,24 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   void dispose() {
-    _mediaViewModel.clear();
     clear();
     super.dispose();
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(ProductViewModel vm) {
+    switch (vm.loader) {
+      case Loader.error:
+        return Center(child: Text("Failed to add"));
+      case Loader.busy:
+        return WidgetLoader();
+      case Loader.complete:
+        return ProductSuccessWidget(vm: vm);
+      case Loader.idl:
+        return _buildFormWidget(vm: vm);
+    }
+  }
+
+  Widget _buildFormWidget({required ProductViewModel vm}) {
     return ListView(
       children: [
         _buildDropDown(),
@@ -173,7 +163,8 @@ class _AddProductPageState extends State<AddProductPage> {
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
-              labelStyle: TextStyle(fontFamily: fontStyle(), color: Colors.black),
+              labelStyle:
+                  TextStyle(fontFamily: fontStyle(), color: Colors.black),
               hintText: 'Item Name',
             ),
           ),
@@ -197,49 +188,16 @@ class _AddProductPageState extends State<AddProductPage> {
         Container(
           height: MediaQuery.of(context).size.height * 0.02,
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text("Add an image".toUpperCase(),
-              style: TextStyle(
-                  fontFamily: fontStyle(), color: Colors.teal, fontSize: 20)),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Consumer<ImageProviderViewModel>(builder:
-              (BuildContext context, ImageProviderViewModel value,
-                  Widget? child) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              child: value.proverFileImageView(),
-            );
-          }),
-        ),
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: ElevatedButton(
-              onPressed: () {
-                uploadImage();
-              },
-              child: Text(
-                "Upload".toUpperCase(),
-                style: TextStyle(
-                  fontFamily: fontStyle(),
-                ),
-              )),
-        ),
         Spacer(),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: ElevatedButton(
             onPressed: () async {
-              await _productViewModel
-                  .saveRemoteProduct(
-                      widget.merchant.id ?? '',
-                      name.text.toString(),
-                      description.text.toString(),
-                      finalAmount)
-                  .then((value) => _mediaContentViewModel.saveImage(
-                      _mediaViewModel.path, value.id, "product"));
+              await vm.saveRemoteProduct(
+                  widget.merchant.id ?? '',
+                  name.text.toString(),
+                  description.text.toString(),
+                  finalAmount);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

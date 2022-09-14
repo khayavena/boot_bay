@@ -45,8 +45,8 @@ class _ProductCardState extends State<ProductCard> {
             _buildSaleWidget(),
             Align(
                 alignment: Alignment.bottomRight,
-                child:
-                    CartButtonWidget(key: Key(product.id), product: product)),
+                child: CartButtonWidget(
+                    key: Key(product.id ?? ''), product: product)),
             Align(
               alignment: Alignment.topRight,
               child: WishButtonWidget(
@@ -82,7 +82,7 @@ class _ProductCardState extends State<ProductCard> {
           width: 166,
           height: 204,
           fit: BoxFit.cover,
-          image: CachedNetworkImageProvider(getImageUri(product.id)),
+          image: CachedNetworkImageProvider(getImageUri(product.id ?? '')),
         ),
         SizedBox(
           height: 8,

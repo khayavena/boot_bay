@@ -1,7 +1,7 @@
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/helpers/network_exception.dart';
 import 'package:bootbay/src/model/mediacontent/media_content_response.dart';
-import 'package:bootbay/src/repository/mediacontent/media_content_repository.dart';
+import 'package:bootbay/src/pages/mediacontent/repository/mediacontent/media_content_repository.dart';
 import 'package:bootbay/src/viewmodel/ViewModel.dart';
 import 'package:dio/dio.dart';
 

@@ -2,6 +2,8 @@ import 'package:bootbay/src/data/local/product/wish_list_dao.dart';
 import 'package:bootbay/src/model/pay_method/model/product.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../../helpers/network_exception.dart';
+
 class WishListDaoImpl implements WishListDao {
   static const String folderName = "WishList";
   final _wishListStore = intMapStoreFactory.store(folderName);
@@ -25,7 +27,7 @@ class WishListDaoImpl implements WishListDao {
     final recordSnapshot = await _wishListStore.findFirst(_database,
         finder: Finder(filter: Filter.equals("id", id)));
     if (recordSnapshot == null) {
-      return Product();
+      return throw NetworkException();
     }
     return Product.fromJson(recordSnapshot.value);
   }

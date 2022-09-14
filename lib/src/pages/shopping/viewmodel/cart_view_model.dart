@@ -30,13 +30,13 @@ class CartViewModel extends ViewModel {
   }
 
   Future<void> checkExist(Product product) async {
-    currentId = product.id;
-    _isItemExist = await _cartRepository.isExist(product.id);
+    currentId = product.id ?? '';
+    _isItemExist = await _cartRepository.isExist(product.id ?? '');
     notifyListeners();
   }
 
   Future<bool> isCheck(Product product) async {
-    _isItemExist = await _cartRepository.isExist(product.id);
+    _isItemExist = await _cartRepository.isExist(product.id ?? '');
     return _isItemExist;
   }
 
@@ -83,7 +83,7 @@ class CartViewModel extends ViewModel {
   String itemIds() {
     String items = '';
     _cartItems.forEach((x) {
-      items += x.id;
+      items += x.id ?? "";
     });
     return items;
   }

@@ -34,7 +34,7 @@ class _WishButtonWidgetState extends State<WishButtonWidget> {
 
   Widget _buildCartWidget() {
     return Consumer<WishListViewModel>(
-        key: Key(widget.product.id),
+        key: Key(widget.product.id ?? ''),
         builder: (BuildContext context, WishListViewModel wishViewModel,
             Widget? child) {
           if (widget.product.id == wishViewModel.currentId) {

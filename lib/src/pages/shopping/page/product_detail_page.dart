@@ -94,7 +94,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   width: double.maxFinite,
                   fit: BoxFit.cover,
                   image: CachedNetworkImageProvider(
-                      getImageUri(widget.product.id)),
+                      getImageUri(widget.product.id ?? '')),
                 )),
           ))
         ],

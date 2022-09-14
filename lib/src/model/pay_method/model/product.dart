@@ -3,7 +3,7 @@ class Product {
   String category = "";
   String? creation;
   String description;
-  String id;
+  String? id;
   String? lastUpdate;
   String? merchantId;
   String name;
@@ -18,7 +18,7 @@ class Product {
       {this.categoryId = "",
       this.creation = "",
       this.description = "",
-      this.id = "",
+      this.id,
       this.lastUpdate = "",
       this.merchantId = "",
       this.name = "",
