@@ -71,7 +71,7 @@ class YocoViewModel extends ChangeNotifier {
   Future<String> buildUrl(double finalAmount, String currency) async {
     final dropInHtml = await rootBundle.loadString(htmlAssetPath);
     final amountInCents =
-        finalAmount.toString().replaceAll(AMOUNT_DELIMITER, "");
+        finalAmount.toStringAsFixed(2).replaceAll(AMOUNT_DELIMITER, "");
     final dropInHtmlView = dropInHtml
         .replaceAll(payKey, amountInCents)
         .replaceAll(currencySymbol, "'$currency'")

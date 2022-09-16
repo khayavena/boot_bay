@@ -15,7 +15,7 @@ class RemotePaymentServiceImpl<T> implements RemotePaymentService {
   @override
   Future<TokenResponse> getToken(TokenRequest tokenRequest) async {
     Response response =
-        await _dio.post('/api/payment/tokenize', data: tokenRequest.toJson());
+        await _dio.post('/api/payment/token', data: tokenRequest.toJson());
     return TokenResponse.fromJson(response.data);
   }
 

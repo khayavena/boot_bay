@@ -35,12 +35,6 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      // await   Provider.of<YocoViewModel>(
-      //     context,
-      //     listen: false,
-      //   ).buildUrl(widget.finalAmount, widget.currency);
-    });
     super.initState();
   }
 
