@@ -15,10 +15,8 @@ class YocoPayMethod {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.result != null) {
-      data['dateTime'] = this.dateTime;
-      data['yocoToken'] = this.result.toJson();
-    }
+    data['dateTime'] = this.dateTime;
+    data['yocoToken'] = this.result.toJson();
     return data;
   }
 }
