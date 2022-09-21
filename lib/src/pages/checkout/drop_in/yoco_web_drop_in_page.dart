@@ -4,7 +4,6 @@ import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/pages/checkout/viewmodel/yoco_view_model.dart';
 import 'package:bootbay/src/wigets/shared/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -32,6 +31,7 @@ class YocoWebDropInPage extends StatefulWidget {
 class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
   static const DropInChannel = "DropInChannel";
   static const DropInStarted = "started";
+  static const DropInCard = "card_tokenized_error";
 
   @override
   void initState() {
@@ -103,6 +103,7 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
                                   break;
                                 default:
                                   var json = jsonDecode(result.message);
+
                                   String? error = json['error'] ?? null;
                                   if (error == null) {
                                     yocoViewModel.fromJson(json);

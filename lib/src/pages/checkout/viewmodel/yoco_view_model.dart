@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bootbay/src/enum/loading_enum.dart';
 import 'package:bootbay/src/model/pay_method/model/payment_request.dart';
 import 'package:bootbay/src/model/pay_method/model/token_response.dart';
@@ -76,8 +74,6 @@ class YocoViewModel extends ChangeNotifier {
         .replaceAll(payKey, amountInCents)
         .replaceAll(currencySymbol, "'$currency'")
         .replaceAll(yocoKey, "'$yocoPubKey'");
-    final String encodedContentBase64 =
-        base64Encode(const Utf8Encoder().convert(dropInHtmlView));
     _finalUrl = dropInHtmlView;
     return _finalUrl;
   }

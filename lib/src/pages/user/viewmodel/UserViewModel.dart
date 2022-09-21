@@ -132,6 +132,8 @@ class UserViewModel extends ViewModel {
     return _loggedIn;
   }
 
+  String get loginText => isLoggedIn() ? "Log Out" : "Log In";
+
   Future<bool> isLogOut(String id) async {
     _loggedIn = await _userRepository.logOut(id);
     notifyListeners();

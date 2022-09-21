@@ -92,7 +92,7 @@ class _State extends State<MerchantPortalPage> {
                   Navigator.of(context).pushNamed(AppRouting.loginPage);
                 }
               },
-              child: buildActionItem("Invest", Icons.business_center)),
+              child: buildActionItem("Login", Icons.login),),
           GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed(AppRouting.loginPage);

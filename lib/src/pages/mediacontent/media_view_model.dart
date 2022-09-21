@@ -22,7 +22,7 @@ class ImageProviderViewModel extends ChangeNotifier {
 
   Widget proverFileImageView(
       {String imageUrl = 'https://i.imgur.com/sUFH1Aq.png'}) {
-    if (fileInput != null)
+    if (fileInput == null)
       return Image(
         image: CachedNetworkImageProvider(imageUrl),
       );

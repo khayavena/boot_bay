@@ -1,0 +1,16 @@
+{
+  "card_tokenized_error": {
+    "id": "tok_6pJ75skJqkjDBycxvKuL7JIOK",
+    "sourceType": "card",
+    "source": {
+      "id": "card_nDO3jhPazPrXVBUVM9igbT1Q4",
+      "brand": "visa",
+      "maskedCard": "**** **** **** 1111",
+      "expiryMonth": 11,
+      "expiryYear": 2024,
+      "fingerprint": "7bfa0d86c0e82b8476b1044fedc77123161e2672",
+      "object": "card"
+    },
+    "status": "charge_ready"
+  }
+}

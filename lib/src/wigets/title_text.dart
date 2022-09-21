@@ -1,3 +1,4 @@
+import 'package:bootbay/src/helpers/ResText.dart';
 import 'package:bootbay/src/themes/light_color.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class TitleText extends StatelessWidget {
   const TitleText(
       {Key? key,
       required this.text,
-      this.fontSize = 18,
+      this.fontSize = 12,
       this.color = LightColor.titleTextColor,
       this.fontWeight = FontWeight.w600})
       : super(key: key);
@@ -19,6 +20,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      style: TextStyle(fontSize: fontSize)
     );
   }
 }

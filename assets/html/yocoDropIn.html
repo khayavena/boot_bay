@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
 <head>
-    <title>Authorise Payment</title>
+    <title>Card Payment</title>
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta charset="utf-8">
-    <title>Checkout</title>
     <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
     <style>
         .button {
@@ -19,74 +19,62 @@
             min-width: 250px;
         }
 
-
         .center {
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
         }
-
-
-
-
     </style>
-
 </head>
 
 <body>
-
-<!-- classes in square brackets will be allied based on field and form state -->
-<form id="payment-form" method="POST">
-    <div class="one-liner">
-        <div id="card-frame">
+    <!-- classes in square brackets will be allied based on field and form state -->
+    <form id="payment-form" method="POST">
+        <div class="one-liner">
+            <div id="card-frame">
+            </div>
+            <br />
+            <button id="pay-button" class="button center">Confirm Payment</button>
         </div>
-        <br/>
-        <button id="pay-button" class="button center">AUTHORISE</button>
-    </div>
-    <p class="success-payment-message"/>
-</form>
+        <p class="success-payment-message" />
+    </form>
 
-<script>
-
-    const sdk = new window.YocoSDK({
-        publicKey: yocoPubKey
-    });
-    const inline = sdk.inline({
-        layout: 'basic',
-        amountInCents: payAmount,
-        currency: currencySymbol
-    });
-    inline.mount('#card-frame')
-
-
-
-
-</script>
-<script>
-    const form = document.getElementById('payment-form');
-    const submitButton = document.getElementById('pay-button');
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        submitButton.disabled = true;
-        DropInChannel.postMessage('started')
-        inline.createToken().then(function (result) {
-            submitButton.disabled = false;
-            if (result.error) {
-                DropInChannel.postMessage(JSON.stringify({"error": result.error.message}));
-            } else {
-                DropInChannel.postMessage(JSON.stringify({result}));
-            }
-        }).catch(function (error) {
-            submitButton.disabled = false;
-            DropInChannel.postMessage(JSON.stringify({"error": JSON.stringify(error)}));
+    <script>
+        const sdk = new window.YocoSDK({
+            publicKey: yocoPubKey
         });
-    });
+        const inline = sdk.inline({
+            layout: 'basic',
+            amountInCents: payAmount,
+            currency: currencySymbol
+        });
+    
+        inline.mount('#card-frame')
 
+    </script>
+    <script>
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('pay-button');
 
+        form.addEventListener('submit', function (event) {
+            event.preventDefault()
+            submitButton.disabled = true;
+            DropInChannel.postMessage('started')
+            inline.createToken().then(function (result) {
+                submitButton.disabled = false;
+                if (result.error) {
+                    DropInChannel.postMessage(JSON.stringify({ "error": result.error.message }));
+                } else {
+                    DropInChannel.postMessage(JSON.stringify({ result }));
+                }
+            }).catch(function (error) {
+                submitButton.disabled = false;
+                DropInChannel.postMessage(JSON.stringify({ "error": JSON.stringify(error) }));
+            });
+        });
 
-
-</script>
+    </script>
 </body>
+
 </html>
