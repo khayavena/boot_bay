@@ -13,64 +13,31 @@ class CategoryEntryItemWidget extends StatelessWidget {
   CategoryEntryItemWidget(this.entry, this.merchant);
 
   Widget _buildTiles(Category root, context) {
-    if (!root.hasChildren)
-      return Column(
-        children: [
-          Container(
-            color: CustomColor().pureWhite,
-            child: ListTile(
-              leading: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(getImageUri(root.id??'')),
-                    ),
-                  )),
-              title: Text(
-                root.name,
-                style: TextStyle(
-                    color: CustomColor().originalBlack,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                    fontSize: 15.0),
-              ),
-              trailing: GestureDetector(
-                  onTap: () {
-                    _settingModalBottomSheet(context, root, merchant);
-                  },
-                  child: Icon(
-                    Icons.keyboard_arrow_right,
-                  )),
-            ),
-          ),
-          Divider()
-        ],
-      );
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          margin: EdgeInsets.all(8),
+    return ListTile(
+      leading: Container(
+          width: 56,
           height: 56,
-          child: Text(root.name,
-              style: TextStyle(
-                  color: CustomColor().originalBlack,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 15.0)),
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: root.categories
-                  ?.map((item) => _buildTiles(item, context))
-                  .toList() ??
-              [],
-        )
-      ],
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(getImageUri(root.id ?? '')),
+            ),
+          )),
+      title: Text(
+        root.name,
+        style: TextStyle(
+            color: CustomColor().originalBlack,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            fontSize: 15.0),
+      ),
+      trailing: GestureDetector(
+          onTap: () {
+            _settingModalBottomSheet(context, root, merchant);
+          },
+          child: Icon(
+            Icons.keyboard_arrow_right,
+          )),
     );
   }
 
@@ -80,7 +47,7 @@ class CategoryEntryItemWidget extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(context, Category root, Merchant merchant) {
-    Navigator.pushNamed(context, AppRouting.editCategoryPage,
-        arguments: {'category': root, 'merchant': merchant});
+    Navigator.pushNamed(context, AppRouting.editCategoryProductPage,
+        arguments: root);
   }
 }

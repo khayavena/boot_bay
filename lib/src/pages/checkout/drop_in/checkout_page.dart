@@ -158,7 +158,7 @@ class _CheckoutCartPageState extends State<CheckoutCartPage> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
               width: double.maxFinite,
-              height: 200,
+              height: 270,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,

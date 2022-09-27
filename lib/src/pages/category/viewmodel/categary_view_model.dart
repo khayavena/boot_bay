@@ -49,10 +49,9 @@ class CategoryViewModel extends ViewModel {
 
   Future<List<Category>> getCategoriesById(String merchantId) async {
     _loader = Loader.busy;
-    notifyListeners();
+     notifyListeners();
     try {
       _categories = await _categoryRepository.getAllByMerchant(merchantId);
-
       notifyListeners();
       _loader = Loader.complete;
       return _categories;

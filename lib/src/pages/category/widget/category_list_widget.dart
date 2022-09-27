@@ -40,7 +40,7 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor().appBackground,
+      backgroundColor: CustomColor().pureWhite,
       body: _buildBody(),
     );
   }

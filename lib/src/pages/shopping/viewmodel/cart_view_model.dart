@@ -87,6 +87,9 @@ class CartViewModel extends ViewModel {
     });
     return items;
   }
+  String getMerchantId() {
+    return _cartItems[0].merchantId??'';
+  }
 
   Loader get loader => _loader;
 

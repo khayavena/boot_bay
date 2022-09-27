@@ -70,7 +70,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     finalAmount: productViewModel.finalAmount(),
                     itemIds: productViewModel.itemIds(),
                     currency: productViewModel.currency(),
-                    merchantId: '63223b71d6eb644fc1cc32ce',
+                    merchantId: productViewModel.getMerchantId(),
                     profile: user,
                     products: items),
                 // Pass the arguments as part of the RouteSettings. The

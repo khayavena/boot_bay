@@ -1,6 +1,8 @@
 import 'package:bootbay/src/helpers/custom_color.dart';
 import 'package:flutter/material.dart';
 
+import '../safe_area_wrapper.dart';
+
 Widget buildCollapsingWidget(
     {required Widget bodyWidget,
     List<Widget>? actions,
@@ -27,9 +29,11 @@ Widget buildCollapsingWidget(
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              background: Image.network(
-                headerIcon,
-                fit: BoxFit.cover,
+              background: SafeAreaWrapper(
+                child: Image.network(
+                  headerIcon,
+                  fit: BoxFit.cover,
+                ),
               )),
         ),
       ];

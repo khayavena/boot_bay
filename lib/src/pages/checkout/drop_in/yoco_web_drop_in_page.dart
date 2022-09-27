@@ -31,7 +31,6 @@ class YocoWebDropInPage extends StatefulWidget {
 class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
   static const DropInChannel = "DropInChannel";
   static const DropInStarted = "started";
-  static const DropInCard = "card_tokenized_error";
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _YocoWebDropInPageState extends State<YocoWebDropInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build("Authorise Credit Card", context),
+      appBar: CustomAppBar.build("DR/CR Card Payment", context),
       body: loadDropIn(),
     );
   }

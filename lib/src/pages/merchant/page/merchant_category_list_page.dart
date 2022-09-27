@@ -58,7 +58,8 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                             BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addProductPage,
+                            Navigator.pushNamed(
+                                context, AppRouting.addProductPage,
                                 arguments: {"merchant": widget.merchant});
                           },
                           child: Text('Add Item'),
@@ -69,10 +70,11 @@ class _MerchantCategoryListPageState extends State<MerchantCategoryListPage> {
                             BoxConstraints.tightFor(width: 150, height: 30),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRouting.addCategoryPage,
+                            Navigator.pushNamed(
+                                context, AppRouting.addCategoryPage,
                                 arguments: widget.merchant);
                           },
-                          child: Text('Add Classification'),
+                          child: Text('Manage Category'),
                         ),
                       ),
                     ],

@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../res.dart';
+import '../../wigets/safe_area_wrapper.dart';
 import '../mediacontent/media_view_model.dart';
 
 class AddCategoryPage extends StatefulWidget {
@@ -58,8 +59,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColor().appBackground,
+    return SafeAreaWrapper(
+        child: Scaffold(
+      backgroundColor: CustomColor().pureWhite,
       body: buildCollapsingWidget(
           bodyWidget: _buildBody(),
           title: widget.merchant.name,
@@ -68,7 +70,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
               icon: ImageIcon(AssetImage(Res.leading_icon)),
               color: primaryBlackColor,
               onPressed: () {})),
-    );
+    ));
   }
 
   Widget buildEditText({String value = ''}) {
@@ -159,10 +161,12 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         if (_categoryMediaViewModel.fileInput != null) {
           final path = _categoryMediaViewModel.fileInput?.path ?? "";
           var catImageResponse = await _mediaContentViewModel.saveImage(
-              path, categoryResponse.id??'', "category");
+              path, categoryResponse.id ?? '', "category");
         }
+
         _categoryMediaViewModel.clear();
         _mediaContentViewModel.clear();
+        _categoryViewModel.getCategoriesById(widget.merchant.id ?? '');
         Navigator.of(context).pop();
       },
     );
